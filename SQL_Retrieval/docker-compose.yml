@@ -1,0 +1,12 @@
+services:
+  sql_dev:
+    image: sql_dev
+    deploy:
+      resources:
+        limits:
+          cpus: '3.0'
+          memory: 2G
+    env_file:
+      - prod.env
+    ports:
+      - "8001:8001"

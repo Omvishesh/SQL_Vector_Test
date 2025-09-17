@@ -1,0 +1,12 @@
+services:
+  vector_dev:
+    image: vector_dev
+    deploy:
+      resources:
+        limits:
+          cpus: '4.0'
+          memory: 12G
+    env_file:
+      - prod.env
+    ports:
+      - "8787:8787"
