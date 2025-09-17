@@ -10,7 +10,6 @@ on:
 
 jobs:
   deploy-sql:
-    if: contains(join(github.event.head_commit.modified, ','), 'SQL_Retrieval/')
     runs-on: self-hosted
     steps:
       - name: Checkout code
@@ -27,7 +26,6 @@ jobs:
           docker-compose --env-file prod.env up -d --build
 
   deploy-vector:
-    if: contains(join(github.event.head_commit.modified, ','), 'Vector_Retrieval/')
     runs-on: self-hosted
     steps:
       - name: Checkout code
