@@ -20,14 +20,6 @@ jobs:
         run: |
           echo "${{ secrets.SQL_ENV }}" > SQL_Retrieval/prod.env
 
-      - name: Create Python venv for SQL
-        working-directory: ./SQL_Retrieval
-        run: |
-          python3 -m venv .venv
-          source .venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements_sql_docker.txt
-
       - name: Deploy SQL Retrieval (Docker)
         working-directory: ./SQL_Retrieval
         run: |
@@ -44,14 +36,6 @@ jobs:
       - name: Create prod.env for Vector
         run: |
           echo "${{ secrets.VECTOR_ENV }}" > Vector_Retrieval/prod.env
-
-      - name: Create Python venv for Vector
-        working-directory: ./Vector_Retrieval
-        run: |
-          python3 -m venv .venv
-          source .venv/bin/activate
-          pip install --upgrade pip
-          pip install -r requirements_docker.txt
 
       - name: Deploy Vector Retrieval (Docker)
         working-directory: ./Vector_Retrieval
