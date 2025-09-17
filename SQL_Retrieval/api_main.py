@@ -22,6 +22,7 @@ import logging
 from   datetime import datetime
 from   handler_sql import batch_sql_queries, handle_forecast #, return_table_list
 from   utils_common import llm_call
+import numpy as np
 #from   async_handler_sql import batch_sql_queries
 
 current_date = datetime.now().strftime('%Y-%m-%d')
