@@ -11,7 +11,7 @@ on:
 jobs:
   deploy-sql:
     runs-on: self-hosted
-    if: contains(toJson(github.event.commits.*.modified), 'SQL_Retrieval') || contains(toJson(github.event.commits.*.added), 'SQL_Retrieval') || contains(toJson(github.event.commits.*.removed), 'SQL_Retrieval')
+    if: contains(github.event.head_commit.message, '[sql]')
     steps:
       - name: Update code on VM
         run: |
@@ -27,7 +27,7 @@ jobs:
 
   deploy-vector:
     runs-on: self-hosted
-    if: contains(toJson(github.event.commits.*.modified), 'Vector_Retrieval') || contains(toJson(github.event.commits.*.added), 'Vector_Retrieval') || contains(toJson(github.event.commits.*.removed), 'Vector_Retrieval')
+    if: contains(github.event.head_commit.message, '[vector]')
     steps:
       - name: Update code on VM
         run: |
