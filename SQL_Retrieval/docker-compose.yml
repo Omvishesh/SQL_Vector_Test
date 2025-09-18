@@ -1,5 +1,6 @@
 services:
   sql_dev:
+    build: .
     image: sql_dev
     deploy:
       resources:
