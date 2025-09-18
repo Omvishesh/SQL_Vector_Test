@@ -1,5 +1,6 @@
 services:
   vector_dev:
+    build: .
     image: vector_dev
     deploy:
       resources:
