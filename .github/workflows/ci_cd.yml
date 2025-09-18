@@ -36,7 +36,7 @@ jobs:
           git reset --hard origin/dev
 
       - name: Deploy Vector Retrieval (Docker)
-        working-directory: /home/clouduser/code/Vector_Retrieval
+        working-directory: /home/clouduser/retrieval/code/Vector_Retrieval
         run: |
           docker-compose --env-file prod.env down
           docker-compose --env-file prod.env up -d --build
