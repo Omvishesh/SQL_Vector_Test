@@ -10,33 +10,33 @@ on:
 
 jobs:
   deploy-sql:
+    if: contains(join(github.event.head_commit.modified, ','), 'SQL_Retrieval/')
     runs-on: self-hosted
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Create prod.env for SQL
+      - name: Update code on VM
         run: |
-          echo "${{ secrets.SQL_ENV }}" > SQL_Retrieval/prod.env
+          cd ~/retrieval
+          git fetch origin dev
+          git reset --hard origin/dev
 
       - name: Deploy SQL Retrieval (Docker)
-        working-directory: ./SQL_Retrieval
+        working-directory: ~/retrieval/SQL_Retrieval
         run: |
           docker-compose --env-file prod.env down
           docker-compose --env-file prod.env up -d --build
 
   deploy-vector:
+    if: contains(join(github.event.head_commit.modified, ','), 'Vector_Retrieval/')
     runs-on: self-hosted
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Create prod.env for Vector
+      - name: Update code on VM
         run: |
-          echo "${{ secrets.VECTOR_ENV }}" > Vector_Retrieval/prod.env
+          cd ~/retrieval
+          git fetch origin dev
+          git reset --hard origin/dev
 
       - name: Deploy Vector Retrieval (Docker)
-        working-directory: ./Vector_Retrieval
+        working-directory: ~/retrieval/Vector_Retrieval
         run: |
           docker-compose --env-file prod.env down
           docker-compose --env-file prod.env up -d --build
