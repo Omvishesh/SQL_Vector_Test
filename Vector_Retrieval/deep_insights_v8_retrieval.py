@@ -107,7 +107,12 @@ def clarify_query(query):
         contents=query
     )
 
-    return response.text
+    usage = response.usage_metadata
+    input_tokens = usage.prompt_token_count
+    output_tokens = usage.candidates_token_count
+    
+    # Return the text AND the token counts
+    return response.text, input_tokens, output_tokens
 
 def answer_query(query):
     client = genai.Client(api_key=GOOGLE_API_KEY)
@@ -125,7 +130,12 @@ def answer_query(query):
         contents=query
     )
 
-    return response.text
+    usage = response.usage_metadata
+    input_tokens = usage.prompt_token_count
+    output_tokens = usage.candidates_token_count
+    
+    # Return the text AND the token counts
+    return response.text, input_tokens, output_tokens
 
 
 def final_query(query):
@@ -146,7 +156,12 @@ def final_query(query):
         contents=query
     )
 
-    return response.text
+    usage = response.usage_metadata
+    input_tokens = usage.prompt_token_count
+    output_tokens = usage.candidates_token_count
+    
+    # Return the text AND the token counts
+    return response.text, input_tokens, output_tokens
 
 def identify_lexical_term(query):
     try:
@@ -169,9 +184,14 @@ def identify_lexical_term(query):
                 ),
             contents=query
         )
+        usage = response.usage_metadata
+        input_tokens = usage.prompt_token_count
+        output_tokens = usage.candidates_token_count
+    
+        # Return the text AND the token counts
         response = ast.literal_eval(response.text)
         logging.info("Identified key terms: " + str(response))
-        return response
+        return response, input_tokens, output_tokens
     except:
         return []
     return []
@@ -200,8 +220,13 @@ def fetch_date(query):
         contents=query
     )
 
+    usage = response.usage_metadata
+    input_tokens = usage.prompt_token_count
+    output_tokens = usage.candidates_token_count
+    
+    # Return the text AND the token count
     query_date = response.text.strip()
-    return query_date
+    return query_date, input_tokens, output_tokens
 
 def fetch_min_date(query):
     client = genai.Client(api_key=GOOGLE_API_KEY)
@@ -226,9 +251,13 @@ def fetch_min_date(query):
         ),
         contents=query
     )
-
+    usage = response.usage_metadata
+    input_tokens = usage.prompt_token_count
+    output_tokens = usage.candidates_token_count
+    
+    # Return the text AND the token counts
     query_date = response.text.strip()
-    return query_date
+    return query_date, input_tokens, output_tokens
 
 
 def months_since(date_str, query_date='today'):
@@ -319,8 +348,14 @@ def generalize_query(query):
             ),
         contents=query
     )
+    
+    usage = response.usage_metadata
+    input_tokens = usage.prompt_token_count
+    output_tokens = usage.candidates_token_count
+    
     logging.info("Rephrased query: " + response.text)
-    return response.text
+    
+    return response.text, input_tokens, output_tokens
 
 def suggest_answer(query, excerpts):
     client = genai.Client(api_key=GOOGLE_API_KEY)
@@ -355,7 +390,11 @@ def suggest_answer(query, excerpts):
             ),
         contents=excerpts
     )
-    return response.text
+    usage = response.usage_metadata
+    input_tokens = usage.prompt_token_count
+    output_tokens = usage.candidates_token_count
+    
+    return response.text, input_tokens, output_tokens
 
 
 def synthesize_with_gemini(
@@ -409,12 +448,22 @@ def synthesize_with_gemini(
             ),
         contents=formatted_sources
     )
-    return response.text
+    
+    usage = response.usage_metadata
+    input_tokens = usage.prompt_token_count
+    output_tokens = usage.candidates_token_count
+    
+    return response.text, input_tokens, output_tokens
 
 
 # Search API Endpoint
 @app.post("/search-topN", dependencies=[Depends(verify_api_key)])
 async def search_topN_milvus(request: Request, question: Question):
+    
+    total_input_tokens = 0
+    total_output_tokens = 0
+    model_name = "gemini-2.0-flash"
+    
     bin_size   =  2
     top_k      =  6
     min_months =  3
@@ -422,20 +471,26 @@ async def search_topN_milvus(request: Request, question: Question):
     start_time = time.time()
     request_time = datetime.utcnow().isoformat()
 
-    llm_query = clarify_query(question.question).strip()
+    llm_query, i, o = clarify_query(question.question).strip()
     #llm_query = (llm_query + "\n" + answer_query(llm_query).strip())
     #llm_query = final_query(llm_query).strip()
     #llm_query = (question.question).strip()
-    suggest_answer = answer_query(llm_query).strip()
+    total_input_tokens += i; total_output_tokens += o
+    suggest_answer, i, o = answer_query(llm_query).strip()
+    total_input_tokens += i; total_output_tokens += o
 
     try:
-        query_date = fetch_date(llm_query).strip()
+        query_date, i, o = fetch_date(llm_query).strip()
+        total_input_tokens += i; total_output_tokens += o
         if query_date == 'today':
             query_date = datetime.today().strftime("%B %Y")
-        query_min_date = fetch_min_date(llm_query).strip()
+        query_min_date, i, o = fetch_min_date(llm_query).strip()
+        total_input_tokens += i; total_output_tokens += o
+        
         if query_min_date == 'today':
             query_min_date = datetime.today().strftime("%B %Y")
-        query_duration = abs(months_since(query_min_date,query_date))
+        query_duration, i, o = abs(months_since(query_min_date,query_date))
+        total_input_tokens += i; total_output_tokens += o
         logging.info(f"Query min date: {query_min_date}, max date: {query_date}, Query duration is {query_duration}")
     except:
         query_date = 'today'
@@ -453,7 +508,8 @@ async def search_topN_milvus(request: Request, question: Question):
     logging.info(f"Question Asked: {question.question}")
     logging.info(f"LLM Query Generated: {llm_query}")
     logging.info("Reference answer: " + suggest_answer)
-    key_terms = identify_lexical_term(suggest_answer)
+    key_terms, i, o = identify_lexical_term(suggest_answer)
+    total_input_tokens += i; total_output_tokens += o
 
     if query_duration <= min_months:
         date_range = [(min_date, max_date), (max_date + relativedelta(months=1), max_date + relativedelta(months=min_months))]
@@ -501,8 +557,11 @@ async def search_topN_milvus(request: Request, question: Question):
         for start_date, end_date in date_range:
             chunk_label = f"{start_date.strftime('%B %Y')} to {end_date.strftime('%B %Y')}"
             logging.info(f"Processing range: {chunk_label}")
-            months_before = (months_since(start_date.strftime("%B %Y"), query_date))
-            months_after = (months_since(query_date, end_date.strftime("%B %Y")))
+            months_before, i, o = (months_since(start_date.strftime("%B %Y"), query_date))
+            total_input_tokens += i; total_output_tokens += o
+            months_after, i, o = (months_since(query_date, end_date.strftime("%B %Y")))
+            total_input_tokens += i; total_output_tokens += o
+            
             milvus_date_filter = build_range_around_date(
                 query_date, months_before, months_after
             )["filter"]
@@ -665,7 +724,8 @@ async def search_topN_milvus(request: Request, question: Question):
                 logging.info("Failed with exception: " + str(e))
 
             # Let's assume each item in top_15 has a "date" field
-            deltas   = [(months_since(datetime.strptime(item["date"], "%Y%m").strftime("%B %Y"),query_date)) for item in top_results] # Signed deltas, positive = older and negative = newer than query date
+            deltas, i, o   = [(months_since(datetime.strptime(item["date"], "%Y%m").strftime("%B %Y"),query_date)) for item in top_results] # Signed deltas, positive = older and negative = newer than query date
+            total_input_tokens += i; total_output_tokens += o
             #deltas   = [(months_since(item["date"],query_date)) for item in top_results] # Signed deltas, positive = older and negative = newer than query date
             if min(deltas) > 0:
                 # Date is too recent, we do not have matching documents
@@ -740,7 +800,13 @@ async def search_topN_milvus(request: Request, question: Question):
             else:
                 n_this_time = 0
 
-        # Check if no valid results with cross_score > 0 were found
+# Check if no valid results with cross_score > 0 were found
+        usage_data = {
+            "model": model_name,
+            "total_input_tokens": total_input_tokens,
+            "total_output_tokens": total_output_tokens,
+            "total_tokens": total_input_tokens + total_output_tokens
+        }
 
         if not top_results_to_return:
             logging.warning("No valid results with cross_score > 0")
@@ -751,7 +817,7 @@ async def search_topN_milvus(request: Request, question: Question):
                 "llm_query": llm_query,
                 "query_date": query_date,
                 "retrieved_results": [{
-                    "content": "<insufficient_data>", #"We could not find any relevant content related to your query.",
+                    "content": "<insufficient_data>",
                     "distance": "N/A",
                     "source": "N/A",
                     "page": "N/A",
@@ -760,6 +826,7 @@ async def search_topN_milvus(request: Request, question: Question):
                     "url": "N/A"
                 }],
                 "time": total_time,
+                "usage": usage_data  # CORRECTED: Moved to the top level
             }
         else:
             # Log Top 5
@@ -785,8 +852,8 @@ async def search_topN_milvus(request: Request, question: Question):
                 "query_date": query_date,
                 "retrieved_results": final_return,
                 "time": total_time,
+                "usage": usage_data
             }
-
 
     except Exception as e:
         error_message = f"Error processing request: {str(e)}"
