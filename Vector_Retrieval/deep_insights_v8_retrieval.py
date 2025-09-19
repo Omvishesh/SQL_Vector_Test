@@ -493,8 +493,8 @@ async def search_topN_milvus(request: Request, question: Question):
         
         if query_min_date == 'today':
             query_min_date = datetime.today().strftime("%B %Y")
-        query_duration, i, o = abs(months_since(query_min_date,query_date))
-        total_input_tokens += i; total_output_tokens += o
+        query_duration= abs(months_since(query_min_date,query_date))
+        
         logging.info(f"Query min date: {query_min_date}, max date: {query_date}, Query duration is {query_duration}")
     except:
         query_date = 'today'
@@ -561,10 +561,10 @@ async def search_topN_milvus(request: Request, question: Question):
         for start_date, end_date in date_range:
             chunk_label = f"{start_date.strftime('%B %Y')} to {end_date.strftime('%B %Y')}"
             logging.info(f"Processing range: {chunk_label}")
-            months_before, i, o = (months_since(start_date.strftime("%B %Y"), query_date))
-            total_input_tokens += i; total_output_tokens += o
-            months_after, i, o = (months_since(query_date, end_date.strftime("%B %Y")))
-            total_input_tokens += i; total_output_tokens += o
+            months_before= (months_since(start_date.strftime("%B %Y"), query_date))
+            
+            months_after= (months_since(query_date, end_date.strftime("%B %Y")))
+            
             
             milvus_date_filter = build_range_around_date(
                 query_date, months_before, months_after
@@ -728,8 +728,8 @@ async def search_topN_milvus(request: Request, question: Question):
                 logging.info("Failed with exception: " + str(e))
 
             # Let's assume each item in top_15 has a "date" field
-            deltas, i, o   = [(months_since(datetime.strptime(item["date"], "%Y%m").strftime("%B %Y"),query_date)) for item in top_results] # Signed deltas, positive = older and negative = newer than query date
-            total_input_tokens += i; total_output_tokens += o
+            deltas= [(months_since(datetime.strptime(item["date"], "%Y%m").strftime("%B %Y"),query_date)) for item in top_results] # Signed deltas, positive = older and negative = newer than query date
+            
             #deltas   = [(months_since(item["date"],query_date)) for item in top_results] # Signed deltas, positive = older and negative = newer than query date
             if min(deltas) > 0:
                 # Date is too recent, we do not have matching documents
