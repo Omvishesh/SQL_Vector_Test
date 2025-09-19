@@ -24,7 +24,14 @@ from   handler_sql import batch_sql_queries, handle_forecast #, return_table_lis
 from   utils_common import llm_call
 import numpy as np
 import pandas as pd
+from collections import defaultdict
+from   dotenv import load_dotenv
+
+
+
 #from   async_handler_sql import batch_sql_queries
+
+load_dotenv("prod.env")
 
 current_date = datetime.now().strftime('%Y-%m-%d')
 API_KEY = os.getenv("ACQ_API_KEY")
@@ -76,7 +83,7 @@ def compile_answer(user_query, responses):
     except:
         return "Answer compilation failed"
     
-def markdown_answer(user_query, responses, counter):
+def markdown_answer(user_query, responses, counter, input_tokens_counter, output_tokens_counter):
     if counter == 0:
         model_name = "gemini-2.0-flash"
     else:
@@ -89,31 +96,40 @@ def markdown_answer(user_query, responses, counter):
                 data_description += "\n<part> " + str(i+1) + ":\n"
                 data_description += "\nThe following data contains this information description: "+ str(responses[i]["description"]) + "\nHere is the data:\n" + str(responses[i]["result"])
         if data_description != "":
-            suggest_answer = llm_call(f"""Consider the following query: {user_query}. Given the data below, answer it as best as you can using a markdown format table.
+            # MODIFIED: Capture token usage from llm_call and update counters
+            prompt = f"""Consider the following query: {user_query}. Given the data below, answer it as best as you can using a markdown format table.
                                       1. Give the table a "Caption" based on the information description provided. Any missing info can be briefly mentioned in the caption (in 6-10 words). Especially, for GDP by state, mention that not all states may have latest results.
                                       2. The table MUST be formatted in valid markdown format.
                                       3. Include all the information present in the data.
                                       4. Do not add any of your reasoning traces, focus only on the answer to {user_query}. 
                                       **DO NOT** carry out any mathematical operations or add/hallucinate your own information. Only provide a comprehensive answer by proper formatting of the response.
-                                      """, data_description, model_name)
+                                      """
+            suggest_answer, i_tokens, o_tokens = llm_call(prompt, data_description, model_name)
+            input_tokens_counter[model_name] += i_tokens
+            output_tokens_counter[model_name] += o_tokens
             return suggest_answer
         else:
             return "<insufficient_data>"
     except:
         try:
-            suggest_answer = llm_call(f"""Consider the following query: {user_query}. Given the data below, answer it as best as you can using a markdown format table.
+            # MODIFIED: Capture token usage from the second llm_call and update counters
+            prompt = f"""Consider the following query: {user_query}. Given the data below, answer it as best as you can using a markdown format table.
                                       1. Give the table a "Caption" based on the information description provided. Any missing info can be briefly mentioned in the caption (in 6-10 words). Especially, for GDP by state, mention that not all states may have latest results.
                                       2. The table MUST be formatted in valid markdown format.
                                       3. Include all the information present in the data.
                                       4. Do not add any of your reasoning traces, focus only on the answer to {user_query}. 
                                       5. Infer the "year" column value for NaN entries based on the entries in the previous rows.
                                       **DO NOT** carry out any mathematical operations or add/hallucinate your own information. Only provide a comprehensive answer by proper formatting of the response.
-                                      """, responses["result"][0]["df_with_forecast"], model_name)
+                                      """
+            suggest_answer, i_tokens, o_tokens = llm_call(prompt, responses["result"][0]["df_with_forecast"], model_name)
+            input_tokens_counter[model_name] += i_tokens
+            output_tokens_counter[model_name] += o_tokens
             return suggest_answer
         except:
             return "<insufficient_data>"
     
-def confidence_checker(user_query, suggested_answer):
+# MODIFIED: Added token_counters as arguments
+def confidence_checker(user_query, suggested_answer, input_tokens_counter, output_tokens_counter):
     system_instruction = f"""
     Consider the following compiled answer: {suggested_answer}. It is meant to answer the user query attached below as provided context.
     
@@ -124,7 +140,14 @@ def confidence_checker(user_query, suggested_answer):
     
     Remember to respond with a single digit from 0, 1, 2 without any other additional text.
     """
-    confidence = llm_call(system_instruction, user_query).strip()
+    # MODIFIED: Capture token usage from llm_call and update counters
+    # The default model in llm_call is 'gemini-2.0-flash'
+    model_name = "gemini-2.0-flash"
+    confidence, i_tokens, o_tokens = llm_call(system_instruction, user_query)
+    input_tokens_counter[model_name] += i_tokens
+    output_tokens_counter[model_name] += o_tokens
+
+    confidence = confidence.strip()
     try:
         confidence = str(int(confidence))
     except Exception as e:
@@ -149,81 +172,143 @@ class BatchRequest(BaseModel):
 
 @app.post("/integrated_query", dependencies=[Depends(verify_api_key)])
 async def orchestrate(question: Question):
+    # Initialize token counters for this request
+    total_input_tokens = defaultdict(int)
+    total_output_tokens = defaultdict(int)
+
+    # Initialize variables for error cases
+    rephrased_query = "N/A"
+    sql_queries = []
+    
     try:
         start_time = time.time()
         user_query = str(question.question).strip()
         logger.info("Original received query: " + str(user_query))
-        #all_tables = return_table_list()
-        validity = query_certify_valid(user_query)
+        
+        # MODIFIED: Capture tokens from query_certify_valid (uses gemini-2.0-flash)
+        validity, i_tokens, o_tokens = query_certify_valid(user_query)
+        total_input_tokens["gemini-2.0-flash"] += i_tokens
+        total_output_tokens["gemini-2.0-flash"] += o_tokens
+        
         if "NO" in validity:
             total_time = time.time() - start_time
             logger.info(f"Total processing time: {total_time}")
             logger.info("Query is out of bounds")
-            result = {"success": False}
-            return {"query": user_query, "suggested_answer": "Out of bounds", "context": "N/A", "urls": [], "references": [], "total_time": total_time,
-                    "response": result, "confidence": "0"}
+            data_payload = {
+                "query": user_query, "suggested_answer": "Out of bounds", 
+                "context": "N/A", "urls": [], "references": [], "total_time": total_time,
+                "confidence": "0"
+            }
+            # This return statement was already correct
+            return {
+                "success": False, "data": data_payload,
+                "total_input_tokens": dict(total_input_tokens),
+                "total_output_tokens": dict(total_output_tokens)
+            }
+            
         if ("India IIP forecast" in user_query or "India GDP forecast" in user_query) and ("years" in user_query):
             sql_responses = await handle_forecast(user_query)
             sql_queries   = "Combined GDP and IIP history for India"
             rephrased_query = user_query
         else:
-            rephrased_query = clarify_query(user_query)
+            # MODIFIED: Capture tokens from clarify_query (uses gpt-4.1)
+            rephrased_query, i_tokens, o_tokens = clarify_query(user_query)
+            total_input_tokens["gpt-4.1"] += i_tokens
+            total_output_tokens["gpt-4.1"] += o_tokens
             logger.info("Rephrased query:\n" + rephrased_query)
-            sql_queries = generate_sql_queries(rephrased_query)
+
+            # MODIFIED: Capture tokens from generate_sql_queries (uses gemini-2.0-flash)
+            sql_queries, i_tokens, o_tokens = generate_sql_queries(rephrased_query)
+            total_input_tokens["gemini-2.0-flash"] += i_tokens
+            total_output_tokens["gemini-2.0-flash"] += o_tokens
+            
             batch = BatchRequest(queries=sql_queries)
-            sql_responses = await batch_sql_queries(batch, user_query)
+            sql_responses = await batch_sql_queries(batch, user_query, total_input_tokens, total_output_tokens)
+            
         has_garbage = True
         counter = 0
         while has_garbage and (counter < 2):    
-            suggest_answer = markdown_answer(user_query, sql_responses["responses"], counter)
+            suggest_answer = markdown_answer(user_query, sql_responses["responses"], counter, total_input_tokens, total_output_tokens)
             has_garbage = has_long_run(str(suggest_answer))
             if has_garbage:
                 logger.warning("Output contained garbage, retrying")
             counter += 1
+        
+        # --- CORRECTED STRUCTURE FOR GARBAGE ERROR ---
         if has_garbage:
             total_time = time.time() - start_time
-            result = {"success": False}
-            return {"query": user_query, "suggested_answer": "Model throwing garbage tokens", "context": "N/A", "urls": [], "references": [], "total_time": total_time,
-                    "response": result, "confidence": "0"}
-        #suggest_answer = compile_answer(user_query, sql_responses["responses"])
+            data_payload = {
+                "query": user_query, 
+                "suggested_answer": "Model throwing garbage tokens", 
+                "context": "N/A", "urls": [], "references": [], "total_time": total_time,
+                "confidence": "0"
+            }
+            return {
+                "success": False, 
+                "data": data_payload,
+                "total_input_tokens": dict(total_input_tokens),
+                "total_output_tokens": dict(total_output_tokens)
+            }
+        
         commentary = "Table information:\n"
         logger.info("Suggested answer: ")
         logger.info(suggest_answer)
         logger.info("Commentary:")
         logger.info(commentary)
-        confidence = confidence_checker(user_query, suggest_answer)
+        
+        confidence = confidence_checker(user_query, suggest_answer, total_input_tokens, total_output_tokens)
         logger.info("Confidence: " + str(confidence))
-        urls = []
-        refs = []
-        meta = []
+        
+        urls, refs, meta = [], [], []
         try:
-            urls = [
-                resp.get("url")
-                for resp in sql_responses["responses"]
-                if resp.get("success") is True and "url" in resp
-            ]
-            #urls = list(set(urls))
-            refs = [
-                resp.get("reference")
-                for resp in sql_responses["responses"]
-                if resp.get("success") is True and "reference" in resp
-            ]
-            #urls = list(set(urls))
-            meta = [
-                resp.get("table_metadata")
-                for resp in sql_responses["responses"]
-                if resp.get("success") is True and "table_metadata" in resp
-            ]
+            urls = [resp.get("url") for resp in sql_responses["responses"] if resp.get("success") is True and "url" in resp]
+            refs = [resp.get("reference") for resp in sql_responses["responses"] if resp.get("success") is True and "reference" in resp]
+            meta = [resp.get("table_metadata") for resp in sql_responses["responses"] if resp.get("success") is True and "table_metadata" in resp]
             commentary += str(meta)
         except:
             logger.info("Could not trace back urls or references")
         
         total_time = time.time() - start_time
         logger.info(f"Total processing time: {total_time}")
-        return {"query": user_query, "rephrased_query": rephrased_query, "suggested_answer": suggest_answer, "context": commentary, "urls": urls, "references": refs, "confidence": str(confidence), "sql_queries": sql_queries, "total_time": total_time,
-                "response": sql_responses}
+
+        # --- CORRECTED STRUCTURE FOR SUCCESS RESPONSE ---
+        data_payload = {
+            "query": user_query,
+            "rephrased_query": rephrased_query,
+            "suggested_answer": suggest_answer,
+            "context": commentary,
+            "urls": urls,
+            "references": refs,
+            "confidence": str(confidence),
+            "sql_queries": sql_queries,
+            "total_time": total_time,
+            "raw_sql_responses": sql_responses
+        }
+        
+        return {
+            "success": True,
+            "data": data_payload,
+            "total_input_tokens": dict(total_input_tokens),
+            "total_output_tokens": dict(total_output_tokens)
+        }
+
     except Exception as error:
         logger.error(f"Error: {error}")
         total_time = time.time() - start_time
-        return {"query": user_query, "rephrased_query": rephrased_query, "suggested_answer": "Answer compilation failed", "context": "N/A", "urls": [], "references": [], "confidence": "0", "sql_queries": sql_queries, "total_time": total_time,
-                "response": []}
+        
+        # --- CORRECTED STRUCTURE FOR EXCEPTION RESPONSE ---
+        data_payload = {
+            "query": question.question,
+            "rephrased_query": rephrased_query,
+            "suggested_answer": "Answer compilation failed",
+            "context": str(error), # Include the actual error in the context
+            "urls": [], "references": [], "confidence": "0",
+            "sql_queries": sql_queries,
+            "total_time": total_time
+        }
+        return {
+            "success": False,
+            "data": data_payload,
+            "total_input_tokens": dict(total_input_tokens),
+            "total_output_tokens": dict(total_output_tokens)
+        }

@@ -229,7 +229,7 @@ def return_table_list():
         logger.info("Could not fetch tables: %s", e)
         return ""
     
-async def process_single_query(unit_query: str, orig_query: str, nq: int):
+async def process_single_query(unit_query: str, orig_query: str, nq: int, total_input_tokens, total_output_tokens):
 
     """Convert user query to SQL and execute it using an agent with table context."""
     with counter_lock:
@@ -244,42 +244,63 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int):
     unit_query = unit_query.strip()
     logger.info(f"Received unitary query: {unit_query}")
     
-    query_class = classify_query(unit_query)
+    query_class, i_tokens, o_tokens = classify_query(unit_query)
     logger.info(f"Query class: {query_class}")
+
+    # Add the captured tokens to your main counters
+    # Note: classify_query uses llm_call (Gemini), so we use that model's name
+    total_input_tokens['gemini-2.0-flash'] += i_tokens
+    total_output_tokens['gemini-2.0-flash'] += o_tokens
     
     if query_class == "CPI":
-        selected_file = file_selector_CPI(unit_query).strip()
+        selected_file, i_tokens, o_tokens = file_selector_CPI(unit_query)
+        total_input_tokens['gemini-2.0-flash'] += i_tokens
+        total_output_tokens['gemini-2.0-flash'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators?product=cpi"
         logger.info(f"Selected file: {selected_file}")
         
     if query_class == "GDP":
-        selected_file = file_selector_GDP(unit_query).strip()
+        selected_file, i_tokens, o_tokens = file_selector_GDP(unit_query)
+        total_input_tokens['gpt-4.1'] += i_tokens
+        total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators?product=nas"
         logger.info(f"Selected file: {selected_file}")
         
     if query_class == "IIP":
-        selected_file = file_selector_IIP(unit_query).strip()
+        selected_file, i_tokens, o_tokens = file_selector_IIP(unit_query)
+        total_input_tokens['gpt-4.1'] += i_tokens
+        total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators?product=iip"
         logger.info(f"Selected file: {selected_file}")
         
     if query_class == "MSME":
-        selected_file = file_selector_MSME(unit_query).strip()
+        selected_file, i_tokens, o_tokens = file_selector_MSME(unit_query)
+        total_input_tokens['gemini-2.0-flash'] += i_tokens
+        total_output_tokens['gemini-2.0-flash'] += o_tokens
         ref_url = "https://msme.gov.in/"
         logger.info(f"Selected file: {selected_file}")
+        
     if (query_class == "agriculture_and_rural"):
-        selected_file = file_selector_agriculture_and_rural(unit_query).strip()
+        selected_file, i_tokens, o_tokens = file_selector_agriculture_and_rural(unit_query)
+        total_input_tokens['gpt-4.1'] += i_tokens
+        total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main/macroindicators?product=nss77"
         logger.info(f"Selected file: {selected_file}")
 
         
     if (query_class == "social_migration_and_households"):
-        selected_file = file_selector_social_migration_and_households(unit_query).strip()
+        selected_file, i_tokens, o_tokens = file_selector_social_migration_and_households(unit_query)
+        total_input_tokens['gpt-4.1'] += i_tokens
+        total_output_tokens['gpt-4.1'] += o_tokens
+
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main/macroindicators?product=nss78"
         logger.info(f"Selected file: {selected_file}")
 
         
     if (query_class == "enterprise_establishment_surveys"):
-        selected_file = file_selector_enterprise_establishment_surveys(unit_query).strip()
+        selected_file, i_tokens, o_tokens = file_selector_enterprise_establishment_surveys(unit_query)
+        total_input_tokens['gpt-4.1'] += i_tokens
+        total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main"
         logger.info(f"Selected file: {selected_file}")
 
@@ -416,11 +437,21 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int):
                         context += str(row) + "\n" #print(row)
                 logger.info(context)
                 if error == "N/A":
-                    response, query_for_table = generate_sql_query(unit_query, schema, context, selected_file)
+                    response, query_for_table, i_tokens, o_tokens = generate_sql_query(unit_query, schema, context, selected_file)
+                    logger.info(f"query for table: {query_for_table}")
+                    logger.info(f"response: {response}")
+                    
+                    
+                    total_input_tokens['gpt-4.1'] += i_tokens
+                    total_output_tokens['gpt-4.1'] += o_tokens
                 else:
                     #unit_query = retry_query(unit_query, error)
                     #logger.info(f"Changed user query to: {unit_query}")
-                    response, query_for_table = generate_sql_query(unit_query, schema, context, selected_file, error)
+                    response, query_for_table, i_tokens, o_tokens = generate_sql_query(unit_query, schema, context, selected_file, error)
+                    logger.info(f"query for table: {query_for_table}")
+                    logger.info(f"response: {response}")
+                    total_input_tokens['gpt-4.1'] += i_tokens
+                    total_output_tokens['gpt-4.1'] += o_tokens
                 logger.info(f"Used query for specific table: {query_for_table}")
                 logger.info("SQL query:")
                 try:
@@ -434,7 +465,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int):
                 logger.info("Originally: " + response)
                 try:
                     #REMEMBER THAT YOU SHOULD ONLY EDIT THE DATE/YEAR BASED CONDITIONS USING THE SCHEMA {schema}""", response)
-                    response = openai_call(f"""Consider the following query: {orig_query}.
+                    response,i_tokens, o_tokens = openai_call(f"""Consider the following query: {orig_query}.
                                         
                     The following SQL query is intended to retrieve relevant data pertaining to it. 
                                                 
@@ -451,9 +482,12 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int):
                     ** IMPORTANT RULE ** Return your response ONLY as a valid SQL query, with NO DECORATIVE TEXT.
                     
                     ** IMPORTANT RULE ** Do not use any category settings longer than 5 entries.""", response)
+                    
+                    total_input_tokens['gpt-4.1'] += i_tokens
+                    total_output_tokens['gpt-4.1'] += o_tokens
                 except:
                     #REMEMBER THAT YOU SHOULD ONLY EDIT THE DATE/YEAR BASED CONDITIONS USING THE SCHEMA {schema}""", response)
-                    response = openai_call(f"""Consider the following query: {orig_query}.
+                    response,i_tokens, o_tokens = openai_call(f"""Consider the following query: {orig_query}.
                                         
                     The following SQL query is intended to retrieve relevant data pertaining to it. 
                                                 
@@ -466,6 +500,9 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int):
                     ** IMPORTANT RULE ** Make sure you REMOVE ANY MONTH BASED (month = or month_numeric =) conditions.
 
                     ** IMPORTANT RULE ** Return your response ONLY as a valid SQL query, with NO DECORATIVE TEXT.""", response)
+                    
+                    total_input_tokens['gpt-4.1'] += i_tokens
+                    total_output_tokens['gpt-4.1'] += o_tokens
                 try:
                     response = response.split("```")[1]
                     response = response.split("sql")[1]
@@ -532,7 +569,9 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int):
                         ref_name = df.loc[0, 'data_source']
                         logger.info("Found a data source column: " + ref_name)
                         df = df.drop(columns=['data_source'])
-                    result, headers = handle_pandas_response(df, unit_query, orig_query, max_rows, nq)
+                    result, headers, i_tokens, o_tokens = handle_pandas_response(df, unit_query, orig_query, max_rows, nq)
+                    total_input_tokens['gpt-4.1'] += i_tokens
+                    total_output_tokens['gpt-4.1'] += o_tokens
                     success = True
                 else:
                     attempt += 1
@@ -625,7 +664,7 @@ class BatchRequest(BaseModel):
     
 semaphore = asyncio.Semaphore(5)
 
-async def batch_sql_queries(batch: BatchRequest, orig_query: str):
+async def batch_sql_queries(batch: BatchRequest, orig_query: str, total_input_tokens, total_output_tokens):
     if len(batch.queries) > 5:
         raise HTTPException(status_code=400, detail="Maximum of 5 queries allowed per batch.")
     nq = len(batch.queries)
@@ -634,7 +673,7 @@ async def batch_sql_queries(batch: BatchRequest, orig_query: str):
     async def limited(q, orig_query):
         async with semaphore:
             try:
-                return await asyncio.wait_for(process_single_query(q, orig_query, nq), timeout=QUERY_TIMEOUT)
+                return await asyncio.wait_for(process_single_query(q, orig_query, nq, total_input_tokens, total_output_tokens), timeout=QUERY_TIMEOUT)
             except asyncio.TimeoutError:
                 logger.info("Query timed out: Current time: " + strftime("%Y-%m-%d %H-%M-%S", gmtime()))
                 return {

@@ -78,8 +78,8 @@ def classify_query(query):
                     [CPI, GDP, IIP, MSME, agriculture_and_rural, social_migration_and_households, enterprise_establishment_surveys, Out of domain]
                 - DO NOT include any reasoning traces or other text apart from the class selected from the above list.
             """)
-    query_class = llm_call(system_instruction, query).strip()
-    return query_class
+    query_class, i_tokens, o_tokens = llm_call(system_instruction, query)
+    return query_class.strip(), i_tokens, o_tokens
 
 def file_selector_agriculture_and_rural(query):
     system_instruction = dedent(f"""
@@ -243,8 +243,8 @@ def file_selector_agriculture_and_rural(query):
         [sa_agri_hhs_crop_sale_quantity_by_agency_major_disposal, sa_agri_hhs_reporting_use_of_diff_farming_resources, sa_agri_hhs_use_purchased_seed_by_quality, sa_avg_expenditure_and_receipts_on_farm_and_nonfarm_assets, sa_avg_gross_cropped_area_value_quantity_crop_production, sa_avg_monthly_expenses_and_receipts_for_crop_production, sa_avg_monthly_total_expenses_crop_production, sa_avg_monthly_total_expenses_receipts_animal_farming_30_days, sa_dist_agri_hh_not_insuring_crop_by_reason_for_selected_crop, sa_dist_agri_hhs_seed_use_by_agency_of_procurement, sa_dist_hhs_leasing_out_land_and_avg_area_social_group, sa_dist_of_agri_hhs_reporting_use_of_purchased_seed, sa_dist_of_hhs_by_hh_classification_for_diff_classes_of_land, sa_distribution_hhs_leasing_in_land_avg_area_social_group, sa_distribution_loan_outstanding_by_source_of_loan_taken, sa_distribution_operational_holdings_by_possession_type, sa_est_num_of_hhs_for_each_size_class_of_land_possessed, sa_estimated_no_of_hhs_for_different_social_groups, sa_no_of_hhs_owning_of_livestock_of_different_types, sa_no_per_1000_distri_of_agri_hhs_reporting_sale_of_crops, sa_no_per_hh_operational_holding_by_size_hh_oper_holding, sa_per_1000_agri_hh_insured_experienced_crop_loss, sa_per_1000_crop_producing_hh_crop_disposal_agency_sale_satisf, sa_perc_dist_of_land_for_hhs_belonging_operational_holding, sa_percent_distribution_of_leased_out_land_by_terms_of_lease, none_of_these]
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
     """)
-    selected_file = openai_call(system_instruction, query).strip()
-    return selected_file
+    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    return selected_file.strip(), i_tokens, o_tokens
 
 def file_selector_enterprise_establishment_surveys(query):
     system_instruction=dedent(f"""
@@ -527,8 +527,8 @@ def file_selector_enterprise_establishment_surveys(query):
         
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
-    selected_file = openai_call(system_instruction, query).strip()
-    return selected_file
+    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    return selected_file.strip(), i_tokens, o_tokens
 
 def file_selector_social_migration_and_households(query):
     system_instruction=dedent(f"""
@@ -630,8 +630,8 @@ def file_selector_social_migration_and_households(query):
         mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
-    selected_file = openai_call(system_instruction, query).strip()
-    return selected_file
+    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    return selected_file.strip(), i_tokens, o_tokens
 
 def file_selector_CPI(query):
     system_instruction=dedent(f"""
@@ -687,8 +687,8 @@ def file_selector_CPI(query):
         [cpi_inflation_data, consumer_price_index_cpi_for_agricultural_and_rural_labourers, city_wise_housing_price_indices, whole_sale_price_index_wpi_financial_year_wise, cpi_worker_data, whole_sale_price_index_wpi_calendar_wise, cpi_food_worker_data, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
-    selected_file = llm_call(system_instruction, query).strip()
-    return selected_file
+    selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
+    return selected_file.strip(), i_tokens, o_tokens
 
 def file_selector_GDP(query):
     system_instruction=dedent(f"""
@@ -962,8 +962,8 @@ def file_selector_GDP(query):
         statewise_nsdp, statewise_nsva, statewise_pcnsdp, gst_registrations, gst_statewise_tax_collection_refund_data, gst_statewise_tax_collection_data, gst_settlement_of_igst_to_states, gstr_three_b, gstr_one, gross_and_net_tax_collection, top_fifty_macro_economic_indicators_fortnightly_data, gst_statewise_fiscal_year_collection_view, gst_statewise_fiscal_year_igst_settlement_view, gst_statewise_fiscal_year_refund_view,niryat_ite_commodity,niryat_ite_state,imf_dm_export,none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
 """)
-    selected_file = openai_call(system_instruction, query).strip()
-    return selected_file
+    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    return selected_file.strip(), i_tokens, o_tokens
 
 def file_selector_IIP(query):
     system_instruction=dedent(f"""
@@ -1083,8 +1083,8 @@ def file_selector_IIP(query):
         [iip_yearly,iip_monthly,iip_yearly_category_view,iip_monthly_category_view,iip_in_assam,iip_in_andra_pradesh_sector_wise,iip_in_andra_pradesh_sector_industry_wise,iip_in_andra_pradesh_use_wise,iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly,none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
     """)
-    selected_file = openai_call(system_instruction, query).strip()
-    return selected_file
+    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    return selected_file.strip(), i_tokens, o_tokens
 
 def file_selector_MSME(query):
     system_instruction=dedent(f"""
@@ -1162,8 +1162,8 @@ def file_selector_MSME(query):
         [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_udyam_registrations_by_state, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view, none_of_these]   
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
             """)
-    selected_file = llm_call(system_instruction, query).strip()
-    return selected_file
+    selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
+    return selected_file.strip(), i_tokens, o_tokens
 
 
 
@@ -1216,8 +1216,8 @@ def rephrase_for_table(query, schema, context, table_name):
         query --> Growth in electricity production from June 2020 to June 2022
         SQL query --> SELECT * FROM {table_name} WHERE year >= '2020-21' AND year <= '2022-23' AND sector_type = 'Sectoral' AND category = 'Electricity' AND sub_category = '*' LIMIT 125;
     """
-    rephrased_for_table = openai_call(instructions, query).strip() #openai_call(instructions, query)
-    return rephrased_for_table
+    rephrased, i_tokens, o_tokens = openai_call(instructions, query)
+    return rephrased.strip(), i_tokens, o_tokens
 
 def identify_generic_columns(schema):
     try:
@@ -1255,8 +1255,8 @@ def generate_sql_query(query, schema, context, table_name, last_error="N/A"):
         #columns = str(identify_generic_columns(query, schema))
         #query = str(query) + '''\nEnsure you set the following columns to generic values: ''' + columns)
     if last_error == "N/A":
-        sql_query = rephrase_for_table(query, schema, context, table_name)      
-        return sql_query, query
+        sql_query, i_tokens, o_tokens = rephrase_for_table(query, schema, context, table_name)      
+        return sql_query, query, i_tokens, o_tokens
           
     instructions = dedent(f"""Given the following table context for {table_name}: {context}\nCan you generate a valid SQL query to get the contents for the natural language query attached below? Be very specific and make sure you output ONLY the SQL query as a string without any other text. Remember to pull all the informative columns in the table, and not just the requested values.
         **Some simple hints to use**
@@ -1281,8 +1281,8 @@ def generate_sql_query(query, schema, context, table_name, last_error="N/A"):
     if last_error != "N/A":
         instructions += dedent(f"""EXTREMELY IMPORTANT: Keep in mind that your last attempt returned the error: {last_error}
         """)
-    sql_query = openai_call(instructions, query).strip() #openai_call
-    return sql_query, query
+    sql_query, i_tokens, o_tokens = openai_call(instructions, query)
+    return sql_query.strip(), query, i_tokens, o_tokens
 
 def table_citation(selected_file):
     table_list = {
@@ -1420,8 +1420,8 @@ def table_citation(selected_file):
 def data_description(headers):
     system_instruction=dedent("""You are given the following condensed description of the data pulled from internal insights. Can you create a short description of the data in a paragraph between 20 and 50 words? If any json format data is present, also include a couple of insights from the data.
             """)
-    description = openai_call(system_instruction, headers)
-    return description
+    description, i_tokens, o_tokens = openai_call(system_instruction, headers)
+    return description, i_tokens, o_tokens
 
 def rationalize_information(result, headers, query):
     if query == "":
@@ -1438,19 +1438,21 @@ def rationalize_information(result, headers, query):
                                   5. If tabular representation is not possible, provide the information as nicely formatted text (paragraph of around 200 words) or bullet points (approximately 10).
                                   6. Be very brief and focus on answering the provided query. Do not provide decorative information. However, include all data relevant to the time range in {query}.
                               """)
-    rationalized_info = openai_call(system_instruction, query).strip()
-    return rationalized_info
+    rationalized_info, i_tokens, o_tokens = openai_call(system_instruction, query)
+    return rationalized_info.strip(), i_tokens, o_tokens
 
-def handle_pandas_response(df, query, orig_query, max_rows, nq):
-    df.fillna('', inplace=True) 
+def handle_pandas_response(df, query, orig_query, max_rows, nq): 
     df.to_csv("debug_dataframe.csv")
+    total_i_tokens, total_o_tokens = 0, 0
+    
+    df.fillna('', inplace=True) 
     headers = ""
     try:
         if len(df) <= 4:
             result = df.to_dict(orient='records')
-            headers = data_description(headers + "\nData: " + str(result)).strip()
-            return result, headers
-        headers = ""
+            headers_text, i, o = data_description(headers + "\nData: " + str(result))
+            total_i_tokens += i; total_o_tokens += o
+            return result, headers_text.strip(), total_i_tokens, total_o_tokens
         # Find single-valued columns
         definite_drops = ["id", "data_release_date", "data_updated_date"]
         single_valued_cols = [col for col in df.columns if (col in definite_drops) or ((df[col].nunique(dropna=False) == 1) and (col.lower() != 'year'))]
@@ -1509,7 +1511,7 @@ def handle_pandas_response(df, query, orig_query, max_rows, nq):
         # Sort the DataFrame by the 'date' columnß
         df = df.sort_values(by='date',ascending=False).reset_index(drop=True)
         try:
-            check_top_k = openai_call("""Consider the query given below. Your task is to identify if this is a query that compares or ranks certain quantities, categories, states, etc. according to some value.
+            check_top_k, i, o = openai_call("""Consider the query given below. Your task is to identify if this is a query that compares or ranks certain quantities, categories, states, etc. according to some value.
                 For example:
                 - "Top 5 states GDP"
                 - "Top 3 categories by inflation"
@@ -1521,38 +1523,46 @@ def handle_pandas_response(df, query, orig_query, max_rows, nq):
             2. If such rankings do not exist, for example "inflation of food category in 2024", "GDP of India in the last 3 years", "IIP of mining sector in the last decade", then reply with a single word "NO"
             3. Do not reply with anything apart from YES or NO
             4. Do not include any thinking traces""", orig_query)
+            total_i_tokens += i; total_o_tokens += o
             if check_top_k == "YES":
-            #if "top" in orig_query.lower():
-                print("Identified as a top-k query, retaining only latest date")
                 latest_date = df.loc[0, 'date']
                 df = df[df['date'] == latest_date]
         except Exception as e:
             print("Could not assess whether query should keep latest date only: " + str(e))
+            
         df = df.drop(columns=["date"])
         nrows = len(df)
         
         if (nrows <= 12) or (nq == 1):
             result = df.to_dict(orient='records')
-            headers = data_description(headers + "\nData: " + str(result)).strip()
-            return result, headers
+            headers_text, i, o = data_description(headers + "\nData: " + str(result))
+            total_i_tokens += i; total_o_tokens += o
+            return result, headers_text.strip(), total_i_tokens, total_o_tokens
+            
         if 12 < nrows < max_rows:
-            # We have more than 12 rows. Need some sort of rationalization.
-            # headers += f" -- Data contains {nrows} rows, some rationalization will be needed -- "
             result = df.to_dict(orient='records')
-            rationalized_info = rationalize_information(result, headers, orig_query + query).strip()
-            headers = data_description(headers).strip()
-            return {"summarized_info": rationalized_info}, headers
-        # Data size has hit maximum limit. Need some sort of rationalization.
-        # headers += f" -- Data contains {nrows} rows, some rationalization will be needed -- "
+            rationalized_info, i_rat, o_rat = rationalize_information(result, headers, orig_query + query)
+            total_i_tokens += i_rat; total_o_tokens += o_rat
+            
+            headers_text, i_desc, o_desc = data_description(headers)
+            total_i_tokens += i_desc; total_o_tokens += o_desc
+            return {"summarized_info": rationalized_info.strip()}, headers_text.strip(), total_i_tokens, total_o_tokens
+            
         result = df.to_dict(orient='records')
-        rationalized_info = rationalize_information(result, headers, "Too many rows were pulled, but try to answer the following query from the data provided. Ensure that you mention the date period for which this is valid. **You MUST** use the information from the latest available time period for your summary: " + orig_query + query).strip()
-        headers = data_description(headers).strip()
-        return {"summarized_info": rationalized_info}, headers
+        rationalized_info, i_rat, o_rat = rationalize_information(result, headers, "Too many rows...")
+        total_i_tokens += i_rat; total_o_tokens += o_rat
+        
+        headers_text, i_desc, o_desc = data_description(headers)
+        total_i_tokens += i_desc; total_o_tokens += o_desc
+        return {"summarized_info": rationalized_info.strip()}, headers_text.strip(), total_i_tokens, total_o_tokens
     
     except:
         if "date" in list(df):
             df = df.drop(columns=["date"])
-        headers = data_description(headers).strip()
+        
+        headers_text, i, o = data_description(headers)
+        total_i_tokens += i; total_o_tokens += o
+        
         if len(df) > 100:
             df = df.iloc[:100,:]
-        return df.to_dict(orient='records'), headers
+        return df.to_dict(orient='records'), headers_text.strip(), total_i_tokens, total_o_tokens

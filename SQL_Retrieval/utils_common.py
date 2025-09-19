@@ -44,7 +44,21 @@ open_ai_client = OpenAI()
     
 #    return response.choices[0].message.content
 
+# def openai_call(system_instruct, user_content, model="gpt-4.1"):
+#     response = open_ai_client.chat.completions.create(
+#         model=model,
+#         messages=[
+#             {"role": "system", "content": [{"type": "text", "text": str(system_instruct)}]},
+#             {"role": "user", "content": [{"type": "text", "text": str(user_content)}]}
+#         ],
+#         temperature=0
+#     )
+#     return response.choices[0].message.content
+
 def openai_call(system_instruct, user_content, model="gpt-4.1"):
+    """
+    Calls the OpenAI API and returns the content and token usage.
+    """
     response = open_ai_client.chat.completions.create(
         model=model,
         messages=[
@@ -53,8 +67,13 @@ def openai_call(system_instruct, user_content, model="gpt-4.1"):
         ],
         temperature=0
     )
-    return response.choices[0].message.content
-
+    
+    # Extract content and token usage from the response object
+    content = response.choices[0].message.content
+    input_tokens = response.usage.prompt_tokens
+    output_tokens = response.usage.completion_tokens
+    
+    return content, input_tokens, output_tokens
 
 #def llm_call_rephrase(system_instruct, contents):
 #        
@@ -70,22 +89,52 @@ def openai_call(system_instruct, user_content, model="gpt-4.1"):
 #    time.sleep(0.1)
 #    return response.choices[0].message.content
 
-def llm_call(system_instruct, contents, model_name="gemini-2.0-flash"):
+# def llm_call(system_instruct, contents, model_name="gemini-2.0-flash"):
         
+#     prompt = f"{system_instruct}\n\nProvided context: {contents}"
+#     model = gai.GenerativeModel(
+#     model_name=model_name,
+#     generation_config=gai.GenerationConfig(
+#     temperature=0.0,
+#     top_p=1.0,
+#     top_k=1,
+#     candidate_count=1,
+#     max_output_tokens=4096,
+#     )
+#     )
+#     response = model.generate_content(prompt)
+#     time.sleep(0.1)
+#     return response.text
+
+def llm_call(system_instruct, contents, model_name="gemini-2.0-flash"):
+    """
+    Calls the Gemini API and returns the content and token usage.
+    """
     prompt = f"{system_instruct}\n\nProvided context: {contents}"
     model = gai.GenerativeModel(
-    model_name=model_name,
-    generation_config=gai.GenerationConfig(
-    temperature=0.0,
-    top_p=1.0,
-    top_k=1,
-    candidate_count=1,
-    max_output_tokens=4096,
+        model_name=model_name,
+        generation_config=gai.GenerationConfig(
+            temperature=0.0,
+            top_p=1.0,
+            top_k=1,
+            candidate_count=1,
+            max_output_tokens=4096,
+        )
     )
-    )
+
+    # For Gemini, we calculate input tokens before the generation call
+    input_tokens = model.count_tokens(prompt).total_tokens
+
+    # Generate the content
     response = model.generate_content(prompt)
     time.sleep(0.1)
-    return response.text
+
+    # Extract the text and output tokens from the response
+    text_content = response.text
+    output_tokens = response.usage_metadata.candidates_token_count
+
+    return text_content, input_tokens, output_tokens
+
 
 def query_certify_valid(user_query):
     if "\n" in user_query:
@@ -160,8 +209,11 @@ def query_certify_valid(user_query):
                                 
                                 You MUST answer with a single word: YES (query is valid) or NO (query is invalid or out of bounds). Do NOT include any other thinking traces or text apart from YES or NO.
                                 """)
-    validity = llm_call(system_instruction, user_query).strip()
-    return validity
+    # MODIFIED: Capture token usage from llm_call
+    validity, i_tokens, o_tokens = llm_call(system_instruction, user_query)
+    validity = validity.strip()
+
+    return validity, i_tokens, o_tokens
 
 
 def clarify_query(user_query):
@@ -207,8 +259,11 @@ def clarify_query(user_query):
                         YOU MUST include specified categories and/or states, date range, in the rephrased query!!!!
                         DO NOT include any thinking traces or text apart from the json format above.
             """),
-    rephrased_query = openai_call(system_instruction, user_query).strip()
-    return rephrased_query
+    # MODIFIED: Capture token usage from openai_call
+    rephrased_query, i_tokens, o_tokens = openai_call(system_instruction, user_query)
+    rephrased_query = rephrased_query.strip()
+    
+    return rephrased_query, i_tokens, o_tokens
 
 def generate_sql_queries(query):
     system_instruction=dedent("""Consider the query provided below. Your goal is to decorate the query and rewrite it in a form that can be used for searching through structured data. You must limit yourself to a maximum of 15 words for each query, and a STRICT MAXIMUM of 2 sub-queries.
@@ -235,8 +290,10 @@ def generate_sql_queries(query):
             - FORMATTING INSTRUCTIONS: Your output format should be a LIST OF STRINGS such as ["Sub-Query 1","Sub-Query 2"], with each string containing one sub-query. DO NOT output more than 2 sub-queries and stick to the word limit of 15 words per sub-query. DO NOT user more sub-queries than necessary, if 1 sub-query is sufficient. 
             - Do not split a single time period into multiple time periods. Separate sub-queries should only be used for different quantities and not for time periods!
             """)
-    unitary_queries = llm_call(system_instruction, query)
-    unitary_queries = unitary_queries.split("\"")[1:-1:2]
-    return unitary_queries
+    # MODIFIED: Capture token usage from llm_call
+    unitary_queries_str, i_tokens, o_tokens = llm_call(system_instruction, query)
+    unitary_queries_list = unitary_queries_str.split("\"")[1:-1:2]
+
+    return unitary_queries_list, i_tokens, o_tokens
 
 
