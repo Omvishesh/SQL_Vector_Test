@@ -471,20 +471,24 @@ async def search_topN_milvus(request: Request, question: Question):
     start_time = time.time()
     request_time = datetime.utcnow().isoformat()
 
-    llm_query, i, o = clarify_query(question.question).strip()
+    llm_query, i, o = clarify_query(question.question)
+    llm_query = llm_query.strip()
     #llm_query = (llm_query + "\n" + answer_query(llm_query).strip())
     #llm_query = final_query(llm_query).strip()
     #llm_query = (question.question).strip()
     total_input_tokens += i; total_output_tokens += o
-    suggest_answer, i, o = answer_query(llm_query).strip()
+    suggest_answer, i, o = answer_query(llm_query)
+    suggest_answer = suggest_answer.strip()
     total_input_tokens += i; total_output_tokens += o
 
     try:
-        query_date, i, o = fetch_date(llm_query).strip()
+        query_date, i, o = fetch_date(llm_query)
+        query_date = query_date.strip()
         total_input_tokens += i; total_output_tokens += o
         if query_date == 'today':
             query_date = datetime.today().strftime("%B %Y")
-        query_min_date, i, o = fetch_min_date(llm_query).strip()
+        query_min_date, i, o = fetch_min_date(llm_query)
+        query_min_date = query_min_date.strip()
         total_input_tokens += i; total_output_tokens += o
         
         if query_min_date == 'today':
