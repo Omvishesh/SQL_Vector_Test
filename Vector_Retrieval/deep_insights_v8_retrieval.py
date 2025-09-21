@@ -193,8 +193,8 @@ def identify_lexical_term(query):
         logging.info("Identified key terms: " + str(response))
         return response, input_tokens, output_tokens
     except:
-        return []
-    return []
+        return [], 0, 0
+    return [], 0, 0
 
 def fetch_date(query):
     client = genai.Client(api_key=GOOGLE_API_KEY)
