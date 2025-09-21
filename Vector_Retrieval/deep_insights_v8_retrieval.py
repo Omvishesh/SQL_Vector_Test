@@ -805,11 +805,12 @@ async def search_topN_milvus(request: Request, question: Question):
                 n_this_time = 0
 
 # Check if no valid results with cross_score > 0 were found
-        usage_data = {
-            "model": model_name,
-            "total_input_tokens": total_input_tokens,
-            "total_output_tokens": total_output_tokens,
-            "total_tokens": total_input_tokens + total_output_tokens
+        
+        total_input_tokens ={
+            "gemini 2.0 flash": total_input_tokens
+        }
+        total_output_tokens = {
+            "gemini 2.0 flash": total_output_tokens
         }
 
         if not top_results_to_return:
@@ -830,7 +831,8 @@ async def search_topN_milvus(request: Request, question: Question):
                     "url": "N/A"
                 }],
                 "time": total_time,
-                "usage": usage_data  # CORRECTED: Moved to the top level
+                "total_input_tokens": total_input_tokens,
+                "total_output_tokens": total_output_tokens
             }
         else:
             # Log Top 5
@@ -856,7 +858,8 @@ async def search_topN_milvus(request: Request, question: Question):
                 "query_date": query_date,
                 "retrieved_results": final_return,
                 "time": total_time,
-                "usage": usage_data
+                "total_input_tokens": total_input_tokens,
+                "total_output_tokens": total_output_tokens
             }
 
     except Exception as e:
