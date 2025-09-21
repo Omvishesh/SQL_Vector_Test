@@ -818,19 +818,22 @@ async def search_topN_milvus(request: Request, question: Question):
             total_time = time.time() - start_time
             logging.info(f"Total processing time: {total_time:.4f} seconds")
             return {
-                "question": question.question,
-                "llm_query": llm_query,
-                "query_date": query_date,
-                "retrieved_results": [{
-                    "content": "<insufficient_data>",
-                    "distance": "N/A",
-                    "source": "N/A",
-                    "page": "N/A",
-                    "reference": "N/A",
-                    "date": "N/A",
-                    "url": "N/A"
-                }],
-                "time": total_time,
+                "success": False,
+                "data": {
+                    "question": question.question,
+                    "llm_query": llm_query,
+                    "query_date": query_date,
+                    "retrieved_results": [{
+                        "content": "<insufficient_data>",
+                        "distance": "N/A",
+                        "source": "N/A",
+                        "page": "N/A",
+                        "reference": "N/A",
+                        "date": "N/A",
+                        "url": "N/A",
+                        "time": total_time
+                    }],
+                },
                 "total_input_tokens": total_input_tokens,
                 "total_output_tokens": total_output_tokens
             }
@@ -853,11 +856,14 @@ async def search_topN_milvus(request: Request, question: Question):
             total_time = time.time() - start_time
             logging.info(f"Total processing time: {total_time:.4f} seconds")
             return {
-                "question": question.question,
-                "llm_query": llm_query,
-                "query_date": query_date,
-                "retrieved_results": final_return,
-                "time": total_time,
+                "success": True,
+                "data": {
+                    "question": question.question,
+                    "llm_query": llm_query,
+                    "query_date": query_date,
+                    "retrieved_results": final_return,
+                    "time": total_time
+                },
                 "total_input_tokens": total_input_tokens,
                 "total_output_tokens": total_output_tokens
             }
