@@ -980,6 +980,8 @@ def file_selector_IIP(query):
         - If the query is BROAD or GENERAL (e.g. just "IIP growth", "IIP trends", "overall industrial performance") — choose the corresponding *category_view* file (monthly or yearly), not the subcategory-specific files.
         - Only pick the non-category-view tables (like iip_monthly or iip_yearly) if the query **specifically mentions** detailed manufacturing categories like "textiles", "tobacco", "machinery", etc.
         - If the query is STATE-SPECIFIC and mentions "Assam" or industries in Assam, then use iip_in_assam.
+        - Use the _subcatg_ view if the query mentions a specific, detailed product or industry (e.g., "Manufacture of Food Products," "textiles," "wearing apparel," "motor vehicles"). This view provides the most granular data.
+        - Use the _catg_ view for broad, high-level sectors or use-based categories (e.g., General, Mining, Manufacturing, Consumer Durables). Do not use this view if a query mentions a specific product or detailed sub-category.
 
         # Table information
         1. iip_yearly: This file contains Index of Industrial Production data on an annual or yearly basis. Use this only when specific manufacturing related subcategories (e.g. tobacco products, textiles, apparel, leather, machinery, chemicals, pharma) are queried. 
@@ -988,10 +990,10 @@ def file_selector_IIP(query):
         b. Show the all-India Index of Industrial Production for Electricity from 2011-12 to 2022-23.
         
         
-        2.iip_india_mth_catg_view: This view contains monthly Index of Industrial Production (IIP) data aggregated at the main category level (e.g., Primary Goods, Capital Goods, Mining, Manufacturing).Use this file for: Queries about broad, high-level industrial sectors or use-based categories. Do not use this view if a query mentions a specific product or a detailed sub-category.
+        2.iip_india_mth_catg_view: This view contains monthly Index of Industrial Production (IIP) data aggregated at the main category level (e.g., General, Mining, Manufacturing, Consumer Durables). Use this file for: Queries about broad, high-level industrial sectors or use-based categories. Do not use this view if a query mentions a specific product or a detailed sub-category.
         Sample queries:
-        a. What was the IIP growth rate for Capital Goods in the fiscal year 2023-24?
-        b. Compare the monthly IIP index for the Mining and Manufacturing sectors over the last six months.
+        a. Show the General index for 2023.
+        b. What was the IIP index for Manufacturing sector in August 2023?
 
         
         3. iip_yearly_category_view: This file contains Index of Industrial Production data on an annual or yearly basis. This contains high-level information on the three basic sectors (manufacturing, mining, electricity, general) and is preferred for broad queries. This table provides annual all-India Index of Industrial Production (IIP) data by category—General, Sectoral (e.g., Manufacturing, Mining, Electricity), and Use-based (e.g., Consumer Durables, Capital Goods, Infrastructure Construction Goods)
@@ -1003,8 +1005,8 @@ def file_selector_IIP(query):
         
         4. iip_india_mth_subcatg_view: This view contains detailed monthly Index of Industrial Production (IIP) data broken down to the specific sub-category level (e.g., Manufacture of food products, Manufacture of textiles).Use this file for: Queries that ask for data on a specific, detailed industry or product sub-category.
         Sample queries:
-        a. What was the Index of Industrial Production for 'Manufacture of wearing apparel' in March 2024?
-        b. Show the monthly IIP growth rate for 'Manufacture of motor vehicles, trailers and semi-trailers' for all of 2023.
+        a. List subcategory indices for Manufacture of Food Products in Jan 2025.
+        b. Show the IIP growth rate for 'Manufacture of motor vehicles, trailers and semi-trailers' for all of 2023.
 
 
         5. iip_in_assam: This file contains Index of Industrial Production (IIP) data specifically for Assam on an annual basis, broken down by industry NIC codes, descriptions, and weights. Use this table if the query is about Assam or state-specific industrial production.
