@@ -32,8 +32,7 @@ def classify_query(query):
                               
                 a. Entities such as IIP, industrial output, industrial production, mining, manufacturing, electricity, motor vehicles, or other industries should be classified as "IIP".
                 
-                b. The following files comprise the IIP datasets: [iip_yearly,Iip_india_mth_catg_view
-,iip_yearly_category_view,iip_india_mth_subcatg_view,iip_in_assam]. 
+                b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam]. 
                 
                 Any query that can be answered with these data sets should be classified as "IIP".
 
@@ -983,24 +982,22 @@ def file_selector_IIP(query):
         - Use the _catg_ view for broad, high-level sectors or use-based categories (e.g., General, Mining, Manufacturing, Consumer Durables). Do not use this view if a query mentions a specific product or detailed sub-category.
 
         # Table information
-        1. iip_yearly: This file contains Index of Industrial Production data on an annual or yearly basis. Use this only when specific manufacturing related subcategories (e.g. tobacco products, textiles, apparel, leather, machinery, chemicals, pharma) are queried. 
-        Sample queries:
-        a. What was the annual growth rate of the Manufacture of Textiles sector in 2023-24?
-        b. Show the all-India Index of Industrial Production for Electricity from 2011-12 to 2022-23.
-        
+        1. ip_india_yr_catg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the category level. Use this when queries involve overall IIP or sector/category-level indicators (e.g. General, Manufacturing, Mining, Electricity).
+        Sample queries:
+        a. What was the annual growth rate of the Mining sector in 2021-22?
+        b. Show the General IIP from 2015-16 to 2023-24.
         
         2.iip_india_mth_catg_view: This view contains monthly Index of Industrial Production (IIP) data aggregated at the main category level (e.g., General, Mining, Manufacturing, Consumer Durables). Use this file for: Queries about broad, high-level industrial sectors or use-based categories. Do not use this view if a query mentions a specific product or a detailed sub-category.
         Sample queries:
         a. Show the General index for 2023.
         b. What was the IIP index for Manufacturing sector in August 2023?
+        c. Show me the monthly IIP for Primary Goods from January 2023 to June 2023.
 
         
-        3. iip_yearly_category_view: This file contains Index of Industrial Production data on an annual or yearly basis. This contains high-level information on the three basic sectors (manufacturing, mining, electricity, general) and is preferred for broad queries. This table provides annual all-India Index of Industrial Production (IIP) data by category—General, Sectoral (e.g., Manufacturing, Mining, Electricity), and Use-based (e.g., Consumer Durables, Capital Goods, Infrastructure Construction Goods)
-        Sample queries:
-        a. What was the annual growth rate for Capital Goods under the Use based category in 2024-25?
-        b. Provide the IIP and growth rate for the sectoral category Electricity for the years 2013-14 and 2020-21.
-        c. IIP in the last three years
-        
+        3. iip_india_yr_subcatg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the subcategory level. Use this when queries require detailed industry or product breakdowns within categories (e.g. textiles, food products, machinery, chemicals, pharma).
+        Sample queries:
+        a. Show the IIP growth rate for Manufacture of Textiles in 2023-24.
+        b. Which manufacturing subcategories had negative growth in 2022-23?
         
         4. iip_india_mth_subcatg_view: This view contains detailed monthly Index of Industrial Production (IIP) data broken down to the specific sub-category level (e.g., Manufacture of food products, Manufacture of textiles).Use this file for: Queries that ask for data on a specific, detailed industry or product sub-category.
         Sample queries:
@@ -1082,7 +1079,7 @@ def file_selector_IIP(query):
         15. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
-        [iip_yearly,Iip_india_mth_catg_view,iip_yearly_category_view,iip_india_mth_subcatg_view,iip_in_assam,iip_in_andra_pradesh_sector_wise,iip_in_andra_pradesh_sector_industry_wise,iip_in_andra_pradesh_use_wise,iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly,none_of_these]
+        [iip_india_yr_catg_view,Iip_india_mth_catg_view,iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam,iip_in_andra_pradesh_sector_wise,iip_in_andra_pradesh_sector_industry_wise,iip_in_andra_pradesh_use_wise,iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly,none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
     """)
     # made the iip changes here
