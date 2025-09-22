@@ -14,4 +14,4 @@ COPY . .
 # Set the default command to run your application
 # Adjust 'main.py' as needed for your entrypoint
 #CMD ["uvicorn", "api_main:app", "--host", "0.0.0.0", "--port", "8001", "--workers", "3"]
-CMD ["gunicorn", "--bind", "0.0.0.0:8001", "--workers", "7", "--worker-class", "uvicorn.workers.UvicornWorker", "api_main:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8001", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "api_main:app"]
