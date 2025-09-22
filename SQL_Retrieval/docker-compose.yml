@@ -5,7 +5,7 @@ services:
     deploy:
       resources:
         limits:
-          cpus: '4.0'
+          cpus: '3.0'
           memory: 2G
     env_file:
       - prod.env
