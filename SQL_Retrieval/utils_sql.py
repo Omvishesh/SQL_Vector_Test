@@ -32,7 +32,9 @@ def classify_query(query):
                               
                 a. Entities such as IIP, industrial output, industrial production, mining, manufacturing, electricity, motor vehicles, or other industries should be classified as "IIP".
                 
-                b. The following files comprise the IIP datasets: [iip_yearly,iip_monthly,iip_yearly_category_view,iip_monthly_category_view,iip_in_assam]. 
+                b. The following files comprise the IIP datasets: [iip_yearly,Iip_india_mth_catg_view
+,iip_yearly_category_view,iip_india_mth_subcatg_view,iip_in_assam]. 
+                
                 Any query that can be answered with these data sets should be classified as "IIP".
 
                 ## MSME
@@ -78,6 +80,7 @@ def classify_query(query):
                     [CPI, GDP, IIP, MSME, agriculture_and_rural, social_migration_and_households, enterprise_establishment_surveys, Out of domain]
                 - DO NOT include any reasoning traces or other text apart from the class selected from the above list.
             """)
+    # made the iip changes here
     query_class, i_tokens, o_tokens = llm_call(system_instruction, query)
     return query_class.strip(), i_tokens, o_tokens
 
@@ -985,10 +988,10 @@ def file_selector_IIP(query):
         b. Show the all-India Index of Industrial Production for Electricity from 2011-12 to 2022-23.
         
         
-        2. iip_monthly: This file contains Index of Industrial Production data on a monthly basis. Use this file only if the query mentions the word monthly or if it specifies certain months.
+        2.iip_india_mth_catg_view: This view contains monthly Index of Industrial Production (IIP) data aggregated at the main category level (e.g., Primary Goods, Capital Goods, Mining, Manufacturing).Use this file for: Queries about broad, high-level industrial sectors or use-based categories. Do not use this view if a query mentions a specific product or a detailed sub-category.
         Sample queries:
-        a. What was the Index of Industrial Production for Manufacture of Chemicals and Chemical Products in January 2024?
-        b. Show monthly percent change for Consumer Non durables category between 2020 and 2024.
+        a. What was the IIP growth rate for Capital Goods in the fiscal year 2023-24?
+        b. Compare the monthly IIP index for the Mining and Manufacturing sectors over the last six months.
 
         
         3. iip_yearly_category_view: This file contains Index of Industrial Production data on an annual or yearly basis. This contains high-level information on the three basic sectors (manufacturing, mining, electricity, general) and is preferred for broad queries. This table provides annual all-India Index of Industrial Production (IIP) data by category—General, Sectoral (e.g., Manufacturing, Mining, Electricity), and Use-based (e.g., Consumer Durables, Capital Goods, Infrastructure Construction Goods)
@@ -998,12 +1001,10 @@ def file_selector_IIP(query):
         c. IIP in the last three years
         
         
-        4. iip_monthly_category_view: This file contains Index of Industrial Production data on a monthly basis. This contains high-level information on the three basic sectors (manufacturing, mining, electricity, general) and is preferred for broad queries.
+        4. iip_india_mth_subcatg_view: This view contains detailed monthly Index of Industrial Production (IIP) data broken down to the specific sub-category level (e.g., Manufacture of food products, Manufacture of textiles).Use this file for: Queries that ask for data on a specific, detailed industry or product sub-category.
         Sample queries:
-        a. What was the monthly IIP growth rate for Consumer Non durables in 2019-20?
-        b. Show the index values and year-on-year growth rates for Electricity sector in 2024.
-        c. Month on month IIP in the last two years
-        d. IIP of mining sector in March 2023
+        a. What was the Index of Industrial Production for 'Manufacture of wearing apparel' in March 2024?
+        b. Show the monthly IIP growth rate for 'Manufacture of motor vehicles, trailers and semi-trailers' for all of 2023.
 
 
         5. iip_in_assam: This file contains Index of Industrial Production (IIP) data specifically for Assam on an annual basis, broken down by industry NIC codes, descriptions, and weights. Use this table if the query is about Assam or state-specific industrial production.
@@ -1080,9 +1081,10 @@ def file_selector_IIP(query):
         15. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
-        [iip_yearly,iip_monthly,iip_yearly_category_view,iip_monthly_category_view,iip_in_assam,iip_in_andra_pradesh_sector_wise,iip_in_andra_pradesh_sector_industry_wise,iip_in_andra_pradesh_use_wise,iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly,none_of_these]
+        [iip_yearly,Iip_india_mth_catg_view,iip_yearly_category_view,iip_india_mth_subcatg_view,iip_in_assam,iip_in_andra_pradesh_sector_wise,iip_in_andra_pradesh_sector_industry_wise,iip_in_andra_pradesh_use_wise,iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly,none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
     """)
+    # made the iip changes here
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 
@@ -1302,7 +1304,9 @@ def table_citation(selected_file):
     'whole_sale_price_index_wpi_calendar_wise': "Ministry of commerce and industry",
     'cpi_inflation_data': "Price Statistics Division, MoSPI",
     'iip_annual_data': "Economic Statistics Division, MoSPI",
-    'iip_monthly_data': "Economic Statistics Division, MoSPI",
+    'Iip_india_mth_catg_view': "Economic Statistics Division, MoSPI",
+    'iip_india_mth_subcatg_view': "Economic Statistics Division, MoSPI",
+    # made the iip changes here
     'iip_in_assam': "Directorate of Economics & Statistics, Government of Assam",
     'cpi_food_worker_data': "Ministry of Finance",
     'msme_udyam_registrations_by_state': "Ministry of MSME",
