@@ -1223,18 +1223,8 @@ def file_selector_IIP(query):
         
     
         # Table information
-        1. ip_india_yr_catg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the category level. Use this when queries involve overall IIP or sector/category-level indicators (e.g. General, Manufacturing, Mining, Electricity).
-        Sample queries:
-        a. What was the annual growth rate of the Mining sector in 2021-22?
-        b. Show the General IIP from 2015-16 to 2023-24.
         
-        2.iip_india_mth_catg_view: This view contains monthly Index of Industrial Production (IIP) data aggregated at the main category level (e.g., General, Mining, Manufacturing, Consumer Durables). Use this file for: Queries about broad, high-level industrial sectors or use-based categories. Do not use this view if a query mentions a specific product or a detailed sub-category.
-        Sample queries:
-        a. Show the General index for 2023.
-        b. What was the IIP index for Manufacturing sector in August 2023?
-        c. Show me the monthly IIP for Primary Goods from January 2023 to June 2023.
-
-        3. construct_state_cement_indicators → This table provides indicators related to cement and construction in India, including housing scheme progress (PMAY-G, PMAY-U), road construction (PMGSY, Bharatmala), limestone resources and production, cement plant capacities, sectoral GSDP, and population.
+        1. construct_state_cement_indicators → This table provides indicators related to cement and construction in India, including housing scheme progress (PMAY-G, PMAY-U), road construction (PMGSY, Bharatmala), limestone resources and production, cement plant capacities, sectoral GSDP, and population.
         Columns: state, pmay_g_target_households, pmay_g_target_households_num, pmay_g_completed_households, pmay_g_completed_households_num, pmay_u_target_households, pmay_u_target_households_num, pmay_u_completed_households, pmay_u_completed_households_num, pmgsy_road_length_sanctioned_km, pmgsy_road_length_completed_km, bharatmala_road_length_targeted_km, bharatmala_road_length_completed_km, limestone_total_resources_kt, limestone_proved_reserve_kt, limestone_production_kt, installed_cement_capacity_mtpa, captive_power_capacity_mw, whrs_capacity_mw, gsdp_inr_crore, mining_value_addition_inr_crore, manufacturing_value_addition_inr_crore, construction_value_addition_inr_crore, real_estate_inr_crore, total_population_2024, latest_released_on, latest_updated_on
         Instructions: Use this table to analyze or compare states on construction, infrastructure, cement industry metrics, housing scheme progress, road lengths, limestone resources, sectoral economic value addition, and population as of 2024.
         Examples:
@@ -1248,6 +1238,18 @@ def file_selector_IIP(query):
         SQL: SELECT state, pmgsy_road_length_completed_km FROM construct_state_cement_indicators WHERE pmgsy_road_length_completed_km IS NOT NULL;
         User: Find the GSDP and construction value addition for Andhra Pradesh.
         SQL: SELECT gsdp_inr_crore, construction_value_addition_inr_crore FROM construct_state_cement_indicators WHERE state = 'Andhra Pradesh';
+        
+        2. ip_india_yr_catg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the category level. Use this when queries involve overall IIP or sector/category-level indicators (e.g. General, Manufacturing, Mining, Electricity).
+        Sample queries:
+        a. What was the annual growth rate of the Mining sector in 2021-22?
+        b. Show the General IIP from 2015-16 to 2023-24.
+        
+        3.iip_india_mth_catg_view: This view contains monthly Index of Industrial Production (IIP) data aggregated at the main category level (e.g., General, Mining, Manufacturing, Consumer Durables). Use this file for: Queries about broad, high-level industrial sectors or use-based categories. Do not use this view if a query mentions a specific product or a detailed sub-category.
+        Sample queries:
+        a. Show the General index for 2023.
+        b. What was the IIP index for Manufacturing sector in August 2023?
+        c. Show me the monthly IIP for Primary Goods from January 2023 to June 2023.
+
         
         4. iip_india_yr_subcatg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the subcategory level. Use this when queries require detailed industry or product breakdowns within categories (e.g. textiles, food products, machinery, chemicals, pharma).
         Sample queries:
