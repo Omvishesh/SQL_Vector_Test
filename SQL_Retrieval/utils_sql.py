@@ -32,7 +32,7 @@ def classify_query(query):
                               
                 a. Entities such as IIP, industrial output, industrial production,material like cement, mining, manufacturing, electricity, motor vehicles or other industries should be classified as "IIP".
                 
-                b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam,construct_state_cement_indicators]. 
+                b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,construct_state_cement_indicators, iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam,construct_state_cement_indicators]. 
                 
                 Any query that can be answered with these data sets should be classified as "IIP".
 
