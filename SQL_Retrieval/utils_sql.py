@@ -1315,12 +1315,32 @@ def file_selector_IIP(query):
         “Compare Q1 Manufacturing Kerala values across fiscal years 2015–16 to 2017–18.”
         “Show the quarter-wise Manufacturing Kerala IIP trend for 2016–17.”
         “Which quarter had the highest Manufacturing Kerala index in 2015–16?”
+        
+        15. construct_state_cement_indicators → This table provides state-wise indicators related to cement and construction in India, including housing scheme progress (PMAY-G, PMAY-U), road construction (PMGSY, Bharatmala), limestone resources and production, cement plant capacities, sectoral GSDP, and population.
+        Columns: state, pmay_g_target_households, pmay_g_target_households_num, pmay_g_completed_households, pmay_g_completed_households_num, pmay_u_target_households, pmay_u_target_households_num, pmay_u_completed_households, pmay_u_completed_households_num, pmgsy_road_length_sanctioned_km, pmgsy_road_length_completed_km, bharatmala_road_length_targeted_km, bharatmala_road_length_completed_km, limestone_total_resources_kt, limestone_proved_reserve_kt, limestone_production_kt, installed_cement_capacity_mtpa, captive_power_capacity_mw, whrs_capacity_mw, gsdp_inr_crore, mining_value_addition_inr_crore, manufacturing_value_addition_inr_crore, construction_value_addition_inr_crore, real_estate_inr_crore, total_population_2024, latest_released_on, latest_updated_on
+        Instructions: Use this table to analyze or compare states on construction, infrastructure, cement industry metrics, housing scheme progress, road lengths, limestone resources, sectoral economic value addition, and population as of 2024.
+        Examples:
+        User: Show the top 5 states by installed cement capacity.
+        SQL: SELECT state, installed_cement_capacity_mtpa FROM construct_state_cement_indicators WHERE installed_cement_capacity_mtpa IS NOT NULL ORDER BY (regexp_replace(installed_cement_capacity_mtpa, '[^0-9]', '', 'g'))::int DESC LIMIT 5;
+
+        User: List states where more than 1 million PMAY-U houses have been completed.
+        SQL: SELECT state, pmay_u_completed_households_num FROM construct_state_cement_indicators WHERE pmay_u_completed_households_num > 1000000;
+
+        User: Which states have limestone production above 50,000 thousand tonnes?
+        SQL: SELECT state, limestone_production_kt FROM construct_state_cement_indicators WHERE limestone_production_kt > 50000;
+
+        User: Show total PMGSY road length completed for each state.
+        SQL: SELECT state, pmgsy_road_length_completed_km FROM construct_state_cement_indicators WHERE pmgsy_road_length_completed_km IS NOT NULL;
+
+        User: Find the GSDP and construction value addition for Andhra Pradesh.
+        SQL: SELECT gsdp_inr_crore, construction_value_addition_inr_crore FROM construct_state_cement_indicators WHERE state = 'Andhra Pradesh';
 
         
-        15. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
+        16. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
-        [iip_india_yr_catg_view,Iip_india_mth_catg_view,iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam,iip_in_andra_pradesh_sector_wise,iip_in_andra_pradesh_sector_industry_wise,iip_in_andra_pradesh_use_wise,iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly,none_of_these]
+        [iip_india_yr_catg_view,Iip_india_mth_catg_view,iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam,iip_in_andra_pradesh_sector_wise,iip_in_andra_pradesh_sector_industry_wise,iip_in_andra_pradesh_use_wise,
+        iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly,construct_state_cement_indicators,none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
     """)
     # made the iip changes here
@@ -1446,12 +1466,53 @@ def file_selector_MSME(query):
         User: Get the total outstanding bank credit for 'Industry Micro Small Medium Large' sector in fiscal year 2020-21.
         SQL: SELECT SUM(outstanding_as_on) AS total_outstanding FROM msme_india_mth_subgrp_bankcredit_view WHERE sector = 'Industry Micro Small Medium Large' AND fiscal_year = '2020-21';
 
+        14. upi_dly_stats → This table contains daily statistics of UPI transactions, including transaction volume (in millions) and value (in crores), along with date and metadata.
+        Columns: year, month, day_num, volume_millions, value_cr, date_stamp, data_source, released_on, updated_on
+        Instructions: Use this table to analyze daily UPI transaction trends, volumes, and values by date, month, or year. Filter by date_stamp, year, or month as needed.
+        Examples:
+        User: Show the total UPI transaction volume in May 2021.
+        SQL: SELECT SUM(volume_millions) AS total_volume FROM upi_dly_stats WHERE year = 2021 AND month = 'May';
+
+        User: List daily UPI transaction values for the first week of May 2021.
+        SQL: SELECT day_num, value_cr FROM upi_dly_stats WHERE year = 2021 AND month = 'May' AND day_num BETWEEN 1 AND 7 ORDER BY day_num;
+
+        User: Get the average daily UPI transaction volume for 2021.
+        SQL: SELECT AVG(volume_millions) AS avg_daily_volume FROM upi_dly_stats WHERE year = 2021;
+        
+        15.upi_mth_stats → This table contains monthly statistics of UPI transactions in India, including transaction volume (in millions) and value (in crores), along with release and update dates.
+        Columns: year, month, volume_millions, value_crores, released_on, updated_on, data_source
+        Instructions: Use this table to analyze trends in UPI transaction volumes and values by month and year, or to retrieve data for specific periods. Filter by year, month, or other columns as needed.
+        Examples:
+        User: Show the total UPI transaction volume for the year 2025.
+        SQL: SELECT SUM(volume_millions) AS total_volume_millions FROM upi_mth_stats WHERE year = 2025;
+
+        User: List the UPI transaction value for each month in 2025.
+        SQL: SELECT month, value_crores FROM upi_mth_stats WHERE year = 2025 ORDER BY month;
+
+        User: Find the month with the highest UPI transaction value in 2025.
+        SQL: SELECT month, value_crores FROM upi_mth_stats WHERE year = 2025 ORDER BY value_crores DESC LIMIT 1;
+
+        User: Get all months where the transaction volume exceeded 19,000 million.
+        SQL: SELECT * FROM upi_mth_stats WHERE volume_millions > 19000;
+        
+        16. upi_mth_failures → This table contains monthly UPI transaction failure statistics for various issuer banks, including transaction volumes and percentages of approved, business declined, and technical declined transactions.
+        Columns: year, month, issuer_bank_name, total_volume_millions, approved_percentage, bd_percentage, td_percentage, data_source, released_on, updated_on
+        Instructions: Use this table to analyze UPI transaction performance and failure rates by bank, month, or year. Filter by issuer_bank_name, year, or month to get specific data.
+        Examples:
+        User: Show the approved percentage for State Bank of India in August 2021.
+        SQL: SELECT approved_percentage FROM upi_mth_failures WHERE issuer_bank_name = 'State Bank of India' AND year = 2021 AND TRIM(month) = 'August';
+
+        User: List total transaction volumes for all banks in August 2021.
+        SQL: SELECT issuer_bank_name, total_volume_millions FROM upi_mth_failures WHERE year = 2021 AND TRIM(month) = 'August';
+
+        User: Find the bank with the highest business declined percentage in August 2021.
+        SQL: SELECT issuer_bank_name, bd_percentage FROM upi_mth_failures WHERE year = 2021 AND TRIM(month) = 'August' ORDER BY bd_percentage DESC LIMIT 1;
         
         Note: If a query is about gdp of msme do not select any table return "none_of_these".
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
         [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, 
-        msme_priority_sector_view, msme_industry_view, msme_global_view, msme_india_mth_sector_bankcredit_view, msme_india_mth_grp_bankcredit_view, msme_india_mth_subgrp_bankcredit_view, none_of_these]   
+        msme_priority_sector_view, msme_industry_view, msme_global_view, msme_india_mth_sector_bankcredit_view, msme_india_mth_grp_bankcredit_view, msme_india_mth_subgrp_bankcredit_view,upi_dly_stats,upi_mth_stats, upi_mth_failures, none_of_these]   
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
