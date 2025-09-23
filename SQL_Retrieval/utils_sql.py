@@ -32,7 +32,7 @@ def classify_query(query):
                               
                 a. Entities such as IIP, industrial output, industrial production,material like cement, mining, manufacturing, electricity, motor vehicles or other industries should be classified as "IIP".
                 
-                b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,construct_state_cement_indicators, iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam,construct_state_cement_indicators]. 
+                b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,construct_state_cement_indicators_view, iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam]. 
                 
                 Any query that can be answered with these data sets should be classified as "IIP".
 
@@ -1217,25 +1217,31 @@ def file_selector_IIP(query):
 
         # IMPORTANT RULES:
         - For any queries LONGER THAN 2 years duration, pick ANNUAL or YEARLY tables where available.
-        - If the query is about cement or construction-related indicators, use the construct_state_cement_indicators table.
+        - If the query is about cement or construction-related indicators, use the construct_state_cement_indicators_view.
         - If the query is BROAD or GENERAL (e.g. just "IIP growth", "IIP trends", "overall industrial performance") — choose the corresponding *category_view* file (monthly or yearly), not the subcategory-specific files.
         - If the query is STATE-SPECIFIC and mentions "Assam" or industries in Assam, then use iip_in_assam.
         
     
         # Table information
         
-        1. construct_state_cement_indicators: This table provides state-wiseindicators related to cement, construction, and infrastructure development in Indian states, including housing scheme progress (PMAY-G, PMAY-U), road construction (PMGSY, Bharatmala), limestone resources and production, cement plant capacities, sectoral GSDP, and population (2024).
-        Columns: state, pmay_g_target_households, pmay_g_target_households_num, pmay_g_completed_households, pmay_g_completed_households_num, pmay_u_target_households, pmay_u_target_households_num, pmay_u_completed_households, pmay_u_completed_households_num, pmgsy_road_length_sanctioned_km, pmgsy_road_length_completed_km, bharatmala_road_length_targeted_km, 
-        bharatmala_road_length_completed_km, limestone_total_resources_kt, limestone_proved_reserve_kt, limestone_production_kt, installed_cement_capacity_mtpa, captive_power_capacity_mw, whrs_capacity_mw, gsdp_inr_crore, mining_value_addition_inr_crore, manufacturing_value_addition_inr_crore, construction_value_addition_inr_crore, 
-        real_estate_inr_crore, total_population_2024, latest_released_on, latest_updated_on.
-        Instructions: Use this table to analyze or compare states on construction, cement industry metrics, housing progress, infrastructure (road lengths), limestone reserves and production, sectoral economic value addition, and population.
-        Sample queries:
-        a. Show the top 5 states by installed cement capacity.
-        b. List states where more than 1 million PMAY-U houses have been completed.
-        c. Which states have limestone production above 50,000 thousand tonnes?
-        d. Show total PMGSY road length completed for each state.
-        e. Find the GSDP and construction value addition for Andhra Pradesh.
-        f. data of cement production of india
+        1. construct_state_cement_indicators_view → This view provides state-wise indicators related to cement and construction, including housing scheme progress (PMAY-G, PMAY-U), road construction (PMGSY, Bharatmala), limestone resources and production, cement and power capacities, economic value additions, real estate, and population for each state as of a specific date.
+        Columns: state, pmay_g_target_households, pmay_g_target_households_num, pmay_g_completed_households, pmay_g_completed_households_num, pmay_u_target_households, pmay_u_target_households_num, pmay_u_completed_households, pmay_u_completed_households_num, pmgsy_road_length_sanctioned_km, pmgsy_road_length_completed_km, bharatmala_road_length_targeted_km, bharatmala_road_length_completed_km, limestone_total_resources_kt, limestone_proved_reserve_kt, limestone_production_kt, installed_cement_capacity_mtpa, captive_power_capacity_mw, whrs_capacity_mw, gsdp_inr_crore, mining_value_addition_inr_crore, manufacturing_value_addition_inr_crore, construction_value_addition_inr_crore, real_estate_inr_crore, total_population_2024, date_stamp
+        Instructions: Use this view to analyze or compare states on construction, cement industry, infrastructure progress, limestone resources, and related economic indicators. Filter by state or date_stamp for the latest or historical data.
+        Examples:
+        User: Show the total installed cement capacity and limestone production for each state.
+        SQL: SELECT state, installed_cement_capacity_mtpa, limestone_production_kt FROM construct_state_cement_indicators_view;
+        
+        User: Which states have completed more than 1,000,000 PMAY-U households?
+        SQL: SELECT state, pmay_u_completed_households_num FROM construct_state_cement_indicators_view WHERE pmay_u_completed_households_num > 1000000;
+        
+        User: List the GSDP and construction value addition for Andhra Pradesh.
+        SQL: SELECT gsdp_inr_crore, construction_value_addition_inr_crore FROM construct_state_cement_indicators_view WHERE state = 'Andhra Pradesh';
+        
+        User: Find states with limestone total resources above 10 million tonnes.
+        SQL: SELECT state, limestone_total_resources_kt FROM construct_state_cement_indicators_view WHERE limestone_total_resources_kt > 10000000;
+        
+        User: Get the latest PMGSY road length completed for all states.
+        SQL: SELECT state, pmgsy_road_length_completed_km FROM construct_state_cement_indicators_view WHERE date_stamp = (SELECT MAX(date_stamp) FROM construct_state_cement_indicators_view);
         
         2. iip_india_yr_catg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the category level. Use this when queries involve overall IIP or sector/category-level indicators (e.g. General, Manufacturing, Mining, Electricity).
         Sample queries:
@@ -1334,8 +1340,8 @@ def file_selector_IIP(query):
         16. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
-        [iip_india_yr_catg_view,Iip_india_mth_catg_view,iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam,iip_in_andra_pradesh_sector_wise,iip_in_andra_pradesh_sector_industry_wise,iip_in_andra_pradesh_use_wise,
-        iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly,construct_state_cement_indicators,none_of_these]
+        [construct_state_cement_indicators_view, iip_india_yr_catg_view,Iip_india_mth_catg_view,iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam,iip_in_andra_pradesh_sector_wise,iip_in_andra_pradesh_sector_industry_wise,iip_in_andra_pradesh_use_wise,
+        iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly,none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
     """)
     # made the iip changes here
