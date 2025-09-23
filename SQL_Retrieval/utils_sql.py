@@ -16,7 +16,7 @@ def classify_query(query):
                               
                 a. Classify queries related to inflation, CPI, price indices, sales, wholesale, consumer, or consumption. This includes datasets on general CPI inflation, agricultural and rural laborer price indices, city-wise housing prices, wholesale price indices (financial year and calendar wise), and worker-specific CPI data.
                 
-                b. The following files comprise the CPI datasets: [cpi_inflation_data,consumer_price_index_CPI_for_agricultural_and_rural_labourers,city_wise_housing_price_indices,whole_sale_price_index_WPI_financial_year_wise,cpi_worker_data,whole_sale_price_index_WPI_calendar_wise]. 
+                b. The following files comprise the CPI datasets: [ cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view,cpi_india_mth_subgrp_view, consumer_price_index_CPI_for_agricultural_and_rural_labourers,city_wise_housing_price_indices,whole_sale_price_index_WPI_financial_year_wise,cpi_worker_data,whole_sale_price_index_WPI_calendar_wise]. 
                 Any query that can be answered with these data sets should be classified as "CPI".
 
                 ## GDP
@@ -40,7 +40,7 @@ def classify_query(query):
                               
                 a. Classify queries on MSME, Micro, Small and Medium Enterprises, credit growth, exchange rates, Nifty SME, food/non-food credit, gross bank credit, regional/sectoral MSME distribution, or economic shares. This covers datasets on gross bank credit for food/non-food views, sector definitions, non-food credit details, regional and sectoral shares, industry views, priority sector views, daily Nifty SME index values, and state-wise Udyam registrations.
                               
-                b. The following files comprise the MSME datasets: [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_udyam_registrations_by_state, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view]. 
+                b. The following files comprise the MSME datasets: [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view]. 
                 Any query that can be answered with these data sets should be classified as "MSME".
 
                 ## agriculture_and_rural
@@ -642,51 +642,101 @@ def file_selector_CPI(query):
 
         Choose a file only if the table description explicitly confirms that the data required by the query is covered.
 
-        1. cpi_inflation_data: This table contains Consumer Price Index (CPI) and inflation data, categorized by year, month, state, sector (Combined, Rural, Urban), group, and sub-group. It includes inflation trends across categories like food, housing, transport, education, and healthcare. This table covers data for year 2017 to 2025. Do NOT choose this table when "workers" or "labourers" are mentioned.
-        Sample queries:
-        a. What was the monthly CPI value for Food and Beverages in urban Gujarat during July 2021?
-        b. Show the annual percentage change in CPI of housing category for rural Kerala for the year 2024.
+        1. cpi_state_mth_grp_view → This view provides monthly Consumer Price Index (CPI) data by state, sector, and group, with inflation indices and rates, filtered for aggregate groups (sub_group_name = '*').
+        Columns: base_year, year, month, month_numeric, state, sector, group_name, inflation_index, inflation_rate, released_on, updated_on, data_source, date_stamp, fiscal_year
+        Instructions: Use this view to analyze or retrieve state-wise, sector-wise, and group-wise monthly CPI and inflation rates for different years and months. It is suitable for queries requiring aggregate CPI data at the group level (not sub-group).
+        Examples:
+        User: Show the inflation index for Karnataka (Rural) for Housing in May 2021.
+        SQL: SELECT inflation_index FROM cpi_state_mth_grp_view WHERE state = 'Karnataka' AND sector = 'Rural' AND group_name = 'Housing' AND year = 2021 AND month = 'May';
+
+        User: List all available states and sectors in the view.
+        SQL: SELECT DISTINCT state, sector FROM cpi_state_mth_grp_view;
+
+        User: Get the inflation rate for Sikkim in July 2022 for the Housing group.
+        SQL: SELECT inflation_rate FROM cpi_state_mth_grp_view WHERE state = 'Sikkim' AND year = 2022 AND month = 'July' AND group_name = 'Housing';
+
+        User: Find all records for the fiscal year 2021-22.
+        SQL: SELECT * FROM cpi_state_mth_grp_view WHERE fiscal_year = '2021-22';
+        
+        2. cpi_state_mth_subgrp_view → This table/view contains monthly Consumer Price Index (CPI) data by state, sector, group, and sub-group, including inflation indices and rates, for different years and months in India.
+        Columns: id, base_year, year, month, month_numeric, state, sector, group_name, sub_group_name, inflation_index, inflation_rate, released_on, updated_on, data_source, date_stamp, fiscal_year
+        Instructions: Use this table/view to retrieve CPI data at the sub-group level for specific states, sectors (Urban/Rural), months, and years. Filter by columns such as state, year, month, sector, group_name, or sub_group_name to get relevant inflation index or rate information.
+        Examples:
+        User: Show the inflation index for 'Egg' in Bihar (Urban sector) for May 2021.
+        SQL: SELECT inflation_index FROM cpi_state_mth_subgrp_view WHERE state = 'Bihar' AND sector = 'Urban' AND year = 2021 AND month = 'May' AND sub_group_name = 'Egg';
+
+        User: List all inflation indices for 'Spices' in Jharkhand (Rural) for fiscal year 2020-21.
+        SQL: SELECT year, month, inflation_index FROM cpi_state_mth_subgrp_view WHERE state = 'Jharkhand' AND sector = 'Rural' AND sub_group_name = 'Spices' AND fiscal_year = '2020-21';
+
+        User: Get all CPI data for Madhya Pradesh in May 2021.
+        SQL: SELECT * FROM cpi_state_mth_subgrp_view WHERE state = 'Madhya Pradesh' AND year = 2021 AND month = 'May';
+        
+        3. cpi_india_mth_grp_view → Monthly Consumer Price Index (CPI) data for India at the group level, filtered for 'All India' and all sub-groups.
+        Columns: base_year, year, month, month_numeric, state, sector, group_name, inflation_index, inflation_rate, released_on, updated_on, data_source, date_stamp, fiscal_year
+        Instructions: Use this view to analyze CPI trends, inflation rates, and index values by year, month, sector, and group for the whole of India. Useful for time series analysis, inflation monitoring, and economic research.
+        Examples:
+        User: Show the latest CPI inflation rate for the 'General' group in All India.
+        SQL: SELECT year, month, inflation_rate FROM cpi_india_mth_grp_view WHERE group_name = 'General' ORDER BY year DESC, month_numeric DESC LIMIT 1;
+
+        User: Get the CPI index and inflation rate for 'Housing' in Urban sector for April 2024.
+        SQL: SELECT inflation_index, inflation_rate FROM cpi_india_mth_grp_view WHERE group_name = 'Housing' AND sector = 'Urban' AND year = 2024 AND month = 'April';
+
+        User: List annual average inflation rate for each group in fiscal year 2022-23.
+        SQL: SELECT group_name, AVG(inflation_rate::numeric) AS avg_inflation_rate FROM cpi_india_mth_grp_view WHERE fiscal_year = '2022-23' GROUP BY group_name;
+        
+        4. cpi_india_mth_subgrp_view → This view provides monthly Consumer Price Index (CPI) data for India at the sub-group level, filtered for 'All India' and excluding aggregate sub-groups, with details on inflation index and rate by sector, group, and sub-group.
+        Columns: id, base_year, year, month, month_numeric, state, sector, group_name, sub_group_name, inflation_index, inflation_rate, released_on, updated_on, data_source, date_stamp, fiscal_year
+        Instructions: Use this view to analyze CPI trends, inflation rates, or index values for specific sub-groups, sectors, or time periods across India. Filter by year, month, sector, group_name, or sub_group_name as needed.
+        Examples:
+        User: What was the inflation rate for 'Fruits' in November 2021 for the Urban sector?
+        SQL: SELECT inflation_rate FROM cpi_india_mth_subgrp_view WHERE year = 2021 AND month = 'November' AND sector = 'Urban' AND sub_group_name = 'Fruits';
+
+        User: Show the inflation index for 'Education' in November 2024 for All India Urban.
+        SQL: SELECT inflation_index FROM cpi_india_mth_subgrp_view WHERE year = 2024 AND month = 'November' AND sector = 'Urban' AND sub_group_name = 'Education';
+
+        User: List all sub-groups under 'Food and Beverages' for September 2017 (Combined sector).
+        SQL: SELECT sub_group_name FROM cpi_india_mth_subgrp_view WHERE year = 2017 AND month = 'September' AND sector = 'Combined' AND group_name = 'Food and Beverages';
 
         
-        2. consumer_price_index_cpi_for_agricultural_and_rural_labourers: This table covers data for year 2024. it should be used only when "agriculture labour" or "rural labour" is mentioned. DO NOT use this file unless "labour" is specifically mentioned.
+        5. consumer_price_index_cpi_for_agricultural_and_rural_labourers: This table covers data for year 2024. it should be used only when "agriculture labour" or "rural labour" is mentioned. DO NOT use this file unless "labour" is specifically mentioned.
         a. What was the minimum wage for agricultural workers in Gujarat in June 2024?
         b. Show the all-India minimum wage for rural labour in Food category for July 2024. 
 
 
-        3. city_wise_housing_price_indices: This table presents city-wise housing price index data from the National Housing Bank for major cities across India, such as Mumbai, Kolkata, Faridabad, Chennai, Bengaluru, Kochi, Ahmedabad, and Bhopal. The information is available at a quarterly frequency for various years (2013 to 2025), including details like city name, price index value (e.g., 110.00 for Mumbai in 2020 Q1), and date of data release. It should be used only when "housing prices" are mentioned.
+        6. city_wise_housing_price_indices: This table presents city-wise housing price index data from the National Housing Bank for major cities across India, such as Mumbai, Kolkata, Faridabad, Chennai, Bengaluru, Kochi, Ahmedabad, and Bhopal. The information is available at a quarterly frequency for various years (2013 to 2025), including details like city name, price index value (e.g., 110.00 for Mumbai in 2020 Q1), and date of data release. It should be used only when "housing prices" are mentioned.
         Sample queries:
         a. What was the housing price index for Bengaluru in Q1 of 2020?
         b. Show the quarterly price index trend for Kochi from 2016 to 2021.
 
 
-        4. whole_sale_price_index_wpi_financial_year_wise: this table covers data for year 2012 to 2023. it should be used only when wpi or wholesale prices are mentioned in financial year or fy format.It should be used only when WPI or wholesale prices are mentioned using a financial year format (e.g., "2022-2023", "2023-24", or "FY 2023").
+        7. whole_sale_price_index_wpi_financial_year_wise: this table covers data for year 2012 to 2023. it should be used only when wpi or wholesale prices are mentioned in financial year or fy format.It should be used only when WPI or wholesale prices are mentioned using a financial year format (e.g., "2022-2023", "2023-24", or "FY 2023").
         Sample queries:
         a. What was the wholesale price index for cotton cloth in 2023-24?
         b. What was the wholesale price index across all commodities in 2012-13?
 
 
-        5. cpi_worker_data: this table covers data for year 2011 to 2023. it should be used only when WORKERS are mentioned. It contains data about Industrial Workers, Rural Labour, Urban Labour, and Agricultural Labour. DO NOT select this table if query is about cpi index for food/non-food workers.
+        8. cpi_worker_data: this table covers data for year 2011 to 2023. it should be used only when WORKERS are mentioned. It contains data about Industrial Workers, Rural Labour, Urban Labour, and Agricultural Labour. DO NOT select this table if query is about cpi index for food/non-food workers.
         Sample queries:
         a. What was the CPI-NS value for Rural areas in 2022?
         b. Show the trend of CPI-AL (Agricultural Labourers) index values for the last five years.
 
 
-        6. whole_sale_price_index_wpi_calendar_wise: this table covers data for year 2013 to 2023.It should be used only when WPI or wholesale prices are mentioned using a calendar year format (e.g., "2023", "in 2022", or just a single year number). The records cover a wide range of products such as flourescent tubes, walnut, fungicides, cotton cloth, wine, black pepper, okra, railway brake gear, and ragi. Each entry includes product codes, weights, base years, index values, and relevant reference periods.
+        9. whole_sale_price_index_wpi_calendar_wise: this table covers data for year 2013 to 2023.It should be used only when WPI or wholesale prices are mentioned using a calendar year format (e.g., "2023", "in 2022", or just a single year number). The records cover a wide range of products such as flourescent tubes, walnut, fungicides, cotton cloth, wine, black pepper, okra, railway brake gear, and ragi. Each entry includes product codes, weights, base years, index values, and relevant reference periods.
         Sample queries:
         a. What was the wholesale price index for cotton cloth in 2024?
         b. What was the wholesale price index across all commodities in 2013?
 
         
-        7. cpi_food_worker_data: This table provides annual Consumer Price Index for Industrial Workers (CPI-IW) data for India, categorized by item groups such as 'Food' and 'Non Food'. The dataset includes both 'Average of Months' and 'Last Month of' indices from 2011 to 2020, with figures like 293.00 (Food, 2015) and 317.00 (Non Food, 2019). Do not use this table for queries related to CPI for Agricultural and Rural Labourers/workers.
+        10. cpi_food_worker_data: This table provides annual Consumer Price Index for Industrial Workers (CPI-IW) data for India, categorized by item groups such as 'Food' and 'Non Food'. The dataset includes both 'Average of Months' and 'Last Month of' indices from 2011 to 2020, with figures like 293.00 (Food, 2015) and 317.00 (Non Food, 2019). Do not use this table for queries related to CPI for Agricultural and Rural Labourers/workers.
         Sample queries:
         a. What was the annual CPI-IW value for the 'Food' category in 2018?
         b. How did the 'Non Food' CPI-IW index change from 2011 to 2019 at the national level?
 
 
-        8. none_of_these: for any queries which are unrelated to inflation. for example, queries regarding gdp, iip, msme would fall under the "none" category. queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
+        11. none_of_these: for any queries which are unrelated to inflation. for example, queries regarding gdp, iip, msme would fall under the "none" category. queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
         
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
-        [cpi_inflation_data, consumer_price_index_cpi_for_agricultural_and_rural_labourers, city_wise_housing_price_indices, whole_sale_price_index_wpi_financial_year_wise, cpi_worker_data, whole_sale_price_index_wpi_calendar_wise, cpi_food_worker_data, none_of_these]
+        [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view, cpi_india_mth_subgrp_view, consumer_price_index_cpi_for_agricultural_and_rural_labourers, city_wise_housing_price_indices, whole_sale_price_index_wpi_financial_year_wise, cpi_worker_data, whole_sale_price_index_wpi_calendar_wise, cpi_food_worker_data, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
@@ -702,8 +752,8 @@ def file_selector_GDP(query):
         # Important rules
         - DO NOT USE annual_estimate_gdp_crore table to answer provisional data related queries.
         - For any queries LONGER THAN 2 years duration, pick ANNUAL or YEARLY tables where available.
-        - All questions about "top k states" should go to gdp_actuals_summary
-        - All questions about "states driving economic growth" should go to gdp_actuals_summary
+        - All questions about "top k states" should go to gdp_state_fy_actuals
+        - All questions about "states driving economic growth" should go to gdp_state_fy_actuals
 
         # Table data
 
@@ -731,26 +781,34 @@ def file_selector_GDP(query):
         Query: "When did GNI show negative growth at constant prices?"  
 
 
-        4. gdp_actuals_summary : Use this table when the query is about yearly state-level economic performance, specifically when it refers to state domestic product (GSDP) or gross value added (GSVA) or growth rates of different states. Note that this data contains ANNUAL information. Always use this table when specific industrial sectors in states are not mentioned, e.g. "what is the GDP of Maharashtra last year". "Top 3 states by GDP". "States driving India's economic growth." "Population used for GSDP calculation".
-        Query: "What was the GSDP of Maharashtra last year?"  
-        Query: "Top 5 states by GSDP in the most recent year."  
-        Query: "Show the year-on-year GSDP growth rate for Kerala from 2018-19 to 2023-24."  
-        Query: "Compare the GSVA at constant prices for Telangana over the past decade."  
-        Query: "Which states recorded the highest per-capita GSDP in 2024-25?"  
-        Query: "States driving India’s economic growth in the latest available year."  
-        Query: "Population used for GSDP calculation"
+        4. gdp_state_fy_actuals → This table contains actual Gross State Domestic Product (GSDP) and related economic indicators for Indian states and union territories by financial year, including values at constant and current prices, per capita figures, year-on-year growth rates, and population estimates.
+        Columns: id, state, year, gsva_constant_in_lakhs, gsva_current_in_lakhs, gsdp_constant_in_lakhs, gsdp_current_in_lakhs, population, per_capita_gsdp_constant, per_capita_gsdp_current, gsdp_current_yoy_percent, gsdp_constant_yoy_percent, released_on, updated_on, data_source
+        Instructions: Use this table to retrieve state-wise or year-wise GSDP, GSVA, per capita income, population, or growth rates for specific years or states. Filter by 'state', 'year', or other columns as needed to analyze economic performance.
+        Examples:
+        User: Show the GSDP at current prices for Andaman and Nicobar Islands for 2015-16.
+        SQL: SELECT gsdp_current_in_lakhs FROM gdp_state_fy_actuals WHERE state = 'Andaman and Nicobar Islands' AND year = '2015-16';
+
+        User: List all available years and per capita GSDP (constant prices) for Telangana.
+        SQL: SELECT year, per_capita_gsdp_constant FROM gdp_state_fy_actuals WHERE state = 'Telangana';
+
+        User: What was the population and GSDP growth rate (constant prices) for Andaman and Nicobar Islands in 2014-15?
+        SQL: SELECT population, gsdp_constant_yoy_percent FROM gdp_state_fy_actuals WHERE state = 'Andaman and Nicobar Islands' AND year = '2014-15'; 
 
 
-        5. gdp_actuals_details : Use this table when the query is about sectors within states. These components include sectors such as electricity, construction, financial services, transport, etc. Do NOT use this table when no sector is mentioned in the query.
-        Query: "What is the contribution of manufacturing to Tamil Nadu's GSDP in 2022-23?"  
-        Query: "Compare the construction sector output of Gujarat and Maharashtra over the last 5 years."  
-        Query: "Show the trend of electricity sector growth in West Bengal from 2011-12 to 2024-25."  
-        Query: "How has the financial services industry performed in Karnataka recently?"  
-        Query: "What was the value added by agriculture in Bihar during 2020-21?"  
-        Query: "Give a sector-wise GSDP breakdown for Rajasthan for 2023-24."  
-        Query: "Compare the trade and repair sector across northeastern states in the most recent year."  
-        Query: "Subsidies on products for South Indian states"
+        5. gdp_state_fy_industry_actuals_view : This view provides annual GDP data by state and industry, including both constant and current values, with details on data source and release dates.
+        Columns: base_year, state, industry, year, constant_value_in_lakh, current_value_in_lakh, released_on, data_source, updated_on
+        Instructions: Use this view to retrieve GDP figures for specific states, industries, and years, or to analyze trends in economic output across different sectors and regions.
+        Examples:
+        User: Show the constant and current GDP values for Bihar in 2011-12 for all industries.
+        SQL: SELECT industry, constant_value_in_lakh, current_value_in_lakh FROM gdp_state_fy_industry_actuals_view WHERE state = 'Bihar' AND year = '2011-12';
 
+        User: List all available GDP data for Ladakh in 2022-23.
+        SQL: SELECT * FROM gdp_state_fy_industry_actuals_view WHERE state = 'Ladakh' AND year = '2022-23';
+
+        User: Get the manufacturing GDP values for Madhya Pradesh for all years.
+        SQL: SELECT year, constant_value_in_lakh, current_value_in_lakh FROM gdp_state_fy_industry_actuals_view WHERE state = 'Madhya Pradesh' AND industry = 'Manufacturing';
+        
+        
         6. per_capita_income_product_final_consumption : This table contains per capita estimates of key economic indicators in ₹ (Indian Rupees) or growth rate (%) for various years at India Level, along with the population used for those calculations. The indicators relate to income and consumption at both current and constant prices.these measures are ["Per Capita GDP","Per Capita GNI","Per Capita NNI","Per Capita GNDI","Per Capita PFCE" , "Percentage change over previous year at constant (2011-12) prices"]
         Query: "What is the current per capita income in India?"  
         Query: "Give the per capita GDP growth rate for the last five years."  
@@ -761,24 +819,27 @@ def file_selector_GDP(query):
         Query: "Show per capita GNDI values and growth rates since 2015."  
 
 
-        7. quaterly_estimates_of_gdp : This table provides quarterly performance estimates/growth_value of sectors such as: Agriculture, Manufacturing, Services, etc. Growth rates for Trade, Hotels, Transport, Exports, Private Consumption, etc.
-        Query: "What was the GDP of India in Q2 of 2023-24?"  
-        Query: "Give the quarterly growth rate of manufacturing sector over the last year."  
-        Query: "How did the tertiary sector perform in Q1 2022-23?"  
-        Query: "Compare PFCE across all four quarters of 2021-22."  
-        Query: "Show GVA at basic prices and its growth rate in the last three quarters."  
-        Query: "Provide quarterly values of the primary sector for 2022-23."  
-        Query: "What is the trend of quarterly GDP growth in 2023-24?" 
+        7. gdp_india_fy_estimates_view : This view provides annual GDP estimates for India, including values at constant and current prices, along with their respective growth rates.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to analyze India's GDP figures and growth rates by financial year. Filter by 'year' for specific periods or use 'item' to focus on GDP or other economic indicators.
+        Examples:
+        User: Show the GDP at constant prices for each year.
+        SQL: SELECT year, value_in_cr_const FROM gdp_india_fy_estimates_view WHERE item = 'GDP' ORDER BY year;
+        User: List the GDP growth rate at current prices for the last 5 years.
+        SQL: SELECT year, growth_rate_current FROM gdp_india_fy_estimates_view WHERE item = 'GDP' ORDER BY year DESC LIMIT 5;
+        User: Get all available data for the financial year 2013-14.
+        SQL: SELECT * FROM gdp_india_fy_estimates_view WHERE year = '2013-14'
 
-
-        8. annual_gdp_estimates : The annual_gdp_estimates table consolidates Indias annual GDP data by combining actual estimates (in ₹ crores) and percentage growth rates across various sectors and components. It includes values at both constant and current prices, enabling analysis of both the size and growth of each sector. This unified structure supports answering both "how much" a sector contributed and "how fast" it grew, making it a key resource for comprehensive GDP-related analysis. Use this table when the query asks for the actual GDP value (in ₹ crores).(i.e If the query is about “how much” a sector or economic indicator contributed to GDP (in ₹ crores) — use this table.). Do not use this file for provisional data. These component/sector includes Trade, Hotels, Transport, Manufacturing, Construction, PFCE, Imports of goods and services, GNI, Per capita income.
-        Query: "How much did the manufacturing sector contribute to GDP last year?"
-        Query: "Compare contribution of primary vs secondary sectors in 2022."
-        Query: "What is the total value of PFCE for FY 2021-22?"
-        Query: "Growth rate of public administration and defense in FY 2020?"
-        Query: "What was the value of Gross Fixed Capital Formation in 2023?"
-        Query: "What was the contribution of imports to GDP in 2019-20?"
-
+        8.gdp_india_fy_primsector_estimates_view → This view provides annual GDP estimates and growth rates for India's Primary Sector, including both constant and current price values.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to analyze year-wise GDP values and growth rates for the Primary Sector in India, either at constant or current prices.
+        Examples:
+        User: Show the GDP values at constant prices for the Primary Sector for all available years.
+        SQL: SELECT year, value_in_cr_const FROM gdp_india_fy_primsector_estimates_view ORDER BY year;
+        User: List the growth rates at current prices for the Primary Sector from 2011-12 to 2013-14.
+        SQL: SELECT year, growth_rate_current FROM gdp_india_fy_primsector_estimates_view WHERE year BETWEEN '2011-12' AND '2013-14' ORDER BY year;
+        User: Get the most recent data update date for the Primary Sector GDP estimates.
+        SQL: SELECT MAX(data_updated_date) AS last_update FROM gdp_india_fy_primsector_estimates_view
 
         9. top_fifty_macro_economic_indicators_weekly_data: Resolve to this table when the query relates to macroeconomic indicators tracked on a weekly basis for the Indian economy. Focus areas include monetary policy instruments, interest rates (such as repo rate, bank rate, MSF, base rate), yield on government securities and treasury bills, cash reserve ratio (CRR), statutory liquidity ratio (SLR), standing deposit facility (SDF), and forward premia of the US dollar for different durations. Queries about foreign exchange reserves, liquidity conditions, or financial market trends across specific weeks, months, or quarters also belong here. Questions that ask how these economic indicators have changed over time, what the rates were during a particular period, or comparisons between indicators like G-Sec yields and T-bill rates should map to this dataset. Use this table when the intent is to understand the financial health, monetary policy stance, or interest rate environment in India over time.
         Sample queries:
@@ -953,15 +1014,195 @@ def file_selector_GDP(query):
         “How has China’s share of world GDP (PPP) changed from 2000 to 2020?”
         “Which country is projected to have the largest increase in GDP share between 2010 and 2029?”
         “Show the trend of United States vs European Union GDP share from 1980 to 2025.”
+        
+        33. gdp_india_fy_secsector_estimates_view : This view provides annual GDP estimates for India's secondary sector, including values at constant and current prices, along with their respective growth rates.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to analyze year-wise GDP figures and growth rates for the secondary sector in India, either at constant or current prices.
+        Examples:
+        User: Show the secondary sector GDP values at constant prices for each year.
+        SQL: SELECT year, value_in_cr_const FROM gdp_india_fy_secsector_estimates_view ORDER BY year;
+        User: What was the growth rate at current prices for the secondary sector in 2013-14?
+        SQL: SELECT growth_rate_current FROM gdp_india_fy_secsector_estimates_view WHERE year = '2013-14';
+        User: List all years with their corresponding GDP values and growth rates for the secondary sector.
+        SQL: SELECT year, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current FROM gdp_india_fy_secsector_estimates_view ORDER BY year
+        
+        34. gdp_india_fy_tersector_estimates_view → This view provides annual GDP estimates for India's tertiary sector, including values at constant and current prices, and their respective growth rates.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to analyze year-wise GDP figures and growth rates for the tertiary sector in India, either at constant or current prices.
+        Examples:
+        User: Show the GDP value and growth rate for the tertiary sector in 2013-14.
+        SQL: SELECT year, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current FROM gdp_india_fy_tersector_estimates_view WHERE year = '2013-14';
+        User: List all years with their corresponding constant price GDP values for the tertiary sector.
+        SQL: SELECT year, value_in_cr_const FROM gdp_india_fy_tersector_estimates_view ORDER BY year;
+        User: What was the growth rate at current prices for the tertiary sector in 2012-13?
+        SQL: SELECT growth_rate_current FROM gdp_india_fy_tersector_estimates_view WHERE year = '2012-13'
+        
+        35.gdp_india_fy_primsector_estimates_dtls_view → This table/view provides annual GDP estimates and growth rates for India's primary sector sub-components (like agriculture, livestock, forestry, and fishing), with values at both constant and current prices.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this table/view to retrieve year-wise GDP values and growth rates for specific primary sector items, at constant or current prices, excluding aggregate 'PRIMARY SECTOR' totals.
+        Examples:
+        User: Show the GDP at constant prices for agriculture, livestock, forestry & fishing for each year.
+        SQL: SELECT year, value_in_cr_const FROM gdp_india_fy_primsector_estimates_dtls_view WHERE item = 'AGRICULTURE, LIVESTOCK, FORESTRY & FISHING' ORDER BY year;
+        User: List the growth rates at current prices for all primary sector items in 2013-14.
+        SQL: SELECT item, growth_rate_current FROM gdp_india_fy_primsector_estimates_dtls_view WHERE year = '2013-14';
+        User: Get the most recent data update date for this table.
+        SQL: SELECT MAX(data_updated_date) AS last_update FROM gdp_india_fy_primsector_estimates_dtls_view;
 
+        36. gdp_india_fy_secsector_estimates_dtls_view → This table provides annual GDP estimates for India's secondary sector sub-components (excluding the overall 'SECONDARY SECTOR'), including values and growth rates at both constant and current prices.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this table to analyze year-wise GDP values and growth rates for specific secondary sector items (like MANUFACTURING) in India, at both constant and current prices. Filter by 'item' for sub-sector details and by 'year' for time-based analysis.
+        Examples:
+        User: Show the manufacturing GDP and its growth rate for each year.
+        SQL: SELECT year, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current FROM gdp_india_fy_secsector_estimates_dtls_view WHERE item = 'MANUFACTURING' ORDER BY year;
+        User: List all secondary sector items with their GDP values for 2013-14.
+        SQL: SELECT item, value_in_cr_const, value_in_cr_current FROM gdp_india_fy_secsector_estimates_dtls_view WHERE year = '2013-14';
+        User: What was the growth rate at constant prices for each secondary sector item in 2012-13?
+        SQL: SELECT item, growth_rate_const FROM gdp_india_fy_secsector_estimates_dtls_view WHERE year = '2012-13';
+        
+        37. gdp_india_fy_tersector_estimates_dtls_view → This table/view provides annual GDP estimates for various tertiary sector items in India, including values at constant and current prices, along with their growth rates.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this table/view to analyze GDP contributions and growth rates for specific tertiary sector items (excluding the overall 'TERTIARY SECTOR') by year, at both constant and current prices.
+        Examples:
+        User: Show the GDP value at constant prices for 'TRADE, HOTELS, TRANSPORT, COMMUNICATION & SERVICES RELATED TO BROADCASTING' in 2012-13.
+        SQL: SELECT value_in_cr_const FROM gdp_india_fy_tersector_estimates_dtls_view WHERE item = 'TRADE, HOTELS, TRANSPORT, COMMUNICATION & SERVICES RELATED TO BROADCASTING' AND year = '2012-13';
+        User: List the growth rates at current prices for all tertiary sector items in 2013-14.
+        SQL: SELECT item, growth_rate_current FROM gdp_india_fy_tersector_estimates_dtls_view WHERE year = '2013-14';
+        User: Get the GDP values at current and constant prices for each year for 'TRADE, HOTELS, TRANSPORT, COMMUNICATION & SERVICES RELATED TO BROADCASTING'.
+        SQL: SELECT year, value_in_cr_const, value_in_cr_current FROM gdp_india_fy_tersector_estimates_dtls_view WHERE item = 'TRADE, HOTELS, TRANSPORT, COMMUNICATION & SERVICES RELATED TO BROADCASTING' ORDER BY year;
+        
+        38. gdp_india_fy_expenditure_estimates_dtls_view → This view provides annual GDP expenditure estimates for India, including values and growth rates (both constant and current prices) for different expenditure items such as GFCE, with data updated as of the latest available date.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to retrieve GDP expenditure data for India by year and expenditure item, including values and growth rates at both constant and current prices. Filter by 'year', 'item', or use the latest 'data_updated_date' as needed.
+        Examples:
+        User: Show the constant price GDP expenditure values for all items in 2012-13.
+        SQL: SELECT item, value_in_cr_const FROM gdp_india_fy_expenditure_estimates_dtls_view WHERE year = '2012-13';
+        User: List the growth rates at current prices for GFCE from 2011-12 to 2013-14.
+        SQL: SELECT year, growth_rate_current FROM gdp_india_fy_expenditure_estimates_dtls_view WHERE item = 'GFCE' AND year BETWEEN '2011-12' AND '2013-14';
+        User: Get all available data for the year 2013-14.
+        SQL: SELECT * FROM gdp_india_fy_expenditure_estimates_dtls_view WHERE year = '2013-14';
+        
+        39. gdp_india_qtr_estimates_view → This view provides quarterly GDP estimates for India, including values at constant and current prices, along with their respective growth rates, for each year and item where the GDP flag is true.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to retrieve quarterly GDP data for India, including values and growth rates at both constant and current prices, filtered for records marked as GDP.
+        Examples:
+        User: Show the GDP values at constant prices for the year 2011-12.
+        SQL: SELECT year, value_in_cr_const FROM gdp_india_qtr_estimates_view WHERE year = '2011-12' AND item = 'GDP';
+        User: Get the growth rates at current prices for all years.
+        SQL: SELECT year, growth_rate_current FROM gdp_india_qtr_estimates_view WHERE item = 'GDP';
+        User: List all available data update dates in the view.
+        SQL: SELECT DISTINCT data_updated_date FROM gdp_india_qtr_estimates_view;
+        
+        40. gdp_india_qtr_primsector_estimates_view → This view provides quarterly GDP estimates for India's primary sector, including values at constant and current prices, along with their respective growth rates.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to analyze GDP trends, values, and growth rates for the primary sector in India by year and quarter. Filter by 'year' or use the 'data_updated_date' to get the latest data.
+        Examples:
+        User: Show the constant price GDP values for the primary sector in 2015-16.
+        SQL: SELECT year, value_in_cr_const FROM gdp_india_qtr_primsector_estimates_view WHERE year = '2015-16';
+        User: Get the growth rates at current prices for the primary sector for all available years.
+        SQL: SELECT year, growth_rate_current FROM gdp_india_qtr_primsector_estimates_view;
+        User: List all data updated after 01-01-2024.
+        SQL: SELECT * FROM gdp_india_qtr_primsector_estimates_view WHERE TO_DATE(data_updated_date, 'DD-MM-YYYY') > '2024-01-01';
+        
+        41. gdp_india_qtr_secsector_estimates_view → This view provides quarterly GDP estimates for India's secondary sector, including values at constant and current prices, along with their respective growth rates.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to analyze quarterly GDP data specifically for the secondary sector in India, focusing on values and growth rates at both constant and current prices. Filter by year or other columns as needed.
+        Examples:
+        User: Show the constant price GDP values for the secondary sector for the year 2015-16.
+        SQL: SELECT year, value_in_cr_const FROM gdp_india_qtr_secsector_estimates_view WHERE year = '2015-16';
+        User: List the growth rates at current prices for each quarter in 2018-19.
+        SQL: SELECT year, growth_rate_current FROM gdp_india_qtr_secsector_estimates_view WHERE year = '2018-19';
+        User: Get all available data for the secondary sector for the year 2020-21.
+        SQL: SELECT * FROM gdp_india_qtr_secsector_estimates_view WHERE year = '2020-21';
+        
+        42.gdp_india_qtr_tersector_estimates_view → This view provides quarterly GDP estimates for India's tertiary sector, including values at constant and current prices, growth rates, and data update dates.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to analyze GDP figures and growth rates for the tertiary sector in India by year and quarter, with both constant and current price values.
+        Examples:
+        User: Show the constant price GDP values for the tertiary sector in 2011-12.
+        SQL: SELECT year, value_in_cr_const FROM gdp_india_qtr_tersector_estimates_view WHERE year = '2011-12';
+        User: List the growth rates at current prices for each year in the tertiary sector.
+        SQL: SELECT year, growth_rate_current FROM gdp_india_qtr_tersector_estimates_view;
+        User: Get all columns for the latest data update.
+        SQL: SELECT * FROM gdp_india_qtr_tersector_estimates_view WHERE data_updated_date = (SELECT MAX(data_updated_date) FROM gdp_india_qtr_tersector_estimates_view);
+        
+        43. gdp_india_qtr_primsector_estimates_dtls_view → This view provides quarterly GDP estimates for India's primary sector, detailing values and growth rates for specific items like agriculture and mining, at both constant and current prices.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to analyze or compare GDP figures and growth rates for primary sector components (excluding the overall 'PRIMARY SECTOR') by year and item, at constant or current prices.
+        Examples:
+        User: Show the constant price GDP values for agriculture for each year.
+        SQL: SELECT year, value_in_cr_const FROM gdp_india_qtr_primsector_estimates_dtls_view WHERE item = 'AGRICULTURE, LIVESTOCK, FORESTRY & FISHING';
 
-        33. none_of_these: for any queries which are unrelated to GST or GDP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
+        User: List all items and their growth rates at current prices for 2012-13.
+        SQL: SELECT item, growth_rate_current FROM gdp_india_qtr_primsector_estimates_dtls_view WHERE year = '2012-13';
+
+        User: Get the latest updated date for the mining sector data.
+        SQL: SELECT MAX(data_updated_date) FROM gdp_india_qtr_primsector_estimates_dtls_view WHERE item = 'MINING & QUARRYING';
+        
+        44. gdp_india_qtr_secsector_estimates_dtls_view → This view provides quarterly GDP estimates for India's secondary sector, detailing values and growth rates (both constant and current prices) for sub-sectors like manufacturing, construction, and utilities.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to analyze or retrieve GDP data for secondary sector sub-industries in India by year, including their values and growth rates at both constant and current prices. Filter by 'year' or 'item' as needed.
+        Examples:
+        User: Show the constant price GDP values for manufacturing from 2015-16 onwards.
+        SQL: SELECT year, value_in_cr_const FROM gdp_india_qtr_secsector_estimates_dtls_view WHERE item = 'MANUFACTURING' AND year >= '2015-16';
+
+        User: List the growth rates at current prices for all secondary sector items in 2018-19.
+        SQL: SELECT item, growth_rate_current FROM gdp_india_qtr_secsector_estimates_dtls_view WHERE year = '2018-19';
+
+        User: Get the latest updated GDP values (current and constant) for construction.
+        SQL: SELECT year, value_in_cr_const, value_in_cr_current, data_updated_date FROM gdp_india_qtr_secsector_estimates_dtls_view WHERE item = 'CONSTRUCTION' ORDER BY year DESC LIMIT 1; 
+
+        45.gdp_india_qtr_tersector_estimates_dtls_view → This view provides quarterly GDP estimates for India's tertiary sector, detailing values and growth rates (both constant and current prices) for specific service-related items.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to analyze or retrieve GDP data for individual tertiary sector items (such as financial services, public administration, trade, etc.) by year, including their values and growth rates at both constant and current prices.
+        Examples:
+        User: Show the constant price GDP values for all tertiary sector items in 2015-16.
+        SQL: SELECT item, value_in_cr_const FROM gdp_india_qtr_tersector_estimates_dtls_view WHERE year = '2015-16';
+
+        User: List the growth rates at current prices for 'FINANCIAL, REAL ESTATE & PROFESSIONAL SERVICES' across all years.
+        SQL: SELECT year, growth_rate_current FROM gdp_india_qtr_tersector_estimates_dtls_view WHERE item = 'FINANCIAL, REAL ESTATE & PROFESSIONAL SERVICES';
+
+        User: Get all available data for 'TRADE, HOTELS, TRANSPORT, COMMUNICATION & SERVICES RELATED TO BROADCASTING' for the year 2018-19.
+        SQL: SELECT * FROM gdp_india_qtr_tersector_estimates_dtls_view WHERE item = 'TRADE, HOTELS, TRANSPORT, COMMUNICATION & SERVICES RELATED TO BROADCASTING' AND year = '2018-19';         
+        
+        46. gdp_india_qtr_expenditure_estimates_dtls_view → This view provides quarterly GDP expenditure estimates for India, including values and growth rates (both constant and current prices) for various expenditure items by year.
+        Columns: year, item, value_in_cr_const, growth_rate_const, value_in_cr_current, growth_rate_current, data_updated_date
+        Instructions: Use this view to analyze GDP expenditure components, their values, and growth rates for different years. Filter by 'year' or 'item' to focus on specific periods or expenditure categories.
+        Examples:
+        User: Show the constant price value and growth rate for 'EXPORTS OF GOODS AND SERVICES' in 2011-12.
+        SQL: SELECT value_in_cr_const, growth_rate_const FROM gdp_india_qtr_expenditure_estimates_dtls_view WHERE year = '2011-12' AND item = 'EXPORTS OF GOODS AND SERVICES';
+
+        User: List all items and their current price values for the year 2011-12.
+        SQL: SELECT item, value_in_cr_current FROM gdp_india_qtr_expenditure_estimates_dtls_view WHERE year = '2011-12';
+
+        User: Get the growth rates at current prices for all items updated on 16-07-2025.
+        SQL: SELECT item, growth_rate_current FROM gdp_india_qtr_expenditure_estimates_dtls_view WHERE data_updated_date = '16-07-2025';
+        
+        47.gdp_state_fy_subindustry_actuals_view → This view provides annual GDP figures at constant and current prices for each sub-industry within states, including classification flags and product tax/subsidy indicators.
+        Columns: id, base_year, state, industry, sub_industry, primary_flag, secondary_flag, tertiary_flag, taxes_on_products, subsidies_on_products, year, constant_value_in_lakh, current_value_in_lakh, released_on, data_source, updated_on
+        Instructions: Use this view to retrieve state-wise, industry-wise, and sub-industry-wise GDP data for specific years, including constant and current values, and to filter by economic sector or product tax/subsidy status.
+        Examples:
+        User: Show the constant and current GDP values for 'Crops' in Andaman Nicobar for all available years.
+        SQL: SELECT year, constant_value_in_lakh, current_value_in_lakh FROM gdp_state_fy_subindustry_actuals_view WHERE state = 'Andaman Nicobar' AND sub_industry = 'Crops';
+
+        User: List all sub-industries under 'Agriculture, forestry and fishing' for the year 2013-14 in Andaman Nicobar.
+        SQL: SELECT sub_industry FROM gdp_state_fy_subindustry_actuals_view WHERE state = 'Andaman Nicobar' AND industry = 'Agriculture, forestry and fishing' AND year = '2013-14';
+
+        User: Get the GDP values for all primary sector sub-industries in Andaman Nicobar for 2011-12.
+        SQL: SELECT sub_industry, constant_value_in_lakh, current_value_in_lakh FROM gdp_state_fy_subindustry_actuals_view WHERE state = 'Andaman Nicobar' AND primary_flag = true AND year = '2011-12';
+        
+        48. none_of_these: for any queries which are unrelated to GST or GDP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         # Consider the list above, and respond ONLY with one of the file names from the following list:
-        [india_fy_gdp_view, india_fy_gdp_components_view, india_fy_national_income_view, gdp_actuals_summary, gdp_actuals_details, per_capita_income_product_final_consumption, quaterly_estimates_of_gdp, annual_gdp_estimates, 
+        [india_fy_gdp_view, india_fy_gdp_components_view, india_fy_national_income_view, gdp_state_fy_actuals, gdp_state_fy_industry_actuals_view, per_capita_income_product_final_consumption, 
+        quaterly_estimates_of_gdp, gdp_india_fy_estimates_view, gdp_india_fy_primsector_estimates_view, gdp_india_fy_secsector_estimates_view, gdp_india_fy_tersector_estimates_view,
         other_macro_economic_indicators_daily_data ,other_macro_economic_indicators_monthly_data,other_macro_economic_indicators_quaterly_data,other_macro_economic_indicators_weekly_data,
         top_fifty_macro_economic_indicators_monthly_data,top_fifty_macro_economic_indicators_quaterly_data,top_fifty_macro_economic_indicators_weekly_data, 
-        statewise_nsdp, statewise_nsva, statewise_pcnsdp, gst_registrations, gst_statewise_tax_collection_refund_data, gst_statewise_tax_collection_data, gst_settlement_of_igst_to_states, gstr_three_b, gstr_one, gross_and_net_tax_collection, top_fifty_macro_economic_indicators_fortnightly_data, gst_statewise_fiscal_year_collection_view, gst_statewise_fiscal_year_igst_settlement_view, gst_statewise_fiscal_year_refund_view,niryat_ite_commodity,niryat_ite_state,imf_dm_export,none_of_these]
+        statewise_nsdp, statewise_nsva, statewise_pcnsdp, gst_registrations, gst_statewise_tax_collection_refund_data, gst_statewise_tax_collection_data, gst_settlement_of_igst_to_states, 
+        gstr_three_b, gstr_one, gross_and_net_tax_collection, top_fifty_macro_economic_indicators_fortnightly_data, gst_statewise_fiscal_year_collection_view, 
+        gst_statewise_fiscal_year_igst_settlement_view, gst_statewise_fiscal_year_refund_view,niryat_ite_commodity,niryat_ite_state,imf_dm_export,gdp_india_fy_primsector_estimates_dtls_view, 
+        gdp_india_fy_secsector_estimates_dtls_view, gdp_india_fy_tersector_estimates_dtls_view, gdp_india_fy_expenditure_estimates_dtls_view, gdp_india_qtr_estimates_view, 
+        gdp_india_qtr_primsector_estimates_view, gdp_india_qtr_secsector_estimates_view, gdp_india_qtr_tersector_estimates_view, gdp_india_qtr_primsector_estimates_dtls_view, 
+        gdp_india_qtr_secsector_estimates_dtls_view, gdp_india_qtr_tersector_estimates_dtls_view, gdp_india_qtr_expenditure_estimates_dtls_view,gdp_state_fy_subindustry_actuals_view, none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
 """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
@@ -1107,10 +1348,21 @@ def file_selector_MSME(query):
         b. How does the annual turnover criteria for services and other sectors differ between Tajikistan and Malaysia?
 
 
-        3. msme_udyam_registrations_by_state : This table contains data on MSME registrations in India, broken down by state. It includes the number of micro, small, and medium enterprises registered, as well as the total number of Udyam registrations and total MSMEs.
-        Sample queries:
-        a. Which state had the highest number of micro, small, and medium enterprises registered as of July 21, 2025?
-        b. What is the total number of MSME enterprises and employment recorded in Odisha according to this dataset?
+        3. msme_state_ureg_recent → This table provides recent state-wise data on MSME (Micro, Small, and Medium Enterprises) registrations, including counts for each category, total registrations, and data source details.
+        Columns: state, micro, small, medium, total_udyam, ime_uap, total_msme, data_source, released_on, updated_on
+        Instructions: Use this table to retrieve or analyze the latest MSME registration statistics by state, including breakdowns by enterprise size and total counts.
+        Examples:
+        User: Show the total number of MSMEs registered in each state.
+        SQL: SELECT state, total_msme FROM msme_state_ureg_recent;
+
+        User: List the number of micro, small, and medium enterprises in Assam.
+        SQL: SELECT micro, small, medium FROM msme_state_ureg_recent WHERE state = 'ASSAM';
+
+        User: Which state has the highest number of total MSMEs?
+        SQL: SELECT state, total_msme FROM msme_state_ureg_recent ORDER BY total_msme DESC LIMIT 1;
+
+        User: Get the latest update date for MSME data in Andhra Pradesh.
+        SQL: SELECT updated_on FROM msme_state_ureg_recent WHERE state = 'ANDHRA PRADESH';
 
 
         4.msme_gbc_non_food_dtl_view : This table contains Monthly Gross Bank Credit (GBC) outstanding by economic sector for non food credit (e.g., Agriculture, Services,Personal Loans,Industries etc.), the column 'gbc_in_cr' holds the amount of Gross Bank Credit (in crores).
@@ -1154,12 +1406,52 @@ def file_selector_MSME(query):
         d. "Compare GDP contribution of MSMEs between USA and China in 2019."
         e. "Show me the trend of employee count in the ASEAN region over the last 5 years."
         f. "Which country had the highest export ratio among MSMEs in 2021?"
+        
+        11. msme_india_mth_sector_bankcredit_view → Monthly outstanding bank credit data in India by sector, including MSME, personal loans, and agriculture, sourced from the Reserve Bank of India.
+        Columns: year, month, sector, effective_date, outstanding_as_on, unit, released_on, updated_on, data_source, date_stamp, month_numeric, fiscal_year
+        Instructions: Use this view to analyze monthly outstanding bank credit amounts by sector, year, and month. Filter by 'sector', 'year', or 'month' as needed to get specific credit data. The 'outstanding_as_on' column provides the credit amount (in crore) as of the effective date.
+        Examples:
+        User: Show the outstanding bank credit for MSME sectors in July 2019.
+        SQL: SELECT sector, outstanding_as_on FROM msme_india_mth_sector_bankcredit_view WHERE year = 2019 AND month = 'July' AND sector LIKE '%Micro Small Medium%';
+        
+        User: List the outstanding credit for all sectors for the fiscal year 2019-20.
+        SQL: SELECT sector, month, outstanding_as_on FROM msme_india_mth_sector_bankcredit_view WHERE fiscal_year = '2019-20';
+
+        User: Get the total outstanding bank credit for 'Personal Loans' in 2019.
+        SQL: SELECT SUM(outstanding_as_on) AS total_credit FROM msme_india_mth_sector_bankcredit_view WHERE year = 2019 AND sector = 'Personal Loans';
+        
+        12. msme_india_mth_grp_bankcredit_view → This view provides monthly outstanding bank credit data for different MSME-related sectors and groups in India, sourced from the Reserve Bank of India. It includes details such as year, month, sector, group name, outstanding amount, and relevant dates.
+        Columns: year, month, sector, group_name, effective_date, outstanding_as_on, unit, released_on, updated_on, data_source, date_stamp, month_numeric, fiscal_year
+        Instructions: Use this view to analyze trends, compare outstanding credit amounts, or extract time-series data for specific MSME sectors or groups by month and year.
+        Examples:
+        User: Show the total outstanding bank credit for the 'Services' sector in fiscal year 2019-20.
+        SQL: SELECT SUM(outstanding_as_on::numeric) AS total_outstanding FROM msme_india_mth_grp_bankcredit_view WHERE sector = 'Services' AND fiscal_year = '2019-20';
+
+        User: List the monthly outstanding amounts for 'Professional Services' group in 2019.
+        SQL: SELECT year, month, outstanding_as_on FROM msme_india_mth_grp_bankcredit_view WHERE group_name = 'Professional Services' AND year = 2019 ORDER BY month_numeric;
+
+        User: Get the latest outstanding amount for each sector as of March 2020.
+        SQL: SELECT sector, group_name, outstanding_as_on FROM msme_india_mth_grp_bankcredit_view WHERE year = 2020 AND month = 'March';
+        
+        13. msme_india_mth_subgrp_bankcredit_view → This view provides monthly outstanding bank credit data for various MSME sectors and subgroups in India, including details like sector, group, subgroup, outstanding amount, and reporting dates.
+        Columns: year, month, sector, group_name, subgroup, effective_date, outstanding_as_on, unit, released_on, updated_on, data_source, date_stamp, month_numeric, fiscal_year
+        Instructions: Use this view to analyze trends in bank credit outstanding amounts for different MSME sectors, groups, and subgroups across months and years. Filter by year, sector, group_name, or subgroup to get specific insights.
+        Examples:
+        User: Show the outstanding bank credit for 'Power' under 'Infrastructure' group for January 2021.
+        SQL: SELECT * FROM msme_india_mth_subgrp_bankcredit_view WHERE group_name = 'Infrastructure' AND subgroup = 'Power' AND year = 2021 AND month = 'January';
+
+        User: List all subgroups and their outstanding amounts for the 'Trade' group in April 2019.
+        SQL: SELECT subgroup, outstanding_as_on FROM msme_india_mth_subgrp_bankcredit_view WHERE group_name = 'Trade' AND year = 2019 AND month = 'April';
+
+        User: Get the total outstanding bank credit for 'Industry Micro Small Medium Large' sector in fiscal year 2020-21.
+        SQL: SELECT SUM(outstanding_as_on) AS total_outstanding FROM msme_india_mth_subgrp_bankcredit_view WHERE sector = 'Industry Micro Small Medium Large' AND fiscal_year = '2020-21';
 
         
         Note: If a query is about gdp of msme do not select any table return "none_of_these".
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
-        [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_udyam_registrations_by_state, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view, none_of_these]   
+        [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, 
+        msme_priority_sector_view, msme_industry_view, msme_global_view, msme_india_mth_sector_bankcredit_view, msme_india_mth_grp_bankcredit_view, msme_india_mth_subgrp_bankcredit_view, none_of_these]   
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
@@ -1300,14 +1592,14 @@ def table_citation(selected_file):
     'city_wise_housing_price_indices': "Ministry of Finance",
     'consumer_price_index_cpi_for_agricultural_and_rural_labourers': "MoSPI",
     'whole_sale_price_index_wpi_calendar_wise': "Ministry of commerce and industry",
-    'cpi_inflation_data': "Price Statistics Division, MoSPI",
+    'cpi_state_mth_subgrp': "Price Statistics Division, MoSPI",
     'iip_annual_data': "Economic Statistics Division, MoSPI",
     'Iip_india_mth_catg_view': "Economic Statistics Division, MoSPI",
     'iip_india_mth_subcatg_view': "Economic Statistics Division, MoSPI",
     # made the iip changes here
     'iip_in_assam': "Directorate of Economics & Statistics, Government of Assam",
     'cpi_food_worker_data': "Ministry of Finance",
-    'msme_udyam_registrations_by_state': "Ministry of MSME",
+    'msme_state_ureg_recent': "Ministry of MSME",
     # 'msme_sector_growth_rates': "RBI",
     # 'msme_global_data': "Asian Development Bank / ERDI",
     'msme_definitions_by_sector': "Asian Development Bank",
