@@ -38,9 +38,9 @@ def classify_query(query):
 
                 ## MSME
                               
-                a. Classify queries on MSME, Micro, Small and Medium Enterprises, credit growth, exchange rates, Nifty SME, food/non-food credit, gross bank credit, regional/sectoral MSME distribution, or economic shares. This covers datasets on gross bank credit for food/non-food views, sector definitions, non-food credit details, regional and sectoral shares, industry views, priority sector views, daily Nifty SME index values, and state-wise Udyam registrations.
+                a. Classify queries on MSME, Micro, Small and Medium Enterprises, credit growth, exchange rates, Nifty SME, food/non-food credit, gross bank credit,upi, regional/sectoral MSME distribution, or economic shares. This covers datasets on gross bank credit for food/non-food views, sector definitions, non-food credit details, regional and sectoral shares, industry views, priority sector views, daily Nifty SME index values, and state-wise Udyam registrations.
                               
-                b. The following files comprise the MSME datasets: [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view]. 
+                b. The following files comprise the MSME datasets: [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view, upi_dly_stats, upi_mth_stats, upi_mth_failures]. 
                 Any query that can be answered with these data sets should be classified as "MSME".
 
                 ## agriculture_and_rural
@@ -1512,7 +1512,7 @@ def file_selector_MSME(query):
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
         [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, 
-        msme_priority_sector_view, msme_industry_view, msme_global_view, msme_india_mth_sector_bankcredit_view, msme_india_mth_grp_bankcredit_view, msme_india_mth_subgrp_bankcredit_view,upi_dly_stats,upi_mth_stats, upi_mth_failures, none_of_these]   
+        msme_priority_sector_view, msme_industry_view, msme_global_view, msme_india_mth_sector_bankcredit_view, msme_india_mth_grp_bankcredit_view, msme_india_mth_subgrp_bankcredit_view, upi_dly_stats, upi_mth_stats, upi_mth_failures, none_of_these]   
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
