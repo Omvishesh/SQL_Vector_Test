@@ -1234,89 +1234,7 @@ def file_selector_IIP(query):
         b. What was the IIP index for Manufacturing sector in August 2023?
         c. Show me the monthly IIP for Primary Goods from January 2023 to June 2023.
 
-        
-        3. iip_india_yr_subcatg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the subcategory level. Use this when queries require detailed industry or product breakdowns within categories (e.g. textiles, food products, machinery, chemicals, pharma).
-        Sample queries:
-        a. Show the IIP growth rate for Manufacture of Textiles in 2023-24.
-        b. Which manufacturing subcategories had negative growth in 2022-23?
-        
-        4. iip_india_mth_subcatg_view: This view contains detailed monthly Index of Industrial Production (IIP) data broken down to the specific sub-category level (e.g., Manufacture of food products, Manufacture of textiles).Use this file for: Queries that ask for data on a specific, detailed industry or product sub-category.
-        Sample queries:
-        a. List subcategory indices for Manufacture of Food Products in Jan 2025.
-        b. Show the IIP growth rate for 'Manufacture of motor vehicles, trailers and semi-trailers' for all of 2023.
-
-
-        5. iip_in_assam: This file contains Index of Industrial Production (IIP) data specifically for Assam on an annual basis, broken down by industry NIC codes, descriptions, and weights. Use this table if the query is about Assam or state-specific industrial production.
-        Sample queries:
-        a. What was the Index of Industrial Production for Assam in 2018-19?
-        b. Show the IIP for Manufacture of Food Products in Assam from 2012-13 to 2017-18.
-        c. Give the industry-wise IIP for Assam in 2016-17.
-        d. Trend of IIP in Assam across the last 5 years.
-
-
-        6. iip_in_andra_pradesh_sector_wise : This table provides the Index of Industrial Production (IIP) for Andhra Pradesh at the sectoral level (e.g., Mining & Quarrying, Manufacturing, Electricity). It is reported monthly and grouped by fiscal year. Use this for broader sector level queries in AP.
-        “Show the IIP trend for Andhra Pradesh Mining & Quarrying in 2022–23.”
-        “Which sector had the highest index value Andhra Pradesh in July 2023?”
-        “Compare the average IIP for Manufacturing Andhra Pradesh between 2021–22 and 2022–23.”
-        “What is the IIP of Electricity Andhra Pradesh sector in April 2024?”
-
-
-        7. iip_in_andra_pradesh_sector_industry_wise : This table provides industry-wise IIP values in Andhra Pradesh, classified by NIC code, industry description, weight, year, and month. It allows analysis at a more granular level within sectors. Use this for specific questions on industries in AP.
-        “What was the index value for Manufacture of Textiles in Andhra Pradesh June 2024?”
-        “List the top 5 industries by index value in Andhra Pradesh June 2024.”
-        “Compare the performance of Manufacture of Food Products vs Manufacture of Beverages in Andhra Pradesh 2024–25.”
-        “Which industry showed the largest growth in index value Andhra Pradesh from May to June 2024?”
-
-
-        8. iip_in_andra_pradesh_use_wise : This table provides the IIP for Andhra Pradesh by use-based classification (e.g., Primary Goods, Capital Goods, Intermediate Goods, Consumer Goods). It is reported monthly across fiscal years. Use this for queries on the consumption side of industries in AP.
-        “Show the IIP trend for Primary Goods in Andhra Pradesh 2023–24 vs 2024–25.”
-        “What was the Capital Goods index value in Andhra Pradesh April 2024?”
-        “Compare the average IIP of Consumer Durables vs Consumer Non-Durables in Andhra Pradesh 2022–23.”
-        “Which use-based category Andhra Pradesh had the sharpest decline between April and June 2024?”
-
-
-        9. iip_in_rajasthan_monthly : This table provides the monthly Index of Industrial Production (IIP) for Rajasthan, categorized into General, Manufacturing, Electricity, and Mining, by fiscal year and month.
-        “Show the monthly IIP trend for Manufacturing in Rajasthan 2025–26.”
-        “What was the Electricity index in Rajasthan May 2025?”
-        “Compare General index values Rajasthan for April, May, and June of 2025–26.”
-        “Which category had the lowest index value in Rajasthan June 2025?”
-
-
-        10. iip_in_rajasthan_fy_index : This table provides the annual average IIP for Rajasthan across categories such as Electricity, Manufacturing, Mining, and the Total General Index, by fiscal year.
-        “What was the Total General Index in Rajasthan 2021–22 vs 2022–23?”
-        “Which sector showed the highest growth Rajasthan between 2021–22 and 2022–23?”
-        “List the average IIP values for Rajasthan Manufacturing across all fiscal years.”
-        “Compare the Electricity index Rajasthan between 2021–22 and 2022–23.”
-
-
-        11. iip_in_rajasthan_two_digit_index : This table provides the IIP for Rajasthan by two-digit NIC industry codes, with industry descriptions and fiscal year index values.
-        “What was the IIP value for Manufacture of Textiles in Rajasthan 2025–26?”
-        “List the top 5 industries by index value in Rajasthan 2025–26.”
-        “Compare Manufacture of Food Products and Manufacture of Beverages in Rajasthan 2025–26.”
-        “Which industry had the lowest index value in Rajasthan 2025–26?”
-
- 
-        12. iip_in_kerala_fy_index : This table provides the annual Index of Industrial Production (IIP) for Kerala, reported by fiscal year and category (e.g., Manufacturing), along with corresponding index values.
-        “What was Kerala’s Manufacturing index in Kerala 2019–20?”
-        “Compare the Manufacturing IIP Kerala between 2018–19 and 2020–21.”
-        “Show the year-wise trend of Kerala’s Manufacturing IIP from 2015–16 to 2023–24.”
-        “In which year did the Manufacturing index reach its lowest value in Kerala?”
-
-
-        13. iip_in_kerala_monthly : This table provides monthly IIP data for Kerala by fiscal year, category (e.g., General, Manufacturing, Electricity), and month, with corresponding index values.
-        “What was the General IIP in Kerala April 2020–21?”
-        “Compare April values of General Kerala IIP across fiscal years 2018–19 to 2023–24.”
-        “Show the month-on-month trend of General index in Kerala 2019–20.”
-        “Which fiscal year had the highest April General index in Kerala?”
-
-
-        14. iip_in_kerala_quarterly : This table provides quarterly IIP data for Kerala by fiscal year, quarter (Q1, Q2, Q3, Q4), and category (e.g., Manufacturing), with corresponding index values.
-        “What was Kerala’s Manufacturing index in Kerala Q2 of 2016–17?”
-        “Compare Q1 Manufacturing Kerala values across fiscal years 2015–16 to 2017–18.”
-        “Show the quarter-wise Manufacturing Kerala IIP trend for 2016–17.”
-        “Which quarter had the highest Manufacturing Kerala index in 2015–16?”
-        
-        15. construct_state_cement_indicators → This table provides state-wise indicators related to cement and construction in India, including housing scheme progress (PMAY-G, PMAY-U), road construction (PMGSY, Bharatmala), limestone resources and production, cement plant capacities, sectoral GSDP, and population.
+        3. construct_state_cement_indicators → This table provides state-wise indicators related to cement and construction in India, including housing scheme progress (PMAY-G, PMAY-U), road construction (PMGSY, Bharatmala), limestone resources and production, cement plant capacities, sectoral GSDP, and population.
         Columns: state, pmay_g_target_households, pmay_g_target_households_num, pmay_g_completed_households, pmay_g_completed_households_num, pmay_u_target_households, pmay_u_target_households_num, pmay_u_completed_households, pmay_u_completed_households_num, pmgsy_road_length_sanctioned_km, pmgsy_road_length_completed_km, bharatmala_road_length_targeted_km, bharatmala_road_length_completed_km, limestone_total_resources_kt, limestone_proved_reserve_kt, limestone_production_kt, installed_cement_capacity_mtpa, captive_power_capacity_mw, whrs_capacity_mw, gsdp_inr_crore, mining_value_addition_inr_crore, manufacturing_value_addition_inr_crore, construction_value_addition_inr_crore, real_estate_inr_crore, total_population_2024, latest_released_on, latest_updated_on
         Instructions: Use this table to analyze or compare states on construction, infrastructure, cement industry metrics, housing scheme progress, road lengths, limestone resources, sectoral economic value addition, and population as of 2024.
         Examples:
@@ -1334,7 +1252,88 @@ def file_selector_IIP(query):
 
         User: Find the GSDP and construction value addition for Andhra Pradesh.
         SQL: SELECT gsdp_inr_crore, construction_value_addition_inr_crore FROM construct_state_cement_indicators WHERE state = 'Andhra Pradesh';
+        
+        4. iip_india_yr_subcatg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the subcategory level. Use this when queries require detailed industry or product breakdowns within categories (e.g. textiles, food products, machinery, chemicals, pharma).
+        Sample queries:
+        a. Show the IIP growth rate for Manufacture of Textiles in 2023-24.
+        b. Which manufacturing subcategories had negative growth in 2022-23?
+        
+        5. iip_india_mth_subcatg_view: This view contains detailed monthly Index of Industrial Production (IIP) data broken down to the specific sub-category level (e.g., Manufacture of food products, Manufacture of textiles).Use this file for: Queries that ask for data on a specific, detailed industry or product sub-category.
+        Sample queries:
+        a. List subcategory indices for Manufacture of Food Products in Jan 2025.
+        b. Show the IIP growth rate for 'Manufacture of motor vehicles, trailers and semi-trailers' for all of 2023.
 
+
+        6. iip_in_assam: This file contains Index of Industrial Production (IIP) data specifically for Assam on an annual basis, broken down by industry NIC codes, descriptions, and weights. Use this table if the query is about Assam or state-specific industrial production.
+        Sample queries:
+        a. What was the Index of Industrial Production for Assam in 2018-19?
+        b. Show the IIP for Manufacture of Food Products in Assam from 2012-13 to 2017-18.
+        c. Give the industry-wise IIP for Assam in 2016-17.
+        d. Trend of IIP in Assam across the last 5 years.
+
+
+        7. iip_in_andra_pradesh_sector_wise : This table provides the Index of Industrial Production (IIP) for Andhra Pradesh at the sectoral level (e.g., Mining & Quarrying, Manufacturing, Electricity). It is reported monthly and grouped by fiscal year. Use this for broader sector level queries in AP.
+        “Show the IIP trend for Andhra Pradesh Mining & Quarrying in 2022–23.”
+        “Which sector had the highest index value Andhra Pradesh in July 2023?”
+        “Compare the average IIP for Manufacturing Andhra Pradesh between 2021–22 and 2022–23.”
+        “What is the IIP of Electricity Andhra Pradesh sector in April 2024?”
+
+
+        8. iip_in_andra_pradesh_sector_industry_wise : This table provides industry-wise IIP values in Andhra Pradesh, classified by NIC code, industry description, weight, year, and month. It allows analysis at a more granular level within sectors. Use this for specific questions on industries in AP.
+        “What was the index value for Manufacture of Textiles in Andhra Pradesh June 2024?”
+        “List the top 5 industries by index value in Andhra Pradesh June 2024.”
+        “Compare the performance of Manufacture of Food Products vs Manufacture of Beverages in Andhra Pradesh 2024–25.”
+        “Which industry showed the largest growth in index value Andhra Pradesh from May to June 2024?”
+
+
+        9. iip_in_andra_pradesh_use_wise : This table provides the IIP for Andhra Pradesh by use-based classification (e.g., Primary Goods, Capital Goods, Intermediate Goods, Consumer Goods). It is reported monthly across fiscal years. Use this for queries on the consumption side of industries in AP.
+        “Show the IIP trend for Primary Goods in Andhra Pradesh 2023–24 vs 2024–25.”
+        “What was the Capital Goods index value in Andhra Pradesh April 2024?”
+        “Compare the average IIP of Consumer Durables vs Consumer Non-Durables in Andhra Pradesh 2022–23.”
+        “Which use-based category Andhra Pradesh had the sharpest decline between April and June 2024?”
+
+
+        10. iip_in_rajasthan_monthly : This table provides the monthly Index of Industrial Production (IIP) for Rajasthan, categorized into General, Manufacturing, Electricity, and Mining, by fiscal year and month.
+        “Show the monthly IIP trend for Manufacturing in Rajasthan 2025–26.”
+        “What was the Electricity index in Rajasthan May 2025?”
+        “Compare General index values Rajasthan for April, May, and June of 2025–26.”
+        “Which category had the lowest index value in Rajasthan June 2025?”
+
+
+        11. iip_in_rajasthan_fy_index : This table provides the annual average IIP for Rajasthan across categories such as Electricity, Manufacturing, Mining, and the Total General Index, by fiscal year.
+        “What was the Total General Index in Rajasthan 2021–22 vs 2022–23?”
+        “Which sector showed the highest growth Rajasthan between 2021–22 and 2022–23?”
+        “List the average IIP values for Rajasthan Manufacturing across all fiscal years.”
+        “Compare the Electricity index Rajasthan between 2021–22 and 2022–23.”
+
+
+        12. iip_in_rajasthan_two_digit_index : This table provides the IIP for Rajasthan by two-digit NIC industry codes, with industry descriptions and fiscal year index values.
+        “What was the IIP value for Manufacture of Textiles in Rajasthan 2025–26?”
+        “List the top 5 industries by index value in Rajasthan 2025–26.”
+        “Compare Manufacture of Food Products and Manufacture of Beverages in Rajasthan 2025–26.”
+        “Which industry had the lowest index value in Rajasthan 2025–26?”
+
+ 
+        13. iip_in_kerala_fy_index : This table provides the annual Index of Industrial Production (IIP) for Kerala, reported by fiscal year and category (e.g., Manufacturing), along with corresponding index values.
+        “What was Kerala’s Manufacturing index in Kerala 2019–20?”
+        “Compare the Manufacturing IIP Kerala between 2018–19 and 2020–21.”
+        “Show the year-wise trend of Kerala’s Manufacturing IIP from 2015–16 to 2023–24.”
+        “In which year did the Manufacturing index reach its lowest value in Kerala?”
+
+
+        14. iip_in_kerala_monthly : This table provides monthly IIP data for Kerala by fiscal year, category (e.g., General, Manufacturing, Electricity), and month, with corresponding index values.
+        “What was the General IIP in Kerala April 2020–21?”
+        “Compare April values of General Kerala IIP across fiscal years 2018–19 to 2023–24.”
+        “Show the month-on-month trend of General index in Kerala 2019–20.”
+        “Which fiscal year had the highest April General index in Kerala?”
+
+
+        15. iip_in_kerala_quarterly : This table provides quarterly IIP data for Kerala by fiscal year, quarter (Q1, Q2, Q3, Q4), and category (e.g., Manufacturing), with corresponding index values.
+        “What was Kerala’s Manufacturing index in Kerala Q2 of 2016–17?”
+        “Compare Q1 Manufacturing Kerala values across fiscal years 2015–16 to 2017–18.”
+        “Show the quarter-wise Manufacturing Kerala IIP trend for 2016–17.”
+        “Which quarter had the highest Manufacturing Kerala index in 2015–16?”
+        
         
         16. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
