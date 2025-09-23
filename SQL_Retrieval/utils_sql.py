@@ -1224,7 +1224,7 @@ def file_selector_IIP(query):
     
         # Table information
         
-        1. construct_state_cement_indicators → This table provides indicators related to cement, construction, and infrastructure development in Indian states, including housing scheme progress (PMAY-G, PMAY-U), road construction (PMGSY, Bharatmala), limestone resources and production, cement plant capacities, sectoral GSDP, and population (2024).
+        1. construct_state_cement_indicators: This table provides indicators related to cement, construction, and infrastructure development in Indian states, including housing scheme progress (PMAY-G, PMAY-U), road construction (PMGSY, Bharatmala), limestone resources and production, cement plant capacities, sectoral GSDP, and population (2024).
         Columns: state, pmay_g_target_households, pmay_g_target_households_num, pmay_g_completed_households, pmay_g_completed_households_num, pmay_u_target_households, pmay_u_target_households_num, pmay_u_completed_households, pmay_u_completed_households_num, pmgsy_road_length_sanctioned_km, pmgsy_road_length_completed_km, bharatmala_road_length_targeted_km, bharatmala_road_length_completed_km, limestone_total_resources_kt, limestone_proved_reserve_kt, limestone_production_kt, installed_cement_capacity_mtpa, captive_power_capacity_mw, whrs_capacity_mw, gsdp_inr_crore, mining_value_addition_inr_crore, manufacturing_value_addition_inr_crore, construction_value_addition_inr_crore, real_estate_inr_crore, total_population_2024, latest_released_on, latest_updated_on.
         Instructions: Use this table to analyze or compare states on construction, cement industry metrics, housing progress, infrastructure (road lengths), limestone reserves and production, sectoral economic value addition, and population.
         Sample queries:
@@ -1233,8 +1233,9 @@ def file_selector_IIP(query):
         c. Which states have limestone production above 50,000 thousand tonnes?
         d. Show total PMGSY road length completed for each state.
         e. Find the GSDP and construction value addition for Andhra Pradesh.
+        f. data of cement production of india
         
-        2. ip_india_yr_catg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the category level. Use this when queries involve overall IIP or sector/category-level indicators (e.g. General, Manufacturing, Mining, Electricity).
+        2. iip_india_yr_catg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the category level. Use this when queries involve overall IIP or sector/category-level indicators (e.g. General, Manufacturing, Mining, Electricity).
         Sample queries:
         a. What was the annual growth rate of the Mining sector in 2021-22?
         b. Show the General IIP from 2015-16 to 2023-24.
