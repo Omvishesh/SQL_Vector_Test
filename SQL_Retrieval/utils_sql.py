@@ -1217,12 +1217,11 @@ def file_selector_IIP(query):
 
         # IMPORTANT RULES:
         - For any queries LONGER THAN 2 years duration, pick ANNUAL or YEARLY tables where available.
+        - If the query is about cement or construction-related indicators, use the construct_state_cement_indicators table.
         - If the query is BROAD or GENERAL (e.g. just "IIP growth", "IIP trends", "overall industrial performance") — choose the corresponding *category_view* file (monthly or yearly), not the subcategory-specific files.
         - If the query is STATE-SPECIFIC and mentions "Assam" or industries in Assam, then use iip_in_assam.
-        - Use construct_state_cement_indicators is the query is about cement, construction, housing schemes (PMAY-G, PMAY-U), road construction (PMGSY, Bharatmala), limestone resources/production, cement plant capacities, sectoral GSDP, or population.
-        - Use the _subcatg_ view if the query mentions a specific, detailed product or industry (e.g., "Manufacture of Food Products," "textiles," "wearing apparel," "motor vehicles"). This view provides the most granular data.
-        - Use the _catg_ view for broad, high-level sectors or use-based categories (e.g., General, Mining, Manufacturing, Consumer Durables). Do not use this view if a query mentions a specific product or detailed sub-category.
-
+        
+    
         # Table information
         1. ip_india_yr_catg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the category level. Use this when queries involve overall IIP or sector/category-level indicators (e.g. General, Manufacturing, Mining, Electricity).
         Sample queries:
