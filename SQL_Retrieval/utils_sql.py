@@ -30,7 +30,7 @@ def classify_query(query):
 
                 ## IIP
                               
-                a. Entities such as IIP, industrial output, industrial production,material like cement, mining, manufacturing, electricity, motor vehicles or other industries should be classified as "IIP".
+                a. Entities such as IIP, industrial output, industrial production,material like cement, mining, manufacturing, electricity,pm schemes like pmay, pmgsy, motor vehicles or other industries should be classified as "IIP".
                 
                 b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,construct_state_cement_indicators_view, iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam]. 
                 
@@ -1217,7 +1217,7 @@ def file_selector_IIP(query):
 
         # IMPORTANT RULES:
         - For any queries LONGER THAN 2 years duration, pick ANNUAL or YEARLY tables where available.
-        - If the query is about cement or construction-related indicators, use the construct_state_cement_indicators_view.
+        - If the query is about cement or construction-related indicators or pm schemes like pmay, pmgsy, use the construct_state_cement_indicators_view.
         - If the query is BROAD or GENERAL (e.g. just "IIP growth", "IIP trends", "overall industrial performance") — choose the corresponding *category_view* file (monthly or yearly), not the subcategory-specific files.
         - If the query is STATE-SPECIFIC and mentions "Assam" or industries in Assam, then use iip_in_assam.
         
