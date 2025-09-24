@@ -1243,28 +1243,61 @@ def file_selector_IIP(query):
         User: Get the latest PMGSY road length completed for all states.
         SQL: SELECT state, pmgsy_road_length_completed_km FROM construct_state_cement_indicators_view WHERE date_stamp = (SELECT MAX(date_stamp) FROM construct_state_cement_indicators_view);
         
-        2. iip_india_yr_catg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the category level. Use this when queries involve overall IIP or sector/category-level indicators (e.g. General, Manufacturing, Mining, Electricity).
-        Sample queries:
-        a. What was the annual growth rate of the Mining sector in 2021-22?
-        b. Show the General IIP from 2015-16 to 2023-24.
+        2. iip_india_yr_catg_view → This table/view provides annual Index of Industrial Production (IIP) data for India, categorized by sector and category, including index values and growth rates for each year.
+        Columns: id, base_year, year, sector_type, category, iip_index, iip_growth_rate, data_source, released_on, updated_on
+        Instructions: Use this table/view to retrieve yearly IIP index and growth rate data for India, filtered by base year, sector type, category, or year as needed.
+        Examples:
+        User: Show the IIP index and growth rate for all categories in 2024-25.
+        SQL: SELECT category, iip_index, iip_growth_rate FROM iip_india_yr_catg_view WHERE year = '2024-25';
+
+        User: Get the manufacturing sector's IIP index for the base year 2011-12.
+        SQL: SELECT year, iip_index FROM iip_india_yr_catg_view WHERE category = 'Manufacturing' AND base_year = '2011-12';
+
+        User: List all available years and their general IIP index values.
+        SQL: SELECT year, iip_index FROM iip_india_yr_catg_view WHERE category = 'General';
         
-        3.iip_india_mth_catg_view: This view contains monthly Index of Industrial Production (IIP) data aggregated at the main category level (e.g., General, Mining, Manufacturing, Consumer Durables). Use this file for: Queries about broad, high-level industrial sectors or use-based categories. Do not use this view if a query mentions a specific product or a detailed sub-category.
-        Sample queries:
-        a. Show the General index for 2023.
-        b. What was the IIP index for Manufacturing sector in August 2023?
-        c. Show me the monthly IIP for Primary Goods from January 2023 to June 2023.
+        3.iip_india_mth_catg_view → This table/view provides monthly Index of Industrial Production (IIP) data for India, categorized by sector type and category, including index values and growth rates, along with metadata such as data source, release dates, and fiscal year.
+        Columns: year, month, sector_type, category, iip_index, iip_growth_rate, data_source, released_on, updated_on, date_stamp, month_numeric, fiscal_year
+        Instructions: Use this table/view to retrieve IIP index and growth rate data for specific months, years, sector types, or categories. Filter by 'year', 'month', 'sector_type', 'category', or 'fiscal_year' as needed to analyze industrial production trends.
+        Examples:
+        User: Show the IIP index and growth rate for all categories in June 2023.
+        SQL: SELECT category, iip_index, iip_growth_rate FROM iip_india_mth_catg_view WHERE year = 2023 AND month = 'June';
+
+        User: Get the IIP growth rate for 'Consumer Durables' in April 2023.
+        SQL: SELECT iip_growth_rate FROM iip_india_mth_catg_view WHERE category = 'Consumer Durables' AND year = 2023 AND month = 'April';
+
+        User: List all available sector types and categories for fiscal year 2019-20.
+        SQL: SELECT DISTINCT sector_type, category FROM iip_india_mth_catg_view WHERE fiscal_year = '2019-20';
+
+        User: Find the IIP index for the 'Mining' category in July 2019.
+        SQL: SELECT iip_index FROM iip_india_mth_catg_view WHERE category = 'Mining' AND year = 2019 AND month = 'July';
 
         
-        4. iip_india_yr_subcatg_view: This file contains Index of Industrial Production data on an annual or yearly basis at the subcategory level. Use this when queries require detailed industry or product breakdowns within categories (e.g. textiles, food products, machinery, chemicals, pharma).
-        Sample queries:
-        a. Show the IIP growth rate for Manufacture of Textiles in 2023-24.
-        b. Which manufacturing subcategories had negative growth in 2022-23?
-        
-        5. iip_india_mth_subcatg_view: This view contains detailed monthly Index of Industrial Production (IIP) data broken down to the specific sub-category level (e.g., Manufacture of food products, Manufacture of textiles).Use this file for: Queries that ask for data on a specific, detailed industry or product sub-category.
-        Sample queries:
-        a. List subcategory indices for Manufacture of Food Products in Jan 2025.
-        b. Show the IIP growth rate for 'Manufacture of motor vehicles, trailers and semi-trailers' for all of 2023.
+        4. iip_india_yr_subcatg_view → This view provides annual Index of Industrial Production (IIP) data for India, broken down by sector, category, and sub-category, including index values and growth rates.
+        Columns: id, base_year, year, sector_type, category, sub_category, iip_index, iip_growth_rate, data_source, released_on, updated_on
+        Instructions: Use this view to retrieve yearly IIP indices and growth rates for specific sectors, categories, or sub-categories, filtered by year, base year, or other relevant attributes.
+        Examples:
+        User: Show the IIP index and growth rate for all manufacturing sub-categories in 2024-25.
+        SQL: SELECT sub_category, iip_index, iip_growth_rate FROM iip_india_yr_subcatg_view WHERE category = 'Manufacturing' AND year = '2024-25';
 
+        User: List all available years for which IIP data is present for the 'Manufacture of Textiles' sub-category.
+        SQL: SELECT DISTINCT year FROM iip_india_yr_subcatg_view WHERE sub_category = 'Manufacture of Textiles';
+
+        User: Get the latest updated IIP index for each sub-category under the Manufacturing category.
+        SQL: SELECT sub_category, iip_index, updated_on FROM iip_india_yr_subcatg_view WHERE category = 'Manufacturing' ORDER BY updated_on DESC;
+        
+        5. iip_india_mth_subcatg_view → Monthly Index of Industrial Production (IIP) data for India, broken down by sector, category, and sub-category, including index values and growth rates.
+        Columns: id, year, month, sector_type, category, sub_category, iip_index, iip_growth_rate, data_source, released_on, updated_on, date_stamp, month_numeric, fiscal_year
+        Instructions: Use this table/view to retrieve monthly IIP index and growth rate data for specific sectors, categories, or sub-categories, filtered by year, month, or fiscal year as needed.
+        Examples:
+        User: Show the IIP index and growth rate for 'Manufacture of Rubber and Plastics Products' in July 2023.
+        SQL: SELECT iip_index, iip_growth_rate FROM iip_india_mth_subcatg_view WHERE sub_category = 'Manufacture of Rubber and Plastics Products' AND year = 2023 AND month = 'July';
+
+        User: List all available sub-categories under the 'Manufacturing' category for the fiscal year 2021-22.
+        SQL: SELECT DISTINCT sub_category FROM iip_india_mth_subcatg_view WHERE category = 'Manufacturing' AND fiscal_year = '2021-22';
+
+        User: Get the IIP index for all sector types in April 2021.
+        SQL: SELECT sector_type, category, sub_category, iip_index FROM iip_india_mth_subcatg_view WHERE year = 2021 AND month = 'April';
 
         6. iip_in_assam: This file contains Index of Industrial Production (IIP) data specifically for Assam on an annual basis, broken down by industry NIC codes, descriptions, and weights. Use this table if the query is about Assam or state-specific industrial production.
         Sample queries:
