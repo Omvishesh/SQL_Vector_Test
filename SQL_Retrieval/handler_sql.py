@@ -316,7 +316,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
         ref_url = "https://www.gst.gov.in/download/gststatistics"
         logger.info(f"Selected file: {selected_file}")
 
-    if (query_class != "CPI") and (query_class != "GDP") and (query_class != "IIP") and (query_class != "MSME") and (query_class != "agriculture_and_rural") and (query_class != "social_migration_and_households") and (query_class != "enterprise_establishment_surveys") and (query_class != "GST"):
+    if (query_class != "CPI") and (query_class != "GDP") and (query_class != "IIP") and (query_class != "MSME") and (query_class != "agriculture_and_rural") and (query_class != "social_migration_and_households") and (query_class != "enterprise_establishment_surveys") and (query_class != "GST") and (query_class != "finance_and_industry"):
         selected_file = "none_of_these"
         ref_url = "N/A"
 
