@@ -14,7 +14,7 @@ def classify_query(query):
                 
                 ## finance_and_industry
                 
-                a. Classify queries related to insurance, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, commodities export and import, energy/commodities, CO2 emissions, mutual funds, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social. 
+                a. Classify queries related to insurance, insurers, non-life insurers,irdai, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, commodities export and import, energy/commodities, CO2 emissions, mutual funds, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social. 
                 
                 b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg].
 
