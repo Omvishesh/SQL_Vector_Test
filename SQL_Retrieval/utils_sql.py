@@ -14,7 +14,7 @@ def classify_query(query):
                 
                 ## finance_and_industry
                 
-                a. Classify queries related to insurance,insurers, non-life insurers, financial markets,e-shram, investments, revenues, energy/commodities, mutual funds, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social. 
+                a. Classify queries related to insurance, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, commodities export and import, energy/commodities, CO2 emissions, mutual funds, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social. 
                 
                 b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg].
 
@@ -223,8 +223,8 @@ def file_selector_finance_and_industry(query):
         15. marketcap_nse_india_mth: This table contains monthly market capitalization data (in lakhs) for the NSE India, organized by fiscal year and month.
         Instructions: Use this table to analyze or retrieve monthly market capitalization figures for NSE India, filtered by fiscal year, month, or date as needed.
         Examples Queries:
-        Queries: Show the market capitalization for each month in fiscal year 2025-26.
-        Queries: Get the latest updated market cap value.
+        Queries: Show the NSE market capitalization for each month in fiscal year 2025-26.
+        Queries: Get the latest updated NSE market cap value.
         Queries: List all fiscal years available in the table.
         
 
