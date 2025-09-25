@@ -12,7 +12,7 @@ import time
 from   pydantic import BaseModel
 import asyncio
 from   fastapi import HTTPException
-from   utils_sql import classify_query, file_selector_CPI, file_selector_GDP, file_selector_IIP, file_selector_MSME, generate_sql_query, handle_pandas_response, table_citation,file_selector_agriculture_and_rural, file_selector_social_migration_and_households, file_selector_enterprise_establishment_surveys, file_selector_GST, identify_generic_columns
+from   utils_sql import classify_query, file_selector_CPI, file_selector_GDP, file_selector_IIP, file_selector_MSME, generate_sql_query, handle_pandas_response, table_citation,file_selector_agriculture_and_rural, file_selector_social_migration_and_households, file_selector_enterprise_establishment_surveys, file_selector_GST,file_selector_finance_and_industry, identify_generic_columns
 from   sqlalchemy import create_engine, text
 import pandas as pd
 import ast
@@ -251,6 +251,13 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
     # Note: classify_query uses llm_call (Gemini), so we use that model's name
     total_input_tokens['gemini-2.0-flash'] += i_tokens
     total_output_tokens['gemini-2.0-flash'] += o_tokens
+    
+    if query_class == "finance_and_industry":
+        selected_file, i_tokens, o_tokens = file_selector_finance_and_industry(unit_query)
+        total_input_tokens['gemini-2.0-flash'] += i_tokens
+        total_output_tokens['gemini-2.0-flash'] += o_tokens
+        ref_url = "not defined yet"
+        logger.info(f"Selected file: {selected_file}")
     
     if query_class == "CPI":
         selected_file, i_tokens, o_tokens = file_selector_CPI(unit_query)

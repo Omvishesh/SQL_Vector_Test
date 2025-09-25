@@ -11,6 +11,12 @@ def classify_query(query):
                 You proceed using the following hints:
                               
                 # 1. Analyze the provided query for key entities. 
+                
+                ## finance_and_industry
+                
+                a. Classify queries related to insurance, financial markets, investments, revenues, energy/commodities, mutual funds, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social. 
+                
+                b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg].
 
                 ## CPI
                               
@@ -76,6 +82,7 @@ def classify_query(query):
                 b. The following files comprise the GST datasets: [gst_registrations, gst_statewise_tax_collection_refund_data, gst_statewise_tax_collection_data, gst_settlement_of_igst_to_states, gstr_three_b, gstr_one, gross_and_net_tax_collection, gst_statewise_fiscal_year_collection_view, 
                 gst_statewise_fiscal_year_igst_settlement_view, gst_statewise_fiscal_year_refund_view].
                 Any query that can be answered with these data sets should be classified as "GST".
+                
 
             # 2. Rules for rejection as "Out of Domain"
                               
@@ -83,12 +90,168 @@ def classify_query(query):
                               
             # 3. EXTREMELY IMPORTANT: 
                 - Based on the above description, respond ONLY with one of the classes from the following list:
-                    [CPI, GDP, IIP, MSME, GST, agriculture_and_rural, social_migration_and_households, enterprise_establishment_surveys, Out of domain]
+                    [finance_and_industry, CPI, GDP, IIP, MSME, GST, agriculture_and_rural, social_migration_and_households, enterprise_establishment_surveys, Out of domain]
                 - DO NOT include any reasoning traces or other text apart from the class selected from the above list.
             """)
     query_class, i_tokens, o_tokens = llm_call(system_instruction, query)
     return query_class.strip(), i_tokens, o_tokens
+def file_selector_finance_and_industry(query):
+    system_instruction = dedent(f"""
+        You are tasked with identifying the file that contains the required data based on the query: "{query}".
+        You must pick one file name only from the following list:
 
+        Choose a file only if the table description explicitly confirms that the data required by the query is covered.
+
+        # Table data
+        1. eshram_state_dly_registrations : This table contains daily registration data for the e-Shram portal, broken down by state and district, showing counts by registration channel and date.
+        Instructions: Use this table to analyze e-Shram registrations by state, district, channel (ssk, csc, self, umang, other_scheme), date, and fiscal year. Useful for tracking registration trends and comparing channels or regions.
+        Example Queries:
+        Query: Show total registrations for each district in ANDAMAN AND NICOBAR ISLANDS for fiscal year 2025-26.
+        Query: Get the number of self registrations in South Andamans on 2025-09-24.
+        Query: List total registrations by channel for each district on 2025-09-24.
+    
+
+        2. fpi_india_yr_invtype: This table contains annual data on Foreign Portfolio Investment (FPI) inflows into India, broken down by investment type (such as equity, debt, hybrid, mutual funds, and AIF) for each financial year.
+        Instructions: Use this table to analyze FPI inflows into India by year and by different investment categories. You can filter by financial year, sum or compare investment types, and track cumulative totals over time.
+        Example queries:
+        Queries Show total FPI inflows for each financial year.
+        Queries: List the equity and debt inflows for the financial year 1994-95.
+        Queries: Get the cumulative FPI inflows up to each year.
+        Queries: Find the years where mutual funds equity inflows were greater than zero.
+        
+        
+        3. wages_sector_industry_index: This table contains wage rate index (WRI) data by sector and industry, including base year, year, period, and index values.
+        Instructions: Use this table to retrieve wage rate index information for specific sectors, industries, years, or periods. Filter by columns like sector, industry, year, or period_as_on to get relevant WRI data.
+        Example Queries:
+        Queries: Show the wage rate index for the Sugar industry in 2023.
+        Queries: List all industries in the Manufacturing Sector with their latest wage rate index.
+        Queries: Get the wage rate index for Oils & Fats industry as of 1st January 2023.
+        
+        
+        4. irdai_nonlife_india_mth_insurer: This table provides monthly and cumulative premium data, market share, and growth percentages for non-life insurance companies in India, categorized by insurer and month.
+        Instructions: Use this table to analyze premium collections, market share, and growth trends for non-life insurers in India by month, insurer, or category.
+        Example Queries:
+        Queries: Show the total premium collected by each insurer in July 2025.
+        Queries: List insurers with negative growth in July 2025.
+        Queries: What is the market share of Bajaj Allianz General Insurance Company Limited in July 2025Queries?
+          
+          
+        5. stock_india_mth_boaccounts: This table contains monthly data on the number of demat accounts in India, categorized by Banks, Custodians, and Stockbrokers, including new accounts opened, accounts closed, and total accounts at month-end.
+        Instructions: Use this table to analyze trends in demat account openings, closures, and totals across different categories and months. Filter by year, month, or category as needed.
+        Examples Queries:
+        Queries: Show the total number of new accounts opened by Stockbrokers in August 2025.
+        Queries: List the number of accounts closed by each category in August 2025.
+        Queries: Get the total accounts at the end of August 2025 for all categories.
+        Queries: Show the monthly trend of new accounts opened by Banks in 2025.
+        
+        
+        6. stock_india_mth_dps: This table contains monthly data on the number of participants in different categories (such as Banks, Custodians, Stockbrokers) in India, including counts at the beginning and end of each month, as well as new registrations and cancellations.
+        Instructions: Use this table to analyze trends in participant numbers by category, year, and month, or to track registrations and cancellations over time.
+        Examples Queries:
+        Queries: Show the number of stockbrokers at the end of each month in 2025.
+        Queries: How many new banks were registered in July 2025?
+        Queries: List the total participants at the beginning of July 2025 for all categories.
+        
+        
+        7. fdi_india_qtr_state: This table provides quarterly Foreign Direct Investment (FDI) statistics for Indian states, including investment amounts in INR crores and USD millions, and the percentage share of each state.
+        Instructions: Use this table to analyze or retrieve FDI data by state and quarter, including total investment amounts and percentage shares.
+        Examples Queries:
+        Queries: Show the FDI in USD million for Maharashtra in the quarter starting April 2025.
+        Queries: List all states with their FDI percent for the quarter ending June 2025.
+        Queries: Get the total FDI in INR crore for Gujarat across all quarters.
+       
+       
+        8. revenue_maharashtra_fy_category: This table provides fiscal year-wise revenue data for Maharashtra, categorized by revenue type and sub-category, including revenue amounts, their percentage contribution to the total, and descriptions.
+        Instructions: Use this table to analyze Maharashtra's revenue collection by fiscal year, category, and sub-category. You can filter by fiscal_year, category, or sub_category to get specific revenue figures and their share in total revenue.
+        Examples Queries:
+        Queries: Show total revenue for Maharashtra in 2022-23 by category.
+        Queries: List all sub-categories under category A for 2022-23 with their revenue and description.
+        Queries: What was the percent contribution of 'Union Excise Duties' in 2022-23?
+        
+
+        9. mf_monthly_schemes: This table contains monthly aggregated data on mutual fund schemes in India, including scheme categories, types, names, asset and folio counts, fund flows, AUM, and other key metrics, reported by the Association of Mutual Funds in India.
+        Instructions: Use this table to analyze mutual fund scheme performance, inflows/outflows, assets under management, and scheme distribution by category, type, or time period. Filter by month, year, scheme type, or category to get specific insights.
+        Examples Queries:
+        Queries: Show the net inflow/outflow for all Income/Debt Oriented Schemes in August 2025.
+        Queries: List the number of folios and net assets under management for each scheme in the latest available month.
+        Queries: Get total funds mobilized and repurchased for Open ended Schemes in fiscal year 2025-26.
+        
+
+        10. statewise_petroleum_consumption: This table provides annual petroleum consumption data (in thousand tonnes) for each Indian state and union territory.
+        Instructions: Use this table to analyze or retrieve petroleum consumption figures by state and fiscal year.
+        Examples Queries:
+        Queries: Show the petroleum consumption for each state in 2023-24.
+        Queries: Which state had the highest petroleum consumption in 2023-24?
+        Queries: List petroleum consumption for ANDHRA PRADESH across all years.
+        
+
+        11. co2_emissions_by_fuel_yearly: This table contains yearly CO2 emissions data in million tonnes (Mt) from coal and oil/gas sources, along with the year and last update date.
+        Instructions: Use this table to analyze or retrieve annual CO2 emissions from coal and oil/gas, compare trends over years, or find the latest emission values.
+        Examples Queries:
+        Queries: Show total CO2 emissions from coal for each year.
+        Queries: What was the oil and gas CO2 emission in 2010-11?
+        Queries: List all years with their total CO2 emissions (coal + oil/gas).
+        Queries: Which year had the highest coal CO2 emissions?
+        
+
+        12. quick_estimates_major_commodities_july_export: This table provides quick export estimates for major commodities, showing export values (in INR crore) for July and April-July periods across two consecutive years, along with percentage changes.
+        Instructions: Use this table to analyze export performance, compare year-on-year changes for July or April-July periods, and identify trends in major commodity exports.
+        Examples Queries:
+        Queries: Show the export value and percentage change for Coffee in July 2025 compared to July 2024.
+        Queries: List all commodities with more than 20% growth in exports in April-July 2025 compared to April-July 2024.
+        Queries: What is the total export value for all commodities in July 2025?
+        
+
+        13. quick_estimates_major_commodities_july_import: This table provides quick estimates of major commodity imports, showing values in INR crore for July and April-July periods across two years, along with percentage changes.
+        Instructions: Use this table to analyze import values and percentage changes for major commodities between July and April-July periods of consecutive years.
+        Examples Queries:
+        Queries: Show the percentage change in import value for all commodities in July 2025 compared to July 2024.
+        Queries: List the import values for Vegetable Oil for both July 2024 and July 2025.
+        Queries: Which commodities had a decrease in import value from April-July 2024 to April-July 2025?
+        
+
+        14. statewise_cumulative_renewable_power: This table provides state-wise annual cumulative renewable power capacity data in India, including breakdowns by source (small hydro, wind, bio power, waste to energy, solar), total capacity, and growth rate.
+        Instructions: Use this table to analyze renewable power capacity by state/UT, year, and energy source. You can filter by state, year, or energy type, and aggregate or compare data across years or regions.
+        Examples Queries:
+        Queries: Show the total renewable power capacity for all states in 2024.
+        Queries: List the growth rate percent of renewable power for Andhra Pradesh over the years.
+        Queries: Which state had the highest solar capacity in 2023?
+        Queries: Get the total wind power capacity for each state in fiscal year 2023-2024.
+        Queries: Show all data for Arunachal Pradesh in 2023.
+        
+
+        15. marketcap_nse_india_mth: This table contains monthly market capitalization data (in lakhs) for the NSE India, organized by fiscal year and month.
+        Instructions: Use this table to analyze or retrieve monthly market capitalization figures for NSE India, filtered by fiscal year, month, or date as needed.
+        Examples Queries:
+        Queries: Show the market capitalization for each month in fiscal year 2025-26.
+        Queries: Get the latest updated market cap value.
+        Queries: List all fiscal years available in the table.
+        
+
+        16. ki_assam_mth_sctg: This table contains monthly financial data for Assam, including budget estimates, actuals, and percentage comparisons for various revenue and expenditure indicators.
+        Instructions: Use this table to analyze Assam's monthly budget performance, compare actuals to budget estimates, and review trends across different revenue and expenditure categories.
+        Examples Queries:
+        Queries: Show the actuals and budget estimates for all Revenue Receipts indicators.
+        Queries: List the percentage of actuals to budget estimates for the current year for each indicator.
+        Queries: Find the actuals for State Goods and Services Tax (SGST).
+        
+
+        17. insurance_india_mth_sctg: This table contains monthly sector-wise premium and related financial data for various insurance companies in India, including breakdowns by insurance type (fire, marine, motor, health, etc.), total premiums, growth, and market share.
+        Instructions: Use this table to analyze or compare insurance companies' performance by sector, track premium growth, or view detailed breakdowns of insurance business lines for a given period.
+        Examples Queries:
+        Queries: Show the total premium collected by each insurer for the latest month.
+        Queries: Compare the motor insurance premium of Acko General Insurance Ltd with the previous year.
+        Queries: List insurers with health premiums above 1000.
+        Queries: Get the total accretion for all insurers except the previous year.
+        Queries: Show the breakdown of marine insurance (cargo and hull) for Bajaj Allianz General Insurance Co Ltd.
+        
+        Consider the list above and respond only with one of the following file names:
+        [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg, none_of_these]
+        Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
+        
+""")
+    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    return selected_file.strip(), i_tokens, o_tokens
 def file_selector_agriculture_and_rural(query):
     system_instruction = dedent(f"""
         You are tasked with identifying the file that contains the required data based on the query: "{query}".

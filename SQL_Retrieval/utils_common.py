@@ -143,6 +143,7 @@ def query_certify_valid(user_query):
                                 Given the attached query below, decide whether the query can be answered with the available data. To decide on validity, remember that you are an agent which can answer questions about the Indian economy. 
                                 
                                 ## Valid topics and questions include: 
+                                    finance_and_industry
                                     Inflation (CPI), 
                                     wholesale prices (WPI), 
                                     industrial output (IIP), 
