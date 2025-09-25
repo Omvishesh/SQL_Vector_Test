@@ -14,7 +14,7 @@ def classify_query(query):
                 
                 ## finance_and_industry
                 
-                a. Classify queries related to insurance, financial markets,e-shram, investments, revenues, energy/commodities, mutual funds, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social. 
+                a. Classify queries related to insurance,insurers, non-life insurers, financial markets,e-shram, investments, revenues, energy/commodities, mutual funds, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social. 
                 
                 b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg].
 
@@ -114,7 +114,7 @@ def file_selector_finance_and_industry(query):
         2. fpi_india_yr_invtype: This table contains annual data on Foreign Portfolio Investment (FPI) inflows into India, broken down by investment type (such as equity, debt, hybrid, mutual funds, and AIF) for each financial year.
         Instructions: Use this table to analyze FPI inflows into India by year and by different investment categories. You can filter by financial year, sum or compare investment types, and track cumulative totals over time.
         Example queries:
-        Queries Show total FPI inflows for each financial year.
+        Queries: Show total FPI inflows for each financial year.
         Queries: List the equity and debt inflows for the financial year 1994-95.
         Queries: Get the cumulative FPI inflows up to each year.
         Queries: Find the years where mutual funds equity inflows were greater than zero.
@@ -133,7 +133,7 @@ def file_selector_finance_and_industry(query):
         Example Queries:
         Queries: Show the total premium collected by each insurer in July 2025.
         Queries: List insurers with negative growth in July 2025.
-        Queries: What is the market share of Bajaj Allianz General Insurance Company Limited in July 2025Queries?
+        Queries: What is the market share of Bajaj Allianz General Insurance Company Limited in July 2025?
           
           
         5. stock_india_mth_boaccounts: This table contains monthly data on the number of demat accounts in India, categorized by Banks, Custodians, and Stockbrokers, including new accounts opened, accounts closed, and total accounts at month-end.
