@@ -147,6 +147,7 @@ def query_certify_valid(user_query):
                                     wholesale prices (WPI), 
                                     industrial output (IIP), 
                                     manufacturing and other industrial sectors, 
+                                    cement and construction,
                                     banking, finance, 
                                     GDP (gross domestic product), 
                                     state value added (GSVA), 
@@ -158,7 +159,7 @@ def query_certify_valid(user_query):
                                     housing prices, 
                                     national income, 
                                     private income, 
-                                    exports, imports, 
+                                    exports, imports, IMF data,
                                     macro and micro economic questions, 
                                     population or strength of labour force in various categories, and 
                                     Indian government initiatives regarding the economy. 
@@ -196,7 +197,8 @@ def query_certify_valid(user_query):
                                     Settlement of IGST to State,
                                     Composition taxpayers,
                                     Anything on MSMEs (export ratios, Udyam registrations, MSME shares of GDP, etc.),
-                                    Countries by share of GDP, Purchasing Power Parity (PPP)
+                                    Countries by share of GDP, Purchasing Power Parity (PPP),
+                                    UPI payments and transactions.
 
 
                                     Annual Survey of Industries (ASI) (which includes information relating to industries such as capital and investment,stock and inventory,financial metrics of industries,employment and labour,compensation and benefits,production and outputs), 

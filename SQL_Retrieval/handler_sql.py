@@ -12,7 +12,7 @@ import time
 from   pydantic import BaseModel
 import asyncio
 from   fastapi import HTTPException
-from   utils_sql import classify_query, file_selector_CPI, file_selector_GDP, file_selector_IIP, file_selector_MSME, generate_sql_query, handle_pandas_response, table_citation,file_selector_agriculture_and_rural, file_selector_social_migration_and_households,file_selector_enterprise_establishment_surveys,identify_generic_columns
+from   utils_sql import classify_query, file_selector_CPI, file_selector_GDP, file_selector_IIP, file_selector_MSME, generate_sql_query, handle_pandas_response, table_citation,file_selector_agriculture_and_rural, file_selector_social_migration_and_households, file_selector_enterprise_establishment_surveys, file_selector_GST, identify_generic_columns
 from   sqlalchemy import create_engine, text
 import pandas as pd
 import ast
@@ -29,7 +29,7 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 query_counter = {"value": 1}
 counter_lock  = Lock()
 current_date  = datetime.now().strftime('%Y-%m-%d')
-QUERY_TIMEOUT = 60  # seconds
+QUERY_TIMEOUT = 26  # seconds
  
 logging.basicConfig(
     filename = "sql-"+current_date+".log",
@@ -38,8 +38,8 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
-#DATABASE_URI = "postgresql://postgres:admin@100.104.12.231:5432/final"
-DATABASE_URI = os.getenv("DATABASE_URI")
+DATABASE_URI = "postgresql://postgres:admin@100.104.12.231:5432/final"
+#DATABASE_URI = os.getenv("DATABASE_URI")
 
 engine = create_engine(
     DATABASE_URI,
@@ -286,7 +286,6 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
         total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main/macroindicators?product=nss77"
         logger.info(f"Selected file: {selected_file}")
-
         
     if (query_class == "social_migration_and_households"):
         selected_file, i_tokens, o_tokens = file_selector_social_migration_and_households(unit_query)
@@ -295,7 +294,6 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
 
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main/macroindicators?product=nss78"
         logger.info(f"Selected file: {selected_file}")
-
         
     if (query_class == "enterprise_establishment_surveys"):
         selected_file, i_tokens, o_tokens = file_selector_enterprise_establishment_surveys(unit_query)
@@ -303,9 +301,15 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
         total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main"
         logger.info(f"Selected file: {selected_file}")
+        
+    if query_class == "GST":
+        selected_file, i_tokens, o_tokens = file_selector_GST(unit_query)
+        total_input_tokens['gemini-2.0-flash'] += i_tokens
+        total_output_tokens['gemini-2.0-flash'] += o_tokens
+        ref_url = "https://www.gst.gov.in/download/gststatistics"
+        logger.info(f"Selected file: {selected_file}")
 
-
-    if (query_class != "CPI") and (query_class != "GDP") and (query_class != "IIP") and (query_class != "MSME") and (query_class != "agriculture_and_rural") and (query_class != "social_migration_and_households") and (query_class != "enterprise_establishment_surveys"):
+    if (query_class != "CPI") and (query_class != "GDP") and (query_class != "IIP") and (query_class != "MSME") and (query_class != "agriculture_and_rural") and (query_class != "social_migration_and_households") and (query_class != "enterprise_establishment_surveys") and (query_class != "GST"):
         selected_file = "none_of_these"
         ref_url = "N/A"
 
@@ -341,7 +345,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
         attempt     = 1
         success     = False
         error       = "N/A"
-        max_rows    = 125
+        max_rows    = int(125.0/nq)
         
         while (not success) and (attempt <= max_retries):
             result=None
@@ -367,6 +371,8 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                         contains_year = 'year'
                     elif "'years'" in schema:
                         contains_year = 'years'
+                    elif "'fiscal_year'" in schema:
+                        contains_year = 'fiscal_year'
                     contains_month = ""
                     
                     if "'month_numeric'" in schema:
@@ -540,10 +546,17 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                 logger.info(response)
                 logger.info("SQL response:")
                 
-                with engine.connect() as connection:
-                    df = pd.read_sql(text(response), connection)
-                    nrows = len(df)
-                    logger.info("Number of rows pulled: " + str(nrows))
+                try:
+                    if "WHERE  ORDER BY" in str(response):
+                        raise Exception("No filters in query")
+                    with engine.connect() as connection:
+                        df = pd.read_sql(text(response), connection)
+                        nrows = len(df)
+                        logger.info("Number of rows pulled: " + str(nrows))
+                except Exception as e:
+                    logger.error("Exception while pulling SQL query: " + str(e))
+                    df = {}
+                    nrows = 0
                             
                 if nrows == 0:
                     error = "SQL query resulted in no data. Try changing categories or broadening time scope, or REDUCING the number of filters: " + str(response)
@@ -570,8 +583,8 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                         logger.info("Found a data source column: " + ref_name)
                         df = df.drop(columns=['data_source'])
                     result, headers, i_tokens, o_tokens = handle_pandas_response(df, unit_query, orig_query, max_rows, nq)
-                    total_input_tokens['gpt-4.1'] += i_tokens
-                    total_output_tokens['gpt-4.1'] += o_tokens
+                    total_input_tokens['gpt-4o-mini'] += i_tokens
+                    total_output_tokens['gpt-4o-mini'] += o_tokens
                     success = True
                 else:
                     attempt += 1
@@ -586,16 +599,17 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
         if not result: # or not isinstance(result, str):
             raise Exception("No output found from agents.")
 
-        logger.info(str(result))
-        logger.info(str(headers))
-        parsed_data = handle_json_response(str(result))
-        
+        #logger.info(str(result))
+        #logger.info(str(headers))
+        #parsed_data = handle_json_response(str(result))
+        parsed_data = result
+
         if not parsed_data:
             raise Exception("Parsed data is None or empty.")
 
         # Successful execution
-        logger.info(parsed_data)
-        logger.info(headers)
+        #logger.info(parsed_data)
+        #logger.info(headers)
         total_time = time.time() - start_time
 
         logger.info(f"Response:query_id:{query_id}: {parsed_data}")
