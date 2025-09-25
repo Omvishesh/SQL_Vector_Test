@@ -224,6 +224,8 @@ async def orchestrate(question: Question):
             
             batch = BatchRequest(queries=sql_queries)
             sql_responses = await batch_sql_queries(batch, user_query, total_input_tokens, total_output_tokens)
+            logger.info("SQL responses obtained")
+            logger.info(sql_responses["responses"])
             
         has_garbage = True
         counter = 0
