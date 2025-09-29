@@ -7,94 +7,94 @@ import ast
 def classify_query(query):
     system_instruction=dedent("""
                 You are tasked with classifying the given query into one of the following categories: "CPI", "GDP", "IIP", "MSME", "agriculture_and_rural", "social_migration_and_households", "enterprise_establishment_surveys", or "Out of domain". Use the guidelines below to analyze key entities and determine the best fit. Respond only with the selected category name—do not include reasoning, explanations, or additional text.
-                              
+
                 You proceed using the following hints:
-                              
-                # 1. Analyze the provided query for key entities. 
-                
+
+                # 1. Analyze the provided query for key entities.
+
                 ## finance_and_industry
-                
-                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, commodities export and import, energy/commodities, mutual funds, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social. 
-                
-                b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg].
+
+                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, commodities export and import, energy/commodities, mutual funds, data of toll collection, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social.
+
+                b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg, toll_state_monthly_etc_transactions].
 
                 ## CPI
-                              
+
                 a. Classify queries related to inflation, CPI, price indices, sales, wholesale, consumer, or consumption. This includes datasets on general CPI inflation, agricultural and rural laborer price indices, city-wise housing prices, wholesale price indices (financial year and calendar wise), and worker-specific CPI data.
-                
-                b. The following files comprise the CPI datasets: [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view,cpi_india_mth_subgrp_view,consumer_price_index_CPI_for_agricultural_and_rural_labourers,city_wise_housing_price_indices,whole_sale_price_index_WPI_financial_year_wise,cpi_worker_data,whole_sale_price_index_WPI_calendar_wise]. 
+
+                b. The following files comprise the CPI datasets: [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view,cpi_india_mth_subgrp_view,consumer_price_index_CPI_for_agricultural_and_rural_labourers,city_wise_housing_price_indices,whole_sale_price_index_WPI_financial_year_wise,cpi_worker_data,whole_sale_price_index_WPI_calendar_wise].
                 Any query that can be answered with these data sets should be classified as "CPI".
 
                 ## GDP
-                              
+
                 a. Classify queries on GDP, gross domestic product, GSDP, GVA, NDP, NNI, GNI, capital formation, expenditure components, per capita values, NSDP, NSVA, PCNSDP, state economic indicators, or macro-level metrics like monetary policy instruments (repo rate, bank rate, MSF, SLR, CRR), government securities yields, call money rates, forward premia, balance of payments, external debt, foreign reserves, FDI, portfolio investments, ECB, trade balance, exports, imports, money supply (M1, M3), bank credit, government borrowings, fiscal deficit, market capitalization, and exchange rates. This covers datasets on annual GDP estimates (crore and growth rates), gross state values, national account aggregates, per capita income and consumption, provisional GDP macro aggregates, quarterly expenditure and GDP estimates, other macro indicators (daily, monthly, quarterly, weekly), top macro indicators (monthly, quarterly, weekly), state-wise NSDP/NSVA/PCNSDP, IMF exports.
                 ** Notes **
                 All queries about "CREDIT" should go to MSME and must not go to GDP
-                              
-                b. The following files comprise the GDP datasets: [annual_estimate_gdp_growth_rate,gross_state_value,key_aggregates_of_national_accounts,per_capita_income_product_final_consumption,provisional_estimateso_gdp_macro_economic_aggregates,quaterly_estimates_of_expenditure_components_gdp,quaterly_estimates_of_gdp , other_macro_economic_indicators_daily_data ,other_macro_economic_indicators_monthly_data,other_macro_economic_indicators_quaterly_data,other_macro_economic_indicators_weekly_data, top_fifty_macro_economic_indicators_monthly_data,top_fifty_macro_economic_indicators_quaterly_data,top_fifty_macro_economic_indicators_weekly_data , statewise_nsdp,statewise_nsva,statewise_pcnsdp, niryat_ite_commodity, niryat_ite_state]. 
+
+                b. The following files comprise the GDP datasets: [annual_estimate_gdp_growth_rate,gross_state_value,key_aggregates_of_national_accounts,per_capita_income_product_final_consumption,provisional_estimateso_gdp_macro_economic_aggregates,quaterly_estimates_of_expenditure_components_gdp,quaterly_estimates_of_gdp , other_macro_economic_indicators_daily_data ,other_macro_economic_indicators_monthly_data,other_macro_economic_indicators_quaterly_data,other_macro_economic_indicators_weekly_data, top_fifty_macro_economic_indicators_monthly_data,top_fifty_macro_economic_indicators_quaterly_data,top_fifty_macro_economic_indicators_weekly_data , statewise_nsdp,statewise_nsva,statewise_pcnsdp, niryat_ite_commodity, niryat_ite_state].
                 Any query that can be answered with these data sets should be classified as "GDP".
 
                 ## IIP
-                              
+
                 a. Entities such as IIP, industrial output, industrial production, material like cement, mining, manufacturing, electricity, pm schemes like pmay, pmgsy, motor vehicles or other industries should be classified as "IIP".
-                
-                b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,construct_state_cement_indicators_view, iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam]. 
+
+                b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,construct_state_cement_indicators_view, iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam].
                 Any query that can be answered with these data sets should be classified as "IIP".
 
                 ## MSME
-                              
+
                 a. Classify queries on MSME, Micro, Small and Medium Enterprises, credit growth, exchange rates, Nifty SME, food/non-food credit, gross bank credit, upi, upi transactions, regional/sectoral MSME distribution, or economic shares. This covers datasets on gross bank credit for food/non-food views, sector definitions, non-food credit details, regional and sectoral shares, industry views, priority sector views, daily Nifty SME index values, and state-wise Udyam registrations.
-                              
-                b. The following files comprise the MSME datasets: [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view, upi_dly_stats, upi_mth_stats, upi_mth_failures]. 
+
+                b. The following files comprise the MSME datasets: [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view, upi_dly_stats, upi_mth_stats, upi_mth_failures].
                 Any query that can be answered with these data sets should be classified as "MSME".
 
                 ## agriculture_and_rural
-                              
+
                 a. Classify queries seeking descriptive statistics on agricultural households, including crop sales, farming inputs, irrigation, receipts, crop insurance (uptake, reasons for non-insurance), farmer advisory, MSP awareness, input procurement, land leasing/ownership, livestock, household classification, credit sources, asset investment, operational holdings, production/yield, and social/regional comparisons. This aligns with themes like agricultural extension, insurance design, rural finance, food security, market linkages, land reform, asset creation, productivity, equity, and development. Datasets include distributions on crop sales by agency, farming resource use, seed quality/procurement, expenditure/receipts on assets and production, crop insurance experiences, land leasing by social group, operational holdings, livestock ownership, and more.
 
                 b. The following files comprise the "agriculture_and_rural" datasets:[sa_agri_hhs_crop_sale_quantity_by_agency_major_disposal, sa_agri_hhs_reporting_use_of_diff_farming_resources, sa_agri_hhs_use_purchased_seed_by_quality, sa_avg_expenditure_and_receipts_on_farm_and_nonfarm_assets, sa_avg_gross_cropped_area_value_quantity_crop_production, sa_avg_monthly_expenses_and_receipts_for_crop_production, sa_avg_monthly_total_expenses_crop_production, sa_avg_monthly_total_expenses_receipts_animal_farming_30_days, sa_dist_agri_hh_not_insuring_crop_by_reason_for_selected_crop, sa_dist_agri_hhs_seed_use_by_agency_of_procurement, sa_dist_hhs_leasing_out_land_and_avg_area_social_group, sa_dist_of_agri_hhs_reporting_use_of_purchased_seed, sa_dist_of_hhs_by_hh_classification_for_diff_classes_of_land, sa_distribution_hhs_leasing_in_land_avg_area_social_group, sa_distribution_loan_outstanding_by_source_of_loan_taken, sa_distribution_operational_holdings_by_possession_type, sa_est_num_of_hhs_for_each_size_class_of_land_possessed, sa_estimated_no_of_hhs_for_different_social_groups, sa_no_of_hhs_owning_of_livestock_of_different_types, sa_no_per_1000_distri_of_agri_hhs_reporting_sale_of_crops, sa_no_per_hh_operational_holding_by_size_hh_oper_holding, sa_per_1000_agri_hh_insured_experienced_crop_loss, sa_per_1000_crop_producing_hh_crop_disposal_agency_sale_satisf, sa_perc_dist_of_land_for_hhs_belonging_operational_holding, sa_percent_distribution_of_leased_out_land_by_terms_of_lease]
                 Any query that can be answered with these data sets should be classified as "agriculture_and_rural".
 
                 ## social_migration_and_households
-                              
-                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services, credit, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, mass media/broadband, transport/public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
-                
-                b. The following files comprise the "social_migration_and_households" datasets: [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance, 
+
+                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services, credit, aadhar data, hospital data, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, mass media/broadband, transport/public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
+
+                b. The following files comprise the "social_migration_and_households" datasets: [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
                     mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
                     mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
-                    mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place]
+                    mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data]
                 Any query that can be answered with these data sets should be classified as "social_migration_and_households".
 
                 ## enterprise_establishment_surveys
-                              
+
                 a. Classify queries on establishment/enterprise characteristics like ownership types, owner social groups/education, gender/employment composition, digital adoption (computers/internet), operation nature (perennial/seasonal), location types, registration status, franchisee/NPI status, financial metrics (GVA per establishment/worker, emoluments, outstanding loans, banking access), and operational details (hours/days worked). This includes ASI (Annual Survey of Industries) on industrial establishments, capital/investment, stocks, financials, employment, production; and PLFS (Periodic Labour Force Survey) on employment, unemployment, labor participation. Datasets encompass emoluments/GVA per worker, worker distributions by type/gender, key characteristics, hours/months operated, registrations, computer/internet use, ownership/operation/location distributions, state-wise estimates, and survey data on industries and labor force.
-                              
-                b. The following files comprise the "enterprise_establishment_surveys" datasets: [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use, 
+
+                b. The following files comprise the "enterprise_establishment_surveys" datasets: [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
                     asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
-                    asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc, 
+                    asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
                     asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, periodic_labour_force_survey]
                 Any query that can be answered with these data sets should be classified as "enterprise_establishment_surveys".
-                              
+
                 ## GST
-                              
+
                 a. Classify queries on GST (including taxpayers, returns, state contributions, gross/net tax collections, IGST settlements, registrations, subsidies), GSTR filings, tax collections and refunds, and GST registrations.
-                              
-                b. The following files comprise the GST datasets: [gst_registrations, gst_statewise_tax_collection_refund_data, gst_statewise_tax_collection_data, gst_settlement_of_igst_to_states, gstr_three_b, gstr_one, gross_and_net_tax_collection, gst_statewise_fiscal_year_collection_view, 
+
+                b. The following files comprise the GST datasets: [gst_registrations, gst_statewise_tax_collection_refund_data, gst_statewise_tax_collection_data, gst_settlement_of_igst_to_states, gstr_three_b, gstr_one, gross_and_net_tax_collection, gst_statewise_fiscal_year_collection_view,
                 gst_statewise_fiscal_year_igst_settlement_view, gst_statewise_fiscal_year_refund_view].
                 Any query that can be answered with these data sets should be classified as "GST".
-                
 
             # 2. Rules for rejection as "Out of Domain"
-                              
-            Any query that belongs to none of [CPI, GDP, IIP, MSME, agriculture_and_rural, social_migration_and_households, enterprise_establishment_surveys] should be classified "Out of domain". Examples of out of domain queries include those about general queries about the economy, queries about government policies, queries about upcoming challenges, and queries unrelated to finance. All of these should be marked "Out of domain". 
-                              
-            # 3. EXTREMELY IMPORTANT: 
+
+            Any query that belongs to none of [CPI, GDP, IIP, MSME, agriculture_and_rural, social_migration_and_households, enterprise_establishment_surveys] should be classified "Out of domain". Examples of out of domain queries include those about general queries about the economy, queries about government policies, queries about upcoming challenges, and queries unrelated to finance. All of these should be marked "Out of domain".
+
+            # 3. EXTREMELY IMPORTANT:
                 - Based on the above description, respond ONLY with one of the classes from the following list:
-                    [finance_and_industry, CPI, GDP, IIP, MSME, GST, agriculture_and_rural, social_migration_and_households, enterprise_establishment_surveys, Out of domain]
+                    [CPI, GDP, IIP, MSME, GST, agriculture_and_rural, social_migration_and_households, enterprise_establishment_surveys, finance_and_industry, Out of domain]
                 - DO NOT include any reasoning traces or other text apart from the class selected from the above list.
             """)
     query_class, i_tokens, o_tokens = llm_call(system_instruction, query)
     return query_class.strip(), i_tokens, o_tokens
+
 def file_selector_finance_and_industry(query):
     system_instruction = dedent(f"""
         You are tasked with identifying the file that contains the required data based on the query: "{query}".
@@ -109,7 +109,7 @@ def file_selector_finance_and_industry(query):
         Query: Show total registrations for each district in ANDAMAN AND NICOBAR ISLANDS for fiscal year 2025-26.
         Query: Get the number of self registrations in South Andamans on 2025-09-24.
         Query: List total registrations by channel for each district on 2025-09-24.
-    
+
 
         2. fpi_india_yr_invtype: This table contains annual data on Foreign Portfolio Investment (FPI) inflows into India, broken down by investment type (such as equity, debt, hybrid, mutual funds, and AIF) for each financial year.
         Instructions: Use this table to analyze FPI inflows into India by year and by different investment categories. You can filter by financial year, sum or compare investment types, and track cumulative totals over time.
@@ -118,24 +118,24 @@ def file_selector_finance_and_industry(query):
         Queries: List the equity and debt inflows for the financial year 1994-95.
         Queries: Get the cumulative FPI inflows up to each year.
         Queries: Find the years where mutual funds equity inflows were greater than zero.
-        
-        
+
+
         3. wages_sector_industry_index: This table contains wage rate index (WRI) data by sector and industry, including base year, year, period, and index values.
         Instructions: Use this table to retrieve wage rate index information for specific sectors, industries, years, or periods. Filter by columns like sector, industry, year, or period_as_on to get relevant WRI data.
         Example Queries:
         Queries: Show the wage rate index for the Sugar industry in 2023.
         Queries: List all industries in the Manufacturing Sector with their latest wage rate index.
         Queries: Get the wage rate index for Oils & Fats industry as of 1st January 2023.
-        
-        
+
+
         4. irdai_nonlife_india_mth_insurer: This table provides monthly and cumulative premium data, market share, and growth percentages for non-life insurance companies in India, categorized by insurer and month.
         Instructions: Use this table to analyze premium collections, market share, and growth trends for non-life insurers in India by month, insurer, or category.
         Example Queries:
         Queries: Show the total premium collected by each insurer in July 2025.
         Queries: List insurers with negative growth in July 2025.
         Queries: What is the market share of Bajaj Allianz General Insurance Company Limited in July 2025?
-          
-          
+
+
         5. stock_india_mth_boaccounts: This table contains monthly data on the number of demat accounts in India, categorized by Banks, Custodians, and Stockbrokers, including new accounts opened, accounts closed, and total accounts at month-end.
         Instructions: Use this table to analyze trends in demat account openings, closures, and totals across different categories and months. Filter by year, month, or category as needed.
         Examples Queries:
@@ -143,31 +143,31 @@ def file_selector_finance_and_industry(query):
         Queries: List the number of accounts closed by each category in August 2025.
         Queries: Get the total accounts at the end of August 2025 for all categories.
         Queries: Show the monthly trend of new accounts opened by Banks in 2025.
-        
-        
+
+
         6. stock_india_mth_dps: This table contains monthly data on the number of participants in different categories (such as Banks, Custodians, Stockbrokers) in India, including counts at the beginning and end of each month, as well as new registrations and cancellations.
         Instructions: Use this table to analyze trends in participant numbers by category, year, and month, or to track registrations and cancellations over time.
         Examples Queries:
         Queries: Show the number of stockbrokers at the end of each month in 2025.
         Queries: How many new banks were registered in July 2025?
         Queries: List the total participants at the beginning of July 2025 for all categories.
-        
-        
-        7. fdi_india_qtr_state: This table provides quarterly Foreign Direct Investment (FDI) statistics for Indian states, including investment amounts in INR crores and USD millions, and the percentage share of each state.
+
+
+        7. fdi_state_qtr_view: This table provides quarterly Foreign Direct Investment (FDI) statistics for Indian states, including investment amounts in INR crores and USD millions, and the percentage share of each state.
         Instructions: Use this table to analyze or retrieve FDI data by state and quarter, including total investment amounts and percentage shares.
         Examples Queries:
         Queries: Show the FDI in USD million for Maharashtra in the quarter starting April 2025.
         Queries: List all states with their FDI percent for the quarter ending June 2025.
         Queries: Get the total FDI in INR crore for Gujarat across all quarters.
-       
-       
+
+
         8. revenue_maharashtra_fy_category: This table provides fiscal year-wise revenue data for Maharashtra, categorized by revenue type and sub-category, including revenue amounts, their percentage contribution to the total, and descriptions.
         Instructions: Use this table to analyze Maharashtra's revenue collection by fiscal year, category, and sub-category. You can filter by fiscal_year, category, or sub_category to get specific revenue figures and their share in total revenue.
         Examples Queries:
         Queries: Show total revenue for Maharashtra in 2022-23 by category.
         Queries: List all sub-categories under category A for 2022-23 with their revenue and description.
         Queries: What was the percent contribution of 'Union Excise Duties' in 2022-23?
-        
+
 
         9. mf_monthly_schemes: This table contains monthly aggregated data on mutual fund schemes in India, including scheme categories, types, names, asset and folio counts, fund flows, AUM, and other key metrics, reported by the Association of Mutual Funds in India.
         Instructions: Use this table to analyze mutual fund scheme performance, inflows/outflows, assets under management, and scheme distribution by category, type, or time period. Filter by month, year, scheme type, or category to get specific insights.
@@ -175,7 +175,7 @@ def file_selector_finance_and_industry(query):
         Queries: Show the net inflow/outflow for all Income/Debt Oriented Schemes in August 2025.
         Queries: List the number of folios and net assets under management for each scheme in the latest available month.
         Queries: Get total funds mobilized and repurchased for Open ended Schemes in fiscal year 2025-26.
-        
+
 
         10. statewise_petroleum_consumption: This table provides annual petroleum consumption data (in thousand tonnes) for each Indian state and union territory.
         Instructions: Use this table to analyze or retrieve petroleum consumption figures by state and fiscal year.
@@ -183,7 +183,7 @@ def file_selector_finance_and_industry(query):
         Queries: Show the petroleum consumption for each state in 2023-24.
         Queries: Which state had the highest petroleum consumption in 2023-24?
         Queries: List petroleum consumption for ANDHRA PRADESH across all years.
-        
+
 
         11. co2_emissions_by_fuel_yearly: This table contains yearly CO2 emissions data in million tonnes (Mt) from coal and oil/gas sources, along with the year and last update date.
         Instructions: Use this table to analyze or retrieve annual CO2 emissions from coal and oil/gas, compare trends over years, or find the latest emission values.
@@ -192,7 +192,7 @@ def file_selector_finance_and_industry(query):
         Queries: What was the oil and gas CO2 emission in 2010-11?
         Queries: List all years with their total CO2 emissions (coal + oil/gas).
         Queries: Which year had the highest coal CO2 emissions?
-        
+
 
         12. quick_estimates_major_commodities_july_export: This table provides quick export estimates for major commodities, showing export values (in INR crore) for July and April-July periods across two consecutive years, along with percentage changes.
         Instructions: Use this table to analyze export performance, compare year-on-year changes for July or April-July periods, and identify trends in major commodity exports.
@@ -200,7 +200,7 @@ def file_selector_finance_and_industry(query):
         Queries: Show the export value and percentage change for Coffee in July 2025 compared to July 2024.
         Queries: List all commodities with more than 20% growth in exports in April-July 2025 compared to April-July 2024.
         Queries: What is the total export value for all commodities in July 2025?
-        
+
 
         13. quick_estimates_major_commodities_july_import: This table provides quick estimates of major commodity imports, showing values in INR crore for July and April-July periods across two years, along with percentage changes.
         Instructions: Use this table to analyze import values and percentage changes for major commodities between July and April-July periods of consecutive years.
@@ -208,7 +208,7 @@ def file_selector_finance_and_industry(query):
         Queries: Show the percentage change in import value for all commodities in July 2025 compared to July 2024.
         Queries: List the import values for Vegetable Oil for both July 2024 and July 2025.
         Queries: Which commodities had a decrease in import value from April-July 2024 to April-July 2025?
-        
+
 
         14. statewise_cumulative_renewable_power: This table provides state-wise annual cumulative renewable power capacity data in India, including breakdowns by source (small hydro, wind, bio power, waste to energy, solar), total capacity, and growth rate.
         Instructions: Use this table to analyze renewable power capacity by state/UT, year, and energy source. You can filter by state, year, or energy type, and aggregate or compare data across years or regions.
@@ -218,7 +218,7 @@ def file_selector_finance_and_industry(query):
         Queries: Which state had the highest solar capacity in 2023?
         Queries: Get the total wind power capacity for each state in fiscal year 2023-2024.
         Queries: Show all data for Arunachal Pradesh in 2023.
-        
+
 
         15. marketcap_nse_india_mth: This table contains monthly market capitalization data (in lakhs) for the NSE India, organized by fiscal year and month.
         Instructions: Use this table to analyze or retrieve monthly market capitalization figures for NSE India, filtered by fiscal year, month, or date as needed.
@@ -226,7 +226,7 @@ def file_selector_finance_and_industry(query):
         Queries: Show the NSE market capitalization for each month in fiscal year 2025-26.
         Queries: Get the latest updated NSE market cap value.
         Queries: List all fiscal years available in the table.
-        
+
 
         16. ki_assam_mth_sctg: This table contains monthly financial data for Assam, including budget estimates, actuals, and percentage comparisons for various revenue and expenditure indicators.
         Instructions: Use this table to analyze Assam's monthly budget performance, compare actuals to budget estimates, and review trends across different revenue and expenditure categories.
@@ -234,7 +234,7 @@ def file_selector_finance_and_industry(query):
         Queries: Show the actuals and budget estimates for all Revenue Receipts indicators.
         Queries: List the percentage of actuals to budget estimates for the current year for each indicator.
         Queries: Find the actuals for State Goods and Services Tax (SGST).
-        
+
 
         17. insurance_india_mth_sctg: This table contains monthly sector-wise premium and related financial data for various insurance companies in India, including breakdowns by insurance type (fire, marine, motor, health, etc.), total premiums, growth, and market share.
         Instructions: Use this table to analyze or compare insurance companies' performance by sector, track premium growth, or view detailed breakdowns of insurance business lines for a given period.
@@ -244,14 +244,22 @@ def file_selector_finance_and_industry(query):
         Queries: List insurers with health premiums above 1000.
         Queries: Get the total accretion for all insurers except the previous year.
         Queries: Show the breakdown of marine insurance (cargo and hull) for Bajaj Allianz General Insurance Co Ltd.
-        
+
+        18. toll_state_monthly_etc_transactions: This table contains monthly ETC (Electronic Toll Collection) transaction data for toll plazas, including fiscal year, month, plaza name, state, transaction count, and transaction amount.
+        Instructions: Use this table to analyze monthly ETC transactions by toll plaza, state, or fiscal year, and to aggregate transaction counts or amounts over time or by location.
+        Example Queries:
+        Queries: Show the total transaction amount for each state in fiscal year 2025-26.
+        Queries: List the monthly transaction counts for Bharthana Toll Plaza in Gujarat.
+        Queries: Get the total number of transactions for each month across all plazas.
+
         Consider the list above and respond only with one of the following file names:
-        [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg, none_of_these]
+        [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_state_qtr_view, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg,toll_state_monthly_etc_transactions, none_of_these]
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
-        
+
 """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
+
 def file_selector_agriculture_and_rural(query):
     system_instruction = dedent(f"""
         You are tasked with identifying the file that contains the required data based on the query: "{query}".
@@ -633,7 +641,7 @@ def file_selector_enterprise_establishment_surveys(query):
         a. What is the proportion of Scheduled Tribe-owned manufacturing establishments in Meghalaya (rural) in 2023-24?
         b. How did the distribution of Other Backward Classes in trade sector establishments change in Andhra Pradesh from 2021-22 to 2023-24?
 
-        36. annual_survey_of_industries: This table contains Annual Survey of Industries (ASI) data with comprehensive industrial performance metrics for India. 
+        36. annual_survey_of_industries: This table contains Annual Survey of Industries (ASI) data with comprehensive industrial performance metrics for India.
         It includes:
         **Financial Metrics**: Addition in Stock (Materials, Finished Goods, Semi-Finished Goods), Depreciation, Gross/Net Capital Formation, Gross/Net Value Added, Interest Paid/Received, Invested Capital, Net Income, Net Profit, Outstanding Loan, Physical Working Capital, Rent Paid/Received, Total Inputs/Output, Working Capital
         **Employment & Labor**: Bonus to All Staff, Employers' Contribution, No. of Directly Employed Workers (Male/Female), No. of Employees Other Than Workers, No. of Workers Employed Through Contractors, Total Mandays Employed, Total Number of Persons Engaged, Wages and Salaries (with various breakdowns)
@@ -690,12 +698,12 @@ def file_selector_enterprise_establishment_surveys(query):
         38. none_of_these: for any queries which are unrelated to above files.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
-        [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use, 
+        [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
         asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
-        asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc, 
-        asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, 
+        asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
+        asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner,
         annual_survey_of_industries , periodic_labour_force_survey , none_of_these]
-        
+
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
@@ -791,14 +799,36 @@ def file_selector_social_migration_and_households(query):
         a. What is the percentage of people who have changed their usual place of residence in Jharkhand's urban areas?
         b. Which state has the highest percentage of residents whose current residence differs from their last usual residence?
 
-                              
-        15. none_of_these: for any queries which are unrelated to above tables.
-        
+        15. aadhaar_demographic_monthly_data: This table contains monthly Aadhaar demographic data by date, state, district, and pincode, including counts for age groups 5-17 and 17+.
+        Instructions: Use this table to analyze Aadhaar demographic trends by location, date, and age group. Filter by state, district, pincode, or date as needed to get specific insights.
+        Example queries:
+        Query: Show total Aadhaar registrations for age group 17+ in Rajasthan for January 2025.
+        Query: List all districts in Chhattisgarh with their Aadhaar registrations for age group 5-17 on 2025-01-03.
+        Query: Get the total number of Aadhaar registrations for each state on 2025-01-03.
+
+
+        16. aadhaar_biometric_monthly_data: This table contains monthly Aadhaar biometric update counts, broken down by age group (5-17 and 17+), for each pincode, district, and state.
+        Instructions: Use this table to analyze or retrieve Aadhaar biometric update statistics by date, location (state, district, pincode), and age group.
+        Example queries:
+        Query: Show the total number of biometric updates for people aged 17 and above in Maharashtra in January 2025.
+        Query: List the districts in Tamil Nadu with more than 100 biometric updates for ages 5-17 on 2025-01-03.
+        Query: Get the total biometric updates (all ages) per state for the latest date available.
+
+
+        17. cghs_approved_hospital_data: This table contains information about CGHS approved diagnostic centres and hospitals, including their names, addresses, and the cities they are located in.
+        Instructions: Use this table to find details about CGHS approved hospitals or diagnostic centres, such as their names, addresses, or to filter them by city.
+        Example queries:
+        Query: List all CGHS approved hospitals in Hyderabad.
+        Query: Show the addresses of diagnostic centres in Mumbai.
+        Query: Get the names and cities of all CGHS approved diagnostic centres.
+
+        18. none_of_these: for any queries which are unrelated to above tables.
+
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
-        [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance, 
+        [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
         mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
         mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
-        mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, none_of_these]
+        mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place,aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
@@ -817,14 +847,14 @@ def file_selector_CPI(query):
         a. Show the inflation index for Karnataka (Rural) for Housing in May 2021.
         b. Get the inflation rate for Sikkim in July 2022 for the Food and Beverages group.
 
-        
+
         2. cpi_state_mth_subgrp_view: This table/view contains monthly Consumer Price Index (CPI) data by sub-group, for different years and months in India.
-        Instructions: Use this table/view to retrieve CPI data at the sub-group level for specific states, sectors (Urban/Rural), months, and years. 
+        Instructions: Use this table/view to retrieve CPI data at the sub-group level for specific states, sectors (Urban/Rural), months, and years.
         Sample queries:
         a. Show the inflation index for 'Egg' in Bihar (Urban sector) for May 2021.
         b. List all inflation indices for 'Spices' in Jharkhand (Rural) for fiscal year 2020-21.
 
-        
+
         3. cpi_india_mth_grp_view: Monthly Consumer Price Index (CPI) data for India at the group level, filtered for 'All India'. This is the DEFAULT view for India level inflation queries.
         Instructions: Use this view to analyze CPI trends, inflation rates, and index values by year, month, sector, and group for the whole of India. Useful for time series analysis, inflation monitoring, and economic research.
         Sample queries:
@@ -832,18 +862,18 @@ def file_selector_CPI(query):
         b. Get the CPI index and inflation rate for 'Housing' in Urban sector for April 2024.
         c. Inflation trends in the country in fiscal year 2022-23.
 
-        
+
         4. cpi_india_mth_subgrp_view: This view provides monthly Consumer Price Index (CPI) data for India at the sub-group level, filtered for 'All India' and excluding aggregate sub-groups, with details on inflation index and rate by sector, group, and sub-group.
         Instructions: Use this view when India-level queries for named sub-groups (such as vegetables) or "all sub-groups" are raised.
         Sample queries:
         a. What was the inflation rate for 'Fruits' in November 2021 for the Urban sector?
         b. Show the inflation index for 'Education' in November 2024 for All India Urban.
         c. List all sub-groups under 'Food and Beverages' for September 2017 (Combined sector).
-        
-                
+
+
         5. consumer_price_index_cpi_for_agricultural_and_rural_labourers: This table covers data for year 2024. it should be used only when "agriculture labour" or "rural labour" is mentioned. DO NOT use this file unless "labour" is specifically mentioned.
         a. What was the minimum wage for agricultural workers in Gujarat in June 2024?
-        b. Show the all-India minimum wage for rural labour in Food category for July 2024. 
+        b. Show the all-India minimum wage for rural labour in Food category for July 2024.
 
 
         6. city_wise_housing_price_indices: This table presents city-wise housing price index data from the National Housing Bank for major cities across India, such as Mumbai, Kolkata, Faridabad, Chennai, Bengaluru, Kochi, Ahmedabad, and Bhopal. The information is available at a quarterly frequency for various years (2013 to 2025), including details like city name, price index value (e.g., 110.00 for Mumbai in 2020 Q1), and date of data release. It should be used only when "housing prices" are mentioned.
@@ -869,7 +899,7 @@ def file_selector_CPI(query):
         a. What was the wholesale price index for cotton cloth in 2024?
         b. What was the wholesale price index across all commodities in 2013?
 
-        
+
         10. cpi_food_worker_data: This table provides annual Consumer Price Index for Industrial Workers (CPI-IW) data for India, categorized by item groups such as 'Food' and 'Non Food'. The dataset includes both 'Average of Months' and 'Last Month of' indices from 2011 to 2020, with figures like 293.00 (Food, 2015) and 317.00 (Non Food, 2019). Do not use this table for queries related to CPI for Agricultural and Rural Labourers/workers.
         Sample queries:
         a. What was the annual CPI-IW value for the 'Food' category in 2018?
@@ -877,7 +907,7 @@ def file_selector_CPI(query):
 
 
         11. none_of_these: for any queries which are unrelated to inflation. for example, queries regarding gdp, iip, msme would fall under the "none" category. queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
-        
+
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view, cpi_india_mth_subgrp_view, consumer_price_index_cpi_for_agricultural_and_rural_labourers, city_wise_housing_price_indices, whole_sale_price_index_wpi_financial_year_wise, cpi_worker_data, whole_sale_price_index_wpi_calendar_wise, cpi_food_worker_data, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
@@ -975,7 +1005,7 @@ def file_selector_GST(query):
 
         11. none_of_these: for any queries which are unrelated to GST or taxes. for example, queries regarding gdp, iip, msme would fall under the "none" category. queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
-        
+
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [gst_registrations, gst_statewise_tax_collection_refund_data, gst_statewise_tax_collection_data, gst_settlement_of_igst_to_states, gstr_three_b, gstr_one, gross_and_net_tax_collection, gst_statewise_fiscal_year_collection_view, gst_statewise_fiscal_year_igst_settlement_view, gst_statewise_fiscal_year_refund_view, none_of_these]
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
@@ -999,58 +1029,58 @@ def file_selector_GDP(query):
         # Table data
 
         1. gdp_india_fy_estimates_view : Aggregated national-level GDP metrics by financial year. Captures GDP and GVA growth at constant and current prices. Any India level summarization needs for GDP across years, trending and growth rate can be done from this table.
-        Query1: "Compare GDP growth at constant vs current prices for the last 5 years." 
+        Query1: "Compare GDP growth at constant vs current prices for the last 5 years."
         Query2: "What was India's GDP and its growth rate in the most recent year?"
         Query3: "How has the GDP growth rate at constant prices evolved over the last 10 years?"
 
 
         2. india_fy_gdp_components_view : Break-up of GDP by economic components (e.g., PFCE, GFCE,GFCF,CIS,VALUABLES, DISCREPANCIES etc) for each FINANCIAL YEAR at INDIA or NATIONAL level. Supports analysis related to components of GDP at year level and share analysis.
-        Query: "Give the value of PFCE for the years 2020-21 to 2024-25."  
-        Query: "How has capital formation (GFCF) changed over the past decade?"  
-        Query: "Compare the growth of imports and exports of goods and services in the latest year."  
-        Query: "Show me the trend of GFCE in constant prices over the last 5 years."  
-        Query: "Which GDP component had the highest growth in 2021-22?"  
-        Query: "What was the contribution of CIS and VALUABLES to the GDP in 2023-24?" 
+        Query: "Give the value of PFCE for the years 2020-21 to 2024-25."
+        Query: "How has capital formation (GFCF) changed over the past decade?"
+        Query: "Compare the growth of imports and exports of goods and services in the latest year."
+        Query: "Show me the trend of GFCE in constant prices over the last 5 years."
+        Query: "Which GDP component had the highest growth in 2021-22?"
+        Query: "What was the contribution of CIS and VALUABLES to the GDP in 2023-24?"
 
 
         3. india_fy_national_income_view : National income accounting components both for Gross and Net Income levels with growth rates at both constant and current prices, financial year-wise.
-        Query: "Show me the Net National Income from 2014-15 to 2020-21."  
-        Query: "Compare the growth rate of Gross National Income over the past 5 years."  
-        Query: "What was the GNI and NNI in the year 2023-24?"  
-        Query: "How did the Net National Income at constant prices trend over the last decade?"  
-        Query: "Give me the latest Gross National Income in current prices."  
-        Query: "When did GNI show negative growth at constant prices?"  
+        Query: "Show me the Net National Income from 2014-15 to 2020-21."
+        Query: "Compare the growth rate of Gross National Income over the past 5 years."
+        Query: "What was the GNI and NNI in the year 2023-24?"
+        Query: "How did the Net National Income at constant prices trend over the last decade?"
+        Query: "Give me the latest Gross National Income in current prices."
+        Query: "When did GNI show negative growth at constant prices?"
 
 
         4. gdp_state_fy_actuals : Use this table when the query is about yearly, financial year, state-level economic performance, specifically when it refers to state domestic product (GSDP) or gross value added (GSVA) or growth rates of different states. Note that this data contains ANNUAL information. Always use this table when specific industrial sectors in states are not mentioned, e.g. "what is the GDP of Maharashtra last year". "Top 3 states by GDP". "States driving India's economic growth." "Population used for GSDP calculation".
-        Query: "What was the GSDP of Maharashtra last year?"  
-        Query: "Top 5 states by GSDP in the most recent year."  
-        Query: "Show the year-on-year GSDP growth rate for Kerala from 2018-19 to 2023-24."  
-        Query: "Compare the GSVA at constant prices for Telangana over the past decade."  
-        Query: "Which states recorded the highest per-capita GSDP in 2024-25?"  
-        Query: "States driving India’s economic growth in the latest available year."  
+        Query: "What was the GSDP of Maharashtra last year?"
+        Query: "Top 5 states by GSDP in the most recent year."
+        Query: "Show the year-on-year GSDP growth rate for Kerala from 2018-19 to 2023-24."
+        Query: "Compare the GSVA at constant prices for Telangana over the past decade."
+        Query: "Which states recorded the highest per-capita GSDP in 2024-25?"
+        Query: "States driving India’s economic growth in the latest available year."
         Query: "Population used for GSDP calculation"
 
 
         5. gdp_state_fy_industry_actuals_view : Use this table when the query is about sectors and industries within states. These components include sectors such as electricity, construction, financial services, transport, etc. Do NOT use this table when no sector is mentioned in the query.
-        Query: "What is the contribution of manufacturing to Tamil Nadu's GSDP in 2022-23?"  
-        Query: "Compare the construction sector output of Gujarat and Maharashtra over the last 5 years."  
-        Query: "Show the trend of electricity sector growth in West Bengal from 2011-12 to 2024-25."  
-        Query: "How has the financial services industry performed in Karnataka recently?"  
-        Query: "What was the value added by agriculture in Bihar during 2020-21?"  
-        Query: "Give a sector-wise GSDP breakdown for Rajasthan for 2023-24."  
-        Query: "Compare the trade and repair sector across northeastern states in the most recent year."  
+        Query: "What is the contribution of manufacturing to Tamil Nadu's GSDP in 2022-23?"
+        Query: "Compare the construction sector output of Gujarat and Maharashtra over the last 5 years."
+        Query: "Show the trend of electricity sector growth in West Bengal from 2011-12 to 2024-25."
+        Query: "How has the financial services industry performed in Karnataka recently?"
+        Query: "What was the value added by agriculture in Bihar during 2020-21?"
+        Query: "Give a sector-wise GSDP breakdown for Rajasthan for 2023-24."
+        Query: "Compare the trade and repair sector across northeastern states in the most recent year."
         Query: "Subsidies on products for South Indian states"
 
-        
+
         6. per_capita_income_product_final_consumption : This table contains per capita estimates of key economic indicators in ₹ (Indian Rupees) or growth rate (%) for various years at India Level, along with the population used for those calculations. The indicators relate to income and consumption at both current and constant prices.these measures are ["Per Capita GDP","Per Capita GNI","Per Capita NNI","Per Capita GNDI","Per Capita PFCE" , "Percentage change over previous year at constant (2011-12) prices"]
-        Query: "What is the current per capita income in India?"  
-        Query: "Give the per capita GDP growth rate for the last five years."  
-        Query: "What was the per capita private final consumption expenditure in 2014-15?"  
-        Query: "How has per capita GNI changed from 2011-12 to 2024-25?"  
-        Query: "Provide the trend of per capita NNI in constant prices over the last decade."  
-        Query: "Population used for calculating per capita indicators in 2020-21?"  
-        Query: "Show per capita GNDI values and growth rates since 2015."  
+        Query: "What is the current per capita income in India?"
+        Query: "Give the per capita GDP growth rate for the last five years."
+        Query: "What was the per capita private final consumption expenditure in 2014-15?"
+        Query: "How has per capita GNI changed from 2011-12 to 2024-25?"
+        Query: "Provide the trend of per capita NNI in constant prices over the last decade."
+        Query: "Population used for calculating per capita indicators in 2020-21?"
+        Query: "Show per capita GNDI values and growth rates since 2015."
 
 
         7. top_fifty_macro_economic_indicators_weekly_data: Resolve to this table when the query relates to macroeconomic indicators tracked on a weekly basis for the Indian economy. Focus areas include monetary policy instruments, interest rates (such as repo rate, bank rate, MSF, base rate), yield on government securities and treasury bills, cash reserve ratio (CRR), statutory liquidity ratio (SLR), standing deposit facility (SDF), and forward premia of the US dollar for different durations. Queries about foreign exchange reserves, liquidity conditions, or financial market trends across specific weeks, months, or quarters also belong here. Questions that ask how these economic indicators have changed over time, what the rates were during a particular period, or comparisons between indicators like G-Sec yields and T-bill rates should map to this dataset. Use this table when the intent is to understand the financial health, monetary policy stance, or interest rate environment in India over time.
@@ -1059,7 +1089,7 @@ def file_selector_GDP(query):
         b. How did the all-India aggregate monetary value change between January 2021 and January 2024?
 
 
-        8. top_fifty_macro_economic_indicators_quaterly_data:  Resolve to this table when the query includes terms like balance of payments, BoP, overall BoP, net BoP, international investment position, external debt, Indias external debt, gross external debt, or mentions of quarterly external sector data. Use this table if the query asks for the net value of balance of payments, status of India’s international investment position, or total outstanding external debt in US million dollars for a specific quarter, year, or date. 
+        8. top_fifty_macro_economic_indicators_quaterly_data:  Resolve to this table when the query includes terms like balance of payments, BoP, overall BoP, net BoP, international investment position, external debt, Indias external debt, gross external debt, or mentions of quarterly external sector data. Use this table if the query asks for the net value of balance of payments, status of India’s international investment position, or total outstanding external debt in US million dollars for a specific quarter, year, or date.
         Sample queries:
         a. What was India's foreign exchange reserves at the end of Q3 2023?
         b. Show the quarterly trends in India's net capital account balance between 2018 and 2022.
@@ -1071,7 +1101,7 @@ def file_selector_GDP(query):
         b. Show the trend in the trade balance for India from 2018 to 2025.
 
 
-        10. top_fifty_macro_economic_indicators_fortnightly_data: Resolve to this table when the query involves fortnightly data related to India's monetary aggregates, banking sector trends, or investment metrics. Trigger this table for keywords like investment in India, aggregate deposits, cash-deposit ratio, credit-deposit ratio, M3 or broad money, and certificates of deposit outstanding. 
+        10. top_fifty_macro_economic_indicators_fortnightly_data: Resolve to this table when the query involves fortnightly data related to India's monetary aggregates, banking sector trends, or investment metrics. Trigger this table for keywords like investment in India, aggregate deposits, cash-deposit ratio, credit-deposit ratio, M3 or broad money, and certificates of deposit outstanding.
         Sample queries:
         a. What was the repo rate and currency in circulation in India on January 26, 2024?
         b. Show the trend of broad money (M3) in India for the years 2020 to 2023.
@@ -1095,7 +1125,7 @@ def file_selector_GDP(query):
         b. What was the total amount of monetary aggregates reported in India in May 2023 and how did it compare to May 2018?
 
 
-        14. other_macro_economic_indicators_daily_data: Resolve to this table when the query involves daily macroeconomic indicators related to India’s financial markets, especially those requiring high-frequency data. Use this table for queries mentioning NSE Nifty, BSE Bankex, repo rate, reverse repo rate, call money rate (high/low), or the RBI’s USD/INR reference rate. It is appropriate when users ask about market reactions, monetary policy effects, or exchange rate changes on specific dates. 
+        14. other_macro_economic_indicators_daily_data: Resolve to this table when the query involves daily macroeconomic indicators related to India’s financial markets, especially those requiring high-frequency data. Use this table for queries mentioning NSE Nifty, BSE Bankex, repo rate, reverse repo rate, call money rate (high/low), or the RBI’s USD/INR reference rate. It is appropriate when users ask about market reactions, monetary policy effects, or exchange rate changes on specific dates.
         Sample queries:
         a. What was the USD to INR exchange rate and repo rate on 24 September 2023?
         b. Show Nifty and Sensex values along with bank rates for all available data from 2021.
@@ -1124,14 +1154,14 @@ def file_selector_GDP(query):
         Query: "Show per capita income trends for northeastern states."
         Query: "States with lowest per capita NSDP in the most recent year."
 
-        
+
         18. niryat_ite_commodity : This table provides annual commodity-wise export data for India in million USD, with columns for fiscal year, commodity group, total exports, monthly values (Feb/Mar), month-on-month growth %, share %, and update date. This table provides annual export data for India, disaggregated by product category such as 'Electronic Goods', 'Marine Products', 'Ready-made garments', and 'Drugs And Pharmaceuticals'. Data is available for fiscal years like 2023-24 and 2024-25, showing export value, monthly figures, growth rates, and percentage contribution at the national level. The table includes a 'Total' entry for aggregate exports.",
         “What were India top 5 export commodities in FY 2023-24?”
         “Compare petroleum product and electronic goods exports in the last 3 years.”
         “Show the month-on-month growth in gems and jewellery exports for FY 2024-25.”
         “Which commodity group had the highest export share in FY 2022-23?”
 
-        
+
         19. niryat_ite_state : This table provides annual state/UT-wise export data for India in million USD, with columns for fiscal year, state/UT, total exports, monthly values (Feb/Mar), month-on-month growth %, share %, and update date. This table provides annual, state-wise financial or production data for Indian states and union territories (e.g., Maharashtra, Kerala, Nagaland, Daman & Diu And Dadra & Nagar Haveli) for financial years such as 2024-25. Each row includes state, year, three quantitative measures, a computed value (possibly percentage change), a ratio or percentage, and a reference date (e.g., 3-Sep-25).
         “Which state exported the most in FY 2022-23?”
         “Rank the top 3 states by export share in FY 2024-25.”
@@ -1146,20 +1176,20 @@ def file_selector_GDP(query):
         “Which country is projected to have the largest increase in GDP share between 2010 and 2029?”
         “Show the trend of United States vs European Union GDP share from 1980 to 2025.”
 
-        
+
         21. gdp_india_fy_primsector_estimates_view : This view provides annual GDP estimates and growth rates for India's PRIMARY Sector, including both constant and current price values.
         Instructions: Use this view to analyze year-wise GDP values and growth rates for the Primary Sector in India, either at constant or current prices.
         Query: Show the GDP values at constant prices for the Primary Sector for all available years.
         Query: List the growth rates at current prices for the Primary Sector from 2011-12 to 2013-14.
         Query: Get the most recent data update date for the Primary Sector GDP estimates.
-        
+
 
         22. gdp_india_fy_secsector_estimates_view : This view provides annual GDP estimates for India's SECONDARY sector, including values at constant and current prices, along with their respective growth rates.
         Instructions: Use this view to analyze year-wise GDP figures and growth rates for the secondary sector in India, either at constant or current prices.
         Query: Show the secondary sector GDP values at constant prices for each year.
         Query: What was the growth rate at current prices for the secondary sector in 2013-14?
         Query: List all years with their corresponding GDP values and growth rates for the secondary sector.
-        
+
 
         23. gdp_india_fy_tersector_estimates_view : This view provides annual GDP estimates for India's tertiary sector, including values at constant and current prices, and their respective growth rates.
         Instructions: Use this view to analyze year-wise GDP figures and growth rates for the tertiary sector in India, either at constant or current prices.
@@ -1167,7 +1197,7 @@ def file_selector_GDP(query):
         Query: Show the GDP value and growth rate for the tertiary sector in 2013-14.
         Query: List all years with their corresponding constant price GDP values for the tertiary sector.
         Query: What was the growth rate at current prices for the tertiary sector in 2012-13?
-        
+
 
         24.gdp_india_fy_primsector_estimates_dtls_view : This table/view provides annual GDP estimates and growth rates for India's primary sector sub-components (like agriculture, livestock, forestry, and fishing), with values at both constant and current prices.
         Instructions: Use this table/view to retrieve year-wise GDP values and growth rates for specific named primary sector items, at constant or current prices.
@@ -1175,101 +1205,101 @@ def file_selector_GDP(query):
         Query: Show the GDP at constant prices for agriculture, livestock, forestry & fishing for each year.
         Query: List the growth rates at current prices for all primary sector items in 2013-14.
         Query: Get the most recent data update date for this table.
-        
+
 
         25. gdp_india_fy_secsector_estimates_dtls_view : This table provides annual GDP estimates for India's secondary sector sub-components, including values and growth rates at both constant and current prices.
         Instructions: Use this table to analyze year-wise GDP values and growth rates for specific secondary sector items (manufacturing, construction, and utilities) in India, at both constant and current prices. Filter by 'item' for sub-sector details and by 'year' for time-based analysis.
         Query: Show the manufacturing GDP and its growth rate for each year.
         Query: List all secondary sector items with their GDP values for 2013-14.
         Query: What was the growth rate at constant prices for each secondary sector item in 2012-13?
-        
+
 
         26. gdp_india_fy_tersector_estimates_dtls_view : This table/view provides annual GDP estimates for various tertiary sector items in India, including values at constant and current prices, along with their growth rates.
         Instructions: Use this table/view to analyze GDP contributions and growth rates for specific tertiary sector items (financial services, public administration, trade) by year, at both constant and current prices.
         Query: Show the GDP value at constant prices for 'TRADE, HOTELS, TRANSPORT, COMMUNICATION & SERVICES RELATED TO BROADCASTING' in 2012-13.
         Query: List the growth rates at current prices for all tertiary sector items in 2013-14.
         Query: Get the GDP values at current and constant prices for each year for 'TRADE, HOTELS, TRANSPORT, COMMUNICATION & SERVICES RELATED TO BROADCASTING'.
-        
+
 
         27. gdp_india_fy_expenditure_estimates_dtls_view : This view provides annual GDP expenditure estimates for India, including values and growth rates (both constant and current prices) for different expenditure items such as GFCE, with data updated as of the latest available date.
-        Instructions: Use this view to retrieve GDP expenditure data for India by year and expenditure item, including values and growth rates at both constant and current prices. 
+        Instructions: Use this view to retrieve GDP expenditure data for India by year and expenditure item, including values and growth rates at both constant and current prices.
         Query: Show the constant price GDP expenditure values for all items in 2012-13.
         Query: List the growth rates at current prices for GFCE from 2011-12 to 2013-14.
         Query: Get all available data for the year 2013-14.
-        
+
 
         28. gdp_india_qtr_estimates_view : This view provides quarterly GDP estimates for India, including values at constant and current prices, along with their respective growth rates, for each year and item where the GDP flag is true.
         Instructions: Use this view to retrieve quarterly (Q1, Q2, Q3, Q4) GDP data for India, including values and growth rates at both constant and current prices, filtered for records marked as GDP.
         Query: Show the quarterly GDP values at constant prices for the year 2011-12.
         Query: Get the quarterly growth rates at current prices for all years.
         Query: Show the GDP growth for the last 8 quarters.
-        
+
 
         29. gdp_india_qtr_primsector_estimates_view : This view provides quarterly GDP estimates for India's primary sector, including values at constant and current prices, along with their respective growth rates.
         Instructions: Use this view to analyze GDP trends, values, and growth rates for the primary sector (like agriculture, livestock, forestry, and fishing) in India by year and quarter. Filter by 'year' or use the 'data_updated_date' to get the latest data.
         Query: Show the constant price GDP values for the primary sector in 2015-16.
         Query: Get the growth rates at current prices for the primary sector for all available years.
-        
+
 
         30. gdp_india_qtr_secsector_estimates_view : This view provides quarterly GDP estimates for India's secondary sector, including values at constant and current prices, along with their respective growth rates.
         Instructions: Use this view to analyze quarterly GDP data specifically for the secondary sector (manufacturing, construction, and utilities) in India, focusing on values and growth rates at both constant and current prices. Filter by year or other columns as needed.
         Query: Show the constant price GDP values for the secondary sector for the year 2015-16.
         Query: List the growth rates at current prices for each quarter in 2018-19.
         Query: Get all available data for the secondary sector for the year 2020-21.
-        
-        
+
+
         31.gdp_india_qtr_tersector_estimates_view : This view provides quarterly GDP estimates for India's tertiary sector, including values at constant and current prices, growth rates, and data update dates.
         Instructions: Use this view to analyze GDP figures and growth rates for the tertiary sector (financial services, public administration, trade) in India by year and quarter, with both constant and current price values.
         Query: Show the constant price GDP values for the tertiary sector in 2011-12.
         Query: List the growth rates at current prices for each year in the tertiary sector.
-        
-        
+
+
         32. gdp_india_qtr_primsector_estimates_dtls_view : This view provides quarterly GDP estimates for India's primary sector, detailing values and growth rates for specific items like agriculture and mining, at both constant and current prices.
         Instructions: Use this view to analyze or compare GDP figures and growth rates for primary sector components (excluding the overall 'PRIMARY SECTOR') by year and item, at constant or current prices.
         Query: Show the constant price GDP values for agriculture for each year.
         Query: Get the latest GDP value for mining sector.
-        
+
 
         33. gdp_india_qtr_secsector_estimates_dtls_view : This view provides quarterly GDP estimates for India's secondary sector, detailing values and growth rates (both constant and current prices) for sub-sectors like manufacturing, construction, and utilities.
         Instructions: Use this view to analyze or retrieve GDP data for secondary sector sub-industries in India by year, including their values and growth rates at both constant and current prices. Filter by 'year' or 'item' as needed.
         Query: Show the constant price GDP values for manufacturing from 2015-16 onwards.
         Query: List the growth rates at current prices for all secondary sector items in 2018-19.
         Query: Get the latest updated GDP values (current and constant) for construction.
-        
-        
+
+
         34.gdp_india_qtr_tersector_estimates_dtls_view : This view provides quarterly GDP estimates for India's tertiary sector, detailing values and growth rates (both constant and current prices) for specific service-related items.
         Instructions: Use this view to analyze or retrieve GDP data for individual tertiary sector items (such as financial services, public administration, trade, etc.) by year, including their values and growth rates at both constant and current prices.
         Query: Show the constant price GDP values for all tertiary sector items in 2015-16.
         Query: List the growth rates at current prices for 'FINANCIAL, REAL ESTATE & PROFESSIONAL SERVICES' across all years.
         Query: Get all available data for 'TRADE, HOTELS, TRANSPORT, COMMUNICATION & SERVICES RELATED TO BROADCASTING' for the year 2018-19.
-        
-        
+
+
         35. gdp_india_qtr_expenditure_estimates_dtls_view : This view provides quarterly GDP expenditure estimates for India, including values and growth rates (both constant and current prices) for various expenditure items by year.
         Instructions: Use this view to analyze GDP expenditure components, their values, and growth rates for different years. Filter by 'year' or 'item' to focus on specific periods or expenditure categories.
         Query: Show the constant price value and growth rate for 'EXPORTS OF GOODS AND SERVICES' in 2011-12.
         Query: List all items and their current price values for the year 2011-12.
         Query: Get the growth rates at current prices for all items updated on 16-07-2025.
-        
-        
+
+
         36.gdp_state_fy_subindustry_actuals_view : This view provides annual GDP figures at constant and current prices for each sub-industry within states, including classification flags and product tax/subsidy indicators.
         Columns: id, base_year, state, industry, sub_industry, primary_flag, secondary_flag, tertiary_flag, taxes_on_products, subsidies_on_products, year, constant_value_in_lakh, current_value_in_lakh, released_on, data_source, updated_on
         Instructions: Use this view to retrieve state-wise, industry-wise, and sub-industry-wise GDP data for specific years, including constant and current values, and to filter by economic sector or product tax/subsidy status.
         Query: Show the constant and current GDP values for 'Crops' in Andaman Nicobar for all available years.
         Query: List all sub-industries under 'Agriculture, forestry and fishing' for the year 2013-14 in Andaman Nicobar.
         Query: Get the GDP values for all primary sector sub-industries in Andaman Nicobar for 2011-12.
-        
-        
+
+
         37. none_of_these: for any queries which are unrelated to GDP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         # Consider the list above, and respond ONLY with one of the file names from the following list:
-        [india_fy_gdp_components_view, india_fy_national_income_view, gdp_state_fy_actuals, gdp_state_fy_industry_actuals_view, per_capita_income_product_final_consumption, 
+        [india_fy_gdp_components_view, india_fy_national_income_view, gdp_state_fy_actuals, gdp_state_fy_industry_actuals_view, per_capita_income_product_final_consumption,
         gdp_india_fy_estimates_view, gdp_india_fy_primsector_estimates_view, gdp_india_fy_secsector_estimates_view, gdp_india_fy_tersector_estimates_view,
         other_macro_economic_indicators_daily_data, other_macro_economic_indicators_monthly_data, other_macro_economic_indicators_quaterly_data,other_macro_economic_indicators_weekly_data,
-        top_fifty_macro_economic_indicators_monthly_data,top_fifty_macro_economic_indicators_quaterly_data,top_fifty_macro_economic_indicators_weekly_data, 
-        statewise_nsdp, statewise_nsva, statewise_pcnsdp, top_fifty_macro_economic_indicators_fortnightly_data,  
-        niryat_ite_state, niryat_ite_commodity, imf_dm_export, gdp_india_fy_primsector_estimates_dtls_view, 
-        gdp_india_fy_secsector_estimates_dtls_view, gdp_india_fy_tersector_estimates_dtls_view, gdp_india_fy_expenditure_estimates_dtls_view, gdp_india_qtr_estimates_view, 
-        gdp_india_qtr_primsector_estimates_view, gdp_india_qtr_secsector_estimates_view, gdp_india_qtr_tersector_estimates_view, gdp_india_qtr_primsector_estimates_dtls_view, 
+        top_fifty_macro_economic_indicators_monthly_data,top_fifty_macro_economic_indicators_quaterly_data,top_fifty_macro_economic_indicators_weekly_data,
+        statewise_nsdp, statewise_nsva, statewise_pcnsdp, top_fifty_macro_economic_indicators_fortnightly_data,
+        niryat_ite_state, niryat_ite_commodity, imf_dm_export, gdp_india_fy_primsector_estimates_dtls_view,
+        gdp_india_fy_secsector_estimates_dtls_view, gdp_india_fy_tersector_estimates_dtls_view, gdp_india_fy_expenditure_estimates_dtls_view, gdp_india_qtr_estimates_view,
+        gdp_india_qtr_primsector_estimates_view, gdp_india_qtr_secsector_estimates_view, gdp_india_qtr_tersector_estimates_view, gdp_india_qtr_primsector_estimates_dtls_view,
         gdp_india_qtr_secsector_estimates_dtls_view, gdp_india_qtr_tersector_estimates_dtls_view, gdp_india_qtr_expenditure_estimates_dtls_view,gdp_state_fy_subindustry_actuals_view, none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
 """)
@@ -1288,10 +1318,10 @@ def file_selector_IIP(query):
         - If the query is about cement or construction-related indicators or pm schemes like pmay, pmgsy, use the construct_state_cement_indicators_view.
         - If the query is BROAD or GENERAL (e.g. just "IIP growth", "IIP trends", "overall industrial performance") — choose the corresponding *category_view* file (monthly or yearly), not the subcategory-specific files.
         - If the query is STATE-SPECIFIC and mentions "Assam" or industries in Assam, then use iip_in_assam.
-        
-    
+
+
         # Table information
-        
+
         1. construct_state_cement_indicators_view : This view provides state-wise indicators related to cement and construction, including housing scheme progress (PMAY-G, PMAY-U), road construction (PMGSY, Bharatmala), limestone resources and production, cement and power capacities, economic value additions, real estate, and population for each state as of a specific date.
         Columns: state, pmay_g_target_households, pmay_g_target_households_num, pmay_g_completed_households, pmay_g_completed_households_num, pmay_u_target_households, pmay_u_target_households_num, pmay_u_completed_households, pmay_u_completed_households_num, pmgsy_road_length_sanctioned_km, pmgsy_road_length_completed_km, bharatmala_road_length_targeted_km, bharatmala_road_length_completed_km, limestone_total_resources_kt, limestone_proved_reserve_kt, limestone_production_kt, installed_cement_capacity_mtpa, captive_power_capacity_mw, whrs_capacity_mw, gsdp_inr_crore, mining_value_addition_inr_crore, manufacturing_value_addition_inr_crore, construction_value_addition_inr_crore, real_estate_inr_crore, total_population_2024, date_stamp
         Instructions: Use this view to analyze or compare states on construction, cement industry, infrastructure progress, limestone resources, and related economic indicators. Filter by state or date_stamp for the latest or historical data.
@@ -1300,36 +1330,36 @@ def file_selector_IIP(query):
         Query: List construction value addition for Andhra Pradesh.
         Query: Find states with limestone total resources above 10 million tonnes.
         Query: Get the latest PMGSY road length completed for all states.
-        
-        
+
+
         2. iip_india_yr_catg_view : This table/view provides annual Index of Industrial Production (IIP) data for India, categorized by sector and category, including index values and growth rates for each year.
         Instructions: Use this table/view to retrieve yearly IIP index and growth rate data for India, filtered by base year, sector type, category, or year as needed.
         Query: Show the IIP index and growth rate for all categories in 2024-25.
         Query: Get the manufacturing sector's IIP index for the base year 2011-12.
         Query: List all available years and their general IIP index values.
-        
-        
+
+
         3.iip_india_mth_catg_view : This table/view provides monthly Index of Industrial Production (IIP) data for India, categorized by sector type and category, including index values and growth rates, along with metadata such as data source, release dates, and fiscal year.
         Instructions: Use this table/view to retrieve IIP index and growth rate data for specific months, years, sector types, or categories. Filter by 'year', 'month', 'sector_type', 'category', or 'fiscal_year' as needed to analyze industrial production trends.
         Query: Show the IIP index and growth rate for all categories in June 2023.
         Query: Get the IIP growth rate for 'Consumer Durables' in April 2023.
         Query: Monthly trends of IIP in 2019-20.
         Query: Find the IIP index for the 'Mining' category in July 2019.
-        
-        
+
+
         4. iip_india_yr_subcatg_view : This view provides annual Index of Industrial Production (IIP) data for India, broken down by sector, category, and sub-category, including index values and growth rates.
         Instructions: Use this view to retrieve yearly IIP indices and growth rates for specific sectors, categories, or sub-categories, filtered by year, base year, or other relevant attributes.
         Query: Show the IIP index and growth rate for all manufacturing sub-categories in 2024-25.
         Query: List all available years for which IIP data is present for the 'Manufacture of Textiles' sub-category.
         Query: Get the latest updated IIP index for each sub-category under the Manufacturing category.
-        
-        
+
+
         5. iip_india_mth_subcatg_view : Monthly Index of Industrial Production (IIP) data for India, broken down by sector, category, and sub-category, including index values and growth rates.
         Instructions: Use this table/view to retrieve monthly IIP index and growth rate data for specific sectors, categories, or sub-categories, filtered by year, month, or fiscal year as needed.
         Query: Show the IIP index and growth rate for 'Manufacture of Rubber and Plastics Products' in July 2023.
         Query: Month-on-month trends for every industry sector, category, sub-sector since 2023.
-        
-        
+
+
         6. iip_in_assam: This file contains Index of Industrial Production (IIP) data specifically for Assam on an annual basis, broken down by industry NIC codes, descriptions, and weights. Use this table if the query is about Assam or state-specific industrial production.
         Sample queries:
         a. What was the Index of Industrial Production for Assam in 2018-19?
@@ -1379,7 +1409,7 @@ def file_selector_IIP(query):
         “Compare Manufacture of Food Products and Manufacture of Beverages in Rajasthan 2025–26.”
         “Which industry had the lowest index value in Rajasthan 2025–26?”
 
- 
+
         13. iip_in_kerala_fy_index : This table provides the annual Index of Industrial Production (IIP) for Kerala, reported by fiscal year and category (e.g., Manufacturing), along with corresponding index values.
         “What was Kerala’s Manufacturing index in Kerala 2019–20?”
         “Compare the Manufacturing IIP Kerala between 2018–19 and 2020–21.”
@@ -1399,8 +1429,8 @@ def file_selector_IIP(query):
         “Compare Q1 Manufacturing Kerala values across fiscal years 2015–16 to 2017–18.”
         “Show the quarter-wise Manufacturing Kerala IIP trend for 2016–17.”
         “Which quarter had the highest Manufacturing Kerala index in 2015–16?”
-        
-        
+
+
         16. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
@@ -1416,8 +1446,8 @@ def file_selector_MSME(query):
         You are tasked with identifying the file that contains the required data based on the query: "{query}".
         You must pick one file name only from the following list:
 
-        Choose a file only if the table description explicitly confirms that the data required by the query is covered.                          
-                                
+        Choose a file only if the table description explicitly confirms that the data required by the query is covered.
+
         1. msme_gbc_food_non_food_view : This table contains Monthly Gross Bank Credit (GBC) outstanding, grouped by category (Food credit / Non-Food credit),the column 'gbc_in_cr' holds the amount of Gross Bank Credit (in crores).
         Query1: "What was the Food Gross Bank Credit on March 2020?"
         Query2: "Compare Non-Food and Food GBC for March 2021."
@@ -1446,7 +1476,7 @@ def file_selector_MSME(query):
         Query5: "Which sector had the highest GBC in 2021? Provide effective and release dates.
 
 
-        5. nifty_sme_index_daily_values : Use this table when the question is for NIFTY SME INDEX for Nifty related data . 
+        5. nifty_sme_index_daily_values : Use this table when the question is for NIFTY SME INDEX for Nifty related data .
         Sample queries:
         a. Show the yearly average value of NIFTY SME EMERGE index from 2017 to 2022.
         b. On which date did the NIFTY SME EMERGE index surpass 10,000 points for the first time?
@@ -1466,7 +1496,7 @@ def file_selector_MSME(query):
         a. "Give the priority sectors outstanding value for the years of 2020 and 2021."
         b. What was the total value of priority sector lending for Micro and Small Enterprises in March 2023?
         c. Show the trend of Export Credit category at the all-India level from 2021 to 2024.
-        
+
 
         9.msme_industry_view : This table contains the gross bank credit GBC outstanding in crores for all subgroups of the industry sector such as construction, food processing etc., in the column outstanding_as_on
         Query1: "Give the textile industry's outstanding value for the years of 2020 and 2021."
@@ -1480,57 +1510,57 @@ def file_selector_MSME(query):
         e. "Show me the trend of employee count in the ASEAN region over the last 5 years."
         f. "Which country had the highest export ratio among MSMEs in 2021?"
 
-        
+
         11. msme_india_mth_sector_bankcredit_view : Monthly outstanding bank credit data in India by sector, including MSME, personal loans, and agriculture, sourced from the Reserve Bank of India. SECTOR LEVEL
         Instructions: Use this view to analyze monthly outstanding bank credit amounts by sector, year, and month. Filter by 'sector', 'year', or 'month' as needed to get specific credit data. The 'outstanding_as_on' column provides the credit amount (in crore) as of the effective date.
         Query: Show the outstanding bank credit for MSME sectors in July 2019.
         Query: List the outstanding credit for all sectors for the fiscal year 2019-20.
         Query: Get the total outstanding bank credit for 'Personal Loans' in 2019.
-        
-        
+
+
         12. msme_india_mth_grp_bankcredit_view : This view provides monthly outstanding bank credit data for different MSME-related sectors and groups in India, sourced from the Reserve Bank of India. It includes details such as year, month, sector, group name, outstanding amount, and relevant dates.
         Instructions: Use this view to analyze trends, compare outstanding credit amounts, or extract time-series data for specific MSME sectors or groups by month and year.
         GROUP LEVEL
         Query: Show the total outstanding bank credit for the 'Services' sector in fiscal year 2019-20.
         Query: List the monthly outstanding amounts for 'Professional Services' group in 2019.
         Query: Get the latest outstanding amount for each sector as of March 2020.
-        
-        
+
+
         13. msme_india_mth_subgrp_bankcredit_view : This view provides monthly outstanding bank credit data for various MSME sectors and subgroups in India, including details like sector, group, subgroup, outstanding amount, and reporting dates.
         SUBGROUP LEVEL
         Instructions: Use this view to analyze trends in bank credit outstanding amounts for different MSME sectors, groups, and subgroups across months and years. Filter by year, sector, group_name, or subgroup to get specific insights.
         Query: Show the outstanding bank credit for 'Power' under 'Infrastructure' group for January 2021.
         Query: List all subgroups and their outstanding amounts for the 'Trade' group in April 2019.
         Query: Get the total outstanding bank credit for 'Industry Micro Small Medium Large' sector in fiscal year 2020-21.
-        
-        
+
+
         14. upi_dly_stats : This table contains daily statistics of UPI transactions, including transaction volume (in millions) and value (in crores), along with date and metadata. DAILY resolution
         Instructions: Use this table to analyze daily UPI transaction trends, volumes, and values by date, month, or year. Filter by date_stamp, year, or month as needed.
         Query: Show the total UPI transaction volume in May 2021.
         Query: List daily UPI transaction values for the first week of May 2021.
         Query: Get the average daily UPI transaction volume for 2021.
-        
-        
+
+
         15.upi_mth_stats : This table contains monthly statistics of UPI transactions in India, including transaction volume (in millions) and value (in crores), along with release and update dates. MONTHLY resolution
         Instructions: Use this table to analyze trends in UPI transaction volumes and values by month and year, or to retrieve data for specific periods. Filter by year, month, or other columns as needed.
         Query: Show the total UPI transaction volume for the year 2025.
         Query: List the UPI transaction value for each month in 2025.
         Query: Find the month with the highest UPI transaction value in 2025.
         Query: Get all months where the transaction volume exceeded 19,000 million.
-        
-        
+
+
         16. upi_mth_failures : This table contains monthly UPI transaction failure statistics for various issuer banks, including transaction volumes and percentages of approved, business declined, and technical declined transactions.
         Instructions: Use this table to analyze UPI transaction performance and failure rates by bank, month, or year. Filter by issuer_bank_name, year, or month to get specific data.
         Query: Show the approved percentage for State Bank of India in August 2021.
         Query: List total transaction volumes and failure rates for all banks in August 2021.
         Query: Find the bank with the highest business declined percentage in August 2021.
-        
-        
+
+
         Note: If a query is about gdp of msme do not select any table return "none_of_these".
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
-        [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, 
-        msme_priority_sector_view, msme_industry_view, msme_global_view, msme_india_mth_sector_bankcredit_view, msme_india_mth_grp_bankcredit_view, msme_india_mth_subgrp_bankcredit_view, upi_dly_stats, upi_mth_stats, upi_mth_failures, none_of_these]   
+        [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view,
+        msme_priority_sector_view, msme_industry_view, msme_global_view, msme_india_mth_sector_bankcredit_view, msme_india_mth_grp_bankcredit_view, msme_india_mth_subgrp_bankcredit_view, upi_dly_stats, upi_mth_stats, upi_mth_failures, none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
@@ -1541,17 +1571,17 @@ def rephrase_for_table(query, schema, context, table_name):
     Given the following table schema: {schema} and the context: {context} for the table {table_name}, rephrase the provided query to make it easier for an SQL agent to pull the right data.
 
     ** INSTRUCTIONS **
-    -- Try to specify values according to the "Suggested Value Settings" in the provided context, AS LONG AS they are not specified by the query itself. When specifying these values, keep the query in mind and try to use generic values such as Combined, *, General, All India, etc. 
+    -- Try to specify values according to the "Suggested Value Settings" in the provided context, AS LONG AS they are not specified by the query itself. When specifying these values, keep the query in mind and try to use generic values such as Combined, *, General, All India, etc.
     REMEMBER that these values are to be specified only if they do not clash with the query.
     -- Do NOT specify month or month_numeric in the output.
-    
+
     There are two types of query that you should be able to handle. These are specified below, with logical reasoning:
         1. Time-related queries: These are queries where you are asked about a certain quantity over a certain time period.
            - In this case, fix the categorical columns as far as possible and then set date / year limits on the query.
            - Example: Query --> CPI for vegetables in Karnataka, June 2021 to June 2022
                       SQL query --> SELECT * FROM {table_name} WHERE state = 'Karnataka' AND year >= 2021 AND year <= 2022 AND group_name = 'Food and Beverages' AND sub_group_name = 'Vegetables' AND sector = 'Combined' AND data_source = 'Price Statistics Division, MoSPI' LIMIT 125;
            REMEMBER: Do not set month filters in the SQL query, to avoid confusion.
-    
+
         2. Comparative queries: These are queries that ask for "top k" sort of quantities.
             - For example, this type of query about "top 5 states" which should resolve to top 5 states by GDP, or "top 3 categories" where it should resolve to categories of products.
             - Here, set the time to a specific entry, which should be the latest available in the data.
@@ -1560,14 +1590,14 @@ def rephrase_for_table(query, schema, context, table_name):
                     SQL query --> SELECT * FROM {table_name} WHERE year = '2024-25' ORDER BY year DESC
             - Example: Query --> Top 3 categories of inflation, latest data before June 2025
                     SQL query --> SELECT * FROM {table_name} WHERE year = '2025' and month_numeric = '5' AND state = 'All India' AND sector = 'Combined' ORDER BY inflation_rate DESC LIMIT 3;
-        
+
     ** VERY IMPORTANT: **
     If only one year is specified, DO NOT specify month, month_numeric, or quarter in the year.
     NEVER set the value for data release date or the data source in your query.
     Output your response as a valid SQL query.
         query --> Growth of Maharashtra in the last 10 years
         SQL query --> SELECT * FROM {table_name} WHERE state = 'Maharashtra' AND year >= '2015' AND year <= '2025' AND gross_state_value_added_at = 'current price' AND sector = 'Gross State Domestic Product' AND value_unit = 'lakhs' LIMIT 125;
-        
+
         query --> Growth in electricity production from June 2020 to June 2022
         SQL query --> SELECT * FROM {table_name} WHERE year >= '2020-21' AND year <= '2022-23' AND sector_type = 'Sectoral' AND category = 'Electricity' AND sub_category = '*' LIMIT 125;
     """
@@ -1610,9 +1640,9 @@ def generate_sql_query(query, schema, context, table_name, last_error="N/A"):
         #columns = str(identify_generic_columns(query, schema))
         #query = str(query) + '''\nEnsure you set the following columns to generic values: ''' + columns)
     if last_error == "N/A":
-        sql_query, i_tokens, o_tokens = rephrase_for_table(query, schema, context, table_name)      
+        sql_query, i_tokens, o_tokens = rephrase_for_table(query, schema, context, table_name)
         return sql_query, query, i_tokens, o_tokens
-          
+
     instructions = dedent(f"""Given the following table context for {table_name}: {context}\nCan you generate a valid SQL query to get the contents for the natural language query attached below? Be very specific and make sure you output ONLY the SQL query as a string without any other text. Remember to pull all the informative columns in the table, and not just the requested values.
         **Some simple hints to use**
         - Unless the query specifies "data for all categories" or "data for all states", you may choose to pull data for All India, General category, Combined sector, * sub-category, etc. You will get some hints from the sample rows.
@@ -1783,7 +1813,7 @@ def data_description(headers):
 def rationalize_information(result, headers, query):
     if query == "":
         query = "Summarize the provided information, and state that this summary is being provided because the data size was too large to answer the query precisely."
-    system_instruction=dedent(f""" 
+    system_instruction=dedent(f"""
                               You are given the following information about {headers}, in json format:
                                   {result}
                               If you are able to answer the query given below with this information, do so. If not, state that a direct answer is not possible but then summarize the data that is provided.
@@ -1798,11 +1828,11 @@ def rationalize_information(result, headers, query):
     rationalized_info, i_tokens, o_tokens = openai_call(system_instruction, query, model="gpt-4o-mini")
     return rationalized_info.strip(), i_tokens, o_tokens
 
-def handle_pandas_response(df, query, orig_query, max_rows, nq): 
+def handle_pandas_response(df, query, orig_query, max_rows, nq):
     df.to_csv("debug_dataframe.csv")
     total_i_tokens, total_o_tokens = 0, 0
-    
-    df.fillna('', inplace=True) 
+
+    df.fillna('', inplace=True)
     headers = ""
     try:
         if len(df) <= 4:
@@ -1817,43 +1847,43 @@ def handle_pandas_response(df, query, orig_query, max_rows, nq):
         # Find single-valued columns
         definite_drops = ["id", "data_release_date", "data_updated_date"]
         single_valued_cols = [col for col in df.columns if (col in definite_drops) or ((df[col].nunique(dropna=False) == 1) and (col.lower() != 'year'))]
-        
+
         # Append their values to the caption
         for col in single_valued_cols:
             val = df[col].iloc[0]
             headers += f"{col}: {val} | "
-    
+
         # Drop trailing delimiter if needed
         headers = headers.rstrip(" | ")
-    
+
         # Drop single-valued columns from the dataframe
         df = df.drop(columns=single_valued_cols)
-    
+
         # Define keywords that indicate temporal association
         temporal_keywords = ['year', 'month', 'quarter', 'date', 'day', 'week', 'period', 'time']
-        
+
         # Create a regex pattern from the keywords
         pattern = re.compile('|'.join(temporal_keywords), re.IGNORECASE)
-    
+
         # Find columns with headers matching any of the temporal keywords
         temporal_cols = [col for col in df.columns if pattern.search(col)]
         selected_temporal_cols = {}
-    
+
         for keyword in temporal_keywords:
             # Filter matching columns for this keyword
             matches = [col for col in temporal_cols if keyword in col.lower() and 'data' not in col.lower()]
-            
+
             # Prioritize numeric columns among the matches
             numeric_matches = [col for col in matches if pd.api.types.is_numeric_dtype(df[col])]
-            
+
             if numeric_matches:
                 selected_temporal_cols[keyword] = numeric_matches[0]  # Use the first numeric match
             elif matches:
                 selected_temporal_cols[keyword] = matches[0]  # Fallback: first non-numeric match
-    
+
         # Get the selected columns
         cols_to_merge = list(selected_temporal_cols.values())
-        
+
         if 'date_stamp' in list(df):
             df['date'] = df['date_stamp'].astype(str)
         else:
@@ -1868,7 +1898,7 @@ def handle_pandas_response(df, query, orig_query, max_rows, nq):
         if has_nat:
             df['date'] = df['year'].str.extract(r'^(\d{4})').astype(int)
             df['date'] = pd.to_datetime(df['date'], format='%Y')
-        
+
         # Sort the DataFrame by the 'date' columnß
         df = df.sort_values(by='date',ascending=False).reset_index(drop=True)
         try:
@@ -1880,7 +1910,7 @@ def handle_pandas_response(df, query, orig_query, max_rows, nq):
                 - "States with lowest inflation"
                 - "States with highest MSME participation"
             ** CLASSIFICATION TASK: YES or NO**
-            1. If such comparisons or rankings exists, reply with a single word "YES"  
+            1. If such comparisons or rankings exists, reply with a single word "YES"
             2. If such rankings do not exist, for example "inflation of food category in 2024", "GDP of India in the last 3 years", "IIP of mining sector in the last decade", then reply with a single word "NO"
             3. Do not reply with anything apart from YES or NO
             4. Do not include any thinking traces""", orig_query, model="gpt-4o-mini")
@@ -1890,10 +1920,10 @@ def handle_pandas_response(df, query, orig_query, max_rows, nq):
                 df = df[df['date'] == latest_date]
         except Exception as e:
             print("Could not assess whether query should keep latest date only: " + str(e))
-            
+
         df = df.drop(columns=["date"])
         nrows = len(df)
-        
+
         if True:
             rationalized_info = df.to_markdown(index=False)
             headers_text, i, o = data_description("Data context: " + headers)
@@ -1904,32 +1934,32 @@ def handle_pandas_response(df, query, orig_query, max_rows, nq):
                 headers_text, i, o = data_description(headers + "\nData: " + str(result))
                 total_i_tokens += i; total_o_tokens += o
                 return result, headers_text.strip(), total_i_tokens, total_o_tokens
-                
+
             if 12 < nrows < max_rows:
                 result = df.to_dict(orient='records')
                 rationalized_info, i_rat, o_rat = rationalize_information(result, headers, orig_query + query)
                 total_i_tokens += i_rat; total_o_tokens += o_rat
-                
+
                 headers_text, i_desc, o_desc = data_description(headers)
                 total_i_tokens += i_desc; total_o_tokens += o_desc
                 return {"summarized_info": rationalized_info.strip()}, headers_text.strip(), total_i_tokens, total_o_tokens
-                
+
             result = df.to_dict(orient='records')
             rationalized_info, i_rat, o_rat = rationalize_information(result, headers, "Too many rows...")
             total_i_tokens += i_rat; total_o_tokens += o_rat
-            
+
             headers_text, i_desc, o_desc = data_description(headers)
             total_i_tokens += i_desc; total_o_tokens += o_desc
         return {"summarized_info": rationalized_info.strip()}, headers_text.strip(), total_i_tokens, total_o_tokens
         #return str(rationalized_info).strip(), headers_text.strip(), total_i_tokens, total_o_tokens
-    
+
     except:
         if "date" in list(df):
             df = df.drop(columns=["date"])
-        
+
         headers_text, i, o = data_description(headers)
         total_i_tokens += i; total_o_tokens += o
-        
+
         if len(df) > 100:
             df = df.iloc[:100,:]
         return {"summarized_info": str(df.to_markdown(index=False)).strip()}, headers_text.strip(), total_i_tokens, total_o_tokens
