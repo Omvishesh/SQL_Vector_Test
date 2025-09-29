@@ -151,7 +151,7 @@ def query_certify_valid(user_query):
                                     cement and construction,
                                     banking, finance,
                                     aadhar,
-                                    hospital data,
+                                    Hospital data (CGHS),
                                     toll data, 
                                     GDP (gross domestic product), 
                                     state value added (GSVA), 
