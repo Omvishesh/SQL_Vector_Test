@@ -154,6 +154,7 @@ def query_certify_valid(user_query):
                                     Hospital data (CGHS),
                                     toll data, 
                                     electric vehicles(ev),
+                                    Air passenger traffic,
                                     GDP (gross domestic product), 
                                     state value added (GSVA), 
                                     state gross domestic product (GSDP),
