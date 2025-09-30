@@ -14,9 +14,11 @@ def classify_query(query):
 
                 ## finance_and_industry
 
-                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, commodities export and import, energy/commodities, mutual funds, data of toll collection, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social.
+                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, electric vehicles(ev), oil and gas reserves, air passengers, commodities export and import, energy/commodities, mutual funds, data of toll collection, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social.
 
-                b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg, toll_state_monthly_etc_transactions].
+                b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption,
+                co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg, toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export,
+                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, traffic_india_mth_air_passengers].
 
                 ## CPI
 
@@ -57,12 +59,12 @@ def classify_query(query):
 
                 ## social_migration_and_households
 
-                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services, credit, aadhar data, hospital data, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, mass media/broadband, transport/public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
+                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services, credit, aadhar data, hospital data, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, labour wages, mass media/broadband, transport/public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
 
                 b. The following files comprise the "social_migration_and_households" datasets: [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
                     mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
                     mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
-                    mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data]
+                    mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, labour_india_sector_industry_occupation_wages, labour_india_rural_wages]
                 Any query that can be answered with these data sets should be classified as "social_migration_and_households".
 
                 ## enterprise_establishment_surveys
@@ -251,9 +253,92 @@ def file_selector_finance_and_industry(query):
         Queries: Show the total transaction amount for each state in fiscal year 2025-26.
         Queries: List the monthly transaction counts for Bharthana Toll Plaza in Gujarat.
         Queries: Get the total number of transactions for each month across all plazas.
-
+        
+        19. ev_state_yr_catg: This table contains yearly data on electric vehicle (EV) registrations by state and vehicle category in India, including the number of EVs registered and their percentage share among total vehicle registrations.
+        Instructions: Use this table to analyze EV registration trends across different states, years, and vehicle categories, or to compare the share of EVs in total vehicle registrations.
+        Example Queries :
+        Query: Show the total number of EVs registered in Maharashtra for each year.
+        Query: List the top 5 states with the highest percentage share of EVs in total vehicle registrations for the year 2022-23.
+        Query: Find the number of 2 Wheeler EVs registered in Karnataka in 2021-22.
+        
+        20. trade_india_mth_commodity_import: This table contains monthly import data for various commodities in India, including HS codes, commodity names, month, year, financial year, import values (in crores), percentage growth, and last update date.
+        Instructions: Use this table to analyze or retrieve India's monthly commodity import statistics, such as import values, growth rates, or trends by HS code, commodity, month, or year.
+        Examples Queries :
+        Query: Show the total import value for IRON AND STEEL in 2025.
+        Query: List all commodities with negative percentage growth in June 2025.
+        Query: Get the import value and growth for each commodity in financial year 2025-26.
+        
+        21. trade_india_mth_commodity_export: This table contains monthly export data from India by commodity, including HS code, commodity name, month, year, financial year, export values (in crores), percentage growth, and last update date.
+        Instructions: Use this table to analyze or retrieve India's monthly export statistics by commodity, HS code, time period, or growth trends.
+        Examples Queries
+        Query: Show the export value and growth for 'GLASS AND GLASSWARE.' in April 2025.
+        Query: List all commodities exported in the financial year 2024-25 with their total export values.
+        Query: Get the percentage growth for each commodity in March 2025.
+        Query: Find the latest updated export data for HS code '39.00'.
+        
+        22. trade_india_mth_stateut_country_export: This table provides monthly export statistics for Indian states and union territories, including total exports, exports for March and February, monthly growth percentage, and share in total exports for each fiscal year.
+        Instructions: Use this table to analyze and compare export performance of Indian states/UTs by month, fiscal year, or growth trends. Filter by 'states_ut_name' for specific regions, or by 'fiscal_year' for year-wise data.
+        Example Queries :
+        Query: Show the top 3 states by total exports for fiscal year 2024-25.
+        Query: List states with more than 10% growth in exports compared to the previous month for 2024-25.
+        Query: Get March export values for all states for the latest fiscal year.
+        
+        23. trade_india_mth_commoditygrp_country_export: This table provides monthly export data of India by commodity group, including total exports, exports for March and February (in million dollars), percentage growth compared to the previous month, percentage share in total exports, and fiscal year.
+        Instructions: Use this table to analyze India's export performance by commodity group for specific months, compare monthly export values, calculate growth rates, or determine the share of each commodity group in total exports for a given fiscal year.
+        Example Queries :
+        Query: Show the March 2025 export values for all commodity groups.
+        Query: Which commodity group had the highest percentage growth in exports compared to the previous month in fiscal year 2024-25?
+        Query: List the total exports and percentage share for Engineering Goods in the latest fiscal year.
+        Query: Find the commodity groups where exports decreased in March compared to February for 2024-25.
+        
+        24. fdi_india_fy_state: This table contains data on Foreign Direct Investment (FDI) inflows into Indian states by financial year, including FDI amounts in INR crore and USD million, inflow percentage, and state names.
+        Instructions: Use this table to analyze FDI inflows by state and financial year, compare FDI amounts across states, or examine trends in FDI distribution.
+        Example Queries :
+        Query: Show the top 5 states by FDI inflow in USD for the financial year 2024-25.
+        Query: List the FDI inflow percentage for each state in 2024-25.
+        Query: What was the total FDI in INR crore received by Karnataka over all years?
+        
+        25. fdi_india_fy_sector: This table contains data on Foreign Direct Investment (FDI) inflows into India by sector and financial year, including values in INR crore, USD million, and percentage share.
+        Instructions: Use this table to analyze FDI inflows by sector, compare sector-wise FDI amounts, or examine trends across financial years.
+        Example Queries :
+        Query: Show the top 5 sectors by FDI inflow in USD for 2024-25.
+        Query: What was the total FDI in INR crore for the Computer Software & Hardware sector in 2024-25?
+        Query: List all sectors with an FDI inflow percentage greater than 10% in 2024-25.
+        
+        26. fdi_india_fy_country: This table provides annual Foreign Direct Investment (FDI) inflow data into India, broken down by country, with values in INR crore, USD million, and percentage share for each financial year.
+        Instructions: Use this table to analyze FDI inflows into India by country and financial year, compare contributions, or track trends in FDI from different countries.
+        Example Queries :
+        Query: Show the top 5 countries by FDI inflow in USD for the financial year 2024-25.
+        Query: List the FDI inflow percentage for each country in 2024-25.
+        Query: What was the total FDI in INR crore received by India in 2024-25?
+        Query: Show FDI inflow in USD million from the USA over all available years.
+        
+        27. energy_india_statewise_crude_oil_ngas_reserves: This table provides state-wise annual data on estimated reserves and distribution percentages of crude oil and natural gas in India.
+        Instructions: Use this table to analyze or retrieve information about crude oil and natural gas reserves and their distribution across Indian states for specific years.
+        Example Queries :
+        Query: Show the crude oil and natural gas estimated reserves for Andhra Pradesh in 2024.
+        Query: List all states with their crude oil distribution percent for the year 2023.
+        Query: Get the natural gas estimated reserves and distribution percent for Arunachal Pradesh for all years.
+        
+        28. energy_india_statewise_coal_reserves: This table provides state-wise annual data on coal reserves in India, including proved, indicated, inferred, and total reserves, along with each state's percentage share of the national total.
+        Instructions: Use this table to retrieve or analyze coal reserve statistics by state and year, such as total reserves, reserve categories, or distribution percentages. Filter by 'year' and 'state' as needed.
+        Examples Queries :
+        Query: Show the total coal reserves for each state in 2024.
+        Query: Which state had the highest distribution percent of coal reserves in 2023?
+        Query: List the proved, indicated, and inferred reserves for Andhra Pradesh over the years.
+        
+        29. traffic_india_mth_air_passengers: Monthly air passenger traffic data in India, including year, month, passenger numbers, and last update date.
+        Instructions: Use this table to analyze trends in air passenger numbers in India by month and year. Filter or aggregate by year, month, or passenger counts as needed.
+        Example Queries :
+        Query: Show total air passengers for each month in 2024.
+        Query: What is the total number of air passengers in India for 2024?
+        Query: List the months with more than 50,000 passengers in 2024.
+        
         Consider the list above and respond only with one of the following file names:
-        [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_state_qtr_view, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg,toll_state_monthly_etc_transactions, none_of_these]
+        [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_state_qtr_view, revenue_maharashtra_fy_category, mf_monthly_schemes, 
+        statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg,
+        insurance_india_mth_sctg,toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export, trade_india_mth_stateut_country_export,
+        trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, traffic_india_mth_air_passengers, none_of_these]
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
 
 """)
@@ -821,14 +906,28 @@ def file_selector_social_migration_and_households(query):
         Query: List all CGHS approved hospitals in Hyderabad.
         Query: Show the addresses of diagnostic centres in Mumbai.
         Query: Get the names and cities of all CGHS approved diagnostic centres.
-
-        18. none_of_these: for any queries which are unrelated to above tables.
+        
+        18. labour_india_sector_industry_occupation_wages: This table contains wage data for various occupations across different industries and sectors in India, with details on base year, year, and reporting period.
+        Instructions: Use this table to analyze or retrieve wage information by sector, industry, occupation, year, or reporting period.
+        Example queries:
+        Query: Show the absolute wages for all occupations in the Sugar industry for 2023.
+        Query: Get the wages of Fitters in the Manufacturing Sector for the year 2023.
+        Query: List all available occupations and their wages as of 1st January 2023.
+        
+        19. labour_india_rural_wages: This table contains rural wage data in India, categorized by year, month, state, occupation, and item, with separate wage values for men and women.
+        Instructions: Use this table to analyze rural wage trends in India by gender, state, occupation, or time period.
+        Example queries:
+        Query: Show the average wage for men and women in agricultural occupations in 2023.
+        Query: List the states with the highest average rural wages for women in May 2022.
+        Query: Get the monthly wage trend for men in Karnataka for the occupation 'Construction Worker' in 2021.
+        
+        20. none_of_these: for any queries which are unrelated to above tables. 
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
         mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
         mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
-        mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place,aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, none_of_these]
+        mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place,aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, labour_india_sector_industry_occupation_wages, labour_india_rural_wages, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)

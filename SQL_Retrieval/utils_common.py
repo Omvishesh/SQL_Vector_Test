@@ -153,6 +153,7 @@ def query_certify_valid(user_query):
                                     aadhar,
                                     Hospital data (CGHS),
                                     toll data, 
+                                    electric vehicles(ev),
                                     GDP (gross domestic product), 
                                     state value added (GSVA), 
                                     state gross domestic product (GSDP),
