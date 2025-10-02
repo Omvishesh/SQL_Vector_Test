@@ -14,11 +14,11 @@ def classify_query(query):
 
                 ## finance_and_industry
 
-                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, electric vehicles(ev), oil and gas reserves, air passengers, commodities export and import, energy/commodities, mutual funds, data of toll collection, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social.
+                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, electric vehicles(ev), oil and gas reserves, commodities export and import, energy/commodities, mutual funds, data of toll collection, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social.
 
                 b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption,
                 co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg, toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export,
-                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, traffic_india_mth_air_passengers].
+                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly].
 
                 ## CPI
 
@@ -59,12 +59,12 @@ def classify_query(query):
 
                 ## social_migration_and_households
 
-                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services, credit, aadhar data, hospital data, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, labour wages, mass media/broadband, transport/public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
+                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services, credit, aadhar data, hospital data, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, labour wages, mass media/broadband, transport (air, water, land), public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
 
                 b. The following files comprise the "social_migration_and_households" datasets: [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
                     mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
                     mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
-                    mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, labour_india_sector_industry_occupation_wages, labour_india_rural_wages]
+                    mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, labour_india_sector_industry_occupation_wages, labour_india_rural_wages, airport_sewa_services_data, traffic_india_mth_air_passengers]
                 Any query that can be answered with these data sets should be classified as "social_migration_and_households".
 
                 ## enterprise_establishment_surveys
@@ -327,18 +327,36 @@ def file_selector_finance_and_industry(query):
         Query: Which state had the highest distribution percent of coal reserves in 2023?
         Query: List the proved, indicated, and inferred reserves for Andhra Pradesh over the years.
         
-        29. traffic_india_mth_air_passengers: Monthly air passenger traffic data in India, including year, month, passenger numbers, and last update date.
-        Instructions: Use this table to analyze trends in air passenger numbers in India by month and year. Filter or aggregate by year, month, or passenger counts as needed.
+
+        29. crude_oil_mth_data: This table contains monthly crude oil data by company, including the month, year, oil company name, and the quantity in metric tonnes.
+        Instructions: Use this table to analyze crude oil quantities by company, month, and year. Filter by 'month', 'year', or 'oil_company' to get specific data.
         Example Queries :
-        Query: Show total air passengers for each month in 2024.
-        Query: What is the total number of air passengers in India for 2024?
-        Query: List the months with more than 50,000 passengers in 2024.
+        Query: Show the total crude oil quantity for each company in 2022.
+        Query: List the crude oil quantities for September 2022.
+        Query: Find the total crude oil quantity for BPCL-KOCHI, KERALA across all years.
+        
+        30. ppac_mth_petroleum_consumption: Monthly petroleum product consumption data, including product type, quantity in metric tonnes, and reporting date.
+        Instructions: Use this table to analyze monthly consumption trends of various petroleum products by month and year, or to retrieve quantities for specific products and time periods.
+        Example Queries :
+        Query: Show the total quantity of ATF consumed in 2023.
+        Query: List the monthly consumption of all products for July 2023.
+        Query: Get the latest updated date in the table.
+        
+        31. ores_minerals_exports_yearly: This table provides yearly export data for various ores and minerals, including quantities and values for the years 2015-16, 2016-17, and 2017-18, along with relevant measurement units and notes.
+        Instructions: Use this table to analyze or retrieve export quantities and values for specific ores and minerals by year. You can filter by mineral name, year, or measurement unit, and review notes for data caveats.
+        Example Queries :
+        Query: Show the export value of 'Abrasive (Natural)' for 2017-18.
+        Query: List all ores and minerals with their exported quantities in 2016-17.
+        Query: Find the measurement unit used for 'Alabaster'.
+        Query: Get the total export value for all minerals in 2015-16.
+        Query: Show notes related to quantity for 'Alabaster' in 2015-16. 
         
         Consider the list above and respond only with one of the following file names:
         [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_state_qtr_view, revenue_maharashtra_fy_category, mf_monthly_schemes, 
         statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg,
         insurance_india_mth_sctg,toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export, trade_india_mth_stateut_country_export,
-        trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, traffic_india_mth_air_passengers, none_of_these]
+        trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves,
+        crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly, none_of_these]
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
 
 """)
@@ -921,13 +939,29 @@ def file_selector_social_migration_and_households(query):
         Query: List the states with the highest average rural wages for women in May 2022.
         Query: Get the monthly wage trend for men in Karnataka for the occupation 'Construction Worker' in 2021.
         
-        20. none_of_these: for any queries which are unrelated to above tables. 
+        20. airport_sewa_services_data: This table contains information about various services available at airports, including service category, title, description, contact details, and the last update date.
+        Instructions: Use this table to find details about airport services such as transportation, parking, and other amenities. Filter by airport name, service category, or specific service titles to get relevant contact information and descriptions.
+        Example queries:
+        Query: Show all car rental services available at Chennai airport.
+        Query: List all parking and transportation services at Mumbai airport.
+        Query: Get the contact phone numbers for all services at Chennai airport.
+        Query: Find all services updated after October 1, 2024.
+        
+        21. traffic_india_mth_air_passengers: Monthly air passenger traffic data in India, including year, month, passenger numbers, and last update date.
+        Instructions: Use this table to analyze trends in air passenger numbers in India by month and year. Filter or aggregate by year, month, or passenger counts as needed.
+        Example Queries :
+        Query: Show total air passengers for each month in 2024.
+        Query: What is the total number of air passengers in India for 2024?
+        Query: List the months with more than 50,000 passengers in 2024.
+        
+        21. none_of_these: for any queries which are unrelated to above tables. 
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
         mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
         mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
-        mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place,aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, labour_india_sector_industry_occupation_wages, labour_india_rural_wages, none_of_these]
+        mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place,aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data,
+        labour_india_sector_industry_occupation_wages, labour_india_rural_wages, airport_sewa_services_data, traffic_india_mth_air_passengers, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
