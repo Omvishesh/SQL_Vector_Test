@@ -24,7 +24,7 @@ def classify_query(query):
 
                 a. Classify queries related to inflation, CPI, price indices, sales, wholesale, consumer, or consumption. This includes datasets on general CPI inflation, agricultural and rural laborer price indices, city-wise housing prices, wholesale price indices (financial year and calendar wise), and worker-specific CPI data.
 
-                b. The following files comprise the CPI datasets: [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view,cpi_india_mth_subgrp_view,consumer_price_index_CPI_for_agricultural_and_rural_labourers,city_wise_housing_price_indices,whole_sale_price_index_WPI_financial_year_wise,cpi_worker_data,whole_sale_price_index_WPI_calendar_wise].
+                b. The following files comprise the CPI datasets: [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view,cpi_india_mth_subgrp_view,consumer_price_index_CPI_for_agricultural_and_rural_labourers,city_wise_housing_price_indices,whole_sale_price_index_WPI_financial_year_wise,cpi_worker_data,whole_sale_price_index_WPI_calendar_wise, cpi_iw_point_to_point_inflation, cpi_iw_centre_index, cpi_iw_retail_price_index].
                 Any query that can be answered with these data sets should be classified as "CPI".
 
                 ## GDP
@@ -1087,12 +1087,34 @@ def file_selector_CPI(query):
         Sample queries:
         a. What was the annual CPI-IW value for the 'Food' category in 2018?
         b. How did the 'Non Food' CPI-IW index change from 2011 to 2019 at the national level?
-
-
-        11. none_of_these: for any queries which are unrelated to inflation. for example, queries regarding gdp, iip, msme would fall under the "none" category. queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
+        
+        11. cpi_iw_point_to_point_inflation: This table contains monthly point-to-point inflation rates for the Consumer Price Index for Industrial Workers (CPI-IW), including base year, year, month, inflation value, and data source.
+        Instructions: Use this table to retrieve CPI-IW inflation rates for specific months, years, or base years, or to analyze inflation trends over time.
+        Example queries:
+        Query: Show the CPI-IW inflation rates for the year 2020.
+        Query: Get the inflation rate for September 2020.
+        Query: List all available base years in the CPI-IW inflation data.
+        Query: Find the average CPI-IW inflation for 2020.
+        
+        12. cpi_iw_centre_index: This table contains Consumer Price Index for Industrial Workers (CPI-IW) data by centre, state, year, and month, with index values based on a specified base year.
+        Instructions: Use this table to retrieve CPI-IW index values for specific centres, states, years, and months, or to analyze inflation trends over time by location.
+        Example queries:
+        Query: Show the CPI-IW index for Guntur in January 2024.
+        Query: List all CPI-IW index values for Andhra Pradesh in 2023.
+        Query: Get the yearly CPI-IW index trend for Guntur from 2021 to 2024.
+        
+        13. cpi_iw_retail_price_index: This table contains the Consumer Price Index (CPI) for Industrial Workers (IW) retail price index data, including item-wise indices by year, month, group, and sub-group, with data sourced from the Ministry of Labour & Employment.
+        Instructions: Use this table to analyze or retrieve CPI-IW retail price index values for specific items, groups, sub-groups, years, or months. You can filter by item, group, sub_group, year, month, or base_year to get relevant index values.
+        Example queries:
+        Query: Show the CPI index for 'Scents and perfumes' in December 2021.
+        Query: List all items under the 'Personal Care & Effects' sub-group for 2021.
+        Query: Get the CPI index values for all items in the 'Miscellaneous' group for December 2021.   
+        Query: Find the average index for 'Personal Care & Effects' in 2021.
+        
+        14. none_of_these: for any queries which are unrelated to inflation. for example, queries regarding gdp, iip, msme would fall under the "none" category. queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
-        [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view, cpi_india_mth_subgrp_view, consumer_price_index_cpi_for_agricultural_and_rural_labourers, city_wise_housing_price_indices, whole_sale_price_index_wpi_financial_year_wise, cpi_worker_data, whole_sale_price_index_wpi_calendar_wise, cpi_food_worker_data, none_of_these]
+        [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view, cpi_india_mth_subgrp_view, consumer_price_index_cpi_for_agricultural_and_rural_labourers, city_wise_housing_price_indices, whole_sale_price_index_wpi_financial_year_wise, cpi_worker_data, whole_sale_price_index_wpi_calendar_wise, cpi_food_worker_data, cpi_iw_point_to_point_inflation, cpi_iw_centre_index, cpi_iw_retail_price_index, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
@@ -1612,14 +1634,13 @@ def file_selector_IIP(query):
         “Show the quarter-wise Manufacturing Kerala IIP trend for 2016–17.”
         “Which quarter had the highest Manufacturing Kerala index in 2015–16?”
         
-        16. annual_chemical_production_data: This table contains annual production data for various chemical products, grouped by chemical type, with production figures for each year from 2014-2015 to 2021-2022.
-        Instructions: Use this table to analyze trends, compare production volumes, or retrieve annual data for specific chemical products or groups over the years 2014-2015 to 2021-2022.
+        16. annual_chemical_production_data: This table contains annual production data for various chemical products, including group name, product name, year, and production value.
+        Instructions: Use this table to retrieve or analyze annual production figures for specific chemical products or groups, filter by year, or aggregate production values.
         Example queries:
-        Query: Show the annual production of Caustic Soda from 2014-2015 to 2021-2022.
-        Query: List all products under the group 'Alkali Chemicals' with their production in 2021-2022.
-        Query: Find the total production of Soda Ash over all available years.
-        Query: Which product had the highest production in 2019-2020?
-
+        Query: Show the total production value of all Alkali Chemicals in 2014-2015.
+        Query: List the production values for each product in 2014-2015.
+        Query: Get the annual production of Caustic Soda for all available years.
+        
         17. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
