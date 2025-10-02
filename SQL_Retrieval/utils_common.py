@@ -154,7 +154,7 @@ def query_certify_valid(user_query):
                                     Hospital data (CGHS),
                                     toll data, 
                                     electric vehicles(ev),
-                                    Airport Data
+                                    Airport Data,
                                     Air passenger traffic,
                                     GDP (gross domestic product), 
                                     state value added (GSVA), 
@@ -163,7 +163,8 @@ def query_certify_valid(user_query):
                                     MSME queries around the world -- Asia, Europe, America,
                                     Credit related queries,
                                     agriculture and rural labour, 
-                                    housing prices, 
+                                    housing prices,
+                                    government schemes like ayushman, 
                                     national income, 
                                     private income, 
                                     exports, imports, IMF data,
