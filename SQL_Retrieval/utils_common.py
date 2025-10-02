@@ -168,6 +168,7 @@ def query_certify_valid(user_query):
                                     national income, 
                                     private income, 
                                     exports, imports, IMF data,
+                                    international trade,
                                     macro and micro economic questions, 
                                     population or strength of labour force in various categories, and 
                                     Indian government initiatives regarding the economy. 
