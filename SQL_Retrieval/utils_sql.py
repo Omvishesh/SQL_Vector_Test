@@ -14,11 +14,11 @@ def classify_query(query):
 
                 ## finance_and_industry
 
-                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, electric vehicles(ev), oil and gas reserves, commodities export and import, energy/commodities, mutual funds, data of toll collection, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social.
+                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, electric vehicles(ev), oil and gas reserves, commodities export and import, trade, energy/commodities, mutual funds, data of toll collection, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social.
 
                 b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption,
                 co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg, toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export,
-                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly].
+                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly mf_india_qtr_total, insurance_india_mth_life_insurer, trade_india_annual_country, trade_india_mth_region_commodity].
 
                 ## CPI
 
@@ -59,12 +59,12 @@ def classify_query(query):
 
                 ## social_migration_and_households
 
-                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services,airport data, credit, aadhar data, hospital data, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, labour wages, mass media/broadband, transport (air, water, land), public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
+                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services,airport data, ayushman schemes, credit, aadhar data, hospital data, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, labour wages, mass media/broadband, transport (air, water, land), public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
 
                 b. The following files comprise the "social_migration_and_households" datasets: [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
                     mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
                     mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
-                    mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, labour_india_sector_industry_occupation_wages, labour_india_rural_wages, airport_sewa_services_data, traffic_india_mth_air_passengers]
+                    mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, labour_india_sector_industry_occupation_wages, labour_india_rural_wages, airport_sewa_services_data, traffic_india_mth_air_passengers, sp_india_daily_state]
                 Any query that can be answered with these data sets should be classified as "social_migration_and_households".
 
                 ## enterprise_establishment_surveys
@@ -351,12 +351,41 @@ def file_selector_finance_and_industry(query):
         Query: Get the total export value for all minerals in 2015-16.
         Query: Show notes related to quantity for 'Alabaster' in 2015-16. 
         
+        32. mf_india_qtr_total: This table provides quarterly aggregated data on mutual fund schemes in India, including scheme names, number of schemes and folios, funds mobilized, redemptions, net inflows/outflows, assets under management, and other related metrics.
+        Instructions: Use this table to analyze quarterly trends, compare mutual fund scheme categories, or summarize assets, inflows, and other key statistics for Indian mutual funds by scheme, quarter, or year.
+        Example Queries :
+        Query: Show the net inflow/outflow for each scheme in Q1 of 2025.
+        Query: List the total number of folios for all schemes in June 2025.
+        Query: Get the average net assets under management for each scheme type in 2025.
+        Query: Which scheme had the highest funds mobilized in Q1 (Apr-Jun) 2025?
+        
+        33. insurance_india_mth_life_insurer → This table contains monthly performance data for life insurance companies in India, including premium values, growth percentages, and market share by insurer, category, and metric type.
+        Instructions: Use this table to analyze and compare monthly life insurance metrics such as first year premium, growth, and market share across different insurers, categories, and time periods.
+        Example Queries:
+        Query: Show the total first year premium for all insurers in August 2025.
+        Query: List the growth percentage for each insurer's Individual Non-Single Premium in August 2025.
+        Query: Get the market share of Acko Life Insurance Limited for all categories in August 2025. 
+        
+        34. trade_india_annual_country: This table shows the annual count of HS code tariff lines for different countries in trade with India.
+        Instructions: Use this table to find the number of HS code tariff lines for a specific country and year, or to analyze trends in tariff lines over time for one or more countries.
+        Example queries :
+        Query: Show the total HS code tariff lines for USA in 2024.
+        Query: List the annual HS code tariff lines for USA from 2022 to 2024.
+        Query: Which countries had more than 20 HS code tariff lines in 2024?
+        
+        35. trade_india_mth_region_commodity: Monthly trade values between India and various regions and subregions, including actual and forecast data, broken down by month, year, and trade type.
+        Instructions: Use this table to analyze India's trade values by region, subregion, month, year, and type (Actual or Forecast). Filter by region, subregion, month, year, or type as needed to get specific trade data.
+        Example Queries :
+        Query: Show the actual trade value for Europe in July 2024.
+        Query: List forecasted trade values for all regions in July 2025.
+        Query: Get the actual trade value for EU Countries in July 2024. 
+       
         Consider the list above and respond only with one of the following file names:
         [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_state_qtr_view, revenue_maharashtra_fy_category, mf_monthly_schemes, 
         statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg,
         insurance_india_mth_sctg,toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export, trade_india_mth_stateut_country_export,
         trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves,
-        crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly, none_of_these]
+        crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly,mf_india_qtr_total, insurance_india_mth_life_insurer,trade_india_annual_country, trade_india_mth_region_commodity, none_of_these]
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
 
 """)
@@ -954,14 +983,21 @@ def file_selector_social_migration_and_households(query):
         Query: What is the total number of air passengers in India for 2024?
         Query: List the months with more than 50,000 passengers in 2024.
         
-        21. none_of_these: for any queries which are unrelated to above tables. 
+        22. sp_india_daily_state → This table provides daily statistics for Indian states on Ayushman card creation, hospital admissions, and empanelled hospitals under the Ayushman Bharat scheme.
+        Instructions: Use this table to analyze or retrieve state-wise daily data on Ayushman card creation, hospital admissions, and the number of empanelled hospitals. Filter by 'state_name' or 'updated_on' to get specific records.
+        Example Queries:
+        Query: Show the total Ayushman cards created in Uttar Pradesh as of 2025-10-01.
+        Query: List all states with more than 5,000,000 hospital admissions as of 2025-10-01.
+        Query: Get the number of empanelled hospitals in Bihar on 2025-10-01.
+        
+        23. none_of_these: for any queries which are unrelated to above tables. 
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
         mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
         mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
         mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place,aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data,
-        labour_india_sector_industry_occupation_wages, labour_india_rural_wages, airport_sewa_services_data, traffic_india_mth_air_passengers, none_of_these]
+        labour_india_sector_industry_occupation_wages, labour_india_rural_wages, airport_sewa_services_data, traffic_india_mth_air_passengers, sp_india_daily_state, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
@@ -1414,14 +1450,13 @@ def file_selector_GDP(query):
         Query: Get the growth rates at current prices for all items updated on 16-07-2025.
 
 
-        36.gdp_state_fy_subindustry_actuals_view : This view provides annual GDP figures at constant and current prices for each sub-industry within states, including classification flags and product tax/subsidy indicators.
+        36. gdp_state_fy_subindustry_actuals_view : This view provides annual GDP figures at constant and current prices for each sub-industry within states, including classification flags and product tax/subsidy indicators.
         Columns: id, base_year, state, industry, sub_industry, primary_flag, secondary_flag, tertiary_flag, taxes_on_products, subsidies_on_products, year, constant_value_in_lakh, current_value_in_lakh, released_on, data_source, updated_on
         Instructions: Use this view to retrieve state-wise, industry-wise, and sub-industry-wise GDP data for specific years, including constant and current values, and to filter by economic sector or product tax/subsidy status.
         Query: Show the constant and current GDP values for 'Crops' in Andaman Nicobar for all available years.
         Query: List all sub-industries under 'Agriculture, forestry and fishing' for the year 2013-14 in Andaman Nicobar.
         Query: Get the GDP values for all primary sector sub-industries in Andaman Nicobar for 2011-12.
-
-
+        
         37. none_of_these: for any queries which are unrelated to GDP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         # Consider the list above, and respond ONLY with one of the file names from the following list:
