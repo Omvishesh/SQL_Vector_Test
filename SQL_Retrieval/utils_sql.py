@@ -45,9 +45,9 @@ def classify_query(query):
 
                 ## MSME
 
-                a. Classify queries on MSME, Micro, Small and Medium Enterprises, credit growth, exchange rates, Nifty SME, food/non-food credit, gross bank credit, upi, upi transactions, regional/sectoral MSME distribution, or economic shares. This covers datasets on gross bank credit for food/non-food views, sector definitions, non-food credit details, regional and sectoral shares, industry views, priority sector views, daily Nifty SME index values, and state-wise Udyam registrations.
+                a. Classify queries on MSME, Micro, Small and Medium Enterprises, credit growth, exchange rates, Nifty SME, sambandh, procurement data, food/non-food credit, gross bank credit, upi, upi transactions, regional/sectoral MSME distribution, or economic shares. This covers datasets on gross bank credit for food/non-food views, sector definitions, non-food credit details, regional and sectoral shares, industry views, priority sector views, daily Nifty SME index values, and state-wise Udyam registrations.
 
-                b. The following files comprise the MSME datasets: [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view, upi_dly_stats, upi_mth_stats, upi_mth_failures].
+                b. The following files comprise the MSME datasets: [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view, upi_dly_stats, upi_mth_stats, upi_mth_failures, msme_sambandh_procurement_data].
                 Any query that can be answered with these data sets should be classified as "MSME".
 
                 ## agriculture_and_rural
@@ -1653,13 +1653,19 @@ def file_selector_MSME(query):
         Query: Show the approved percentage for State Bank of India in August 2021.
         Query: List total transaction volumes and failure rates for all banks in August 2021.
         Query: Find the bank with the highest business declined percentage in August 2021.
-
-
+        
+        17. msme_sambandh_procurement_data → This table contains procurement data by various ministries, including targets and achievements for total procurement, MSEs, SC/ST MSEs, and women MSEs, for each fiscal year.
+        Instructions: Use this table to analyze ministry-wise procurement targets and achievements, especially for MSEs, SC/ST MSEs, and women MSEs, across different fiscal years.
+        Example queries:
+        Query: Show the total procurement achievement for each ministry in 2020-21.
+        Query: List ministries where achievement for women MSEs exceeded the target in 2020-21.
+        Query: What was the total target and achievement for SC/ST MSEs across all ministries in 2020-21?
+        
         Note: If a query is about gdp of msme do not select any table return "none_of_these".
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
         [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view,
-        msme_priority_sector_view, msme_industry_view, msme_global_view, msme_india_mth_sector_bankcredit_view, msme_india_mth_grp_bankcredit_view, msme_india_mth_subgrp_bankcredit_view, upi_dly_stats, upi_mth_stats, upi_mth_failures, none_of_these]
+        msme_priority_sector_view, msme_industry_view, msme_global_view, msme_india_mth_sector_bankcredit_view, msme_india_mth_grp_bankcredit_view, msme_india_mth_subgrp_bankcredit_view, upi_dly_stats, upi_mth_stats, upi_mth_failures, msme_sambandh_procurement_data, none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
