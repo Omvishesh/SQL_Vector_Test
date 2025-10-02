@@ -18,7 +18,7 @@ def classify_query(query):
 
                 b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption,
                 co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg, toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export,
-                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly mf_india_qtr_total, insurance_india_mth_life_insurer, trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month].
+                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly mf_india_qtr_total, insurance_india_mth_life_insurer, trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month, trade_india_mth_country, trade_india_mth_region].
 
                 ## CPI
 
@@ -40,7 +40,7 @@ def classify_query(query):
 
                 a. Entities such as IIP, industrial output, industrial production, material like cement, mining, manufacturing, electricity, pm schemes like pmay, pmgsy, motor vehicles or other industries should be classified as "IIP".
 
-                b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,construct_state_cement_indicators_view, iip_india_yr_subcatg_view, iip_india_mth_subcatg_view, iip_in_assam, annual_chemical_production_data].
+                b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,construct_state_cement_indicators_view, iip_india_yr_subcatg_view, iip_india_mth_subcatg_view, iip_in_assam, annual_chemical_production_data, vehicle_registrations_state].
                 Any query that can be answered with these data sets should be classified as "IIP".
 
                 ## MSME
@@ -74,7 +74,7 @@ def classify_query(query):
                 b. The following files comprise the "enterprise_establishment_surveys" datasets: [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
                     asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
                     asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
-                    asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, periodic_labour_force_survey, asi_state_principal_characteristics]
+                    asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll]
                 Any query that can be answered with these data sets should be classified as "enterprise_establishment_surveys".
 
                 ## GST
@@ -387,12 +387,26 @@ def file_selector_finance_and_industry(query):
         Query: List all export dwell times for EASTERN REGION AVG. in 2023.
         Query: What is the trend of import dwell times for SOUTHERN REGION AVG. from 2021 to 2023?
         
+        37. trade_india_mth_country: This table contains monthly trade values between India and various countries, with details on country, year, month, and trade value.
+        Instructions: Use this table to analyze India's trade values with specific countries by month and year. Filter by 'country', 'year', or 'month' as needed.
+        Example Queries :
+        Query: Show India's trade value with Afghanistan in July 2024.
+        Query: List all countries and their trade values with India for July 2024.
+        Query: Get the total trade value for all countries in 2024.
+        
+        38. trade_india_mth_region: Monthly trade values between India and different regions and subregions, including actual and forecast data.
+        Instructions: Use this table to analyze India's trade values by region, subregion, month, year, and type (Actual or Forecast). Filter by these columns to get specific trade data.
+        Example Queries :
+        Query: Show the actual trade value for Europe in July 2024.
+        Query: List forecasted trade values for all regions in July 2025.
+        Query: Get trade values for EU Countries subregion in July 2024.  
+        
         Consider the list above and respond only with one of the following file names:
         [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_state_qtr_view, revenue_maharashtra_fy_category, mf_monthly_schemes, 
         statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg,
         insurance_india_mth_sctg,toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export, trade_india_mth_stateut_country_export,
         trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves,
-        crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly,mf_india_qtr_total, insurance_india_mth_life_insurer,trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month, none_of_these]
+        crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly,mf_india_qtr_total, insurance_india_mth_life_insurer,trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month, trade_india_mth_country, trade_india_mth_region, none_of_these]
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
 
 """)
@@ -837,9 +851,17 @@ def file_selector_enterprise_establishment_surveys(query):
         38. asi_state_principal_characteristics: This table provides state-wise and sector-wise principal characteristics of industries in India, including employment and other key indicators, classified by NIC codes for the years 2021 to 2023.
         Instructions: Use this table to analyze industrial statistics such as number of workers, employees, and other principal characteristics by state, sector, year, and NIC classification. Filter by 'state', 'year', 'indicator', 'sector', or 'nic_code' as needed.
         Example queries:
-        User: Show the total number of workers in All India for the year 2022-23.
-        User: List the number of directly employed female workers by state for 2022-23.
-        User: Get the number of employees other than workers in Book Publishing for 2022-23.
+        Query: Show the total number of workers in All India for the year 2022-23.
+        Query: List the number of directly employed female workers by state for 2022-23.
+        Query: Get the number of employees other than workers in Book Publishing for 2022-23.
+        
+        39. epfo_india_mth_payroll: This table contains monthly and yearly payroll data from EPFO India, showing the number of new subscribers by age group, total new subscribers, and the number of establishments remitting their first ECR.
+        Instructions: Use this table to analyze trends in EPFO payroll enrollments by age group, month, or year, and to examine the number of new establishments joining the EPFO scheme.
+        Example queries:
+        Query: Show the total number of new EPFO subscribers for each year.
+        Query: Get the number of new subscribers aged 18-21 for each month.
+        Query: Find the month with the highest number of establishments remitting their first ECR.
+        Query: Show the total new subscribers by age group for the year 2019-20.
         
         39. none_of_these: for any queries which are unrelated to above files.
 
@@ -848,7 +870,7 @@ def file_selector_enterprise_establishment_surveys(query):
         asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
         asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
         asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner,
-        annual_survey_of_industries , periodic_labour_force_survey, asi_state_principal_characteristics, none_of_these]
+        annual_survey_of_industries , periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll, none_of_these]
 
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
@@ -1641,11 +1663,19 @@ def file_selector_IIP(query):
         Query: List the production values for each product in 2014-2015.
         Query: Get the annual production of Caustic Soda for all available years.
         
-        17. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
+        17. vehicle_registrations_state: This table contains the number of vehicle registrations in each Indian state and union territory for the years 2021 to 2025, along with the total registrations over these years.
+        Instructions: Use this table to analyze or compare vehicle registration counts by state and year, or to find total registrations for specific states or time periods.
+        Example queries:
+        Query: Show the total vehicle registrations for each state.
+        Query: Which state had the highest number of vehicle registrations in 2024?
+        Query: List the vehicle registrations in Andhra Pradesh for each year from 2021 to 2025.
+        Query: Show the total vehicle registrations in 2023 across all states.
+        
+        18. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
         [construct_state_cement_indicators_view, iip_india_yr_catg_view, iip_india_mth_catg_view,iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam,iip_in_andra_pradesh_sector_wise,iip_in_andra_pradesh_sector_industry_wise,iip_in_andra_pradesh_use_wise,
-        iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly, annual_chemical_production_data, none_of_these]
+        iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly, annual_chemical_production_data, vehicle_registrations_state, none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
     """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
