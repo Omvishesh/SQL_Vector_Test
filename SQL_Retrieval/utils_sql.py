@@ -40,7 +40,7 @@ def classify_query(query):
 
                 a. Entities such as IIP, industrial output, industrial production, material like cement, mining, manufacturing, electricity, pm schemes like pmay, pmgsy, motor vehicles or other industries should be classified as "IIP".
 
-                b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,construct_state_cement_indicators_view, iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam].
+                b. The following files comprise the IIP datasets: [iip_india_yr_catg_view,iip_india_mth_catg_view,construct_state_cement_indicators_view, iip_india_yr_subcatg_view, iip_india_mth_subcatg_view, iip_in_assam, annual_chemical_production_data].
                 Any query that can be answered with these data sets should be classified as "IIP".
 
                 ## MSME
@@ -1528,13 +1528,20 @@ def file_selector_IIP(query):
         “Compare Q1 Manufacturing Kerala values across fiscal years 2015–16 to 2017–18.”
         “Show the quarter-wise Manufacturing Kerala IIP trend for 2016–17.”
         “Which quarter had the highest Manufacturing Kerala index in 2015–16?”
+        
+        16. annual_chemical_production_data: This table contains annual production data for various chemical products, grouped by chemical type, with production figures for each year from 2014-2015 to 2021-2022.
+        Instructions: Use this table to analyze trends, compare production volumes, or retrieve annual data for specific chemical products or groups over the years 2014-2015 to 2021-2022.
+        Example queries:
+        Query: Show the annual production of Caustic Soda from 2014-2015 to 2021-2022.
+        Query: List all products under the group 'Alkali Chemicals' with their production in 2021-2022.
+        Query: Find the total production of Soda Ash over all available years.
+        Query: Which product had the highest production in 2019-2020?
 
-
-        16. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
+        17. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
         [construct_state_cement_indicators_view, iip_india_yr_catg_view, iip_india_mth_catg_view,iip_india_yr_subcatg_view,iip_india_mth_subcatg_view,iip_in_assam,iip_in_andra_pradesh_sector_wise,iip_in_andra_pradesh_sector_industry_wise,iip_in_andra_pradesh_use_wise,
-        iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly,none_of_these]
+        iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly, annual_chemical_production_data, none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
     """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
@@ -1654,7 +1661,7 @@ def file_selector_MSME(query):
         Query: List total transaction volumes and failure rates for all banks in August 2021.
         Query: Find the bank with the highest business declined percentage in August 2021.
         
-        17. msme_sambandh_procurement_data → This table contains procurement data by various ministries, including targets and achievements for total procurement, MSEs, SC/ST MSEs, and women MSEs, for each fiscal year.
+        17. msme_sambandh_procurement_data: This table contains procurement data by various ministries, including targets and achievements for total procurement, MSEs, SC/ST MSEs, and women MSEs, for each fiscal year.
         Instructions: Use this table to analyze ministry-wise procurement targets and achievements, especially for MSEs, SC/ST MSEs, and women MSEs, across different fiscal years.
         Example queries:
         Query: Show the total procurement achievement for each ministry in 2020-21.
