@@ -14,11 +14,11 @@ def classify_query(query):
 
                 ## finance_and_industry
 
-                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, electric vehicles(ev), oil and gas reserves, commodities export and import, international trade, energy/commodities, mutual funds, data of toll collection, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social.
+                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, electric vehicles(ev), oil and gas reserves, commodities export and import, international trade,port trade energy/commodities, mutual funds, data of toll collection, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social.
 
                 b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption,
                 co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg, toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export,
-                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly mf_india_qtr_total, insurance_india_mth_life_insurer, trade_india_annual_country, trade_india_mth_region_commodity].
+                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly mf_india_qtr_total, insurance_india_mth_life_insurer, trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month].
 
                 ## CPI
 
@@ -69,12 +69,12 @@ def classify_query(query):
 
                 ## enterprise_establishment_surveys
 
-                a. Classify queries on establishment/enterprise characteristics like ownership types, owner social groups/education, gender/employment composition, digital adoption (computers/internet), operation nature (perennial/seasonal), location types, registration status, franchisee/NPI status, financial metrics (GVA per establishment/worker, emoluments, outstanding loans, banking access), and operational details (hours/days worked). This includes ASI (Annual Survey of Industries) on industrial establishments, capital/investment, stocks, financials, employment, production; and PLFS (Periodic Labour Force Survey) on employment, unemployment, labor participation. Datasets encompass emoluments/GVA per worker, worker distributions by type/gender, key characteristics, hours/months operated, registrations, computer/internet use, ownership/operation/location distributions, state-wise estimates, and survey data on industries and labor force.
+                a. Classify queries on establishment/enterprise characteristics like ownership types,principal characteristics of industries, owner social groups/education, gender/employment composition, digital adoption (computers/internet), operation nature (perennial/seasonal), location types, registration status, franchisee/NPI status, financial metrics (GVA per establishment/worker, emoluments, outstanding loans, banking access), and operational details (hours/days worked). This includes ASI (Annual Survey of Industries) on industrial establishments, capital/investment, stocks, financials, employment, production; and PLFS (Periodic Labour Force Survey) on employment, unemployment, labor participation. Datasets encompass emoluments/GVA per worker, worker distributions by type/gender, key characteristics, hours/months operated, registrations, computer/internet use, ownership/operation/location distributions, state-wise estimates, and survey data on industries and labor force.
 
                 b. The following files comprise the "enterprise_establishment_surveys" datasets: [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
                     asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
                     asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
-                    asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, periodic_labour_force_survey]
+                    asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, periodic_labour_force_survey, asi_state_principal_characteristics]
                 Any query that can be answered with these data sets should be classified as "enterprise_establishment_surveys".
 
                 ## GST
@@ -379,13 +379,20 @@ def file_selector_finance_and_industry(query):
         Query: Show the actual trade value for Europe in July 2024.
         Query: List forecasted trade values for all regions in July 2025.
         Query: Get the actual trade value for EU Countries in July 2024. 
-       
+        
+        36. port_dwell_time_month: This table contains monthly average dwell time data for imports and exports at various Indian port regions from 2021 to 2023, including details such as port name, month, year, category, and data source.
+        Instructions: Use this table to analyze or retrieve port dwell time statistics by port region, month, year, and cargo category (Import/Export) for the years 2021 to 2023.
+        Example Queries :
+        Query: Show the average dwell time for imports at SOUTHERN REGION AVG. in January 2022.
+        Query: List all export dwell times for EASTERN REGION AVG. in 2023.
+        Query: What is the trend of import dwell times for SOUTHERN REGION AVG. from 2021 to 2023?
+        
         Consider the list above and respond only with one of the following file names:
         [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_state_qtr_view, revenue_maharashtra_fy_category, mf_monthly_schemes, 
         statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg,
         insurance_india_mth_sctg,toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export, trade_india_mth_stateut_country_export,
         trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves,
-        crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly,mf_india_qtr_total, insurance_india_mth_life_insurer,trade_india_annual_country, trade_india_mth_region_commodity, none_of_these]
+        crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly,mf_india_qtr_total, insurance_india_mth_life_insurer,trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month, none_of_these]
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
 
 """)
@@ -826,15 +833,22 @@ def file_selector_enterprise_establishment_surveys(query):
         Query13: "Employment statistics for different age groups"
         Query14: "Labour force survey data for metropolitan cities"
         Query15: "Job seekers and employment status analysis"
-
-        38. none_of_these: for any queries which are unrelated to above files.
+        
+        38. asi_state_principal_characteristics: This table provides state-wise and sector-wise principal characteristics of industries in India, including employment and other key indicators, classified by NIC codes for the years 2021 to 2023.
+        Instructions: Use this table to analyze industrial statistics such as number of workers, employees, and other principal characteristics by state, sector, year, and NIC classification. Filter by 'state', 'year', 'indicator', 'sector', or 'nic_code' as needed.
+        Example queries:
+        User: Show the total number of workers in All India for the year 2022-23.
+        User: List the number of directly employed female workers by state for 2022-23.
+        User: Get the number of employees other than workers in Book Publishing for 2022-23.
+        
+        39. none_of_these: for any queries which are unrelated to above files.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
         asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
         asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
         asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner,
-        annual_survey_of_industries , periodic_labour_force_survey , none_of_these]
+        annual_survey_of_industries , periodic_labour_force_survey, asi_state_principal_characteristics, none_of_these]
 
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
@@ -1648,7 +1662,7 @@ def file_selector_MSME(query):
         Query2: "Show the Personal Loans GBC values across all months of 2021."
         Query3: "How much GBC was given to the Services sector in April 2021?"
         Query4: "List sector-wise GBC on 27 March 2020."
-        Query5: "Which sector had the highest GBC in 2021? Provide effective and release dates.
+        Query5: "Which sector had the highest GBC in 2021? Provide effective and release dates."
 
 
         5. nifty_sme_index_daily_values : Use this table when the question is for NIFTY SME INDEX for Nifty related data .
