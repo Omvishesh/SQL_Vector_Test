@@ -22,9 +22,9 @@ def classify_query(query):
 
                 ## CPI
 
-                a. Classify queries related to inflation, CPI, price indices, sales, wholesale, consumer, or consumption. This includes datasets on general CPI inflation, agricultural and rural laborer price indices, city-wise housing prices, wholesale price indices (financial year and calendar wise), and worker-specific CPI data.
+                a. Classify queries related to inflation, CPI, price indices, Monthly Per Capita Expenditure (MPCE), sales, wholesale, consumer, or consumption. This includes datasets on general CPI inflation, agricultural and rural laborer price indices, city-wise housing prices, wholesale price indices (financial year and calendar wise), and worker-specific CPI data.
 
-                b. The following files comprise the CPI datasets: [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view,cpi_india_mth_subgrp_view,consumer_price_index_CPI_for_agricultural_and_rural_labourers,city_wise_housing_price_indices,whole_sale_price_index_WPI_financial_year_wise,cpi_worker_data,whole_sale_price_index_WPI_calendar_wise, cpi_iw_point_to_point_inflation, cpi_iw_centre_index, cpi_iw_retail_price_index].
+                b. The following files comprise the CPI datasets: [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view,cpi_india_mth_subgrp_view,consumer_price_index_CPI_for_agricultural_and_rural_labourers,city_wise_housing_price_indices,whole_sale_price_index_WPI_financial_year_wise,cpi_worker_data,whole_sale_price_index_WPI_calendar_wise, cpi_iw_point_to_point_inflation, cpi_iw_centre_index, cpi_iw_retail_price_index, hces_india_yr_sector].
                 Any query that can be answered with these data sets should be classified as "CPI".
 
                 ## GDP
@@ -59,12 +59,13 @@ def classify_query(query):
 
                 ## social_migration_and_households
 
-                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services,airport data, ayushman schemes, credit, aadhar data, hospital data, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, labour wages, mass media/broadband, transport (air, water, land), public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
+                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, demographic statistics, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services,airport data, ayushman schemes, credit, aadhar data, hospital data, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, labour wages, mass media/broadband, transport (air, water, land), public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
 
                 b. The following files comprise the "social_migration_and_households" datasets: [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
                     mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
                     mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
-                    mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, labour_india_sector_industry_occupation_wages, labour_india_rural_wages, airport_sewa_services_data, traffic_india_mth_air_passengers, sp_india_daily_state]
+                    mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, labour_india_sector_industry_occupation_wages, labour_india_rural_wages,
+                    airport_sewa_services_data, traffic_india_mth_air_passengers, sp_india_daily_state], demography_india_yr_popsexgrowth, demography_india_state_yr_literacy
                 Any query that can be answered with these data sets should be classified as "social_migration_and_households".
 
                 ## enterprise_establishment_surveys
@@ -74,7 +75,7 @@ def classify_query(query):
                 b. The following files comprise the "enterprise_establishment_surveys" datasets: [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
                     asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
                     asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
-                    asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll]
+                    asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll, asi_imp_principal_characteristics_by_rural_urban_sector, asi_imp_principal_characteristics_india_by_mjr_indus_grp, asi_industrywise_factories_2022_23, asi_no_of_workers_and_person_engaged, asi_num_of_factories_nva, asi_statewise_number_of_factories_for_2022_23, asi_top_ten_states_by_number_of_factories, asi_trend_imp_characteristics_technical_coefficients, asi_trend_of_imp_characteristics_structural_ratios, asi_trend_of_imp_principal_characteristics_india, ]
                 Any query that can be answered with these data sets should be classified as "enterprise_establishment_surveys".
 
                 ## GST
@@ -863,14 +864,91 @@ def file_selector_enterprise_establishment_surveys(query):
         Query: Find the month with the highest number of establishments remitting their first ECR.
         Query: Show the total new subscribers by age group for the year 2019-20.
         
-        39. none_of_these: for any queries which are unrelated to above files.
+        40. asi_imp_principal_characteristics_by_rural_urban_sector: This table provides annual data on principal industrial characteristics, such as the number of factories, split by rural and urban sectors in India.
+        Instructions: Use this table to analyze trends or compare rural and urban industrial characteristics (like number of factories) across different years.
+        Example queries:
+        Query: Show the number of factories in rural and urban areas for each year.
+        Query: List all principal characteristics available for 2012-13.
+        Query: Get the total number of factories in rural areas between 2010-11 and 2012-13.
+        
+        41. asi_imp_principal_characteristics_india_by_mjr_indus_grp: This table provides annual data on the number of factories in India, categorized by major industry groups, as reported by the Enterprise Survey Division of MoSPI.
+        Instructions: Use this table to analyze trends or compare the number of factories across different industries and years. Filter by 'year' for specific periods or by industry columns for sector-specific insights. The 'characteristics' column describes the metric (e.g., 'No. of Factories').
+        Example queries:
+        Query: Show the number of factories in the food products industry for each year.
+        Query: Which year had the highest number of factories in the textiles sector?
+        Query: List the number of factories for all industries in 2011-12.
+        Query: Show the trend of factories in the pharmaceuticals industry over the years.
+        
+        42. asi_industrywise_factories_2022_23: This table provides the number of factories in India for various types of industries for the year 2022-23, along with metadata such as release date, last update, and data source.
+        Instructions: Use this table to find the count of factories by industry type, or to analyze industry-wise distribution of factories for the year 2022-23.
+        Example queries:
+        Query: Show the number of factories for each industry type.
+        Query: Which industry has the highest number of factories?
+        Query: List all industries with more than 10,000 factories.
+        Query: What is the total number of factories across all industries?
+        Query: Show the data source and last updated date for the industry-wise factories data.
+        
+        43. asi_no_of_workers_and_person_engaged: This table provides annual data on the number of workers and total persons engaged in enterprises, along with release and update information and the data source.
+        Instructions: Use this table to retrieve historical statistics on workforce size and total engagement in enterprises for specific years or to analyze trends over time.
+        Example queries:
+        Query: Show the number of workers and total persons engaged for the year 1982-83.
+        Query: List all years with their corresponding number of workers.
+        Query: Find the year with the highest total persons engaged.
+        
+        44. asi_num_of_factories_nva: This table provides annual data on the number of factories and their net value added (in lakhs) as recorded by the Enterprise Survey Division, MoSPI.
+        Instructions: Use this table to analyze trends in the number of factories and their net value added over different years. You can filter by year, aggregate values, or compare data across years.
+        Example queries:
+        Query: Show the net value added and number of factories for each year.
+        Query: Find the year with the highest net value added.
+        Query: Get the total net value added across all years.
+        Query: List all years where the number of factories was below 100,000.
+        
+        45. asi_statewise_number_of_factories_for_2022_23: This table provides the number of factories in each Indian state for the year 2022-23, along with release and update dates and the data source.
+        Instructions: Use this table to retrieve or analyze the count of factories by state for 2022-23, or to filter by release/update dates or data source.
+        Example queries:
+        Query: Show the number of factories in each state.
+        Query: Which state had the highest number of factories in 2022-23?
+        Query: List all states where the number of factories is greater than 30,000.
+        Query: Give me the release date for the factory data.
+        
+        46. asi_top_ten_states_by_number_of_factories: This table shows the number of factories in the top ten Indian states for each year from 2010-11 to 2022-23, along with metadata about data release and source.
+        Instructions: Use this table to analyze trends, compare, or retrieve the number of factories in leading Indian states across different years.
+        Example queries:
+        Query: Which state had the highest number of factories in 2022-23?
+        Query: Show the number of factories in Maharashtra and Gujarat for the years 2010-11 and 2022-23.
+        Query: List the trend of factories in Tamil Nadu from 2010-11 to 2022-23.
+        Query: Which state saw the largest increase in the number of factories between 2010-11 and 2022-23?
+        
+        47. asi_trend_imp_characteristics_technical_coefficients: This table contains annual technical coefficients data, such as Fixed Capital to Output ratios, for different years, including metadata like release and update dates and data source.
+        Instructions: Use this table to retrieve technical coefficients by year, region, or data source, or to analyze trends in industrial technical characteristics over time.
+        Example queries:
+        Query: Show the technical coefficients for all years for Fixed Capital to Output.
+        Query: List all available regions in the table.
+        Query: Get the technical coefficient for the year 2012-13.
+        Query: Find the latest update date for the data.
+        
+        48. asi_trend_of_imp_characteristics_structural_ratios: This table provides annual data on key structural ratios, such as fixed capital per factory, across different regions and years, sourced from the Enterprise Survey Division MoSPI.
+        Instructions: Use this table to analyze trends in structural ratios (e.g., fixed capital per factory) over time or by region. Filter by year, region, or data source as needed.
+        Example queries:
+        Query: Show the fixed capital per factory for each year.
+        Query: List all available regions in the table.
+        Query: Get the structural ratios for the year 2011-12.
+        
+        49. asi_trend_of_imp_principal_characteristics_india: This table contains annual data on key industrial characteristics in India, such as the number of factories, with associated metadata including release and update dates, and data source.
+        Instructions: Use this table to retrieve historical trends and statistics related to principal industrial characteristics (e.g., number of factories) in India by year.
+        Example queries:
+        Query: Show the number of factories in India for each year.
+        Query: Get all available data for the year 1982-83.
+        Query: List the years and values for all records sourced from 'Enterprise Survey Division MoSPI'.
+        
+        50. none_of_these: for any queries which are unrelated to above files.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
         asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
         asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
-        asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner,
-        annual_survey_of_industries , periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll, none_of_these]
+        asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries , periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll, asi_imp_principal_characteristics_by_rural_urban_sector, asi_imp_principal_characteristics_india_by_mjr_indus_grp, asi_industrywise_factories_2022_23, asi_no_of_workers_and_person_engaged, asi_num_of_factories_nva, asi_statewise_number_of_factories_for_2022_23, 
+        asi_top_ten_states_by_number_of_factories, asi_trend_imp_characteristics_technical_coefficients, asi_trend_of_imp_characteristics_structural_ratios, asi_trend_of_imp_principal_characteristics_india, , none_of_these]
 
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
@@ -1026,14 +1104,29 @@ def file_selector_social_migration_and_households(query):
         Query: List all states with more than 5,000,000 hospital admissions as of 2025-10-01.
         Query: Get the number of empanelled hospitals in Bihar on 2025-10-01.
         
-        23. none_of_these: for any queries which are unrelated to above tables. 
+        23. demography_india_yr_popsexgrowth: This table provides annual demographic statistics for India, including rural, urban, and total population counts by gender, sex ratios, and average annual growth rates from 1951 onwards.
+        Instructions: Use this table to analyze population trends, gender distribution, sex ratios, and growth rates in rural, urban, or total populations of India by year.
+        Example queries:
+        Query: Show the total population and sex ratio for each census year.
+        Query: What was the rural female population and sex ratio in 1971?
+        Query: List the average annual growth rate of the urban population for all available years.
+        Query: Find the year with the highest total sex ratio.
+        
+        24. demography_india_state_yr_literacy: This table contains literacy rates for different age groups across Indian states and union territories, broken down by gender and by rural/urban areas.
+        Instructions: Use this table to analyze literacy rates by state/UT, age group, gender, and area type (rural/urban/all). Select relevant columns based on the demographic and geographic breakdown you need.
+        Example queries:
+        Query: Show the overall literacy rate for males and females aged 15-24 in Assam.
+        Query: List the rural and urban literacy rates for persons aged 15-24 in Andhra Pradesh.
+        Query: Get the literacy rates for all persons in Arunachal Pradesh for the 15-24 age group.
+        
+        25. none_of_these: for any queries which are unrelated to above tables.    
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
         mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
         mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
         mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place,aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data,
-        labour_india_sector_industry_occupation_wages, labour_india_rural_wages, airport_sewa_services_data, traffic_india_mth_air_passengers, sp_india_daily_state, none_of_these]
+        labour_india_sector_industry_occupation_wages, labour_india_rural_wages, airport_sewa_services_data, traffic_india_mth_air_passengers, sp_india_daily_state, demography_india_yr_popsexgrowth, demography_india_state_yr_literacy, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
@@ -1133,10 +1226,18 @@ def file_selector_CPI(query):
         Query: Get the CPI index values for all items in the 'Miscellaneous' group for December 2021.   
         Query: Find the average index for 'Personal Care & Effects' in 2021.
         
-        14. none_of_these: for any queries which are unrelated to inflation. for example, queries regarding gdp, iip, msme would fall under the "none" category. queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
+        14. hces_india_yr_sector: This table provides average Monthly Per Capita Expenditure (MPCE) data for rural and urban areas across Indian states and union territories, including both original and imputed values.
+        Instructions: Use this table to analyze or compare average MPCE values (both original and imputed) for rural and urban populations by state or union territory.
+        Example queries:
+        Query: Show the average rural and urban MPCE for all states.
+        Query: List states where the imputed urban MPCE is greater than 9000.
+        Query: Find the difference between rural and urban average MPCE for each state.
+        Query: Get the imputed rural MPCE for Assam.
+        
+        15. none_of_these: for any queries which are unrelated to inflation. for example, queries regarding gdp, iip, msme would fall under the "none" category. queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
-        [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view, cpi_india_mth_subgrp_view, consumer_price_index_cpi_for_agricultural_and_rural_labourers, city_wise_housing_price_indices, whole_sale_price_index_wpi_financial_year_wise, cpi_worker_data, whole_sale_price_index_wpi_calendar_wise, cpi_food_worker_data, cpi_iw_point_to_point_inflation, cpi_iw_centre_index, cpi_iw_retail_price_index, none_of_these]
+        [cpi_state_mth_grp_view, cpi_state_mth_subgrp_view, cpi_india_mth_grp_view, cpi_india_mth_subgrp_view, consumer_price_index_cpi_for_agricultural_and_rural_labourers, city_wise_housing_price_indices, whole_sale_price_index_wpi_financial_year_wise, cpi_worker_data, whole_sale_price_index_wpi_calendar_wise, cpi_food_worker_data, cpi_iw_point_to_point_inflation, cpi_iw_centre_index, cpi_iw_retail_price_index, hces_india_yr_sector, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
