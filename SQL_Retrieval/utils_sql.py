@@ -592,12 +592,13 @@ def file_selector_enterprise_establishment_surveys(query):
         b. How many hired workers were there in the Manufacture of Tobacco Products industry in All India combined for 2021-22?
 
 
-        2. asuse_est_annual_gva_per_establishment: This table provides annual all-India estimates of Gross Value Added (GVA) per establishment across years (2021-22 to 2023-24), differentiated by urban, rural, and combined regions, activity categories (e.g., Manufacture of Furniture, Accommodation, Other Retail Trade), and establishment types (Own Account Establishments, Hired Worker Establishments, All). Data examples include GVA for 'Other Services', 'Non-captive Electricity Generation', and 'Education' activities, reported by the National Sample Survey Office (MoSPI).
-        Sample queries:
-        a. What was the estimated annual GVA per establishment for the Manufacture of Furniture category in urban areas in 2021-22?
-        b. How does the GVA per establishment for Hired Worker Establishments in Accommodation compare between rural and urban areas in 2023-24?
-
-
+        2. asuse_est_annual_gva_per_establishment: This table provides estimated annual Gross Value Added (GVA) per establishment, categorized by year, state/UT, sector, activity category, and establishment type, sourced from the National Sample Survey Office.
+        Instructions: Use this table to analyze or compare the estimated annual GVA per establishment across different years, states/UTs, sectors (rural/urban), activity categories, and establishment types (such as Hired Worker Establishments or Own Account Establishments). Filter by relevant columns to get specific insights.
+        Example queries:
+        Query: What was the estimated annual GVA per establishment for Cotton Ginning, Cleaning and Bailing in rural All India for 2023-24?
+        Query: Show the GVA per establishment for all establishment types in 2023-24 for rural sector.
+        Query: List the years and GVA per establishment for Hired Worker Establishments in Cotton Ginning, Cleaning and Bailing activity.
+        
         3. asuse_est_num_establishments_pursuing_mixed_activity: This table presents annual, all-India estimates of establishments pursuing mixed activities, disaggregated by sector (urban, rural, combined), establishment type (Own Account, Hired Worker, All), and economic activity (e.g., Tobacco Products, Professional Services, Real Estate, Food Manufacturing). Data come from the National Sample Survey Office, MoSPI. Examples: 452,291 urban OAEs in tobacco manufacture (2022-23), 10,336,002 rural retail trade establishments (2023-24), and 24,643,235 all-India service providers (2022-23).
         Sample queries:
         a. How many rural own account establishments were engaged in real estate activities in 2022-23?
@@ -610,18 +611,21 @@ def file_selector_enterprise_establishment_surveys(query):
         b. What was the estimated number of workers in 'Manufacture of Beverages' at all-India level for 2023-24?
 
 
-        5. asuse_est_value_key_characteristics_by_workers: This table provides annual, All-India level statistics from the National Sample Survey Office (MoSPI) on key economic characteristics by number of workers, broken down by sector (e.g., Manufacturing, Trade, Other Services) and area (Rural, Urban, Combined). Key indicators include output, input, GVA, fixed assets, and outstanding loans per worker and per establishment. For example, in 2023-24, 'GVA per Worker' in rural areas across all categories was 350 (in Rs.'000).
-        Sample queries:
-        a. What was the output per worker in the manufacturing sector for urban India in 2021-22?
-        b. How did fixed assets per worker in the trade sector differ between rural and urban areas in 2023-24?
-
-
-        6. asuse_estimated_annual_gva_per_worker_rupees: This table presents annual estimates of Gross Value Added (GVA) per worker (in Rs.) across various economic activities in India, categorized by rural, urban, or combined geography. Coverage is at the All-India level, spanning years like 2021-22 to 2023-24. Sectors include manufacturing (e.g., textiles, pharmaceuticals), financial services, education, and trade, and further breaks data into establishment types (Own Account, Hired Worker, All Establishments).
-        Sample queries:
-        a. What was the estimated annual GVA per worker for the Manufacture of Electrical Equipment in 2021-22 for All Establishments?
-        b. How did the GVA per worker in urban areas for Information and Communication activities change from 2022-23 to 2023-24?
-
-
+        5. asuse_est_value_key_characteristics_by_workers: This table provides estimated values of key characteristics (such as input per worker) by number of workers, sector, activity category, and region for different years, based on data from the National Sample Survey Office.
+        Instructions: Use this table to analyze or retrieve estimated values of key economic characteristics (like input per worker) segmented by year, state/UT, sector (rural/urban), broad activity category (e.g., Manufacturing), and number of workers.
+        Example queries:
+        Query: Show the input per worker for manufacturing in rural India for 2023-24, broken down by number of workers.
+        Query: Get all key characteristics for urban sector in 2023-24 for the state of Maharashtra.
+        Query: What is the estimated value for input per worker in the rural sector for all activity categories in 2023-24?
+        
+        6. asuse_estimated_annual_gva_per_worker_rupees: This table provides the estimated annual Gross Value Added (GVA) per worker (in rupees) for various activity categories, establishment types, and sectors across Indian states and union territories, based on data from the National Sample Survey Office.
+        Instructions: Use this table to analyze or retrieve GVA per worker statistics by year, state/UT, sector (rural/urban), activity category, and establishment type. Filter by these columns to get specific GVA values or trends.
+        Example queries:
+        Query: What was the estimated annual GVA per worker for 'Cotton Ginning, Cleaning and Bailing' in rural India in 2023-24 for Hired Worker Establishments?
+        Query: Show the GVA per worker for all establishment types in rural India for 'Cotton Ginning, Cleaning and Bailing' in 2023-24.
+        Query: List the estimated annual GVA per worker for each activity category in rural India for 2023-24.
+        
+        
         7. asuse_estimated_number_of_workers_by_type_of_workers: This table presents annual, all-India estimates of worker numbers by industry category (e.g., Water Transport, Manufacture of Textiles), worker type (e.g., Formal Hired Workers, Unpaid Family Member), gender, and establishment type (All, Hired Worker, Own Account). Data is disaggregated for urban, rural, and combined areas. Examples include 116 male informal water transport workers (urban, 2023-24) and 2,006 female unpaid family workers in manufacturing (rural, 2022-23).
         Sample queries:
         a. How many informal hired workers were there in urban food and accommodation service activities in 2023-24?
@@ -724,17 +728,21 @@ def file_selector_enterprise_establishment_surveys(query):
         b. How many hired workers were estimated in all establishments of urban Maharashtra in 2021-22?
 
 
-        24. asuse_statewise_estimated_annual_gva_per_establishment_rupees: This table provides annual, state/UT-wise and national-level data on estimated Gross Value Added (GVA) per establishment (in INR), compiled by the National Sample Survey Office (MoSPI). Categories include Manufacturing, Trade, Other Services, and aggregation types such as Own Account Establishments (OAE), Hired Worker Establishments (HWE), and All Establishments. Data is further split by rural, urban, and combined areas. Example entries: Mizoram 2022-23 (Rural, OAE), Punjab 2022-23 (Rural, Other Services), All India 2022-23 (Rural, Trade).
-        Sample queries:
-        a. What was the annual GVA per establishment for trade establishments in urban Haryana for 2023-24?
-        b. Compare the estimated annual GVA per establishment for 'Other Services' in Assam and Gujarat over the last three available years.
+        24. asuse_statewise_estimated_annual_gva_per_establishment_rupees: This table provides state and sector-wise estimated annual Gross Value Added (GVA) per establishment (in Rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
+        Instructions: Use this table to analyze or retrieve estimated annual GVA per establishment by state/UT, year, sector (rural/urban), establishment type (HWE/OAE/All), and broad activity category (e.g., Manufacturing). Filter by relevant columns to get specific GVA values.
+        Example queries:
+        Query: Show the estimated annual GVA per establishment for all establishment types in Andhra Pradesh (rural, manufacturing) for 2023-24.
+        Query: List the GVA per establishment for each state in the manufacturing sector for 2023-24 (all establishment types, rural only).
+        Query: Get the GVA per establishment for Own Account Establishments in Andhra Pradesh for 2023-24, manufacturing sector, rural area.
+        
 
-
-        25. asuse_statewise_estimated_annual_gva_per_worker_rupees: This table contains annual state/UT-wise estimates of Gross Value Added (GVA) per worker (in Rs.) across India, broken down by sector (Trade, Manufacturing, Other Services), type of establishment (Own Account, Hired Worker, All), and location (Rural, Urban, Combined). Data is available for states like Gujarat, West Bengal, Kerala, Mizoram, and all-India. For example, in 2023-24 Mizoram’s urban hired Trade workers had a GVA per worker of Rs. 336,417.
-        Sample queries:
-        a. What was the annual GVA per worker in the Manufacturing sector for Gujarat in 2021-22, segmented by establishment type?
-        b. How did the GVA per worker in Own Account establishments in Rural Kerala change between 2021-22 and 2023-24?
-
+        25. aasuse_statewise_estimated_annual_gva_per_worker_rupees: This table provides state and sector-wise estimated annual Gross Value Added (GVA) per worker (in rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
+        Instructions: Use this table to retrieve GVA per worker data by year, state/UT, sector (rural/urban), establishment type, and activity category. Filter using columns like 'year', 'stateut', 'sector', 'broad_activity_category', and 'establishment_type' as needed.
+        Example queries:
+        Query: Show the estimated annual GVA per worker for all establishment types in Andhra Pradesh for 2023-24.
+        Query: List the GVA per worker in rural manufacturing sector for each state in 2023-24.
+        Query: What is the GVA per worker for Hired Worker Establishments in Andhra Pradesh's rural manufacturing sector in 2023-24?
+        
 
         26. asuse_statewise_estimated_number_of_workers_by_type_of_workers: This table contains state/UT-wise and all-India annual data on the estimated number of workers by type (e.g., formal/informal hired workers, working owners, unpaid family members) in different sectors (Trade, Manufacturing, Other Services). Data is further broken down by urban/rural/combined, establishment type (All Establishments, Hired Worker, Own Account), and gender. Examples include Rajasthan (rural, Other Services, Other Workers) and Gujarat (urban, Trade, Total workers). Source: National Sample Survey Office, MoSPI.
         Sample queries:
