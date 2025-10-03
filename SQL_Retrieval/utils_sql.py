@@ -29,7 +29,7 @@ def classify_query(query):
 
                 ## GDP
 
-                a. Classify queries on GDP, gross domestic product, GSDP, GVA, NDP, NNI, GNI, capital formation, expenditure components, per capita values, NSDP, NSVA, PCNSDP, state economic indicators, or macro-level metrics like monetary policy instruments (repo rate, bank rate, MSF, SLR, CRR), government securities yields, call money rates, forward premia, balance of payments, external debt, foreign reserves, FDI, portfolio investments, ECB, trade balance, exports, imports, money supply (M1, M3), bank credit, government borrowings, fiscal deficit, market capitalization, and exchange rates. This covers datasets on annual GDP estimates (crore and growth rates), gross state values, national account aggregates, per capita income and consumption, provisional GDP macro aggregates, quarterly expenditure and GDP estimates, other macro indicators (daily, monthly, quarterly, weekly), top macro indicators (monthly, quarterly, weekly), state-wise NSDP/NSVA/PCNSDP, IMF exports.
+                a. Classify queries on GDP, gross domestic product, GSDP, GVA (Gross Value Added), NDP, NNI, GNI, capital formation, expenditure components, per capita values, NSDP, NSVA, PCNSDP, state economic indicators, or macro-level metrics like monetary policy instruments (repo rate, bank rate, MSF, SLR, CRR), government securities yields, call money rates, forward premia, balance of payments, external debt, foreign reserves, FDI, portfolio investments, ECB, trade balance, exports, imports, money supply (M1, M3), bank credit, government borrowings, fiscal deficit, market capitalization, and exchange rates. This covers datasets on annual GDP estimates (crore and growth rates), gross state values, national account aggregates, per capita income and consumption, provisional GDP macro aggregates, quarterly expenditure and GDP estimates, other macro indicators (daily, monthly, quarterly, weekly), top macro indicators (monthly, quarterly, weekly), state-wise NSDP/NSVA/PCNSDP, IMF exports.
                 ** Notes **
                 All queries about "CREDIT" should go to MSME and must not go to GDP
 
@@ -70,7 +70,7 @@ def classify_query(query):
 
                 ## enterprise_establishment_surveys
 
-                a. Classify queries on establishment/enterprise characteristics like ownership types,principal characteristics of industries, owner social groups/education, gender/employment composition, digital adoption (computers/internet), operation nature (perennial/seasonal), location types, registration status, franchisee/NPI status, financial metrics (GVA per establishment/worker, emoluments, outstanding loans, banking access), and operational details (hours/days worked). This includes ASI (Annual Survey of Industries) on industrial establishments, capital/investment, stocks, financials, employment, production; and PLFS (Periodic Labour Force Survey) on employment, unemployment, labor participation. Datasets encompass emoluments/GVA per worker, worker distributions by type/gender, key characteristics, hours/months operated, registrations, computer/internet use, ownership/operation/location distributions, state-wise estimates, and survey data on industries and labor force.
+                a. Classify queries on establishment/enterprise characteristics like ownership types,principal characteristics of industries, owner social groups/education, gender/employment composition, digital adoption (computers/internet), operation nature (perennial/seasonal), location types, registration status, franchisee/NPI status, financial metrics (GVA (Gross Value Added) per establishment/worker, emoluments, outstanding loans, banking access), and operational details (hours/days worked). This includes ASI (Annual Survey of Industries) on industrial establishments, capital/investment, stocks, financials, employment, production; and PLFS (Periodic Labour Force Survey) on employment, unemployment, labor participation. Datasets encompass emoluments/GVA (Gross Value Added) per worker, worker distributions by type/gender, key characteristics, hours/months operated, registrations, computer/internet use, ownership/operation/location distributions, state-wise estimates, and survey data on industries and labor force.
 
                 b. The following files comprise the "enterprise_establishment_surveys" datasets: [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
                     asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
@@ -592,12 +592,12 @@ def file_selector_enterprise_establishment_surveys(query):
         b. How many hired workers were there in the Manufacture of Tobacco Products industry in All India combined for 2021-22?
 
 
-        2. asuse_est_annual_gva_per_establishment: This table provides estimated annual Gross Value Added (GVA) per establishment, categorized by year, state/UT, sector, activity category, and establishment type, sourced from the National Sample Survey Office.
-        Instructions: Use this table to analyze or compare the estimated annual GVA per establishment across different years, states/UTs, sectors (rural/urban), activity categories, and establishment types (such as Hired Worker Establishments or Own Account Establishments). Filter by relevant columns to get specific insights.
+        2. asuse_est_annual_gva_per_establishment: This table provides estimated annual Gross Value Added (GVA (Gross Value Added)) per establishment, categorized by year, state/UT, sector, activity category, and establishment type, sourced from the National Sample Survey Office.
+        Instructions: Use this table to analyze or compare the estimated annual GVA (Gross Value Added) per establishment across different years, states/UTs, sectors (rural/urban), activity categories, and establishment types (such as Hired Worker Establishments or Own Account Establishments). Filter by relevant columns to get specific insights.
         Example queries:
-        Query: What was the estimated annual GVA per establishment for Cotton Ginning, Cleaning and Bailing in rural All India for 2023-24?
-        Query: Show the GVA per establishment for all establishment types in 2023-24 for rural sector.
-        Query: List the years and GVA per establishment for Hired Worker Establishments in Cotton Ginning, Cleaning and Bailing activity.
+        Query: What was the estimated annual GVA (Gross Value Added) per establishment for Cotton Ginning, Cleaning and Bailing in rural All India for 2023-24?
+        Query: Show the GVA (Gross Value Added) per establishment for all establishment types in 2023-24 for rural sector.
+        Query: List the years and GVA (Gross Value Added) per establishment for Hired Worker Establishments in Cotton Ginning, Cleaning and Bailing activity.
         
         3. asuse_est_num_establishments_pursuing_mixed_activity: This table presents annual, all-India estimates of establishments pursuing mixed activities, disaggregated by sector (urban, rural, combined), establishment type (Own Account, Hired Worker, All), and economic activity (e.g., Tobacco Products, Professional Services, Real Estate, Food Manufacturing). Data come from the National Sample Survey Office, MoSPI. Examples: 452,291 urban OAEs in tobacco manufacture (2022-23), 10,336,002 rural retail trade establishments (2023-24), and 24,643,235 all-India service providers (2022-23).
         Sample queries:
@@ -618,12 +618,12 @@ def file_selector_enterprise_establishment_surveys(query):
         Query: Get all key characteristics for urban sector in 2023-24 for the state of Maharashtra.
         Query: What is the estimated value for input per worker in the rural sector for all activity categories in 2023-24?
         
-        6. asuse_estimated_annual_gva_per_worker_rupees: This table provides the estimated annual Gross Value Added (GVA) per worker (in rupees) for various activity categories, establishment types, and sectors across Indian states and union territories, based on data from the National Sample Survey Office.
-        Instructions: Use this table to analyze or retrieve GVA per worker statistics by year, state/UT, sector (rural/urban), activity category, and establishment type. Filter by these columns to get specific GVA values or trends.
+        6. asuse_estimated_annual_gva_per_worker_rupees: This table provides the estimated annual Gross Value Added (GVA (Gross Value Added)) per worker (in rupees) for various activity categories, establishment types, and sectors across Indian states and union territories, based on data from the National Sample Survey Office.
+        Instructions: Use this table to analyze or retrieve GVA (Gross Value Added) per worker statistics by year, state/UT, sector (rural/urban), activity category, and establishment type. Filter by these columns to get specific GVA (Gross Value Added) values or trends.
         Example queries:
-        Query: What was the estimated annual GVA per worker for 'Cotton Ginning, Cleaning and Bailing' in rural India in 2023-24 for Hired Worker Establishments?
-        Query: Show the GVA per worker for all establishment types in rural India for 'Cotton Ginning, Cleaning and Bailing' in 2023-24.
-        Query: List the estimated annual GVA per worker for each activity category in rural India for 2023-24.
+        Query: What was the estimated annual GVA (Gross Value Added) per worker for 'Cotton Ginning, Cleaning and Bailing' in rural India in 2023-24 for Hired Worker Establishments?
+        Query: Show the GVA (Gross Value Added) per worker for all establishment types in rural India for 'Cotton Ginning, Cleaning and Bailing' in 2023-24.
+        Query: List the estimated annual GVA (Gross Value Added) per worker for each activity category in rural India for 2023-24.
         
         
         7. asuse_estimated_number_of_workers_by_type_of_workers: This table presents annual, all-India estimates of worker numbers by industry category (e.g., Water Transport, Manufacture of Textiles), worker type (e.g., Formal Hired Workers, Unpaid Family Member), gender, and establishment type (All, Hired Worker, Own Account). Data is disaggregated for urban, rural, and combined areas. Examples include 116 male informal water transport workers (urban, 2023-24) and 2,006 female unpaid family workers in manufacturing (rural, 2022-23).
@@ -728,20 +728,20 @@ def file_selector_enterprise_establishment_surveys(query):
         b. How many hired workers were estimated in all establishments of urban Maharashtra in 2021-22?
 
 
-        24. asuse_statewise_estimated_annual_gva_per_establishment_rupees: This table provides state and sector-wise estimated annual Gross Value Added (GVA) per establishment (in Rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
-        Instructions: Use this table to analyze or retrieve estimated annual GVA per establishment by state/UT, year, sector (rural/urban), establishment type (HWE/OAE/All), and broad activity category (e.g., Manufacturing). Filter by relevant columns to get specific GVA values.
+        24. asuse_statewise_estimated_annual_gva_per_establishment_rupees: This table provides state and sector-wise estimated annual Gross Value Added (GVA (Gross Value Added)) per establishment (in Rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
+        Instructions: Use this table to analyze or retrieve estimated annual GVA (Gross Value Added) per establishment by state/UT, year, sector (rural/urban), establishment type (HWE/OAE/All), and broad activity category (e.g., Manufacturing). Filter by relevant columns to get specific GVA (Gross Value Added) values.
         Example queries:
-        Query: Show the estimated annual GVA per establishment for all establishment types in Andhra Pradesh (rural, manufacturing) for 2023-24.
-        Query: List the GVA per establishment for each state in the manufacturing sector for 2023-24 (all establishment types, rural only).
-        Query: Get the GVA per establishment for Own Account Establishments in Andhra Pradesh for 2023-24, manufacturing sector, rural area.
+        Query: Show the estimated annual GVA (Gross Value Added) per establishment for all establishment types in Andhra Pradesh (rural, manufacturing) for 2023-24.
+        Query: List the GVA (Gross Value Added) per establishment for each state in the manufacturing sector for 2023-24 (all establishment types, rural only).
+        Query: Get the GVA (Gross Value Added) per establishment for Own Account Establishments in Andhra Pradesh for 2023-24, manufacturing sector, rural area.
         
 
-        25. aasuse_statewise_estimated_annual_gva_per_worker_rupees: This table provides state and sector-wise estimated annual Gross Value Added (GVA) per worker (in rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
-        Instructions: Use this table to retrieve GVA per worker data by year, state/UT, sector (rural/urban), establishment type, and activity category. Filter using columns like 'year', 'stateut', 'sector', 'broad_activity_category', and 'establishment_type' as needed.
+        25. aasuse_statewise_estimated_annual_gva_per_worker_rupees: This table provides state and sector-wise estimated annual Gross Value Added (GVA (Gross Value Added)) per worker (in rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
+        Instructions: Use this table to retrieve GVA (Gross Value Added) per worker data by year, state/UT, sector (rural/urban), establishment type, and activity category. Filter using columns like 'year', 'stateut', 'sector', 'broad_activity_category', and 'establishment_type' as needed.
         Example queries:
-        Query: Show the estimated annual GVA per worker for all establishment types in Andhra Pradesh for 2023-24.
-        Query: List the GVA per worker in rural manufacturing sector for each state in 2023-24.
-        Query: What is the GVA per worker for Hired Worker Establishments in Andhra Pradesh's rural manufacturing sector in 2023-24?
+        Query: Show the estimated annual GVA (Gross Value Added) per worker for all establishment types in Andhra Pradesh for 2023-24.
+        Query: List the GVA (Gross Value Added) per worker in rural manufacturing sector for each state in 2023-24.
+        Query: What is the GVA (Gross Value Added) per worker for Hired Worker Establishments in Andhra Pradesh's rural manufacturing sector in 2023-24?
         
 
         26. asuse_statewise_estimated_number_of_workers_by_type_of_workers: This table contains state/UT-wise and all-India annual data on the estimated number of workers by type (e.g., formal/informal hired workers, working owners, unpaid family members) in different sectors (Trade, Manufacturing, Other Services). Data is further broken down by urban/rural/combined, establishment type (All Establishments, Hired Worker, Own Account), and gender. Examples include Rajasthan (rural, Other Services, Other Workers) and Gujarat (urban, Trade, Total workers). Source: National Sample Survey Office, MoSPI.
@@ -1364,7 +1364,7 @@ def file_selector_GDP(query):
 
         # Table data
 
-        1. gdp_india_fy_estimates_view : Aggregated national-level GDP metrics by financial year. Captures GDP and GVA growth at constant and current prices. Any India level summarization needs for GDP across years, trending and growth rate can be done from this table.
+        1. gdp_india_fy_estimates_view : Aggregated national-level GDP metrics by financial year. Captures GDP and GVA (Gross Value Added) growth at constant and current prices. Any India level summarization needs for GDP across years, trending and growth rate can be done from this table.
         Query1: "Compare GDP growth at constant vs current prices for the last 5 years."
         Query2: "What was India's GDP and its growth rate in the most recent year?"
         Query3: "How has the GDP growth rate at constant prices evolved over the last 10 years?"
