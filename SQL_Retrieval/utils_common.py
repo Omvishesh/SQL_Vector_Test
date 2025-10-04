@@ -156,6 +156,7 @@ def query_certify_valid(user_query):
                                     electric vehicles(ev),
                                     Airport Data,
                                     Air passenger traffic,
+                                    renewable energy,
                                     GDP (gross domestic product), 
                                     state value added (GSVA), 
                                     state gross domestic product (GSDP),
