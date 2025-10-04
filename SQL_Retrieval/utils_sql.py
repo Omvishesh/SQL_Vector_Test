@@ -18,7 +18,7 @@ def classify_query(query):
 
                 b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption,
                 co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg, toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export,
-                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly mf_india_qtr_total, insurance_india_mth_life_insurer, trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month, trade_india_mth_country, trade_india_mth_region].
+                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly mf_india_qtr_total, insurance_india_mth_life_insurer, trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month, trade_india_mth_country, trade_india_mth_region, cumulative_capacity_state_month].
 
                 ## CPI
 
@@ -75,7 +75,7 @@ def classify_query(query):
                 b. The following files comprise the "enterprise_establishment_surveys" datasets: [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
                     asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
                     asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
-                    asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll, asi_imp_principal_characteristics_by_rural_urban_sector, asi_imp_principal_characteristics_india_by_mjr_indus_grp, asi_industrywise_factories_2022_23, asi_no_of_workers_and_person_engaged, asi_num_of_factories_nva, asi_statewise_number_of_factories_for_2022_23, asi_top_ten_states_by_number_of_factories, asi_trend_imp_characteristics_technical_coefficients, asi_trend_of_imp_characteristics_structural_ratios, asi_trend_of_imp_principal_characteristics_india, ]
+                    asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll, asi_imp_principal_characteristics_by_rural_urban_sector, asi_imp_principal_characteristics_india_by_mjr_indus_grp, asi_industrywise_factories_2022_23, asi_no_of_workers_and_person_engaged, asi_num_of_factories_nva, asi_statewise_number_of_factories_for_2022_23, asi_top_ten_states_by_number_of_factories, asi_trend_imp_characteristics_technical_coefficients, asi_trend_of_imp_characteristics_structural_ratios, asi_trend_of_imp_principal_characteristics_india,lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age  ]
                 Any query that can be answered with these data sets should be classified as "enterprise_establishment_surveys".
 
                 ## GST
@@ -400,14 +400,23 @@ def file_selector_finance_and_industry(query):
         Example Queries :
         Query: Show the actual trade value for Europe in July 2024.
         Query: List forecasted trade values for all regions in July 2025.
-        Query: Get trade values for EU Countries subregion in July 2024.  
+        Query: Get trade values for EU Countries subregion in July 2024. 
+        
+        39. cumulative_capacity_state_month: This table contains cumulative monthly renewable energy capacity data by Indian state, including various power sources such as wind, solar, hydro, and bioenergy.
+        Instructions: Use this table to retrieve or analyze renewable energy capacity figures (in MW) for different Indian states, broken down by energy source and month/year.
+        Example queries:
+        Query: List all states with their solar power (gm) capacity for July 2025.
+        Query: Show the total renewable energy capacity for Gujarat in July 2025.
+        Query: Get the wind power and small hydro power for Rajasthan for July 2025.
+        Query: Which state had the highest total renewable energy capacity in July 2025?
+        Query: Show all columns for Tamil Nadu for July 2025.
         
         Consider the list above and respond only with one of the following file names:
         [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_state_qtr_view, revenue_maharashtra_fy_category, mf_monthly_schemes, 
         statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg,
         insurance_india_mth_sctg,toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export, trade_india_mth_stateut_country_export,
         trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves,
-        crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly,mf_india_qtr_total, insurance_india_mth_life_insurer,trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month, trade_india_mth_country, trade_india_mth_region, none_of_these]
+        crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly,mf_india_qtr_total, insurance_india_mth_life_insurer,trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month, trade_india_mth_country, trade_india_mth_region, cumulative_capacity_state_month, none_of_these]
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
 
 """)
@@ -949,14 +958,44 @@ def file_selector_enterprise_establishment_surveys(query):
         Query: Get all available data for the year 1982-83.
         Query: List the years and values for all records sourced from 'Enterprise Survey Division MoSPI'.
         
-        50. none_of_these: for any queries which are unrelated to above files.
+        50. lpfr_state_age: The 'lpfr_state_age' table provides Labour Force Participation Rate (LFPR) data by state, age group, gender, and area (rural/urban/total) for specified time periods.
+        Instructions: Use this table to analyze LFPR statistics across Indian states, broken down by age group, gender, rural/urban/total populations, and time period. Filter by 'state', 'age_group', 'year', or area/gender columns as needed.
+        Example queries:
+        Query: Show the total LFPR for males and females in Andhra Pradesh for April-June 2025.
+        Query: List rural and urban LFPR for persons aged 15-29 in Assam in 2025.
+        Query: Get LFPR for all states for females in rural areas for 2025.
+        
+        51. cws_industry_distribution_state: This table provides the percentage distribution of workers by industry sector (agriculture, secondary including mining and quarrying, tertiary, and all sectors) across Indian states, segmented by age group, gender, area type, and time period.
+        Instructions: Use this table to analyze the sectoral distribution of workers in different states, filtered by age group, gender, area type, and specific time periods. Useful for comparing employment patterns across sectors and demographics.
+        Example queries:
+        Query: Show the percentage of male workers in the agriculture sector in rural Bihar for April to June 2025.
+        Query: List the sector-wise distribution for all sectors in Assam for rural males aged 15 years and above in Q2 2025.
+        Query: Get the tertiary sector percentage for Andhra Pradesh for rural males aged 15 years and above in the latest available data.
+        
+        52. wpr_state_age: This table contains state-wise Worker Population Ratio (WPR) data by gender, area (rural/urban/total), and age group, along with time period, year, data source, and state information.
+        Instructions: Use this table to analyze or retrieve WPR statistics by state, gender, area, age group, and time period. Filter by columns like 'state', 'year', 'age_group', or area/gender-specific WPR values as needed.
+        Examples queries
+        Query: Show the total WPR for males and females in Assam for the age group 15-29 years in 2025.
+        Query: List all states with rural female WPR above 20 for April-June 2025.
+        Query: Get the urban person WPR for Bihar for the latest released data.
+        
+        53. ur_state_age: This table provides state-wise unemployment rates segmented by age group, gender, and rural/urban areas, along with time period and data source details.
+        Instructions: Use this table to analyze or retrieve unemployment rates by state, age group, gender, area (rural/urban/total), and time period (month, year). Filter by columns such as state, year, age_group, or area-specific rates as needed.
+        Examples queries:
+        Query: Show the total unemployment rate for persons aged 15-29 years in Andhra Pradesh for April to June 2025.
+        Query: List rural female unemployment rates for all states in 2025.
+        Query: Get urban male and female unemployment rates in Bihar for 2025.
+        Query: Find the data source and release date for Assam's unemployment data for April to June 2025.  
+        
+                
+        54. none_of_these: for any queries which are unrelated to above files.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
         asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
         asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
         asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries , periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll, asi_imp_principal_characteristics_by_rural_urban_sector, asi_imp_principal_characteristics_india_by_mjr_indus_grp, asi_industrywise_factories_2022_23, asi_no_of_workers_and_person_engaged, asi_num_of_factories_nva, asi_statewise_number_of_factories_for_2022_23, 
-        asi_top_ten_states_by_number_of_factories, asi_trend_imp_characteristics_technical_coefficients, asi_trend_of_imp_characteristics_structural_ratios, asi_trend_of_imp_principal_characteristics_india, , none_of_these]
+        asi_top_ten_states_by_number_of_factories, asi_trend_imp_characteristics_technical_coefficients, asi_trend_of_imp_characteristics_structural_ratios, asi_trend_of_imp_principal_characteristics_india, lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age, none_of_these]
 
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
