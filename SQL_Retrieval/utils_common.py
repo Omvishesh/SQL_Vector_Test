@@ -157,6 +157,7 @@ def query_certify_valid(user_query):
                                     Airport Data,
                                     Air passenger traffic,
                                     renewable energy,
+                                    RBI, Payment Systems, Transactions
                                     GDP (gross domestic product), 
                                     state value added (GSVA), 
                                     state gross domestic product (GSDP),
