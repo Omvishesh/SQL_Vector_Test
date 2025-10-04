@@ -45,9 +45,9 @@ def classify_query(query):
 
                 ## MSME
 
-                a. Classify queries on MSME, Micro, Small and Medium Enterprises, credit growth, exchange rates, Nifty SME, sambandh, procurement data, food/non-food credit, gross bank credit, upi, upi transactions, regional/sectoral MSME distribution, or economic shares. This covers datasets on gross bank credit for food/non-food views, sector definitions, non-food credit details, regional and sectoral shares, industry views, priority sector views, daily Nifty SME index values, and state-wise Udyam registrations.
+                a. Classify queries on MSME, Micro, Small and Medium Enterprises, credit growth, exchange rates, Nifty SME, sambandh, procurement data, food/non-food credit, gross bank credit,  payment systems in India, upi, upi transactions,RTGS (Real Time Gross Settlement), NEFT transaction, mobile banking statistics, internet banking transactions, regional/sectoral MSME distribution, or economic shares. This covers datasets on gross bank credit for food/non-food views, sector definitions, non-food credit details, regional and sectoral shares, industry views, priority sector views, daily Nifty SME index values, and state-wise Udyam registrations.
 
-                b. The following files comprise the MSME datasets: [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view, upi_dly_stats, upi_mth_stats, upi_mth_failures, msme_sambandh_procurement_data].
+                b. The following files comprise the MSME datasets: [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view, msme_priority_sector_view, msme_industry_view, msme_global_view, upi_dly_stats, upi_mth_stats, upi_mth_failures, msme_sambandh_procurement_data, rbi_india_mth_payment_system_indicators, rbi_india_mth_bank_rtgs, rbi_india_mth_bank_neft, rbi_india_mth_bank_mobile_banking, rbi_india_mth_bank_internet_banking].
                 Any query that can be answered with these data sets should be classified as "MSME".
 
                 ## agriculture_and_rural
@@ -1950,11 +1950,48 @@ def file_selector_MSME(query):
         Query: List ministries where achievement for women MSEs exceeded the target in 2020-21.
         Query: What was the total target and achievement for SC/ST MSEs across all ministries in 2020-21?
         
+        18. rbi_india_mth_payment_system_indicators: Monthly indicators of payment systems in India, including settlement systems and their transaction volumes and values.
+        Instructions: Use this table to analyze monthly trends, volumes, and values of different payment and settlement systems in India, filtered by section, item, sub_item, month, or year as needed.
+        Example queries:
+        Query: Show the total transaction value for CCIL Operated Systems in 2025.
+        Query: List the monthly volume of Govt. Securities Clearing for July and August 2025.
+        Query: Get all payment system indicators for August 2025.
+        
+        19. rbi_india_mth_bank_rtgs: This table contains monthly RTGS (Real Time Gross Settlement) transaction statistics for Indian banks, including inward and outward transaction volumes and values, split by interbank and customer transactions.
+        Instructions: Use this table to analyze RTGS transaction data for Indian banks by month and year, including breakdowns by bank, transaction type (inward/outward), and customer/interbank splits.
+        Example queries:
+        Query: Show the total RTGS inward and outward transaction volumes for all banks in August 2025.
+        Query: List the top 5 banks by inward RTGS transaction value in August 2025.
+        Query: Get the RTGS outward customer transaction volume for 'AIRTEL PAYMENTS BANK LTD.' in August 2025.
+        Query: Find the percentage share of inward RTGS volume for each bank in August 2025.
+        
+        20. rbi_india_mth_bank_neft: This table contains monthly NEFT transaction statistics for Indian banks, including counts and amounts for received credits and outward debits.
+        Instructions: Use this table to analyze NEFT transaction volumes and values by bank, month, and year. Filter by 'bank_name', 'month', or 'year' to get specific data.
+        Example queries:
+        Query: Show the total NEFT received amount for all banks in August 2025.
+        Query: List the top 5 banks by outward NEFT debits amount in 2025.
+        Query: Get NEFT inward credits count and amount for 'ABHYUDAYA CO-OP BANK LTD' for August 2025.
+        
+        21. rbi_india_mth_bank_mobile_banking: This table contains monthly mobile banking statistics for Indian banks, including transaction volumes, values, and the number of active mobile banking customers.
+        Instructions: Use this table to analyze mobile banking activity by bank, month, or year, such as total transactions, values, or customer counts.
+        Example queries:
+        Query: Show the total mobile banking transaction value for all banks in August 2025.
+        Query: List the top 5 banks by number of active mobile banking customers in 2025.
+        Query: Get the monthly mobile banking transaction volume for 'A. P.MAHESH CO-OPERATIVE URBAN BANK LTD.' in 2025.
+        
+        22. rbi_india_mth_bank_internet_banking → This table contains monthly data on internet banking transactions for various banks in India, including transaction volumes, values, and the number of active internet banking customers.
+        Instructions: Use this table to analyze internet banking trends, compare banks, or aggregate transaction data by month, year, or bank.
+        Example queries:
+        Query: Show the total internet banking transaction volume for each bank in August 2025.
+        Query: List the top 5 banks by value of internet banking transactions in 2025.
+        Query: Find the total number of active internet banking customers across all banks for August 2025.  
+        
         Note: If a query is about gdp of msme do not select any table return "none_of_these".
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
         [msme_gbc_food_non_food_view, msme_definitions_by_sector, msme_state_ureg_recent, msme_gbc_non_food_dtl_view, nifty_sme_index_daily_values , msme_share_by_region_view, msme_share_by_sector_view,
-        msme_priority_sector_view, msme_industry_view, msme_global_view, msme_india_mth_sector_bankcredit_view, msme_india_mth_grp_bankcredit_view, msme_india_mth_subgrp_bankcredit_view, upi_dly_stats, upi_mth_stats, upi_mth_failures, msme_sambandh_procurement_data, none_of_these]
+        msme_priority_sector_view, msme_industry_view, msme_global_view, msme_india_mth_sector_bankcredit_view, msme_india_mth_grp_bankcredit_view, msme_india_mth_subgrp_bankcredit_view, upi_dly_stats,
+        upi_mth_stats, upi_mth_failures, msme_sambandh_procurement_data, rbi_india_mth_payment_system_indicators, rbi_india_mth_bank_rtgs, rbi_india_mth_bank_neft, rbi_india_mth_bank_mobile_banking, rbi_india_mth_bank_internet_banking, none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
