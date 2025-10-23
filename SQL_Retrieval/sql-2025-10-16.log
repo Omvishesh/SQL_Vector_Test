@@ -1,0 +1,208 @@
+2025-10-16 22:14:50,657 - api_main - INFO - [Query ID:1] - Original received query: CPI of India in 2024
+2025-10-16 22:14:56,419 - httpx - INFO - [Query ID:1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-16 22:14:56,451 - api_main - INFO - [Query ID:1] - Rephrased query:
+{
+  "Entity": "CPI (Consumer Price Index)",
+  "Category": "India",
+  "Qualifiers": "",
+  "Frequency": "monthly",
+  "Date range": "January 2024 to December 2024"
+}
+2025-10-16 22:14:57,898 - handler_sql - INFO - [Query ID:1.1] - START: Processing query: CPI for India, monthly, from January 2024 to December 2024
+2025-10-16 22:14:57,898 - handler_sql - INFO - [Query ID:1.1] - Start processing: Current time: 2025-10-16 16-44-57
+2025-10-16 22:14:57,903 - handler_sql - INFO - [Query ID:1.1] - Received unitary query: CPI for India, monthly, from January 2024 to December 2024
+2025-10-16 22:14:59,268 - handler_sql - INFO - [Query ID:1.1] - Query class: CPI
+2025-10-16 22:15:00,759 - handler_sql - INFO - [Query ID:1.1] - Selected file: cpi_india_mth_grp_view
+2025-10-16 22:15:00,761 - handler_sql - INFO - [Query ID:1.1] - Generated schema query:
+2025-10-16 22:15:00,762 - handler_sql - INFO - [Query ID:1.1] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'cpi_india_mth_grp_view'
+        ORDER BY ordinal_position;
+        
+2025-10-16 22:15:00,762 - handler_sql - INFO - [Query ID:1.1] - Attempt 1: to process query
+2025-10-16 22:15:00,944 - handler_sql - INFO - [Query ID:1.1] - Something went wrong in SQL retrieval
+2025-10-16 22:15:00,945 - handler_sql - ERROR - [Query ID:1.1] - Error: cannot access local variable 'response' where it is not associated with a value
+2025-10-16 22:15:00,946 - metadata_logger - INFO - [Query ID:1.1] - Metadata logger worker started
+2025-10-16 22:15:00,946 - api_main - INFO - [Query ID:1] - SQL responses obtained
+2025-10-16 22:15:00,946 - api_main - INFO - [Query ID:1] - [{'unit_query': 'CPI for India, monthly, from January 2024 to December 2024', 'result': [], 'description': 'No data', 'success': False, 'message': "cannot access local variable 'response' where it is not associated with a value", 'unitary_time': 3.047281503677368, 'reference': 'N/A', 'url': 'N/A', 'table_metadata': 'N/A'}]
+2025-10-16 22:15:00,946 - api_main - INFO - [Query ID:1] - Suggested answer: 
+2025-10-16 22:15:00,946 - api_main - INFO - [Query ID:1] - <insufficient_data>
+2025-10-16 22:15:00,946 - api_main - INFO - [Query ID:1] - Commentary:
+2025-10-16 22:15:00,946 - api_main - INFO - [Query ID:1] - Table information:
+
+2025-10-16 22:15:02,212 - api_main - INFO - [Query ID:1] - Confidence: 0
+2025-10-16 22:15:02,212 - api_main - INFO - [Query ID:1] - Total processing time: 11.556238174438477
+2025-10-16 22:36:04,909 - api_main - INFO - [Query ID:2] - Original received query: CPI of India in 2024
+2025-10-16 22:36:09,823 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-16 22:36:09,919 - api_main - INFO - [Query ID:2] - Rephrased query:
+{
+  "Entity": "CPI (Consumer Price Index)",
+  "Category": "India",
+  "Qualifiers": "",
+  "Frequency": "monthly",
+  "Date range": "January 2024 to December 2024"
+}
+2025-10-16 22:36:11,293 - handler_sql - INFO - [Query ID:2.1] - START: Processing query: CPI for India, monthly, from January 2024 to December 2024
+2025-10-16 22:36:11,295 - handler_sql - INFO - [Query ID:2.1] - Start processing: Current time: 2025-10-16 17-06-11
+2025-10-16 22:36:11,295 - handler_sql - INFO - [Query ID:2.1] - Received unitary query: CPI for India, monthly, from January 2024 to December 2024
+2025-10-16 22:36:12,708 - handler_sql - INFO - [Query ID:2.1] - Query class: CPI
+2025-10-16 22:36:14,414 - handler_sql - INFO - [Query ID:2.1] - Selected file: cpi_india_mth_grp_view
+2025-10-16 22:36:14,416 - handler_sql - INFO - [Query ID:2.1] - Generated schema query:
+2025-10-16 22:36:14,416 - handler_sql - INFO - [Query ID:2.1] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'cpi_india_mth_grp_view'
+        ORDER BY ordinal_position;
+        
+2025-10-16 22:36:14,417 - handler_sql - INFO - [Query ID:2.1] - Attempt 1: to process query
+2025-10-16 22:36:14,457 - handler_sql - INFO - [Query ID:2.1] - Something went wrong in SQL retrieval
+2025-10-16 22:36:14,458 - handler_sql - ERROR - [Query ID:2.1] - Error: cannot access local variable 'response' where it is not associated with a value
+2025-10-16 22:36:14,461 - api_main - INFO - [Query ID:2] - SQL responses obtained
+2025-10-16 22:36:14,462 - api_main - INFO - [Query ID:2] - [{'unit_query': 'CPI for India, monthly, from January 2024 to December 2024', 'result': [], 'description': 'No data', 'success': False, 'message': "cannot access local variable 'response' where it is not associated with a value", 'unitary_time': 3.1672534942626953, 'reference': 'N/A', 'url': 'N/A', 'table_metadata': 'N/A'}]
+2025-10-16 22:36:14,462 - api_main - INFO - [Query ID:2] - Suggested answer: 
+2025-10-16 22:36:14,462 - api_main - INFO - [Query ID:2] - <insufficient_data>
+2025-10-16 22:36:14,480 - api_main - INFO - [Query ID:2] - Commentary:
+2025-10-16 22:36:14,480 - api_main - INFO - [Query ID:2] - Table information:
+
+2025-10-16 22:36:14,509 - metadata_logger - ERROR - [Query ID:N/A] - Failed to insert metadata: (psycopg2.OperationalError) server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+[SQL: 
+        INSERT INTO operation_metadata_log (
+            query_id, sub_query_id, query_date, user_id, query_text, 
+            generated_sql, tables_referred, domain, start_time, end_time,
+            total_runtime_sec, confidence_score, retrieval_latency_ms,
+            sql_generation_latency_ms, result_rowcount, result_sample,
+            status, error_message, engine_name, environment, created_on, metadata
+        ) VALUES (
+            %(query_id)s, %(sub_query_id)s, %(query_date)s, %(user_id)s, %(query_text)s,
+            %(generated_sql)s, %(tables_referred)s, %(domain)s, %(start_time)s, %(end_time)s,
+            %(total_runtime_sec)s, %(confidence_score)s, %(retrieval_latency_ms)s,
+            %(sql_generation_latency_ms)s, %(result_rowcount)s, %(result_sample)s,
+            %(status)s, %(error_message)s, %(engine_name)s, %(environment)s, %(created_on)s, %(metadata)s
+        )
+        ]
+[parameters: {'query_id': '2.1', 'sub_query_id': None, 'query_date': datetime.date(2025, 10, 16), 'user_id': 'system', 'query_text': 'CPI for India, monthly, from January 2024 to December 2024', 'generated_sql': None, 'tables_referred': ['cpi_india_mth_grp_view'], 'domain': 'CPI', 'start_time': datetime.datetime(2025, 10, 16, 17, 6, 11, 291812, tzinfo=datetime.timezone.utc), 'end_time': datetime.datetime(2025, 10, 16, 17, 6, 14, 459065, tzinfo=datetime.timezone.utc), 'total_runtime_sec': 3.1673, 'confidence_score': None, 'retrieval_latency_ms': None, 'sql_generation_latency_ms': None, 'result_rowcount': 0, 'result_sample': None, 'status': 'ERROR', 'error_message': "cannot access local variable 'response' where it is not associated with a value", 'engine_name': 'GPT-4o', 'environment': 'prod', 'created_on': datetime.datetime(2025, 10, 16, 17, 6, 14, 461081, tzinfo=datetime.timezone.utc), 'metadata': '{"original_query": "CPI of India in 2024", "reference": "N/A", "url": "N/A", "table_metadata": "N/A", "input_tokens": {"gemini-2.0-flash": 9328, "gpt-4.1": 962}, "output_tokens": {"gemini-2.0-flash": 38, "gpt-4.1": 50}}'}]
+(Background on this error at: https://sqlalche.me/e/20/e3q8)
+2025-10-16 22:36:15,900 - api_main - INFO - [Query ID:2] - Confidence: 0
+2025-10-16 22:36:15,901 - api_main - INFO - [Query ID:2] - Total processing time: 10.997814178466797
+2025-10-16 22:36:16,432 - metadata_logger - ERROR - [Query ID:N/A] - Failed to insert metadata: (psycopg2.errors.UndefinedTable) relation "operation_metadata_log" does not exist
+LINE 2:         INSERT INTO operation_metadata_log (
+                            ^
+
+[SQL: 
+        INSERT INTO operation_metadata_log (
+            query_id, sub_query_id, query_date, user_id, query_text, 
+            generated_sql, tables_referred, domain, start_time, end_time,
+            total_runtime_sec, confidence_score, retrieval_latency_ms,
+            sql_generation_latency_ms, result_rowcount, result_sample,
+            status, error_message, engine_name, environment, created_on, metadata
+        ) VALUES (
+            %(query_id)s, %(sub_query_id)s, %(query_date)s, %(user_id)s, %(query_text)s,
+            %(generated_sql)s, %(tables_referred)s, %(domain)s, %(start_time)s, %(end_time)s,
+            %(total_runtime_sec)s, %(confidence_score)s, %(retrieval_latency_ms)s,
+            %(sql_generation_latency_ms)s, %(result_rowcount)s, %(result_sample)s,
+            %(status)s, %(error_message)s, %(engine_name)s, %(environment)s, %(created_on)s, %(metadata)s
+        )
+        ]
+[parameters: {'query_id': '2', 'sub_query_id': None, 'query_date': datetime.date(2025, 10, 16), 'user_id': 'system', 'query_text': 'CPI of India in 2024', 'generated_sql': "['CPI for India, monthly, from January 2024 to December 2024']", 'tables_referred': [], 'domain': 'MULTI_DOMAIN', 'start_time': datetime.datetime(2025, 10, 16, 17, 6, 4, 903645, tzinfo=datetime.timezone.utc), 'end_time': datetime.datetime(2025, 10, 16, 17, 6, 15, 901459, tzinfo=datetime.timezone.utc), 'total_runtime_sec': 10.9978, 'confidence_score': None, 'retrieval_latency_ms': None, 'sql_generation_latency_ms': None, 'result_rowcount': 0, 'result_sample': '"<insufficient_data>"', 'status': 'SUCCESS', 'error_message': None, 'engine_name': 'GPT-4o', 'environment': 'prod', 'created_on': datetime.datetime(2025, 10, 16, 17, 6, 15, 902482, tzinfo=datetime.timezone.utc), 'metadata': '{"rephrased_query": "{\\n  \\"Entity\\": \\"CPI (Consumer Price Index)\\",\\n  \\"Category\\": \\"India\\",\\n  \\"Qualifiers\\": \\"\\",\\n  \\"Freq ... (207 characters truncated) ... , "gpt-4.1": 962}, "output_tokens": {"gemini-2.0-flash": 40, "gpt-4.1": 50}, "sql_responses_summary": {"processed": 1, "successful": 0, "errors": 1}}'}]
+(Background on this error at: https://sqlalche.me/e/20/f405)
+2025-10-16 22:36:29,737 - api_main - INFO - [Query ID:3] - Original received query: CPI of India in 2024
+2025-10-16 22:36:33,556 - httpx - INFO - [Query ID:3] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-16 22:36:33,559 - api_main - INFO - [Query ID:3] - Rephrased query:
+{
+  "Entity": "CPI (Consumer Price Index)",
+  "Category": "all categories",
+  "Qualifiers": "India",
+  "Frequency": "monthly",
+  "Date range": "January 2024 to December 2024"
+}
+2025-10-16 22:36:35,199 - handler_sql - INFO - [Query ID:3.1] - START: Processing query: CPI for all categories in India from January 2024 to December 2024
+2025-10-16 22:36:35,199 - handler_sql - INFO - [Query ID:3.1] - Start processing: Current time: 2025-10-16 17-06-35
+2025-10-16 22:36:35,199 - handler_sql - INFO - [Query ID:3.1] - Received unitary query: CPI for all categories in India from January 2024 to December 2024
+2025-10-16 22:36:36,486 - handler_sql - INFO - [Query ID:3.1] - Query class: CPI
+2025-10-16 22:36:38,007 - handler_sql - INFO - [Query ID:3.1] - Selected file: cpi_india_mth_grp_view
+2025-10-16 22:36:38,008 - handler_sql - INFO - [Query ID:3.1] - Generated schema query:
+2025-10-16 22:36:38,009 - handler_sql - INFO - [Query ID:3.1] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'cpi_india_mth_grp_view'
+        ORDER BY ordinal_position;
+        
+2025-10-16 22:36:38,009 - handler_sql - INFO - [Query ID:3.1] - Attempt 1: to process query
+2025-10-16 22:36:38,386 - handler_sql - INFO - [Query ID:3.1] - Trying to run: SELECT state, sector, group_name FROM cpi_india_mth_grp_view ORDER BY RANDOM() LIMIT 40;
+2025-10-16 22:36:40,096 - httpx - INFO - [Query ID:3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-16 22:36:40,108 - handler_sql - INFO - [Query ID:3.1] - Suggested value sets: ('state: All India\nsector: Combined\ngroup_name: *', 890, 13)
+2025-10-16 22:36:40,217 - handler_sql - INFO - [Query ID:3.1] - Schema:
+('base_year', 'integer', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'character varying', 'YES', None)
+('month_numeric', 'integer', 'YES', None)
+('state', 'character varying', 'YES', None)
+('sector', 'character varying', 'YES', None)
+('group_name', 'character varying', 'YES', None)
+('inflation_index', 'numeric', 'YES', None)
+('inflation_rate', 'numeric', 'YES', None)
+('released_on', 'character varying', 'YES', None)
+('updated_on', 'character varying', 'YES', None)
+('data_source', 'character varying', 'YES', None)
+('date_stamp', 'character varying', 'YES', None)
+('fiscal_year', 'text', 'YES', None)
+
+
+Suggested value settings:
+('state: All India\nsector: Combined\ngroup_name: *', 890, 13)
+
+Sample rows:
+(2012, 2024, 'June', 6, 'All India', 'Urban', 'Fuel and Light', Decimal('169.30'), Decimal('-8.34'), '12-Jul-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-06-01', '2024-25')
+(2012, 2019, 'July', 7, 'All India', 'Urban', 'General', Decimal('143.30'), Decimal('4.22'), '13-Aug-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-07-01', '2019-20')
+(2012, 2021, 'June', 6, 'All India', 'Urban', 'Consumer Food Price', Decimal('165.40'), Decimal('5.42'), '12-Jul-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-06-01', '2021-22')
+(2012, 2021, 'August', 8, 'All India', 'Urban', 'Fuel and Light', Decimal('158.50'), Decimal('15.52'), '13-Sep-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-08-01', '2021-22')
+(2012, 2017, 'November', 11, 'All India', 'Rural', 'Fuel and Light', Decimal('141.10'), Decimal('8.29'), '12-Dec-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-11-01', '2017-18')
+(2012, 2023, 'May', 5, 'All India', 'Urban', 'Miscellaneous', Decimal('171.60'), Decimal('4.76'), '12-Jun-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-05-01', '2023-24')
+(2012, 2022, 'October', 10, 'All India', 'Rural', 'Clothing and Footwear', Decimal('185.90'), Decimal('10.46'), '14-Nov-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-10-01', '2022-23')
+(2012, 2024, 'September', 9, 'All India', 'Urban', 'Pan, Tobacco and Intoxicants', Decimal('213.30'), Decimal('2.94'), '14-Oct-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-09-01', '2024-25')
+(2012, 2020, 'August', 8, 'All India', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('184.40'), Decimal('11.22'), '14-Sep-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-08-01', '2020-21')
+(2012, 2022, 'January', 1, 'All India', 'Combined', 'Consumer Food Price', Decimal('164.90'), Decimal('5.43'), '14-Feb-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-01-01', '2021-22')
+(2012, 2017, 'November', 11, 'All India', 'Combined', 'Housing', Decimal('138.60'), Decimal('7.36'), '12-Dec-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-11-01', '2017-18')
+(2012, 2022, 'April', 4, 'All India', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('193.90'), Decimal('2.70'), '12-May-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-04-01', '2022-23')
+(2012, 2020, 'May', 5, 'All India', 'Rural', 'General', Decimal('151.20'), None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2020-05-01', '2020-21')
+(2012, 2023, 'June', 6, 'All India', 'Rural', 'Pan, Tobacco and Intoxicants', Decimal('200.40'), Decimal('3.89'), '12-Jul-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-06-01', '2023-24')
+(2012, 2024, 'November', 11, 'All India', 'Rural', 'Food and Beverages', Decimal('206.20'), Decimal('8.41'), '12-Dec-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-11-01', '2024-25')
+(2012, 2021, 'June', 6, 'All India', 'Urban', 'Miscellaneous', Decimal('153.40'), Decimal('8.03'), '12-Jul-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-06-01', '2021-22')
+(2012, 2020, 'September', 9, 'All India', 'Combined', 'Miscellaneous', Decimal('150.40'), Decimal('6.89'), '12-Oct-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-09-01', '2020-21')
+(2012, 2023, 'February', 2, 'All India', 'Combined', 'Miscellaneous', Decimal('173.50'), Decimal('6.12'), '13-Mar-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-02-01', '2022-23')
+(2012, 2020, 'September', 9, 'All India', 'Urban', 'Pan, Tobacco and Intoxicants', Decimal('188.70'), Decimal('11.92'), '12-Oct-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-09-01', '2020-21')
+(2012, 2017, 'July', 7, 'All India', 'Rural', 'General', Decimal('136.20'), Decimal('2.41'), '14-Aug-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-07-01', '2017-18')
+(2012, 2019, 'September', 9, 'All India', 'Combined', 'Miscellaneous', Decimal('140.70'), Decimal('4.45'), '14-Oct-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-09-01', '2019-20')
+(2012, 2017, 'December', 12, 'All India', 'Urban', 'Fuel and Light', Decimal('126.80'), Decimal('7.64'), '12-Jan-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-12-01', '2017-18')
+(2012, 2018, 'May', 5, 'All India', 'Urban', 'Miscellaneous', Decimal('128.90'), Decimal('5.14'), '12-Jun-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-05-01', '2018-19')
+(2012, 2024, 'August', 8, 'All India', 'Rural', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2024-08-01', '2024-25')
+(2012, 2023, 'December', 12, 'All India', 'Rural', 'Fuel and Light', Decimal('183.10'), Decimal('0.16'), '12-Jan-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-12-01', '2023-24')
+(2012, 2018, 'May', 5, 'All India', 'Combined', 'Housing', Decimal('143.20'), Decimal('8.40'), '12-Jun-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-05-01', '2018-19')
+(2012, 2021, 'May', 5, 'All India', 'Urban', 'Fuel and Light', Decimal('155.50'), Decimal('14.17'), '14-Jun-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-05-01', '2021-22')
+(2012, 2023, 'June', 6, 'All India', 'Combined', 'Consumer Food Price', Decimal('181.70'), Decimal('4.55'), '12-Jul-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-06-01', '2023-24')
+(2012, 2017, 'June', 6, 'All India', 'Combined', 'Consumer Food Price', Decimal('134.10'), Decimal('-2.12'), '12-Jul-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-06-01', '2017-18')
+(2012, 2024, 'May', 5, 'All India', 'Rural', 'Pan, Tobacco and Intoxicants', Decimal('205.50'), Decimal('2.80'), '12-Jun-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-05-01', '2024-25')
+(2012, 2017, 'December', 12, 'All India', 'Rural', 'Clothing and Footwear', Decimal('147.20'), Decimal('5.37'), '12-Jan-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-12-01', '2017-18')
+(2012, 2023, 'March', 3, 'All India', 'Urban', 'Housing', Decimal('173.50'), Decimal('4.96'), '12-Apr-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-03-01', '2022-23')
+(2012, 2024, 'April', 4, 'All India', 'Combined', 'Food and Beverages', Decimal('191.90'), Decimal('7.87'), '12-May-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-04-01', '2024-25')
+(2012, 2023, 'July', 7, 'All India', 'Rural', 'Fuel and Light', Decimal('185.50'), Decimal('3.29'), '14-Aug-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-07-01', '2023-24')
+(2012, 2021, 'May', 5, 'All India', 'Urban', 'Pan, Tobacco and Intoxicants', Decimal('198.20'), Decimal('8.07'), '14-Jun-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-05-01', '2021-22')
+(2012, 2022, 'November', 11, 'All India', 'Combined', 'Housing', Decimal('171.80'), Decimal('4.63'), '12-Dec-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-11-01', '2022-23')
+(2012, 2024, 'March', 3, 'All India', 'Combined', 'Miscellaneous', Decimal('180.20'), Decimal('3.50'), '12-Apr-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-03-01', '2023-24')
+(2012, 2021, 'November', 11, 'All India', 'Combined', 'Clothing and Footwear', Decimal('165.80'), Decimal('7.94'), '13-Dec-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-11-01', '2021-22')
+(2012, 2019, 'April', 4, 'All India', 'Combined', 'Consumer Food Price', Decimal('137.30'), Decimal('1.10'), '13-May-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-04-01', '2019-20')
+(2012, 2021, 'August', 8, 'All India', 'Combined', 'Fuel and Light', Decimal('161.40'), Decimal('12.95'), '13-Sep-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-08-01', '2021-22')
+
+2025-10-16 22:36:41,962 - httpx - INFO - [Query ID:3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-16 22:36:41,966 - handler_sql - INFO - [Query ID:3.1] - query for table: CPI for all categories in India from January 2024 to December 2024
+2025-10-16 22:36:41,967 - handler_sql - INFO - [Query ID:3.1] - response: SELECT * FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND year = 2024 LIMIT 125;
+2025-10-16 22:36:41,967 - handler_sql - INFO - [Query ID:3.1] - Used query for specific table: CPI for all categories in India from January 2024 to December 2024
+2025-10-16 22:36:41,967 - handler_sql - INFO - [Query ID:3.1] - SQL query:
+2025-10-16 22:36:41,967 - handler_sql - WARNING - [Query ID:3.1] - Could not remove decorator from original query
+2025-10-16 22:36:41,967 - handler_sql - INFO - [Query ID:3.1] - Originally: SELECT * FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND year = 2024 LIMIT 125;
+2025-10-16 22:36:42,378 - httpx - INFO - [Query ID:3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-16 22:36:42,384 - openai._base_client - INFO - [Query ID:3.1] - Retrying request to /chat/completions in 20.000000 seconds

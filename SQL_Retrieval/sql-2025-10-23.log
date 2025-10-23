@@ -1,0 +1,775 @@
+2025-10-23 12:53:59,065 - api_main - INFO - [Query ID:3060.1] - Original received query: What is the average rainfall in Kerala for the month of February 2025?
+2025-10-23 12:54:04,796 - httpx - INFO - [Query ID:3060.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:54:04,826 - api_main - INFO - [Query ID:3060.1] - Rephrased query:
+{
+  "Entity": "rainfall",
+  "Category": "average",
+  "Qualifiers": "Kerala",
+  "Frequency": "monthly",
+  "Date range": "February 2025 to February 2025"
+}
+2025-10-23 12:54:06,492 - handler_sql - INFO - [Query ID:3060.1.1] - START: Processing query: Average rainfall in Kerala in February 2025
+2025-10-23 12:54:06,492 - handler_sql - INFO - [Query ID:3060.1.1] - Start processing: Current time: 2025-10-23 07-24-06
+2025-10-23 12:54:06,493 - handler_sql - INFO - [Query ID:3060.1.1] - Received unitary query: Average rainfall in Kerala in February 2025
+2025-10-23 12:54:08,172 - handler_sql - INFO - [Query ID:3060.1.1] - Query class: district_level
+2025-10-23 12:54:09,778 - handler_sql - INFO - [Query ID:3060.1.1] - Selected file: rainfall_data
+2025-10-23 12:54:09,782 - handler_sql - INFO - [Query ID:3060.1.1] - Generated schema query:
+2025-10-23 12:54:09,782 - handler_sql - INFO - [Query ID:3060.1.1] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'rainfall_data'
+        ORDER BY ordinal_position;
+        
+2025-10-23 12:54:09,783 - handler_sql - INFO - [Query ID:3060.1.1] - Attempt 1: to process query
+2025-10-23 12:54:11,165 - handler_sql - INFO - [Query ID:3060.1.1] - Trying to run: SELECT state, district, agency_name FROM rainfall_data ORDER BY RANDOM() LIMIT 40;
+2025-10-23 12:54:13,185 - httpx - INFO - [Query ID:3060.1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:54:13,189 - handler_sql - INFO - [Query ID:3060.1.1] - Suggested value sets: ("state: ['Kerala']\nagency_name: ['NRSC VIC MODEL', 'IMD GRID MODEL']", 3315, 21)
+2025-10-23 12:54:13,516 - handler_sql - INFO - [Query ID:3060.1.1] - Schema:
+('state', 'character varying', 'YES', None)
+('district', 'character varying', 'YES', None)
+('date', 'date', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'integer', 'YES', None)
+('avg_rainfall_mm', 'double precision', 'YES', None)
+('agency_name', 'character varying', 'YES', None)
+
+
+Suggested value settings:
+("state: ['Kerala']\nagency_name: ['NRSC VIC MODEL', 'IMD GRID MODEL']", 3315, 21)
+
+Sample rows:
+('Bihar', 'Arwal', datetime.date(2024, 8, 5), 2024, 8, 20.6169093221, 'NRSC VIC MODEL')
+('Puducherry', 'Mahe', datetime.date(2024, 12, 20), 2024, 12, 0.0, 'NRSC VIC MODEL')
+('Manipur', 'Kakching', datetime.date(2023, 10, 30), 2023, 10, 0.0, 'NRSC VIC MODEL')
+('Sikkim', 'South District', datetime.date(2023, 3, 29), 2023, 3, 1.6786385097, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Panna', datetime.date(2025, 4, 16), 2025, 4, 0.0, 'NRSC VIC MODEL')
+('Andhra Pradesh', 'Visakhapatanam', datetime.date(2025, 5, 19), 2025, 5, 4.113738739, 'NRSC VIC MODEL')
+('Bihar', 'Saharsa', datetime.date(2025, 5, 1), 2025, 5, 0.0, 'NRSC VIC MODEL')
+('Gujarat', 'Morbi', datetime.date(2025, 6, 20), 2025, 6, 0.6440350059, 'NRSC VIC MODEL')
+('Karnataka', 'Shivamogga', datetime.date(2025, 6, 29), 2025, 6, 7.3449128461, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Niwari', datetime.date(2025, 6, 26), 2025, 6, 14.2709141274, 'NRSC VIC MODEL')
+('Tamil Nadu', 'Namakkal', datetime.date(2023, 1, 15), 2023, 1, 0.0, 'NRSC VIC MODEL')
+('Odisha', 'Anugul', datetime.date(2025, 1, 10), 2025, 1, 0.0006160364, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Barwani', datetime.date(2024, 7, 15), 2024, 7, 18.4645566705, 'NRSC VIC MODEL')
+('Maharashtra', 'Nanded', datetime.date(2024, 1, 24), 2024, 1, 0.0, 'NRSC VIC MODEL')
+('Odisha', 'Kendujhar', datetime.date(2024, 8, 28), 2024, 8, 14.1530520786, 'NRSC VIC MODEL')
+('Bihar', 'Jehanabad', datetime.date(2024, 3, 21), 2024, 3, 27.9362121252, 'NRSC VIC MODEL')
+('Kerala', 'Kollam', datetime.date(2025, 4, 22), 2025, 4, 0.0, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Ashoknagar', datetime.date(2024, 4, 9), 2024, 4, 0.0310344273, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Lower Dibang Valley', datetime.date(2025, 6, 6), 2025, 6, 0.4409791086, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Dibang Valley', datetime.date(2024, 10, 16), 2024, 10, 2.7536526901, 'NRSC VIC MODEL')
+('Punjab', 'Kapurthala', datetime.date(2023, 12, 10), 2023, 12, 0.0, 'NRSC VIC MODEL')
+('Delhi', 'North West', datetime.date(2025, 6, 9), 2025, 6, 0.0, 'NRSC VIC MODEL')
+('Andhra Pradesh', 'Srikakulam', datetime.date(2024, 5, 1), 2024, 5, 0.0134619329, 'NRSC VIC MODEL')
+('Jammu & Kashmir', 'Bandipora', datetime.date(2025, 4, 4), 2025, 4, 0.3733273498, 'NRSC VIC MODEL')
+('Rajasthan', 'Hanumangarh', datetime.date(2023, 1, 17), 2023, 1, 0.0, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Anuppur', datetime.date(2024, 5, 1), 2024, 5, 0.0, 'NRSC VIC MODEL')
+('Odisha', 'Nabarangpur', datetime.date(2023, 4, 6), 2023, 4, 2.7374985688, 'NRSC VIC MODEL')
+('Punjab', 'Faridkot', datetime.date(2023, 8, 11), 2023, 8, 0.039235555, 'NRSC VIC MODEL')
+('Odisha', 'Puri', datetime.date(2023, 4, 9), 2023, 4, 0.0003699238, 'NRSC VIC MODEL')
+('Jammu & Kashmir', 'Rajouri', datetime.date(2024, 5, 10), 2024, 5, 3.9816974979, 'NRSC VIC MODEL')
+('Rajasthan', 'Bikaner', datetime.date(2023, 6, 11), 2023, 6, 6.6699838206, 'NRSC VIC MODEL')
+('Gujarat', 'Anand', datetime.date(2025, 4, 13), 2025, 4, 0.0, 'NRSC VIC MODEL')
+('Rajasthan', 'Hanumangarh', datetime.date(2023, 12, 2), 2023, 12, 0.0, 'NRSC VIC MODEL')
+('Himachal Pradesh', 'Mandi', datetime.date(2025, 4, 9), 2025, 4, 0.2673848032, 'NRSC VIC MODEL')
+('Jammu & Kashmir', 'Jammu', datetime.date(2024, 5, 25), 2024, 5, 3.3172154004, 'NRSC VIC MODEL')
+('Bihar', 'Aurangabad', datetime.date(2024, 9, 19), 2024, 9, 0.0, 'NRSC VIC MODEL')
+('Jammu & Kashmir', 'Udhampur', datetime.date(2024, 12, 13), 2024, 12, 0.0043826618, 'NRSC VIC MODEL')
+('Andhra Pradesh', 'Visakhapatanam', datetime.date(2025, 2, 5), 2025, 2, 0.0, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Chhatarpur', datetime.date(2025, 3, 19), 2025, 3, 0.0, 'NRSC VIC MODEL')
+('Punjab', 'Shahid Bhagat Singh Nagar', datetime.date(2023, 3, 5), 2023, 3, 0.0, 'NRSC VIC MODEL')
+
+2025-10-23 12:54:15,061 - httpx - INFO - [Query ID:3060.1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:54:15,063 - handler_sql - INFO - [Query ID:3060.1.1] - query for table: Average rainfall in Kerala in February 2025
+2025-10-23 12:54:15,063 - handler_sql - INFO - [Query ID:3060.1.1] - response: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND year = 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL') LIMIT 125;
+2025-10-23 12:54:15,063 - handler_sql - INFO - [Query ID:3060.1.1] - Used query for specific table: Average rainfall in Kerala in February 2025
+2025-10-23 12:54:15,063 - handler_sql - INFO - [Query ID:3060.1.1] - SQL query:
+2025-10-23 12:54:15,063 - handler_sql - WARNING - [Query ID:3060.1.1] - Could not remove decorator from original query
+2025-10-23 12:54:15,064 - handler_sql - INFO - [Query ID:3060.1.1] - Originally: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND year = 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL') LIMIT 125;
+2025-10-23 12:54:16,308 - httpx - INFO - [Query ID:3060.1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:54:16,310 - handler_sql - WARNING - [Query ID:3060.1.1] - Could not remove decorator from validated query
+2025-10-23 12:54:16,310 - handler_sql - INFO - [Query ID:3060.1.1] - After validation: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND date >= '2025-02-01' AND date < '2025-03-01' AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL') LIMIT 125;
+2025-10-23 12:54:16,660 - handler_sql - INFO - [Query ID:3060.1.1] - Cleaned SQL: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND date >= '2025-02-01' AND date < '2025-03-01' AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL')
+2025-10-23 12:54:16,663 - handler_sql - INFO - [Query ID:3060.1.1] - SELECT * 
+FROM rainfall_data WHERE state = 'Kerala' AND date >= '2025-02-01' AND date < '2025-03-01' AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL')
+ORDER BY year DESC
+LIMIT 125;
+2025-10-23 12:54:16,663 - handler_sql - INFO - [Query ID:3060.1.1] - SQL response:
+2025-10-23 12:54:17,302 - handler_sql - INFO - [Query ID:3060.1.1] - Number of rows pulled: 86
+2025-10-23 12:54:17,572 - handler_sql - WARNING - [Query ID:3060.1.1] - Could not fetch table metadata
+2025-10-23 12:54:17,572 - handler_sql - WARNING - [Query ID:3060.1.1] - list index out of range
+2025-10-23 12:54:23,695 - httpx - INFO - [Query ID:3060.1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:54:23,739 - handler_sql - INFO - [Query ID:3060.1.1] - Got result: Current time: 2025-10-23 07-24-23
+2025-10-23 12:54:23,739 - handler_sql - INFO - [Query ID:3060.1.1] - Response: {'summarized_info': '| district           |   year |   avg_rainfall_mm |\n|:-------------------|-------:|------------------:|\n| Kannur             |   2025 |       0           |\n| Kannur             |   2025 |       0.0200524   |\n| Kannur             |   2025 |       0.000256601 |\n| Kannur             |   2025 |       0.638122    |\n| Kannur             |   2025 |       0           |\n| Kasaragod          |   2025 |       0           |\n| Kasaragod          |   2025 |       0           |\n| Kasaragod          |   2025 |       8.1268e-06  |\n| Kasaragod          |   2025 |       0.00041365  |\n| Kasaragod          |   2025 |       0           |\n| Kollam             |   2025 |       0.000284888 |\n| Kollam             |   2025 |       0           |\n| Kollam             |   2025 |       0.000806834 |\n| Kollam             |   2025 |       0           |\n| Kollam             |   2025 |       0.00375891  |\n| Kottayam           |   2025 |       1.03124     |\n| Kottayam           |   2025 |       0           |\n| Kottayam           |   2025 |       0           |\n| Kottayam           |   2025 |       0           |\n| Kottayam           |   2025 |       0.000983937 |\n| Kottayam           |   2025 |       0           |\n| Kottayam           |   2025 |       0           |\n| Thrissur           |   2025 |       0.000156283 |\n| Thrissur           |   2025 |       0           |\n| Thrissur           |   2025 |       0.000183677 |\n| Wayanad            |   2025 |       6.69591e-05 |\n| Wayanad            |   2025 |       0           |\n| Wayanad            |   2025 |       0           |\n| Wayanad            |   2025 |       0           |\n| Wayanad            |   2025 |       0           |\n| Alappuzha          |   2025 |       0           |\n| Alappuzha          |   2025 |       0           |\n| Alappuzha          |   2025 |       0.0773344   |\n| Alappuzha          |   2025 |       0           |\n| Alappuzha          |   2025 |       0.0044963   |\n| Kozhikode          |   2025 |       0.000419457 |\n| Kozhikode          |   2025 |       0           |\n| Kozhikode          |   2025 |       0           |\n| Kozhikode          |   2025 |       0.000157924 |\n| Kozhikode          |   2025 |       0           |\n| Kozhikode          |   2025 |       0.00241448  |\n| Kozhikode          |   2025 |       0           |\n| Kozhikode          |   2025 |       0           |\n| Kozhikode          |   2025 |       0           |\n| Malappuram         |   2025 |       0           |\n| Malappuram         |   2025 |       0           |\n| Malappuram         |   2025 |       1.89863e-05 |\n| Malappuram         |   2025 |       0           |\n| Malappuram         |   2025 |       0           |\n| Malappuram         |   2025 |       0           |\n| Palakkad           |   2025 |       0           |\n| Palakkad           |   2025 |       0           |\n| Palakkad           |   2025 |       0.00192721  |\n| Palakkad           |   2025 |       0           |\n| Palakkad           |   2025 |       0           |\n| Palakkad           |   2025 |       0           |\n| Pathanamthitta     |   2025 |       0           |\n| Pathanamthitta     |   2025 |       0           |\n| Pathanamthitta     |   2025 |       0           |\n| Pathanamthitta     |   2025 |       7.8395e-06  |\n| Pathanamthitta     |   2025 |       0           |\n| Pathanamthitta     |   2025 |       0           |\n| Pathanamthitta     |   2025 |       0           |\n| Pathanamthitta     |   2025 |       0           |\n| Thiruvananthapuram |   2025 |       1.98949     |\n| Thiruvananthapuram |   2025 |       0           |\n| Thiruvananthapuram |   2025 |       0           |\n| Thiruvananthapuram |   2025 |       0           |\n| Thiruvananthapuram |   2025 |      -0.000265254 |\n| Thiruvananthapuram |   2025 |       0           |\n| Thiruvananthapuram |   2025 |       0.0284036   |\n| Thiruvananthapuram |   2025 |       0           |\n| Thiruvananthapuram |   2025 |       0.0478322   |\n| Thiruvananthapuram |   2025 |       3.93915     |\n| Ernakulam          |   2025 |       0           |\n| Ernakulam          |   2025 |       0.000425906 |\n| Ernakulam          |   2025 |       0           |\n| Ernakulam          |   2025 |       0           |\n| Ernakulam          |   2025 |       0           |\n| Idukki             |   2025 |       0           |\n| Idukki             |   2025 |       0           |\n| Idukki             |   2025 |       0           |\n| Idukki             |   2025 |       0.00346867  |\n| Kannur             |   2025 |       0.0001283   |\n| Kannur             |   2025 |       0.124081    |\n| Kannur             |   2025 |       0.000104451 |'}
+2025-10-23 12:54:23,740 - handler_sql - INFO - [Query ID:3060.1.1] - Total processing time: 17.25 seconds
+2025-10-23 12:54:23,741 - api_main - INFO - [Query ID:3060.1] - SQL responses obtained
+2025-10-23 12:54:23,742 - api_main - INFO - [Query ID:3060.1] - <part> 1 has data
+2025-10-23 12:54:34,770 - api_main - INFO - [Query ID:3060.1] - Suggested answer: 
+2025-10-23 12:54:34,771 - api_main - INFO - [Query ID:3060.1] - | Caption: Kerala district-wise average rainfall (mm) in February 2025 |
+| :-------------------|-------:|------------------:|
+| district           |   year |   avg_rainfall_mm |
+|:-------------------|-------:|------------------:|
+| Kannur             |   2025 |       0           |
+| Kannur             |   2025 |       0.0200524   |
+| Kannur             |   2025 |       0.000256601 |
+| Kannur             |   2025 |       0.638122    |
+| Kannur             |   2025 |       0           |
+| Kasaragod          |   2025 |       0           |
+| Kasaragod          |   2025 |       0           |
+| Kasaragod          |   2025 |       8.1268e-06  |
+| Kasaragod          |   2025 |       0.00041365  |
+| Kasaragod          |   2025 |       0           |
+| Kollam             |   2025 |       0.000284888 |
+| Kollam             |   2025 |       0           |
+| Kollam             |   2025 |       0.000806834 |
+| Kollam             |   2025 |       0           |
+| Kollam             |   2025 |       0.00375891  |
+| Kottayam           |   2025 |       1.03124     |
+| Kottayam           |   2025 |       0           |
+| Kottayam           |   2025 |       0           |
+| Kottayam           |   2025 |       0           |
+| Kottayam           |   2025 |       0.000983937 |
+| Kottayam           |   2025 |       0           |
+| Kottayam           |   2025 |       0           |
+| Thrissur           |   2025 |       0.000156283 |
+| Thrissur           |   2025 |       0           |
+| Thrissur           |   2025 |       0.000183677 |
+| Wayanad            |   2025 |       6.69591e-05 |
+| Wayanad            |   2025 |       0           |
+| Wayanad            |   2025 |       0           |
+| Wayanad            |   2025 |       0           |
+| Wayanad            |   2025 |       0           |
+| Alappuzha          |   2025 |       0           |
+| Alappuzha          |   2025 |       0           |
+| Alappuzha          |   2025 |       0.0773344   |
+| Alappuzha          |   2025 |       0           |
+| Alappuzha          |   2025 |       0.0044963   |
+| Kozhikode          |   2025 |       0.000419457 |
+| Kozhikode          |   2025 |       0           |
+| Kozhikode          |   2025 |       0           |
+| Kozhikode          |   2025 |       0.000157924 |
+| Kozhikode          |   2025 |       0           |
+| Kozhikode          |   2025 |       0.00241448  |
+| Kozhikode          |   2025 |       0           |
+| Kozhikode          |   2025 |       0           |
+| Kozhikode          |   2025 |       0           |
+| Malappuram         |   2025 |       0           |
+| Malappuram         |   2025 |       0           |
+| Malappuram         |   2025 |       1.89863e-05 |
+| Malappuram         |   2025 |       0           |
+| Malappuram         |   2025 |       0           |
+| Malappuram         |   2025 |       0           |
+| Palakkad           |   2025 |       0           |
+| Palakkad           |   2025 |       0           |
+| Palakkad           |   2025 |       0.00192721  |
+| Palakkad           |   2025 |       0           |
+| Palakkad           |   2025 |       0           |
+| Palakkad           |   2025 |       0           |
+| Pathanamthitta     |   2025 |       0           |
+| Pathanamthitta     |   2025 |       0           |
+| Pathanamthitta     |   2025 |       0           |
+| Pathanamthitta     |   2025 |       7.8395e-06  |
+| Pathanamthitta     |   2025 |       0           |
+| Pathanamthitta     |   2025 |       0           |
+| Pathanamthitta     |   2025 |       0           |
+| Pathanamthitta     |   2025 |       0           |
+| Thiruvananthapuram |   2025 |       1.98949     |
+| Thiruvananthapuram |   2025 |       0           |
+| Thiruvananthapuram |   2025 |       0           |
+| Thiruvananthapuram |   2025 |       0           |
+| Thiruvananthapuram |   2025 |      -0.000265254 |
+| Thiruvananthapuram |   2025 |       0           |
+| Thiruvananthapuram |   2025 |       0.0284036   |
+| Thiruvananthapuram |   2025 |       0           |
+| Thiruvananthapuram |   2025 |       0.0478322   |
+| Thiruvananthapuram |   2025 |       3.93915     |
+| Ernakulam          |   2025 |       0           |
+| Ernakulam          |   2025 |       0.000425906 |
+| Ernakulam          |   2025 |       0           |
+| Ernakulam          |   2025 |       0           |
+| Ernakulam          |   2025 |       0           |
+| Idukki             |   2025 |       0           |
+| Idukki             |   2025 |       0           |
+| Idukki             |   2025 |       0           |
+| Idukki             |   2025 |       0.00346867  |
+| Kannur             |   2025 |       0.0001283   |
+| Kannur             |   2025 |       0.124081    |
+| Kannur             |   2025 |       0.000104451 |
+
+2025-10-23 12:54:34,771 - api_main - INFO - [Query ID:3060.1] - Commentary:
+2025-10-23 12:54:34,771 - api_main - INFO - [Query ID:3060.1] - Table information:
+
+2025-10-23 12:54:36,460 - api_main - INFO - [Query ID:3060.1] - Confidence: 1
+2025-10-23 12:54:36,460 - api_main - INFO - [Query ID:3060.1] - Total processing time: 37.3956835269928
+2025-10-23 12:55:22,726 - api_main - INFO - [Query ID:3060.2] - Original received query: How does the average rainfall in Kannur compare to other districts in Kerala for the year 2025?
+2025-10-23 12:55:26,728 - httpx - INFO - [Query ID:3060.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:55:26,739 - api_main - INFO - [Query ID:3060.2] - Rephrased query:
+{
+  "Entity": "average rainfall",
+  "Category": "districts in Kerala",
+  "Qualifiers": "Kannur and other districts",
+  "Frequency": "annual",
+  "Date range": { "minimum": "January 2025", "maximum": "December 2025" }
+}
+2025-10-23 12:55:28,505 - handler_sql - INFO - [Query ID:3060.2.1] - START: Processing query: Average rainfall in Kannur district, Kerala, from January 2025 to December 2025
+2025-10-23 12:55:28,505 - handler_sql - INFO - [Query ID:3060.2.1] - Start processing: Current time: 2025-10-23 07-25-28
+2025-10-23 12:55:28,505 - handler_sql - INFO - [Query ID:3060.2.1] - Received unitary query: Average rainfall in Kannur district, Kerala, from January 2025 to December 2025
+2025-10-23 12:55:30,262 - handler_sql - INFO - [Query ID:3060.2.1] - Query class: district_level
+2025-10-23 12:55:31,838 - handler_sql - INFO - [Query ID:3060.2.1] - Selected file: rainfall_data
+2025-10-23 12:55:31,838 - handler_sql - INFO - [Query ID:3060.2.1] - Generated schema query:
+2025-10-23 12:55:31,839 - handler_sql - INFO - [Query ID:3060.2.1] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'rainfall_data'
+        ORDER BY ordinal_position;
+        
+2025-10-23 12:55:31,839 - handler_sql - INFO - [Query ID:3060.2.1] - Attempt 1: to process query
+2025-10-23 12:55:31,962 - handler_sql - INFO - [Query ID:3060.2.1] - Trying to run: SELECT state, district, agency_name FROM rainfall_data ORDER BY RANDOM() LIMIT 40;
+2025-10-23 12:55:33,215 - httpx - INFO - [Query ID:3060.2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:55:33,217 - handler_sql - INFO - [Query ID:3060.2.1] - Suggested value sets: ("state = ['Kerala']\ndistrict = ['Kannur']\nagency_name = ['General']", 3331, 18)
+2025-10-23 12:55:33,453 - handler_sql - INFO - [Query ID:3060.2.1] - Schema:
+('state', 'character varying', 'YES', None)
+('district', 'character varying', 'YES', None)
+('date', 'date', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'integer', 'YES', None)
+('avg_rainfall_mm', 'double precision', 'YES', None)
+('agency_name', 'character varying', 'YES', None)
+
+
+Suggested value settings:
+("state = ['Kerala']\ndistrict = ['Kannur']\nagency_name = ['General']", 3331, 18)
+
+Sample rows:
+('Rajasthan', 'Pali', datetime.date(2023, 11, 16), 2023, 11, 0.0, 'NRSC VIC MODEL')
+('Gujarat', 'Narmada', datetime.date(2025, 1, 29), 2025, 1, 0.0, 'NRSC VIC MODEL')
+('Rajasthan', 'Tonk', datetime.date(2023, 8, 25), 2023, 8, 0.0, 'NRSC VIC MODEL')
+('Kerala', 'Kozhikode', datetime.date(2024, 1, 30), 2024, 1, 0.0, 'NRSC VIC MODEL')
+('Nagaland', 'Zunheboto', datetime.date(2025, 4, 28), 2025, 4, 0.1527354731, 'NRSC VIC MODEL')
+('Manipur', 'Noney', datetime.date(2025, 4, 28), 2025, 4, 1.133354166, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Jabalpur', datetime.date(2025, 3, 24), 2025, 3, 0.0004988999, 'NRSC VIC MODEL')
+('Odisha', 'Kandhamal', datetime.date(2024, 12, 22), 2024, 12, 0.373876049, 'NRSC VIC MODEL')
+('Odisha', 'Deogarh', datetime.date(2025, 1, 22), 2025, 1, 0.0, 'NRSC VIC MODEL')
+('Delhi', 'North West', datetime.date(2025, 4, 9), 2025, 4, 0.1726829858, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Anjaw', datetime.date(2025, 6, 30), 2025, 6, 0.595169328, 'NRSC VIC MODEL')
+('Bihar', 'Khagaria', datetime.date(2024, 7, 25), 2024, 7, 0.0090271948, 'NRSC VIC MODEL')
+('Punjab', 'Pathankot', datetime.date(2023, 10, 27), 2023, 10, 0.0, 'NRSC VIC MODEL')
+('Maharashtra', 'Jalgaon', datetime.date(2024, 1, 2), 2024, 1, 0.0, 'NRSC VIC MODEL')
+('Puducherry', 'Karaikal', datetime.date(2024, 4, 10), 2024, 4, 0.0, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'East Kameng', datetime.date(2024, 3, 29), 2024, 3, 0.3460106493, 'NRSC VIC MODEL')
+('Bihar', 'Rohtas', datetime.date(2025, 5, 31), 2025, 5, 0.4131659399, 'NRSC VIC MODEL')
+('Odisha', 'Rayagada', datetime.date(2024, 4, 6), 2024, 4, 0.0001442752, 'NRSC VIC MODEL')
+('Karnataka', 'Udupi', datetime.date(2025, 5, 3), 2025, 5, 3.050678833, 'NRSC VIC MODEL')
+('Odisha', 'Kendrapara', datetime.date(2023, 11, 4), 2023, 11, 0.0013955989, 'NRSC VIC MODEL')
+('Telangana', 'Jayashankar Bhupalapally', datetime.date(2023, 5, 31), 2023, 5, 1.4709704826, 'NRSC VIC MODEL')
+('Sikkim', 'South District', datetime.date(2023, 7, 22), 2023, 7, 13.5107723555, 'NRSC VIC MODEL')
+('Punjab', 'Ludhiana', datetime.date(2023, 2, 12), 2023, 2, 0.0, 'NRSC VIC MODEL')
+('Punjab', 'Patiala', datetime.date(2023, 5, 11), 2023, 5, 0.0, 'NRSC VIC MODEL')
+('Tamil Nadu', 'Tirupathur', datetime.date(2023, 3, 4), 2023, 3, 0.0, 'NRSC VIC MODEL')
+('Maharashtra', 'Nandurbar', datetime.date(2024, 8, 9), 2024, 8, 5.8170124574, 'NRSC VIC MODEL')
+('Manipur', 'Tengnoupal', datetime.date(2025, 6, 9), 2025, 6, 0.091695404, 'NRSC VIC MODEL')
+('Jammu & Kashmir', 'Shopian', datetime.date(2024, 5, 24), 2024, 5, 0.766126072, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Leparada', datetime.date(2024, 8, 17), 2024, 8, 11.1759225465, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Bhind', datetime.date(2024, 6, 2), 2024, 6, 0.0210347399, 'NRSC VIC MODEL')
+('Punjab', 'Barnala', datetime.date(2024, 3, 26), 2024, 3, 0.0, 'NRSC VIC MODEL')
+('Punjab', 'Fazilka', datetime.date(2023, 3, 18), 2023, 3, 1.2394958836, 'NRSC VIC MODEL')
+('Tamil Nadu', 'Nagapattinam', datetime.date(2024, 5, 25), 2024, 5, 0.012345562, 'NRSC VIC MODEL')
+('Andhra Pradesh', 'Kurnool', datetime.date(2024, 10, 1), 2024, 10, 0.0350083234, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Lower Dibang Valley', datetime.date(2025, 2, 7), 2025, 2, 1.3665732175, 'NRSC VIC MODEL')
+('Odisha', 'Bhadrak', datetime.date(2025, 2, 23), 2025, 2, 8.2569631036, 'NRSC VIC MODEL')
+('Haryana', 'Nuh', datetime.date(2025, 3, 1), 2025, 3, 0.0072128035, 'NRSC VIC MODEL')
+('Delhi', 'South West', datetime.date(2025, 4, 11), 2025, 4, 0.5545045912, 'NRSC VIC MODEL')
+('Bihar', 'Khagaria', datetime.date(2024, 1, 14), 2024, 1, 0.0, 'NRSC VIC MODEL')
+('Bihar', 'Bhagalpur', datetime.date(2024, 11, 8), 2024, 11, 0.0, 'NRSC VIC MODEL')
+
+2025-10-23 12:55:35,507 - httpx - INFO - [Query ID:3060.2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:55:35,515 - handler_sql - INFO - [Query ID:3060.2.1] - query for table: Average rainfall in Kannur district, Kerala, from January 2025 to December 2025
+2025-10-23 12:55:35,515 - handler_sql - INFO - [Query ID:3060.2.1] - response: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND district = 'Kannur' AND year = 2025 AND agency_name = 'General' LIMIT 125;
+2025-10-23 12:55:35,515 - handler_sql - INFO - [Query ID:3060.2.1] - Used query for specific table: Average rainfall in Kannur district, Kerala, from January 2025 to December 2025
+2025-10-23 12:55:35,515 - handler_sql - INFO - [Query ID:3060.2.1] - SQL query:
+2025-10-23 12:55:35,515 - handler_sql - WARNING - [Query ID:3060.2.1] - Could not remove decorator from original query
+2025-10-23 12:55:35,515 - handler_sql - INFO - [Query ID:3060.2.1] - Originally: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND district = 'Kannur' AND year = 2025 AND agency_name = 'General' LIMIT 125;
+2025-10-23 12:55:36,496 - httpx - INFO - [Query ID:3060.2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:55:36,498 - handler_sql - WARNING - [Query ID:3060.2.1] - Could not remove decorator from validated query
+2025-10-23 12:55:36,498 - handler_sql - INFO - [Query ID:3060.2.1] - After validation: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND district = 'Kannur' AND year = 2025 AND agency_name = 'General' LIMIT 125;
+2025-10-23 12:55:36,786 - handler_sql - INFO - [Query ID:3060.2.1] - Dropping invalid condition: agency_name = 'General'
+2025-10-23 12:55:36,848 - handler_sql - INFO - [Query ID:3060.2.1] - Cleaned SQL: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND district = 'Kannur' AND year = 2025
+2025-10-23 12:55:36,848 - handler_sql - INFO - [Query ID:3060.2.1] - SELECT * 
+FROM rainfall_data WHERE state = 'Kerala' AND district = 'Kannur' AND year = 2025
+ORDER BY year DESC
+LIMIT 62;
+2025-10-23 12:55:36,848 - handler_sql - INFO - [Query ID:3060.2.1] - SQL response:
+2025-10-23 12:55:36,987 - handler_sql - INFO - [Query ID:3060.2.1] - Number of rows pulled: 33
+2025-10-23 12:55:37,229 - handler_sql - WARNING - [Query ID:3060.2.1] - Could not fetch table metadata
+2025-10-23 12:55:37,230 - handler_sql - WARNING - [Query ID:3060.2.1] - list index out of range
+2025-10-23 12:55:39,539 - httpx - INFO - [Query ID:3060.2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:55:39,576 - handler_sql - INFO - [Query ID:3060.2.1] - Got result: Current time: 2025-10-23 07-25-39
+2025-10-23 12:55:39,576 - handler_sql - INFO - [Query ID:3060.2.1] - Response: {'summarized_info': '|   year |   month |   avg_rainfall_mm |\n|-------:|--------:|------------------:|\n|   2025 |       2 |       0           |\n|   2025 |       2 |       0.0200524   |\n|   2025 |       2 |       0.000256601 |\n|   2025 |       2 |       0.638122    |\n|   2025 |       2 |       0           |\n|   2025 |       3 |       0.259651    |\n|   2025 |       3 |       0.201038    |\n|   2025 |       3 |       0           |\n|   2025 |       3 |       0           |\n|   2025 |       3 |       0           |\n|   2025 |       3 |       0.224303    |\n|   2025 |       3 |       0.0847767   |\n|   2025 |       3 |       4.16889     |\n|   2025 |       3 |       0.00759518  |\n|   2025 |       3 |       0.0514237   |\n|   2025 |       4 |       0.509119    |\n|   2025 |       4 |       0.00330128  |\n|   2025 |       4 |       0.00590962  |\n|   2025 |       4 |       5.00184     |\n|   2025 |       4 |       0           |\n|   2025 |       4 |       0.188033    |\n|   2025 |       5 |       1.52795     |\n|   2025 |       6 |       6.10818     |\n|   2025 |       6 |       0.34581     |\n|   2025 |       6 |      14.8793      |\n|   2025 |       6 |      68.9194      |\n|   2025 |       6 |      76.5257      |\n|   2025 |       6 |      24.0614      |\n|   2025 |       1 |       0           |\n|   2025 |       1 |       0           |\n|   2025 |       2 |       0.0001283   |\n|   2025 |       2 |       0.124081    |\n|   2025 |       2 |       0.000104451 |'}
+2025-10-23 12:55:39,576 - handler_sql - INFO - [Query ID:3060.2.1] - Total processing time: 11.07 seconds
+2025-10-23 12:55:39,577 - handler_sql - INFO - [Query ID:3060.2.2] - START: Processing query: Average rainfall in other districts, Kerala, from January 2025 to December 2025
+2025-10-23 12:55:39,577 - handler_sql - INFO - [Query ID:3060.2.2] - Start processing: Current time: 2025-10-23 07-25-39
+2025-10-23 12:55:39,577 - handler_sql - INFO - [Query ID:3060.2.2] - Received unitary query: Average rainfall in other districts, Kerala, from January 2025 to December 2025
+2025-10-23 12:55:41,217 - handler_sql - INFO - [Query ID:3060.2.2] - Query class: district_level
+2025-10-23 12:55:43,091 - handler_sql - INFO - [Query ID:3060.2.2] - Selected file: rainfall_data
+2025-10-23 12:55:43,091 - handler_sql - INFO - [Query ID:3060.2.2] - Generated schema query:
+2025-10-23 12:55:43,091 - handler_sql - INFO - [Query ID:3060.2.2] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'rainfall_data'
+        ORDER BY ordinal_position;
+        
+2025-10-23 12:55:43,091 - handler_sql - INFO - [Query ID:3060.2.2] - Attempt 1: to process query
+2025-10-23 12:55:43,218 - handler_sql - INFO - [Query ID:3060.2.2] - Trying to run: SELECT state, district, agency_name FROM rainfall_data ORDER BY RANDOM() LIMIT 40;
+2025-10-23 12:55:44,617 - httpx - INFO - [Query ID:3060.2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:55:44,620 - handler_sql - INFO - [Query ID:3060.2.2] - Suggested value sets: ("state: ['Kerala']\nagency_name: ['NRSC VIC MODEL', 'IMD GRID MODEL']", 3316, 21)
+2025-10-23 12:55:44,854 - handler_sql - INFO - [Query ID:3060.2.2] - Schema:
+('state', 'character varying', 'YES', None)
+('district', 'character varying', 'YES', None)
+('date', 'date', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'integer', 'YES', None)
+('avg_rainfall_mm', 'double precision', 'YES', None)
+('agency_name', 'character varying', 'YES', None)
+
+
+Suggested value settings:
+("state: ['Kerala']\nagency_name: ['NRSC VIC MODEL', 'IMD GRID MODEL']", 3316, 21)
+
+Sample rows:
+('Manipur', 'Churachandpur', datetime.date(2023, 9, 18), 2023, 9, 1.2094875703, 'NRSC VIC MODEL')
+('Jammu & Kashmir', 'Pulwama', datetime.date(2024, 1, 7), 2024, 1, 0.0001213647, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Longding', datetime.date(2025, 5, 30), 2025, 5, 3.0742484445, 'NRSC VIC MODEL')
+('Mizoram', 'Saiha', datetime.date(2025, 6, 18), 2025, 6, 6.1456325253, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Alirajpur', datetime.date(2025, 1, 21), 2025, 1, 0.0, 'NRSC VIC MODEL')
+('Manipur', 'Kangpokpi', datetime.date(2025, 4, 29), 2025, 4, 1.0177813967, 'NRSC VIC MODEL')
+('Tripura', 'Sepahijala', datetime.date(2023, 4, 10), 2023, 4, 0.0, 'NRSC VIC MODEL')
+('Nagaland', 'Tuensang', datetime.date(2023, 3, 6), 2023, 3, 0.0, 'NRSC VIC MODEL')
+('Rajasthan', 'Ajmer', datetime.date(2023, 11, 6), 2023, 11, 0.0, 'NRSC VIC MODEL')
+('Odisha', 'Bargarh', datetime.date(2025, 2, 2), 2025, 2, 0.0, 'NRSC VIC MODEL')
+('Rajasthan', 'Jhalawar', datetime.date(2023, 4, 12), 2023, 4, 0.000141847, 'NRSC VIC MODEL')
+('Delhi', 'West', datetime.date(2025, 1, 12), 2025, 1, 2.1994597781, 'NRSC VIC MODEL')
+('Kerala', 'Palakkad', datetime.date(2025, 5, 24), 2025, 5, 51.3562734849, 'NRSC VIC MODEL')
+('Kerala', 'Thiruvananthapuram', datetime.date(2025, 4, 4), 2025, 4, 11.5763379933, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Bhopal', datetime.date(2024, 12, 18), 2024, 12, 0.0, 'NRSC VIC MODEL')
+('Odisha', 'Sambalpur', datetime.date(2024, 7, 5), 2024, 7, 14.3572666742, 'NRSC VIC MODEL')
+('Nagaland', 'Tuensang', datetime.date(2025, 5, 28), 2025, 5, 0.3910483652, 'NRSC VIC MODEL')
+('Tamil Nadu', 'Tiruchirappalli', datetime.date(2023, 3, 11), 2023, 3, 0.0, 'NRSC VIC MODEL')
+('Kerala', 'Malappuram', datetime.date(2024, 10, 25), 2024, 10, 16.0983688807, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Alirajpur', datetime.date(2025, 6, 13), 2025, 6, 3.4521302541, 'NRSC VIC MODEL')
+('Andhra Pradesh', 'Visakhapatanam', datetime.date(2024, 11, 17), 2024, 11, 0.0, 'NRSC VIC MODEL')
+('Haryana', 'Mahendragarh', datetime.date(2025, 3, 6), 2025, 3, 0.0, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Kurung Kumey', datetime.date(2024, 7, 21), 2024, 7, 1.7920738382, 'NRSC VIC MODEL')
+('Odisha', 'Deogarh', datetime.date(2025, 1, 27), 2025, 1, 0.0002707862, 'NRSC VIC MODEL')
+('Maharashtra', 'Sangli', datetime.date(2024, 8, 6), 2024, 8, 1.0623843022, 'NRSC VIC MODEL')
+('Maharashtra', 'Mumbai City', datetime.date(2024, 5, 28), 2024, 5, 0.6, 'NRSC VIC MODEL')
+('Sikkim', 'East District', datetime.date(2023, 9, 13), 2023, 9, 0.3737840133, 'NRSC VIC MODEL')
+('Punjab', 'Bathinda', datetime.date(2024, 1, 23), 2024, 1, 0.0, 'NRSC VIC MODEL')
+('Rajasthan', 'Sikar', datetime.date(2023, 12, 21), 2023, 12, 1.21887e-05, 'NRSC VIC MODEL')
+('Tamil Nadu', 'Tuticorin', datetime.date(2023, 12, 25), 2023, 12, 8.30673e-05, 'NRSC VIC MODEL')
+('Rajasthan', 'Bharatpur', datetime.date(2023, 1, 21), 2023, 1, 0.0, 'NRSC VIC MODEL')
+('Punjab', 'Amritsar', datetime.date(2023, 6, 12), 2023, 6, 7.4e-08, 'NRSC VIC MODEL')
+('Andhra Pradesh', 'Srikakulam', datetime.date(2025, 3, 28), 2025, 3, 0.0, 'NRSC VIC MODEL')
+('Andhra Pradesh', 'Srikakulam', datetime.date(2024, 4, 18), 2024, 4, 0.1271248589, 'NRSC VIC MODEL')
+('Odisha', 'Malkangiri', datetime.date(2024, 7, 29), 2024, 7, 1.4633082519, 'NRSC VIC MODEL')
+('Maharashtra', 'Kolhapur', datetime.date(2024, 7, 8), 2024, 7, 53.7860643565, 'NRSC VIC MODEL')
+('Punjab', 'Kapurthala', datetime.date(2024, 10, 17), 2024, 10, 0.0, 'NRSC VIC MODEL')
+('Punjab', 'Amritsar', datetime.date(2023, 9, 12), 2023, 9, 0.1169293124, 'NRSC VIC MODEL')
+('Meghalaya', 'South West Garo Hills', datetime.date(2025, 6, 27), 2025, 6, 0.0, 'NRSC VIC MODEL')
+('Kerala', 'Pathanamthitta', datetime.date(2024, 2, 24), 2024, 2, 0.0, 'NRSC VIC MODEL')
+
+2025-10-23 12:55:46,236 - httpx - INFO - [Query ID:3060.2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:55:46,236 - handler_sql - INFO - [Query ID:3060.2.2] - query for table: Average rainfall in other districts, Kerala, from January 2025 to December 2025
+2025-10-23 12:55:46,237 - handler_sql - INFO - [Query ID:3060.2.2] - response: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND year = 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL') LIMIT 125;
+2025-10-23 12:55:46,237 - handler_sql - INFO - [Query ID:3060.2.2] - Used query for specific table: Average rainfall in other districts, Kerala, from January 2025 to December 2025
+2025-10-23 12:55:46,237 - handler_sql - INFO - [Query ID:3060.2.2] - SQL query:
+2025-10-23 12:55:46,237 - handler_sql - WARNING - [Query ID:3060.2.2] - Could not remove decorator from original query
+2025-10-23 12:55:46,237 - handler_sql - INFO - [Query ID:3060.2.2] - Originally: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND year = 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL') LIMIT 125;
+2025-10-23 12:55:47,558 - httpx - INFO - [Query ID:3060.2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:55:47,560 - handler_sql - WARNING - [Query ID:3060.2.2] - Could not remove decorator from validated query
+2025-10-23 12:55:47,560 - handler_sql - INFO - [Query ID:3060.2.2] - After validation: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND year = 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL') LIMIT 125;
+2025-10-23 12:55:47,839 - handler_sql - INFO - [Query ID:3060.2.2] - Cleaned SQL: SELECT * FROM rainfall_data WHERE state = 'Kerala' AND year = 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL')
+2025-10-23 12:55:47,839 - handler_sql - INFO - [Query ID:3060.2.2] - SELECT * 
+FROM rainfall_data WHERE state = 'Kerala' AND year = 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL')
+ORDER BY year DESC
+LIMIT 62;
+2025-10-23 12:55:47,839 - handler_sql - INFO - [Query ID:3060.2.2] - SQL response:
+2025-10-23 12:55:47,957 - handler_sql - INFO - [Query ID:3060.2.2] - Number of rows pulled: 62
+2025-10-23 12:55:48,182 - handler_sql - WARNING - [Query ID:3060.2.2] - Could not fetch table metadata
+2025-10-23 12:55:48,182 - handler_sql - WARNING - [Query ID:3060.2.2] - list index out of range
+2025-10-23 12:55:50,554 - httpx - INFO - [Query ID:3060.2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:55:50,567 - handler_sql - INFO - [Query ID:3060.2.2] - Got result: Current time: 2025-10-23 07-25-50
+2025-10-23 12:55:50,568 - handler_sql - INFO - [Query ID:3060.2.2] - Response: {'summarized_info': '| district   |   year |   month |   avg_rainfall_mm |\n|:-----------|-------:|--------:|------------------:|\n| Kannur     |   2025 |       2 |       0           |\n| Kannur     |   2025 |       2 |       0.0200524   |\n| Kannur     |   2025 |       2 |       0.000256601 |\n| Kannur     |   2025 |       2 |       0.638122    |\n| Kannur     |   2025 |       2 |       0           |\n| Kannur     |   2025 |       3 |       0.259651    |\n| Kannur     |   2025 |       3 |       0.201038    |\n| Kannur     |   2025 |       3 |       0           |\n| Kannur     |   2025 |       3 |       0           |\n| Kannur     |   2025 |       3 |       0           |\n| Kannur     |   2025 |       3 |       0.224303    |\n| Kannur     |   2025 |       3 |       0.0847767   |\n| Kannur     |   2025 |       3 |       4.16889     |\n| Kannur     |   2025 |       3 |       0.00759518  |\n| Kannur     |   2025 |       3 |       0.0514237   |\n| Kannur     |   2025 |       4 |       0.509119    |\n| Kannur     |   2025 |       4 |       0.00330128  |\n| Kannur     |   2025 |       4 |       0.00590962  |\n| Kannur     |   2025 |       4 |       5.00184     |\n| Kannur     |   2025 |       4 |       0           |\n| Kannur     |   2025 |       4 |       0.188033    |\n| Kannur     |   2025 |       5 |       1.52795     |\n| Kannur     |   2025 |       6 |       6.10818     |\n| Kannur     |   2025 |       6 |       0.34581     |\n| Kannur     |   2025 |       6 |      14.8793      |\n| Kannur     |   2025 |       6 |      68.9194      |\n| Kannur     |   2025 |       6 |      76.5257      |\n| Kannur     |   2025 |       6 |      24.0614      |\n| Kasaragod  |   2025 |       1 |       0           |\n| Kasaragod  |   2025 |       1 |       0           |\n| Kasaragod  |   2025 |       1 |       0.000291773 |\n| Kasaragod  |   2025 |       1 |       0           |\n| Kasaragod  |   2025 |       1 |       0           |\n| Kasaragod  |   2025 |       1 |       0           |\n| Kasaragod  |   2025 |       1 |       0           |\n| Kasaragod  |   2025 |       1 |       0           |\n| Kasaragod  |   2025 |       2 |       0           |\n| Kasaragod  |   2025 |       2 |       0           |\n| Kasaragod  |   2025 |       2 |       8.1268e-06  |\n| Kasaragod  |   2025 |       2 |       0.00041365  |\n| Kasaragod  |   2025 |       2 |       0           |\n| Kasaragod  |   2025 |       3 |       0.0221278   |\n| Kasaragod  |   2025 |       3 |       0.285137    |\n| Kasaragod  |   2025 |       3 |       0           |\n| Kasaragod  |   2025 |       3 |       0           |\n| Kasaragod  |   2025 |       3 |       0.906715    |\n| Kasaragod  |   2025 |       3 |       0.098711    |\n| Kasaragod  |   2025 |       3 |       0.00123854  |\n| Kasaragod  |   2025 |       3 |       0.104315    |\n| Kasaragod  |   2025 |       4 |       2.97805     |\n| Kasaragod  |   2025 |       4 |       0.00280415  |\n| Kasaragod  |   2025 |       4 |       7.27539     |\n| Kasaragod  |   2025 |       4 |       0.133912    |\n| Kasaragod  |   2025 |       4 |       6.22036     |\n| Kasaragod  |   2025 |       5 |       0.0411829   |\n| Kasaragod  |   2025 |       5 |       3.69396     |\n| Kasaragod  |   2025 |       5 |       0.119829    |\n| Kasaragod  |   2025 |       5 |      14.8263      |\n| Kasaragod  |   2025 |       5 |       9.43728     |\n| Kasaragod  |   2025 |       5 |      97.4519      |\n| Kasaragod  |   2025 |       6 |       9.18089     |\n| Kasaragod  |   2025 |       6 |       0.794302    |'}
+2025-10-23 12:55:50,568 - handler_sql - INFO - [Query ID:3060.2.2] - Total processing time: 10.99 seconds
+2025-10-23 12:55:50,568 - api_main - INFO - [Query ID:3060.2] - SQL responses obtained
+2025-10-23 12:55:50,569 - api_main - INFO - [Query ID:3060.2] - <part> 1 has data
+2025-10-23 12:55:50,569 - api_main - INFO - [Query ID:3060.2] - <part> 2 has data
+2025-10-23 12:56:07,450 - api_main - INFO - [Query ID:3060.2] - Suggested answer: 
+2025-10-23 12:56:07,450 - api_main - INFO - [Query ID:3060.2] - <caption>NRSC VIC MODEL rainfall data for Kerala districts.</caption>
+
+| district   |   year |   month |   avg_rainfall_mm |
+|:-----------|-------:|--------:|------------------:|
+| Kannur     |   2025 |       2 |       0           |
+| Kannur     |   2025 |       2 |       0.0200524   |
+| Kannur     |   2025 |       2 |       0.000256601 |
+| Kannur     |   2025 |       2 |       0.638122    |
+| Kannur     |   2025 |       2 |       0           |
+| Kannur     |   2025 |       3 |       0.259651    |
+| Kannur     |   2025 |       3 |       0.201038    |
+| Kannur     |   2025 |       3 |       0           |
+| Kannur     |   2025 |       3 |       0           |
+| Kannur     |   2025 |       3 |       0           |
+| Kannur     |   2025 |       3 |       0.224303    |
+| Kannur     |   2025 |       3 |       0.0847767   |
+| Kannur     |   2025 |       3 |       4.16889     |
+| Kannur     |   2025 |       3 |       0.00759518  |
+| Kannur     |   2025 |       3 |       0.0514237   |
+| Kannur     |   2025 |       4 |       0.509119    |
+| Kannur     |   2025 |       4 |       0.00330128  |
+| Kannur     |   2025 |       4 |       0.00590962  |
+| Kannur     |   2025 |       4 |       5.00184     |
+| Kannur     |   2025 |       4 |       0           |
+| Kannur     |   2025 |       4 |       0.188033    |
+| Kannur     |   2025 |       5 |       1.52795     |
+| Kannur     |   2025 |       6 |       6.10818     |
+| Kannur     |   2025 |       6 |       0.34581     |
+| Kannur     |   2025 |       6 |      14.8793      |
+| Kannur     |   2025 |       6 |      68.9194      |
+| Kannur     |   2025 |       6 |      76.5257      |
+| Kannur     |   2025 |       6 |      24.0614      |
+| Kasaragod  |   2025 |       1 |       0           |
+| Kasaragod  |   2025 |       1 |       0           |
+| Kasaragod  |   2025 |       1 |       0.000291773 |
+| Kasaragod  |   2025 |       1 |       0           |
+| Kasaragod  |   2025 |       1 |       0           |
+| Kasaragod  |   2025 |       1 |       0           |
+| Kasaragod  |   2025 |       1 |       0           |
+| Kasaragod  |   2025 |       1 |       0           |
+| Kasaragod  |   2025 |       2 |       0           |
+| Kasaragod  |   2025 |       2 |       0           |
+| Kasaragod  |   2025 |       2 |       0.0000081268|
+| Kasaragod  |   2025 |       2 |       0.00041365  |
+| Kasaragod  |   2025 |       2 |       0           |
+| Kasaragod  |   2025 |       3 |       0.0221278   |
+| Kasaragod  |   2025 |       3 |       0.285137    |
+| Kasaragod  |   2025 |       3 |       0           |
+| Kasaragod  |   2025 |       3 |       0           |
+| Kasaragod  |   2025 |       3 |       0.906715    |
+| Kasaragod  |   2025 |       3 |       0.098711    |
+| Kasaragod  |   2025 |       3 |       0.00123854  |
+| Kasaragod  |   2025 |       3 |       0.104315    |
+| Kasaragod  |   2025 |       4 |       2.97805     |
+| Kasaragod  |   2025 |       4 |       0.00280415  |
+| Kasaragod  |   2025 |       4 |       7.27539     |
+| Kasaragod  |   2025 |       4 |       0.133912    |
+| Kasaragod  |   2025 |       4 |       6.22036     |
+| Kasaragod  |   2025 |       5 |       0.0411829   |
+| Kasaragod  |   2025 |       5 |       3.69396     |
+| Kasaragod  |   2025 |       5 |       0.119829    |
+| Kasaragod  |   2025 |       5 |      14.8263      |
+| Kasaragod  |   2025 |       5 |       9.43728     |
+| Kasaragod  |   2025 |       5 |      97.4519      |
+| Kasaragod  |   2025 |       6 |       9.18089     |
+| Kasaragod  |   2025 |       6 |       0.794302    |
+
+2025-10-23 12:56:07,452 - api_main - INFO - [Query ID:3060.2] - Commentary:
+2025-10-23 12:56:07,452 - api_main - INFO - [Query ID:3060.2] - Table information:
+
+2025-10-23 12:56:08,998 - api_main - INFO - [Query ID:3060.2] - Confidence: 1
+2025-10-23 12:56:08,998 - api_main - INFO - [Query ID:3060.2] - Total processing time: 46.2720673084259
+2025-10-23 12:58:00,689 - api_main - INFO - [Query ID:3060.3] - Original received query: What are the trends in average rainfall across all districts in Gujrat over the last three years?
+2025-10-23 12:58:04,371 - httpx - INFO - [Query ID:3060.3] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:58:04,373 - api_main - INFO - [Query ID:3060.3] - Rephrased query:
+{
+  "Entity": "average rainfall",
+  "Category": "all districts in Gujrat",
+  "Qualifiers": "trends",
+  "Frequency": "annual",
+  "Date range": "October 2022 to October 2025"
+}
+2025-10-23 12:58:06,457 - handler_sql - INFO - [Query ID:3060.3.1] - START: Processing query: Average rainfall trends in all districts of Gujarat from October 2022 to October 2025
+2025-10-23 12:58:06,457 - handler_sql - INFO - [Query ID:3060.3.1] - Start processing: Current time: 2025-10-23 07-28-06
+2025-10-23 12:58:06,457 - handler_sql - INFO - [Query ID:3060.3.1] - Received unitary query: Average rainfall trends in all districts of Gujarat from October 2022 to October 2025
+2025-10-23 12:58:08,376 - handler_sql - INFO - [Query ID:3060.3.1] - Query class: district_level
+2025-10-23 12:58:10,516 - handler_sql - INFO - [Query ID:3060.3.1] - Selected file: rainfall_data
+2025-10-23 12:58:10,517 - handler_sql - INFO - [Query ID:3060.3.1] - Generated schema query:
+2025-10-23 12:58:10,517 - handler_sql - INFO - [Query ID:3060.3.1] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'rainfall_data'
+        ORDER BY ordinal_position;
+        
+2025-10-23 12:58:10,517 - handler_sql - INFO - [Query ID:3060.3.1] - Attempt 1: to process query
+2025-10-23 12:58:10,678 - handler_sql - INFO - [Query ID:3060.3.1] - Trying to run: SELECT state, district, agency_name FROM rainfall_data ORDER BY RANDOM() LIMIT 40;
+2025-10-23 12:58:12,257 - httpx - INFO - [Query ID:3060.3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:58:12,258 - handler_sql - INFO - [Query ID:3060.3.1] - Suggested value sets: ("state: ['Gujarat']\nagency_name: ['NRSC VIC MODEL', 'IMD GRID MODEL']", 3339, 22)
+2025-10-23 12:58:12,499 - handler_sql - INFO - [Query ID:3060.3.1] - Schema:
+('state', 'character varying', 'YES', None)
+('district', 'character varying', 'YES', None)
+('date', 'date', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'integer', 'YES', None)
+('avg_rainfall_mm', 'double precision', 'YES', None)
+('agency_name', 'character varying', 'YES', None)
+
+
+Suggested value settings:
+("state: ['Gujarat']\nagency_name: ['NRSC VIC MODEL', 'IMD GRID MODEL']", 3339, 22)
+
+Sample rows:
+('Bihar', 'Gaya', datetime.date(2024, 3, 25), 2024, 3, 0.0064268217, 'NRSC VIC MODEL')
+('Andaman & Nicobar', 'South Andamans', datetime.date(2025, 3, 22), 2025, 3, 0.0, 'NRSC VIC MODEL')
+('Rajasthan', 'Bharatpur', datetime.date(2023, 3, 29), 2023, 3, 0.0, 'NRSC VIC MODEL')
+('Rajasthan', 'Bundi', datetime.date(2023, 10, 18), 2023, 10, 0.0037800779, 'NRSC VIC MODEL')
+('Telangana', 'Warangal Rural', datetime.date(2023, 12, 9), 2023, 12, 0.0, 'NRSC VIC MODEL')
+('Puducherry', 'Yanam', datetime.date(2024, 4, 6), 2024, 4, 0.0, 'NRSC VIC MODEL')
+('Rajasthan', 'Karauli', datetime.date(2023, 5, 23), 2023, 5, 0.0, 'NRSC VIC MODEL')
+('Bihar', 'Gaya', datetime.date(2024, 8, 10), 2024, 8, 10.3104022977, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Lower Dibang Valley', datetime.date(2024, 1, 6), 2024, 1, 0.0, 'NRSC VIC MODEL')
+('Odisha', 'Rayagada', datetime.date(2024, 7, 3), 2024, 7, 0.4059186719, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Kra Daadi', datetime.date(2024, 6, 18), 2024, 6, 1.1572238651, 'NRSC VIC MODEL')
+('Maharashtra', 'Jalgaon', datetime.date(2024, 1, 15), 2024, 1, 0.0, 'NRSC VIC MODEL')
+('Punjab', 'Ludhiana', datetime.date(2025, 2, 9), 2025, 2, 0.0, 'NRSC VIC MODEL')
+('Rajasthan', 'Jaisalmer', datetime.date(2023, 7, 13), 2023, 7, 0.0090618706, 'NRSC VIC MODEL')
+('Rajasthan', 'Baran', datetime.date(2023, 11, 28), 2023, 11, 2.338807268, 'NRSC VIC MODEL')
+('Ladakh', 'Leh Ladakh', datetime.date(2024, 9, 12), 2024, 9, 0.1842170778, 'NRSC VIC MODEL')
+('Odisha', 'Koraput', datetime.date(2023, 6, 10), 2023, 6, 0.0385944644, 'NRSC VIC MODEL')
+('Bihar', 'Gopalganj', datetime.date(2024, 12, 27), 2024, 12, 0.0, 'NRSC VIC MODEL')
+('Punjab', 'Firozepur', datetime.date(2023, 11, 30), 2023, 11, 0.0256301948, 'NRSC VIC MODEL')
+('Delhi', 'West', datetime.date(2025, 3, 20), 2025, 3, 0.0, 'NRSC VIC MODEL')
+('Punjab', 'Hoshiarpur', datetime.date(2023, 6, 12), 2023, 6, 0.0068890806, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Alirajpur', datetime.date(2024, 8, 27), 2024, 8, 5.3740658894, 'NRSC VIC MODEL')
+('Nagaland', 'Wokha', datetime.date(2023, 3, 7), 2023, 3, 0.0028132169, 'NRSC VIC MODEL')
+('Jammu & Kashmir', 'Srinagar', datetime.date(2024, 6, 15), 2024, 6, 0.3347490906, 'NRSC VIC MODEL')
+('Rajasthan', 'Churu', datetime.date(2023, 10, 10), 2023, 10, 0.0, 'NRSC VIC MODEL')
+('Gujarat', 'Dang', datetime.date(2025, 6, 23), 2025, 6, 31.9339381053, 'NRSC VIC MODEL')
+('Punjab', 'Pathankot', datetime.date(2024, 4, 2), 2024, 4, 0.0008602182, 'NRSC VIC MODEL')
+('Nagaland', 'Mon', datetime.date(2023, 9, 19), 2023, 9, 10.4978796773, 'NRSC VIC MODEL')
+('Rajasthan', 'Pali', datetime.date(2023, 9, 9), 2023, 9, 1.5905728757, 'NRSC VIC MODEL')
+('Rajasthan', 'Chittorgarh', datetime.date(2023, 7, 21), 2023, 7, 4.4501045573, 'NRSC VIC MODEL')
+('Punjab', 'Fatehgarh Sahib', datetime.date(2025, 1, 4), 2025, 1, 0.0, 'NRSC VIC MODEL')
+('Tamil Nadu', 'Thanjavur', datetime.date(2023, 10, 17), 2023, 10, 8.9463137898, 'NRSC VIC MODEL')
+('Jharkhand', 'Bokaro', datetime.date(2024, 5, 26), 2024, 5, 0.106132022, 'NRSC VIC MODEL')
+('Kerala', 'Kottayam', datetime.date(2024, 5, 4), 2024, 5, 0.6958081899, 'NRSC VIC MODEL')
+('Tripura', 'South Tripura', datetime.date(2023, 12, 17), 2023, 12, 0.0, 'NRSC VIC MODEL')
+('Andhra Pradesh', 'Srikakulam', datetime.date(2025, 5, 23), 2025, 5, 4.9728621104, 'NRSC VIC MODEL')
+('Gujarat', 'Banas Kantha', datetime.date(2025, 4, 12), 2025, 4, 0.0, 'NRSC VIC MODEL')
+('Nagaland', 'Peren', datetime.date(2023, 9, 2), 2023, 9, 0.0077372048, 'NRSC VIC MODEL')
+('Rajasthan', 'Ganganagar', datetime.date(2023, 2, 28), 2023, 2, 0.0057706496, 'NRSC VIC MODEL')
+('Bihar', 'Jamui', datetime.date(2024, 3, 18), 2024, 3, 2.06e-08, 'NRSC VIC MODEL')
+
+2025-10-23 12:58:14,097 - httpx - INFO - [Query ID:3060.3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:58:14,098 - handler_sql - INFO - [Query ID:3060.3.1] - query for table: Average rainfall trends in all districts of Gujarat from October 2022 to October 2025
+2025-10-23 12:58:14,098 - handler_sql - INFO - [Query ID:3060.3.1] - response: SELECT * FROM rainfall_data WHERE state = 'Gujarat' AND year >= 2022 AND year <= 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL') LIMIT 3339;
+2025-10-23 12:58:14,098 - handler_sql - INFO - [Query ID:3060.3.1] - Used query for specific table: Average rainfall trends in all districts of Gujarat from October 2022 to October 2025
+2025-10-23 12:58:14,098 - handler_sql - INFO - [Query ID:3060.3.1] - SQL query:
+2025-10-23 12:58:14,098 - handler_sql - WARNING - [Query ID:3060.3.1] - Could not remove decorator from original query
+2025-10-23 12:58:14,098 - handler_sql - INFO - [Query ID:3060.3.1] - Originally: SELECT * FROM rainfall_data WHERE state = 'Gujarat' AND year >= 2022 AND year <= 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL') LIMIT 3339;
+2025-10-23 12:58:15,021 - httpx - INFO - [Query ID:3060.3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:58:15,022 - handler_sql - WARNING - [Query ID:3060.3.1] - Could not remove decorator from validated query
+2025-10-23 12:58:15,022 - handler_sql - INFO - [Query ID:3060.3.1] - After validation: SELECT * FROM rainfall_data WHERE state = 'Gujarat' AND year >= 2022 AND year <= 2024 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL') LIMIT 3339;
+2025-10-23 12:58:15,447 - handler_sql - INFO - [Query ID:3060.3.1] - Cleaned SQL: SELECT * FROM rainfall_data WHERE state = 'Gujarat' AND year >= 2022 AND year <= 2024 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL')
+2025-10-23 12:58:15,447 - handler_sql - INFO - [Query ID:3060.3.1] - SELECT * 
+FROM rainfall_data WHERE state = 'Gujarat' AND year >= 2022 AND year <= 2024 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL')
+ORDER BY year DESC
+LIMIT 125;
+2025-10-23 12:58:15,447 - handler_sql - INFO - [Query ID:3060.3.1] - SQL response:
+2025-10-23 12:58:15,575 - handler_sql - INFO - [Query ID:3060.3.1] - Number of rows pulled: 0
+2025-10-23 12:58:15,689 - handler_sql - INFO - [Query ID:3060.3.1] - SQL query resulted in no data. Try changing categories or broadening time scope, or REDUCING the number of filters: SELECT * 
+FROM rainfall_data WHERE state = 'Gujarat' AND year >= 2022 AND year <= 2024 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL')
+ORDER BY year DESC
+LIMIT 125;
+2025-10-23 12:58:15,690 - handler_sql - INFO - [Query ID:3060.3.1] - Attempt 2: to process query
+2025-10-23 12:58:15,806 - handler_sql - INFO - [Query ID:3060.3.1] - Trying to run: SELECT state, district, agency_name FROM rainfall_data ORDER BY RANDOM() LIMIT 40;
+2025-10-23 12:58:17,477 - httpx - INFO - [Query ID:3060.3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:58:17,478 - handler_sql - INFO - [Query ID:3060.3.1] - Suggested value sets: ("state: ['Gujarat']\ndistrict: ['Patan', 'Arvalli', 'Ahmadabad', 'Rajkot']\nagency_name: ['NRSC VIC MODEL', 'IMD GRID MODEL']", 3338, 42)
+2025-10-23 12:58:17,749 - handler_sql - INFO - [Query ID:3060.3.1] - Schema:
+('state', 'character varying', 'YES', None)
+('district', 'character varying', 'YES', None)
+('date', 'date', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'integer', 'YES', None)
+('avg_rainfall_mm', 'double precision', 'YES', None)
+('agency_name', 'character varying', 'YES', None)
+
+
+Suggested value settings:
+("state: ['Gujarat']\ndistrict: ['Patan', 'Arvalli', 'Ahmadabad', 'Rajkot']\nagency_name: ['NRSC VIC MODEL', 'IMD GRID MODEL']", 3338, 42)
+
+Sample rows:
+('Jammu & Kashmir', 'Mirpur', datetime.date(2024, 11, 13), 2024, 11, 0.0, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Kurung Kumey', datetime.date(2024, 2, 26), 2024, 2, 8.25561e-05, 'NRSC VIC MODEL')
+('Manipur', 'Noney', datetime.date(2025, 3, 16), 2025, 3, 17.6002393296, 'NRSC VIC MODEL')
+('Haryana', 'Kurukshetra', datetime.date(2025, 4, 20), 2025, 4, 0.0, 'NRSC VIC MODEL')
+('Bihar', 'Jamui', datetime.date(2024, 7, 14), 2024, 7, 10.11075948, 'NRSC VIC MODEL')
+('Telangana', 'Warangal Rural', datetime.date(2023, 4, 19), 2023, 4, 0.0, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Changlang', datetime.date(2024, 11, 21), 2024, 11, 0.0107931885, 'NRSC VIC MODEL')
+('Andhra Pradesh', 'Kurnool', datetime.date(2024, 10, 25), 2024, 10, 0.0010978324, 'NRSC VIC MODEL')
+('Maharashtra', 'Solapur', datetime.date(2024, 2, 9), 2024, 2, 0.0, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Anuppur', datetime.date(2024, 3, 25), 2024, 3, 0.0, 'NRSC VIC MODEL')
+('Arunachal Pradesh', 'Dibang Valley', datetime.date(2024, 2, 4), 2024, 2, 1.439538751, 'NRSC VIC MODEL')
+('Tamil Nadu', 'Vellore', datetime.date(2023, 3, 31), 2023, 3, 0.3188834326, 'NRSC VIC MODEL')
+('Andhra Pradesh', 'Srikakulam', datetime.date(2024, 5, 3), 2024, 5, 0.0004055286, 'NRSC VIC MODEL')
+('Tamil Nadu', 'Thiruvarur', datetime.date(2023, 4, 9), 2023, 4, 0.1801178512, 'NRSC VIC MODEL')
+('Punjab', 'Mansa', datetime.date(2024, 12, 9), 2024, 12, 0.0366239765, 'NRSC VIC MODEL')
+('Odisha', 'Kendrapara', datetime.date(2023, 3, 9), 2023, 3, 0.0, 'NRSC VIC MODEL')
+('Odisha', 'Rayagada', datetime.date(2024, 3, 3), 2024, 3, 2.01805e-05, 'NRSC VIC MODEL')
+('Manipur', 'Thoubal', datetime.date(2025, 1, 7), 2025, 1, 0.0037985008, 'NRSC VIC MODEL')
+('Madhya Pradesh', 'Hoshangabad', datetime.date(2025, 6, 19), 2025, 6, 1.3455029962, 'NRSC VIC MODEL')
+('Nagaland', 'Tuensang', datetime.date(2023, 8, 2), 2023, 8, 2.4469484624, 'NRSC VIC MODEL')
+('Odisha', 'Sambalpur', datetime.date(2023, 12, 8), 2023, 12, 2.1076959197, 'NRSC VIC MODEL')
+('Punjab', 'Shahid Bhagat Singh Nagar', datetime.date(2023, 6, 4), 2023, 6, 0.0, 'NRSC VIC MODEL')
+('Punjab', 'Shahid Bhagat Singh Nagar', datetime.date(2023, 4, 12), 2023, 4, 0.0, 'NRSC VIC MODEL')
+('Ladakh', 'Kargil', datetime.date(2024, 8, 15), 2024, 8, 10.2284935032, 'NRSC VIC MODEL')
+('Rajasthan', 'Pratapgarh', datetime.date(2023, 12, 21), 2023, 12, 0.1407524334, 'NRSC VIC MODEL')
+('Uttar Pradesh', 'Kasganj', datetime.date(2025, 4, 9), 2025, 4, 0.0117152006, 'NRSC VIC MODEL')
+('Manipur', 'Pherzawl', datetime.date(2023, 9, 19), 2023, 9, 3.0648972908, 'NRSC VIC MODEL')
+('Jammu & Kashmir', 'Jammu', datetime.date(2024, 4, 13), 2024, 4, 4.0804750907, 'NRSC VIC MODEL')
+('Odisha', 'Kendrapara', datetime.date(2023, 5, 15), 2023, 5, 0.0, 'NRSC VIC MODEL')
+('Karnataka', 'Ramanagara', datetime.date(2025, 5, 26), 2025, 5, 8.3911322091, 'NRSC VIC MODEL')
+('Odisha', 'Bhadrak', datetime.date(2023, 9, 16), 2023, 9, 4.3532332113, 'IMD GRID MODEL')
+('Odisha', 'Sambalpur', datetime.date(2025, 3, 5), 2025, 3, 0.0, 'NRSC VIC MODEL')
+('Puducherry', 'Karaikal', datetime.date(2023, 8, 17), 2023, 8, 0.0, 'NRSC VIC MODEL')
+('Kerala', 'Kollam', datetime.date(2024, 10, 22), 2024, 10, 3.6119514242, 'NRSC VIC MODEL')
+('Bihar', 'Rohtas', datetime.date(2025, 3, 19), 2025, 3, 0.0, 'NRSC VIC MODEL')
+('Uttar Pradesh', 'Ayodhya', datetime.date(2023, 1, 1), 2023, 1, 0.0, 'NRSC VIC MODEL')
+('Punjab', 'Tarn Taran', datetime.date(2023, 10, 23), 2023, 10, 0.0019867042, 'NRSC VIC MODEL')
+('Punjab', 'Sri Muktsar Sahib', datetime.date(2023, 10, 24), 2023, 10, 0.0, 'NRSC VIC MODEL')
+('Rajasthan', 'Sirohi', datetime.date(2023, 3, 14), 2023, 3, 0.0, 'NRSC VIC MODEL')
+('Maharashtra', 'Sangli', datetime.date(2024, 12, 4), 2024, 12, 0.0006005913, 'NRSC VIC MODEL')
+
+2025-10-23 12:58:19,107 - httpx - INFO - [Query ID:3060.3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:58:19,108 - handler_sql - INFO - [Query ID:3060.3.1] - query for table: Average rainfall trends in all districts of Gujarat from October 2022 to October 2025
+2025-10-23 12:58:19,108 - handler_sql - INFO - [Query ID:3060.3.1] - response: SELECT * FROM rainfall_data WHERE state = 'Gujarat' AND year >= 2022 AND year <= 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL');
+2025-10-23 12:58:19,108 - handler_sql - INFO - [Query ID:3060.3.1] - Used query for specific table: Average rainfall trends in all districts of Gujarat from October 2022 to October 2025
+2025-10-23 12:58:19,108 - handler_sql - INFO - [Query ID:3060.3.1] - SQL query:
+2025-10-23 12:58:19,108 - handler_sql - WARNING - [Query ID:3060.3.1] - Could not remove decorator from original query
+2025-10-23 12:58:19,108 - handler_sql - INFO - [Query ID:3060.3.1] - Originally: SELECT * FROM rainfall_data WHERE state = 'Gujarat' AND year >= 2022 AND year <= 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL');
+2025-10-23 12:58:20,145 - httpx - INFO - [Query ID:3060.3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:58:20,146 - handler_sql - WARNING - [Query ID:3060.3.1] - Could not remove decorator from validated query
+2025-10-23 12:58:20,146 - handler_sql - INFO - [Query ID:3060.3.1] - After validation: SELECT * FROM rainfall_data WHERE state = 'Gujarat' AND year >= 2023 AND year <= 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL');
+2025-10-23 12:58:20,483 - handler_sql - INFO - [Query ID:3060.3.1] - Cleaned SQL: SELECT * FROM rainfall_data WHERE state = 'Gujarat' AND year >= 2023 AND year <= 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL')
+2025-10-23 12:58:20,483 - handler_sql - INFO - [Query ID:3060.3.1] - SELECT * 
+FROM rainfall_data WHERE state = 'Gujarat' AND year >= 2023 AND year <= 2025 AND agency_name IN ('NRSC VIC MODEL', 'IMD GRID MODEL')
+ORDER BY year DESC
+LIMIT 125;
+2025-10-23 12:58:20,483 - handler_sql - INFO - [Query ID:3060.3.1] - SQL response:
+2025-10-23 12:58:20,604 - handler_sql - INFO - [Query ID:3060.3.1] - Number of rows pulled: 125
+2025-10-23 12:58:20,831 - handler_sql - WARNING - [Query ID:3060.3.1] - Could not fetch table metadata
+2025-10-23 12:58:20,831 - handler_sql - WARNING - [Query ID:3060.3.1] - list index out of range
+2025-10-23 12:58:22,079 - httpx - INFO - [Query ID:3060.3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 12:58:22,093 - handler_sql - INFO - [Query ID:3060.3.1] - Got result: Current time: 2025-10-23 07-28-22
+2025-10-23 12:58:22,094 - handler_sql - INFO - [Query ID:3060.3.1] - Response: {'summarized_info': '| district     |   year |   month |   avg_rainfall_mm |\n|:-------------|-------:|--------:|------------------:|\n| Bhavnagar    |   2025 |       2 |       0           |\n| Bhavnagar    |   2025 |       2 |       0           |\n| Bhavnagar    |   2025 |       3 |       0           |\n| Bhavnagar    |   2025 |       3 |       0           |\n| Bhavnagar    |   2025 |       3 |       0           |\n| Bhavnagar    |   2025 |       3 |       0           |\n| Bhavnagar    |   2025 |       3 |       0           |\n| Bhavnagar    |   2025 |       3 |       0           |\n| Bhavnagar    |   2025 |       3 |       0           |\n| Bhavnagar    |   2025 |       3 |       0           |\n| Bhavnagar    |   2025 |       3 |       0           |\n| Bhavnagar    |   2025 |       3 |       0           |\n| Bhavnagar    |   2025 |       4 |       0           |\n| Bhavnagar    |   2025 |       4 |       0           |\n| Bhavnagar    |   2025 |       5 |       0           |\n| Bhavnagar    |   2025 |       5 |       0.223175    |\n| Bhavnagar    |   2025 |       5 |       0.0717911   |\n| Bhavnagar    |   2025 |       6 |       5.81376e-05 |\n| Bhavnagar    |   2025 |       6 |       1.35287     |\n| Bhavnagar    |   2025 |       6 |       0.000105328 |\n| Bhavnagar    |   2025 |       6 |       0           |\n| Bhavnagar    |   2025 |       6 |       7.00725     |\n| Bhavnagar    |   2025 |       6 |     163.282       |\n| Bhavnagar    |   2025 |       6 |       1.93576     |\n| Bhavnagar    |   2025 |       6 |       7.08593     |\n| Bhavnagar    |   2025 |       6 |       7.43637     |\n| Botad        |   2025 |       1 |       0           |\n| Botad        |   2025 |       1 |       0           |\n| Botad        |   2025 |       1 |       0           |\n| Botad        |   2025 |       1 |       0           |\n| Botad        |   2025 |       1 |       0           |\n| Botad        |   2025 |       2 |       0.0148924   |\n| Botad        |   2025 |       2 |       0           |\n| Botad        |   2025 |       2 |       0           |\n| Botad        |   2025 |       2 |       0           |\n| Botad        |   2025 |       2 |       0           |\n| Botad        |   2025 |       2 |       0           |\n| Botad        |   2025 |       2 |       0           |\n| Botad        |   2025 |       3 |       0           |\n| Botad        |   2025 |       3 |       0           |\n| Botad        |   2025 |       3 |       0           |\n| Botad        |   2025 |       4 |       0           |\n| Botad        |   2025 |       4 |       0           |\n| Botad        |   2025 |       4 |       0           |\n| Botad        |   2025 |       5 |       0           |\n| Botad        |   2025 |       5 |       0.551474    |\n| Botad        |   2025 |       5 |       0           |\n| Botad        |   2025 |       5 |       0.038477    |\n| Botad        |   2025 |       5 |       4.29317     |\n| Botad        |   2025 |       5 |       1.79738     |\n| Botad        |   2025 |       5 |       1.82992     |\n| Botad        |   2025 |       5 |       0.460867    |\n| Botad        |   2025 |       5 |       0           |\n| Botad        |   2025 |       6 |       0.186327    |\n| Botad        |   2025 |       6 |       0           |\n| Botad        |   2025 |       6 |       0.113965    |\n| Botad        |   2025 |       6 |       3.31621     |\n| Botad        |   2025 |       6 |      23.3747      |\n| Botad        |   2025 |       6 |      14.4024      |\n| Chhotaudepur |   2025 |       1 |       0           |\n| Chhotaudepur |   2025 |       1 |       1.20217e-05 |\n| Chhotaudepur |   2025 |       1 |       0           |\n| Chhotaudepur |   2025 |       1 |       0           |\n| Chhotaudepur |   2025 |       1 |       0           |\n| Chhotaudepur |   2025 |       2 |       0.000131286 |\n| Chhotaudepur |   2025 |       2 |       0           |\n| Chhotaudepur |   2025 |       2 |       0           |\n| Chhotaudepur |   2025 |       2 |       3.60652e-05 |\n| Chhotaudepur |   2025 |       2 |       0.00095415  |\n| Chhotaudepur |   2025 |       2 |       0           |\n| Chhotaudepur |   2025 |       2 |       0.00121463  |\n| Chhotaudepur |   2025 |       2 |       0           |\n| Chhotaudepur |   2025 |       3 |       0           |\n| Chhotaudepur |   2025 |       3 |       0           |\n| Chhotaudepur |   2025 |       3 |       0           |\n| Chhotaudepur |   2025 |       3 |       0           |\n| Chhotaudepur |   2025 |       3 |       0           |\n| Chhotaudepur |   2025 |       3 |       0           |\n| Chhotaudepur |   2025 |       3 |       0           |\n| Chhotaudepur |   2025 |       3 |       0           |\n| Chhotaudepur |   2025 |       4 |       0.000663251 |\n| Chhotaudepur |   2025 |       4 |       2.12688e-05 |\n| Chhotaudepur |   2025 |       4 |       0.00453486  |\n| Chhotaudepur |   2025 |       4 |       0           |\n| Chhotaudepur |   2025 |       4 |       0           |\n| Chhotaudepur |   2025 |       4 |       0           |\n| Chhotaudepur |   2025 |       4 |       0           |\n| Chhotaudepur |   2025 |       4 |       0           |\n| Chhotaudepur |   2025 |       4 |       0           |\n| Chhotaudepur |   2025 |       5 |       0           |\n| Chhotaudepur |   2025 |       5 |       8.64289     |\n| Chhotaudepur |   2025 |       5 |       1.51146     |\n| Chhotaudepur |   2025 |       5 |       0.871198    |\n| Chhotaudepur |   2025 |       5 |       2.96696     |\n| Chhotaudepur |   2025 |       5 |       1.28035     |\n| Chhotaudepur |   2025 |       6 |       0.000420761 |\n| Chhotaudepur |   2025 |       6 |       0.324396    |\n| Chhotaudepur |   2025 |       6 |       0.000370357 |\n| Chhotaudepur |   2025 |       6 |       1.74703     |\n| Chhotaudepur |   2025 |       6 |      10.3474      |'}
+2025-10-23 12:58:22,095 - handler_sql - INFO - [Query ID:3060.3.1] - Total processing time: 15.64 seconds
+2025-10-23 12:58:22,095 - api_main - INFO - [Query ID:3060.3] - SQL responses obtained
+2025-10-23 12:58:22,095 - api_main - INFO - [Query ID:3060.3] - <part> 1 has data
+2025-10-23 12:58:36,660 - api_main - INFO - [Query ID:3060.3] - Suggested answer: 
+2025-10-23 12:58:36,661 - api_main - INFO - [Query ID:3060.3] - <caption>Average Rainfall Trends Across Districts in Gujrat (Limited years)</caption>
+
+| district     |   year |   month |   avg_rainfall_mm |
+|:-------------|-------:|--------:|------------------:|
+| Bhavnagar    |   2025 |       2 |       0           |
+| Bhavnagar    |   2025 |       2 |       0           |
+| Bhavnagar    |   2025 |       3 |       0           |
+| Bhavnagar    |   2025 |       3 |       0           |
+| Bhavnagar    |   2025 |       3 |       0           |
+| Bhavnagar    |   2025 |       3 |       0           |
+| Bhavnagar    |   2025 |       3 |       0           |
+| Bhavnagar    |   2025 |       3 |       0           |
+| Bhavnagar    |   2025 |       3 |       0           |
+| Bhavnagar    |   2025 |       3 |       0           |
+| Bhavnagar    |   2025 |       3 |       0           |
+| Bhavnagar    |   2025 |       3 |       0           |
+| Bhavnagar    |   2025 |       4 |       0           |
+| Bhavnagar    |   2025 |       4 |       0           |
+| Bhavnagar    |   2025 |       5 |       0           |
+| Bhavnagar    |   2025 |       5 |       0.223175    |
+| Bhavnagar    |   2025 |       5 |       0.0717911   |
+| Bhavnagar    |   2025 |       6 |       5.81376e-05 |
+| Bhavnagar    |   2025 |       6 |       1.35287     |
+| Bhavnagar    |   2025 |       6 |       0.000105328 |
+| Bhavnagar    |   2025 |       6 |       0           |
+| Bhavnagar    |   2025 |       6 |       7.00725     |
+| Bhavnagar    |   2025 |       6 |     163.282       |
+| Bhavnagar    |   2025 |       6 |       1.93576     |
+| Bhavnagar    |   2025 |       6 |       7.08593     |
+| Bhavnagar    |   2025 |       6 |       7.43637     |
+| Botad        |   2025 |       1 |       0           |
+| Botad        |   2025 |       1 |       0           |
+| Botad        |   2025 |       1 |       0           |
+| Botad        |   2025 |       1 |       0           |
+| Botad        |   2025 |       1 |       0           |
+| Botad        |   2025 |       2 |       0.0148924   |
+| Botad        |   2025 |       2 |       0           |
+| Botad        |   2025 |       2 |       0           |
+| Botad        |   2025 |       2 |       0           |
+| Botad        |   2025 |       2 |       0           |
+| Botad        |   2025 |       2 |       0           |
+| Botad        |   2025 |       2 |       0           |
+| Botad        |   2025 |       3 |       0           |
+| Botad        |   2025 |       3 |       0           |
+| Botad        |   2025 |       3 |       0           |
+| Botad        |   2025 |       4 |       0           |
+| Botad        |   2025 |       4 |       0           |
+| Botad        |   2025 |       4 |       0           |
+| Botad        |   2025 |       5 |       0           |
+| Botad        |   2025 |       5 |       0.551474    |
+| Botad        |   2025 |       5 |       0           |
+| Botad        |   2025 |       5 |       0.038477    |
+| Botad        |   2025 |       5 |       4.29317     |
+| Botad        |   2025 |       5 |       1.79738     |
+| Botad        |   2025 |       5 |       1.82992     |
+| Botad        |   2025 |       5 |       0.460867    |
+| Botad        |   2025 |       5 |       0           |
+| Botad        |   2025 |       6 |       0.186327    |
+| Botad        |   2025 |       6 |       0           |
+| Botad        |   2025 |       6 |       0.113965    |
+| Botad        |   2025 |       6 |       3.31621     |
+| Botad        |   2025 |       6 |      23.3747      |
+| Botad        |   2025 |       6 |      14.4024      |
+| Chhotaudepur |   2025 |       1 |       0           |
+| Chhotaudepur |   2025 |       1 |       1.20217e-05 |
+| Chhotaudepur |   2025 |       1 |       0           |
+| Chhotaudepur |   2025 |       1 |       0           |
+| Chhotaudepur |   2025 |       1 |       0           |
+| Chhotaudepur |   2025 |       2 |       0.000131286 |
+| Chhotaudepur |   2025 |       2 |       0           |
+| Chhotaudepur |   2025 |       2 |       0           |
+| Chhotaudepur |   2025 |       2 |       3.60652e-05 |
+| Chhotaudepur |   2025 |       2 |       0.00095415  |
+| Chhotaudepur |   2025 |       2 |       0           |
+| Chhotaudepur |   2025 |       2 |       0.00121463  |
+| Chhotaudepur |   2025 |       2 |       0           |
+| Chhotaudepur |   2025 |       3 |       0           |
+| Chhotaudepur |   2025 |       3 |       0           |
+| Chhotaudepur |   2025 |       3 |       0           |
+| Chhotaudepur |   2025 |       3 |       0           |
+| Chhotaudepur |   2025 |       3 |       0           |
+| Chhotaudepur |   2025 |       3 |       0           |
+| Chhotaudepur |   2025 |       3 |       0           |
+| Chhotaudepur |   2025 |       3 |       0           |
+| Chhotaudepur |   2025 |       4 |       0.000663251 |
+| Chhotaudepur |   2025 |       4 |       2.12688e-05 |
+| Chhotaudepur |   2025 |       4 |       0.00453486  |
+| Chhotaudepur |   2025 |       4 |       0           |
+| Chhotaudepur |   2025 |       4 |       0           |
+| Chhotaudepur |   2025 |       4 |       0           |
+| Chhotaudepur |   2025 |       4 |       0           |
+| Chhotaudepur |   2025 |       4 |       0           |
+| Chhotaudepur |   2025 |       4 |       0           |
+| Chhotaudepur |   2025 |       5 |       0           |
+| Chhotaudepur |   2025 |       5 |       8.64289     |
+| Chhotaudepur |   2025 |       5 |       1.51146     |
+| Chhotaudepur |   2025 |       5 |       0.871198    |
+| Chhotaudepur |   2025 |       5 |       2.96696     |
+| Chhotaudepur |   2025 |       5 |       1.28035     |
+| Chhotaudepur |   2025 |       6 |       0.000420761 |
+| Chhotaudepur |   2025 |       6 |       0.324396    |
+| Chhotaudepur |   2025 |       6 |       0.000370357 |
+| Chhotaudepur |   2025 |       6 |       1.74703     |
+| Chhotaudepur |   2025 |       6 |      10.3474      |
+
+2025-10-23 12:58:36,661 - api_main - INFO - [Query ID:3060.3] - Commentary:
+2025-10-23 12:58:36,661 - api_main - INFO - [Query ID:3060.3] - Table information:
+
+2025-10-23 12:58:38,592 - api_main - INFO - [Query ID:3060.3] - Confidence: 0
+2025-10-23 12:58:38,593 - api_main - INFO - [Query ID:3060.3] - Total processing time: 37.90374207496643

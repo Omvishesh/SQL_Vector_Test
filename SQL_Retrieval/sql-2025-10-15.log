@@ -1,0 +1,1209 @@
+2025-10-15 12:20:52,849 - api_main - INFO - [Query ID:1] - Original received query: CPI of India in 2024
+2025-10-15 12:20:57,369 - httpx - INFO - [Query ID:1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:20:57,394 - api_main - INFO - [Query ID:1] - Rephrased query:
+{
+  "Entity": "CPI (Consumer Price Index)",
+  "Category": "India",
+  "Qualifiers": "",
+  "Frequency": "monthly",
+  "Date range": "January 2024 to December 2024"
+}
+2025-10-15 12:20:58,915 - handler_sql - INFO - [Query ID:1] - START: Processing query: CPI for India, monthly, from January 2024 to December 2024
+2025-10-15 12:20:58,916 - handler_sql - INFO - [Query ID:1] - Start processing: Current time: 2025-10-15 06-50-58
+2025-10-15 12:20:58,918 - handler_sql - INFO - [Query ID:1] - Received unitary query: CPI for India, monthly, from January 2024 to December 2024
+2025-10-15 12:21:00,429 - handler_sql - INFO - [Query ID:1] - Query class: CPI
+2025-10-15 12:21:01,784 - handler_sql - INFO - [Query ID:1] - Selected file: cpi_india_mth_grp_view
+2025-10-15 12:21:01,784 - handler_sql - INFO - [Query ID:1] - Generated schema query:
+2025-10-15 12:21:01,784 - handler_sql - INFO - [Query ID:1] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'cpi_india_mth_grp_view'
+        ORDER BY ordinal_position;
+        
+2025-10-15 12:21:01,784 - handler_sql - INFO - [Query ID:1] - Attempt 1: to process query
+2025-10-15 12:21:03,858 - handler_sql - INFO - [Query ID:1] - Trying to run: SELECT state, sector, group_name FROM cpi_india_mth_grp_view ORDER BY RANDOM() LIMIT 40;
+2025-10-15 12:21:05,350 - httpx - INFO - [Query ID:1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:21:05,720 - handler_sql - INFO - [Query ID:1] - Suggested value sets: ("state = 'All India'\nsector = 'Combined'\ngroup_name = 'General'", 896, 17)
+2025-10-15 12:21:06,250 - handler_sql - INFO - [Query ID:1] - Schema:
+('base_year', 'integer', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'character varying', 'YES', None)
+('month_numeric', 'integer', 'YES', None)
+('state', 'character varying', 'YES', None)
+('sector', 'character varying', 'YES', None)
+('group_name', 'character varying', 'YES', None)
+('inflation_index', 'numeric', 'YES', None)
+('inflation_rate', 'numeric', 'YES', None)
+('released_on', 'character varying', 'YES', None)
+('updated_on', 'character varying', 'YES', None)
+('data_source', 'character varying', 'YES', None)
+('date_stamp', 'character varying', 'YES', None)
+('fiscal_year', 'text', 'YES', None)
+
+
+Suggested value settings:
+("state = 'All India'\nsector = 'Combined'\ngroup_name = 'General'", 896, 17)
+
+Sample rows:
+(2012, 2019, 'November', 11, 'All India', 'Rural', 'Fuel and Light', Decimal('148.40'), Decimal('-1.26'), '12-Dec-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-11-01', '2019-20')
+(2012, 2020, 'July', 7, 'All India', 'Rural', 'Miscellaneous', Decimal('153.00'), Decimal('6.10'), '13-Aug-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-07-01', '2020-21')
+(2012, 2019, 'July', 7, 'All India', 'Rural', 'Clothing and Footwear', Decimal('150.90'), Decimal('0.20'), '13-Aug-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-07-01', '2019-20')
+(2012, 2018, 'July', 7, 'All India', 'Rural', 'Clothing and Footwear', Decimal('150.60'), Decimal('4.95'), '13-Aug-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-07-01', '2018-19')
+(2012, 2019, 'December', 12, 'All India', 'Rural', 'Miscellaneous', Decimal('147.10'), Decimal('3.88'), '13-Jan-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-12-01', '2019-20')
+(2012, 2023, 'June', 6, 'All India', 'Urban', 'General', Decimal('179.90'), Decimal('4.96'), '12-Jul-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-06-01', '2023-24')
+(2012, 2017, 'February', 2, 'All India', 'Rural', 'Miscellaneous', Decimal('127.00'), Decimal('5.05'), '14-Mar-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-02-01', '2016-17')
+(2012, 2022, 'May', 5, 'All India', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('194.10'), Decimal('1.15'), '13-Jun-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-05-01', '2022-23')
+(2012, 2018, 'July', 7, 'All India', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('157.50'), Decimal('6.28'), '13-Aug-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-07-01', '2018-19')
+(2012, 2017, 'April', 4, 'All India', 'Urban', 'Miscellaneous', Decimal('122.50'), Decimal('3.64'), '12-May-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-04-01', '2017-18')
+(2012, 2023, 'April', 4, 'All India', 'Combined', 'Food and Beverages', Decimal('177.90'), Decimal('4.16'), '12-May-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-04-01', '2023-24')
+(2012, 2024, 'November', 11, 'All India', 'Combined', 'Food and Beverages', Decimal('208.40'), Decimal('8.20'), '12-Dec-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-11-01', '2024-25')
+(2012, 2025, 'February', 2, 'All India', 'Rural', 'Consumer Food Price', Decimal('194.80'), Decimal('4.06'), '12-Mar-25', '2-Apr-25', 'Price Statistics Division, MoSPI', '2025-02-01', '2024-25')
+(2012, 2022, 'February', 2, 'All India', 'Urban', 'Food and Beverages', Decimal('170.20'), Decimal('5.85'), '14-Mar-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-02-01', '2021-22')
+(2012, 2019, 'January', 1, 'All India', 'Rural', 'Fuel and Light', Decimal('146.20'), Decimal('2.74'), '12-Feb-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-01-01', '2018-19')
+(2012, 2017, 'November', 11, 'All India', 'Urban', 'Housing', Decimal('138.60'), Decimal('7.36'), '12-Dec-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-11-01', '2017-18')
+(2012, 2018, 'August', 8, 'All India', 'Combined', 'Fuel and Light', Decimal('140.90'), Decimal('8.55'), '12-Sep-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-08-01', '2018-19')
+(2012, 2018, 'June', 6, 'All India', 'Rural', 'Miscellaneous', Decimal('135.60'), Decimal('5.85'), '12-Jul-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-06-01', '2018-19')
+(2012, 2017, 'November', 11, 'All India', 'Rural', 'General', Decimal('140.00'), Decimal('4.79'), '12-Dec-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-11-01', '2017-18')
+(2012, 2020, 'May', 5, 'All India', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('174.40'), None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2020-05-01', '2020-21')
+(2012, 2018, 'March', 3, 'All India', 'Rural', 'Fuel and Light', Decimal('142.60'), Decimal('6.26'), '12-Apr-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-03-01', '2017-18')
+(2012, 2019, 'June', 6, 'All India', 'Combined', 'Consumer Food Price', Decimal('141.10'), Decimal('2.25'), '12-Jul-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-06-01', '2019-20')
+(2012, 2023, 'November', 11, 'All India', 'Rural', 'Food and Beverages', Decimal('190.20'), Decimal('7.70'), '12-Dec-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-11-01', '2023-24')
+(2012, 2021, 'November', 11, 'All India', 'Combined', 'Food and Beverages', Decimal('169.70'), Decimal('2.60'), '13-Dec-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-11-01', '2021-22')
+(2012, 2019, 'November', 11, 'All India', 'Urban', 'Miscellaneous', Decimal('136.30'), Decimal('3.10'), '12-Dec-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-11-01', '2019-20')
+(2012, 2024, 'May', 5, 'All India', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('207.10'), Decimal('3.03'), '12-Jun-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-05-01', '2024-25')
+(2012, 2019, 'January', 1, 'All India', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('163.20'), Decimal('5.49'), '12-Feb-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-01-01', '2018-19')
+(2012, 2017, 'December', 12, 'All India', 'Combined', 'Clothing and Footwear', Decimal('142.00'), Decimal('4.87'), '12-Jan-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-12-01', '2017-18')
+(2012, 2024, 'October', 10, 'All India', 'Combined', 'Fuel and Light', Decimal('176.80'), Decimal('-1.67'), '12-Nov-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-10-01', '2024-25')
+(2012, 2021, 'June', 6, 'All India', 'Urban', 'Miscellaneous', Decimal('153.40'), Decimal('8.03'), '12-Jul-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-06-01', '2021-22')
+(2012, 2017, 'October', 10, 'All India', 'Rural', 'Food and Beverages', Decimal('140.40'), Decimal('2.18'), '13-Nov-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-10-01', '2017-18')
+(2012, 2017, 'July', 7, 'All India', 'Rural', 'Pan, Tobacco and Intoxicants', Decimal('147.40'), Decimal('6.81'), '14-Aug-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-07-01', '2017-18')
+(2012, 2021, 'February', 2, 'All India', 'Rural', 'Consumer Food Price', Decimal('153.30'), Decimal('2.89'), '12-Mar-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-02-01', '2020-21')
+(2012, 2025, 'February', 2, 'All India', 'Rural', 'General', Decimal('194.50'), Decimal('3.79'), '12-Mar-25', '2-Apr-25', 'Price Statistics Division, MoSPI', '2025-02-01', '2024-25')
+(2012, 2020, 'May', 5, 'All India', 'Urban', 'Pan, Tobacco and Intoxicants', Decimal('183.40'), None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2020-05-01', '2020-21')
+(2012, 2018, 'March', 3, 'All India', 'Rural', 'Clothing and Footwear', Decimal('148.30'), Decimal('5.33'), '12-Apr-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-03-01', '2017-18')
+(2012, 2024, 'January', 1, 'All India', 'Combined', 'Clothing and Footwear', Decimal('190.00'), Decimal('3.37'), '12-Feb-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-01-01', '2023-24')
+(2012, 2022, 'August', 8, 'All India', 'Combined', 'Miscellaneous', Decimal('169.10'), Decimal('5.95'), '12-Sep-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-08-01', '2022-23')
+(2012, 2024, 'September', 9, 'All India', 'Rural', 'General', Decimal('196.70'), Decimal('5.87'), '14-Oct-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-09-01', '2024-25')
+(2012, 2018, 'December', 12, 'All India', 'Rural', 'General', Decimal('141.90'), Decimal('1.50'), '14-Jan-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-12-01', '2018-19')
+
+2025-10-15 12:21:07,865 - httpx - INFO - [Query ID:1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:21:07,866 - handler_sql - INFO - [Query ID:1] - query for table: CPI for India, monthly, from January 2024 to December 2024
+2025-10-15 12:21:07,867 - handler_sql - INFO - [Query ID:1] - response: SELECT * FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND group_name = 'General' AND year = 2024 LIMIT 125;
+2025-10-15 12:21:07,867 - handler_sql - INFO - [Query ID:1] - Used query for specific table: CPI for India, monthly, from January 2024 to December 2024
+2025-10-15 12:21:07,867 - handler_sql - INFO - [Query ID:1] - SQL query:
+2025-10-15 12:21:07,867 - handler_sql - WARNING - [Query ID:1] - Could not remove decorator from original query
+2025-10-15 12:21:07,867 - handler_sql - INFO - [Query ID:1] - Originally: SELECT * FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND group_name = 'General' AND year = 2024 LIMIT 125;
+2025-10-15 12:21:09,116 - httpx - INFO - [Query ID:1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:21:09,117 - openai._base_client - INFO - [Query ID:1] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:21:30,414 - httpx - INFO - [Query ID:1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:21:30,417 - handler_sql - WARNING - [Query ID:1] - Could not remove decorator from validated query
+2025-10-15 12:21:30,417 - handler_sql - INFO - [Query ID:1] - After validation: SELECT * FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND group_name = 'General' AND year = 2024 LIMIT 125;
+2025-10-15 12:21:31,056 - handler_sql - INFO - [Query ID:1] - Cleaned SQL: SELECT * FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND group_name = 'General' AND year = 2024
+2025-10-15 12:21:31,056 - handler_sql - INFO - [Query ID:1] - SELECT * 
+FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND group_name = 'General' AND year = 2024
+ORDER BY date_stamp DESC, month_numeric DESC
+LIMIT 125;
+2025-10-15 12:21:31,056 - handler_sql - INFO - [Query ID:1] - SQL response:
+2025-10-15 12:21:31,329 - handler_sql - INFO - [Query ID:1] - Number of rows pulled: 12
+2025-10-15 12:21:31,666 - handler_sql - WARNING - [Query ID:1] - Could not fetch table metadata
+2025-10-15 12:21:31,667 - handler_sql - WARNING - [Query ID:1] - list index out of range
+2025-10-15 12:21:31,667 - handler_sql - INFO - [Query ID:1] - Found a data source column: Price Statistics Division, MoSPI
+2025-10-15 12:21:35,008 - httpx - INFO - [Query ID:1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:21:37,072 - httpx - INFO - [Query ID:1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:21:37,087 - handler_sql - INFO - [Query ID:1] - Got result: Current time: 2025-10-15 06-51-37
+2025-10-15 12:21:37,087 - handler_sql - INFO - [Query ID:1] - Response: {'summarized_info': '|   year | month     |   month_numeric |   inflation_index |   inflation_rate | released_on   | date_stamp   | fiscal_year   |\n|-------:|:----------|----------------:|------------------:|-----------------:|:--------------|:-------------|:--------------|\n|   2024 | December  |              12 |             195.4 |             5.22 | 13-Jan-25     | 2024-12-01   | 2024-25       |\n|   2024 | November  |              11 |             196.5 |             5.48 | 12-Dec-24     | 2024-11-01   | 2024-25       |\n|   2024 | October   |              10 |             196.8 |             6.21 | 12-Nov-24     | 2024-10-01   | 2024-25       |\n|   2024 | September |               9 |             194.2 |             5.49 | 14-Oct-24     | 2024-09-01   | 2024-25       |\n|   2024 | August    |               8 |             193   |             3.65 | 12-Sep-24     | 2024-08-01   | 2024-25       |\n|   2024 | July      |               7 |             193   |             3.6  | 12-Aug-24     | 2024-07-01   | 2024-25       |\n|   2024 | June      |               6 |             190.2 |             5.08 | 12-Jul-24     | 2024-06-01   | 2024-25       |\n|   2024 | May       |               5 |             187.7 |             4.8  | 12-Jun-24     | 2024-05-01   | 2024-25       |\n|   2024 | April     |               4 |             186.7 |             4.83 | 12-May-24     | 2024-04-01   | 2024-25       |\n|   2024 | March     |               3 |             185.8 |             4.85 | 12-Apr-24     | 2024-03-01   | 2023-24       |\n|   2024 | February  |               2 |             185.8 |             5.09 | 12-Mar-24     | 2024-02-01   | 2023-24       |\n|   2024 | January   |               1 |             185.5 |             5.1  | 12-Feb-24     | 2024-01-01   | 2023-24       |'}
+2025-10-15 12:21:37,088 - handler_sql - INFO - [Query ID:1] - Total processing time: 38.17 seconds
+2025-10-15 12:21:37,088 - api_main - INFO - [Query ID:1] - SQL responses obtained
+2025-10-15 12:21:37,088 - api_main - INFO - [Query ID:1] - [{'unit_query': 'CPI for India, monthly, from January 2024 to December 2024', 'result': [{'summarized_info': '|   year | month     |   month_numeric |   inflation_index |   inflation_rate | released_on   | date_stamp   | fiscal_year   |\n|-------:|:----------|----------------:|------------------:|-----------------:|:--------------|:-------------|:--------------|\n|   2024 | December  |              12 |             195.4 |             5.22 | 13-Jan-25     | 2024-12-01   | 2024-25       |\n|   2024 | November  |              11 |             196.5 |             5.48 | 12-Dec-24     | 2024-11-01   | 2024-25       |\n|   2024 | October   |              10 |             196.8 |             6.21 | 12-Nov-24     | 2024-10-01   | 2024-25       |\n|   2024 | September |               9 |             194.2 |             5.49 | 14-Oct-24     | 2024-09-01   | 2024-25       |\n|   2024 | August    |               8 |             193   |             3.65 | 12-Sep-24     | 2024-08-01   | 2024-25       |\n|   2024 | July      |               7 |             193   |             3.6  | 12-Aug-24     | 2024-07-01   | 2024-25       |\n|   2024 | June      |               6 |             190.2 |             5.08 | 12-Jul-24     | 2024-06-01   | 2024-25       |\n|   2024 | May       |               5 |             187.7 |             4.8  | 12-Jun-24     | 2024-05-01   | 2024-25       |\n|   2024 | April     |               4 |             186.7 |             4.83 | 12-May-24     | 2024-04-01   | 2024-25       |\n|   2024 | March     |               3 |             185.8 |             4.85 | 12-Apr-24     | 2024-03-01   | 2023-24       |\n|   2024 | February  |               2 |             185.8 |             5.09 | 12-Mar-24     | 2024-02-01   | 2023-24       |\n|   2024 | January   |               1 |             185.5 |             5.1  | 12-Feb-24     | 2024-01-01   | 2023-24       |'}], 'description': 'The data encompasses insights from all of India, focusing on the combined sector for the general group, with a base year of 2012. It was last updated on April 2, 2025, reflecting trends and changes over the years.', 'success': True, 'message': 'Successful completion', 'unitary_time': 38.172080755233765, 'reference': 'Price Statistics Division, MoSPI', 'url': 'https://esankhyiki.mospi.gov.in/macroindicators?product=cpi', 'table_metadata': 'N/A'}]
+2025-10-15 12:21:37,089 - api_main - INFO - [Query ID:1] - <part> 1 has data
+2025-10-15 12:21:42,733 - api_main - INFO - [Query ID:1] - Suggested answer: 
+2025-10-15 12:21:42,734 - api_main - INFO - [Query ID:1] - | Caption: CPI of India in 2024, combined sector, general group. |
+|-----------------------------------------------------------------|
+
+| year   | month     | month_numeric | inflation_index | inflation_rate | released_on | date_stamp | fiscal_year |
+| :----- | :-------- | :------------ | :---------------- | :------------- | :---------- | :--------- | :---------- |
+| 2024   | December  | 12            | 195.4             | 5.22           | 13-Jan-25   | 2024-12-01 | 2024-25     |
+| 2024   | November  | 11            | 196.5             | 5.48           | 12-Dec-24   | 2024-11-01 | 2024-25     |
+| 2024   | October   | 10            | 196.8             | 6.21           | 12-Nov-24   | 2024-10-01 | 2024-25     |
+| 2024   | September | 9             | 194.2             | 5.49           | 14-Oct-24   | 2024-09-01 | 2024-25     |
+| 2024   | August    | 8             | 193               | 3.65           | 12-Sep-24   | 2024-08-01 | 2024-25     |
+| 2024   | July      | 7             | 193               | 3.6            | 12-Aug-24   | 2024-07-01 | 2024-25     |
+| 2024   | June      | 6             | 190.2             | 5.08           | 12-Jul-24   | 2024-06-01 | 2024-25     |
+| 2024   | May       | 5             | 187.7             | 4.8            | 12-Jun-24   | 2024-05-01 | 2024-25     |
+| 2024   | April     | 4             | 186.7             | 4.83           | 12-May-24   | 2024-04-01 | 2024-25     |
+| 2024   | March     | 3             | 185.8             | 4.85           | 12-Apr-24   | 2024-03-01 | 2023-24     |
+| 2024   | February  | 2             | 185.8             | 5.09           | 12-Mar-24   | 2024-02-01 | 2023-24     |
+| 2024   | January   | 1             | 185.5             | 5.1            | 12-Feb-24   | 2024-01-01 | 2023-24     |
+
+2025-10-15 12:21:42,734 - api_main - INFO - [Query ID:1] - Commentary:
+2025-10-15 12:21:42,734 - api_main - INFO - [Query ID:1] - Table information:
+
+2025-10-15 12:21:44,110 - api_main - INFO - [Query ID:1] - Confidence: 2
+2025-10-15 12:21:44,110 - api_main - INFO - [Query ID:1] - Total processing time: 51.26112246513367
+2025-10-15 12:38:51,488 - api_main - INFO - [Query ID:2] - Original received query: What are the cpi trends for rural labourers across different states from June to July 2024, and how do they compare with the General category?
+2025-10-15 12:38:56,884 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:38:56,917 - api_main - INFO - [Query ID:2] - Rephrased query:
+{
+  "Entity": "CPI (Consumer Price Index)",
+  "Category": "rural labourers, General category",
+  "Qualifiers": "different states, comparison",
+  "Frequency": "monthly",
+  "Date range": "June 2024 to July 2024"
+}
+2025-10-15 12:38:58,428 - handler_sql - INFO - [Query ID:2] - START: Processing query: CPI for rural labourers in different states, June 2024 to July 2024
+2025-10-15 12:38:58,429 - handler_sql - INFO - [Query ID:2] - Start processing: Current time: 2025-10-15 07-08-58
+2025-10-15 12:38:58,429 - handler_sql - INFO - [Query ID:2] - Received unitary query: CPI for rural labourers in different states, June 2024 to July 2024
+2025-10-15 12:38:59,974 - handler_sql - INFO - [Query ID:2] - Query class: CPI
+2025-10-15 12:39:01,297 - handler_sql - INFO - [Query ID:2] - Selected file: consumer_price_index_cpi_for_agricultural_and_rural_labourers
+2025-10-15 12:39:01,299 - handler_sql - INFO - [Query ID:2] - Generated schema query:
+2025-10-15 12:39:01,299 - handler_sql - INFO - [Query ID:2] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'consumer_price_index_cpi_for_agricultural_and_rural_labourers'
+        ORDER BY ordinal_position;
+        
+2025-10-15 12:39:01,299 - handler_sql - INFO - [Query ID:2] - Attempt 1: to process query
+2025-10-15 12:39:01,533 - handler_sql - INFO - [Query ID:2] - Trying to run: SELECT state, category, labour_type FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers ORDER BY RANDOM() LIMIT 40;
+2025-10-15 12:39:02,904 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:39:02,911 - handler_sql - INFO - [Query ID:2] - Suggested value sets: ('labour_type: rural', 963, 5)
+2025-10-15 12:39:03,233 - handler_sql - INFO - [Query ID:2] - Schema:
+('state', 'character varying', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'character varying', 'YES', None)
+('category', 'character varying', 'YES', None)
+('index_value', 'integer', 'YES', None)
+('labour_type', 'character varying', 'YES', None)
+('data_release_date', 'character varying', 'YES', "'Aug-2024'::character varying")
+('data_updated_date', 'character varying', 'YES', "'Apr-2025'::character varying")
+('data_source', 'character varying', 'YES', "'MINISTRY OF LABOUR & EMPLOYMENT'::character varying")
+('fiscal_year', 'text', 'YES', None)
+
+
+Suggested value settings:
+('labour_type: rural', 963, 5)
+
+Sample rows:
+(94, 'bihar', 2024, 'July', 'General', 1060, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(120, 'kerala', 2024, 'July', 'Food', 1288, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(27, 'jammu&kashmir', 2024, 'June', 'Food', 1196, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(44, 'maharashtra', 2024, 'July', 'Food', 1505, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(37, 'madhyapradesh', 2024, 'June', 'General', 1204, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(9, 'bihar', 2024, 'June', 'General', 1063, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(77, 'westbengal', 2024, 'June', 'General', 1114, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(48, 'manipur', 2024, 'July', 'Food', 945, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(35, 'kerala', 2024, 'June', 'Food', 1280, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(166, 'allindia', 2024, 'July', 'General', 1290, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(57, 'punjab', 2024, 'June', 'General', 1373, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(154, 'tripura', 2024, 'July', 'General', 1044, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(137, 'odisha', 2024, 'June', 'General', 1112, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(105, 'himachalpradesh', 2024, 'June', 'General', 992, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(136, 'meghalaya', 2024, 'July', 'Food', 1162, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(59, 'punjab', 2024, 'June', 'Food', 1410, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(64, 'rajasthan', 2024, 'July', 'Food', 1364, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(128, 'maharashtra', 2024, 'July', 'Food', 1537, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(39, 'madhyapradesh', 2024, 'June', 'Food', 1079, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(58, 'punjab', 2024, 'July', 'General', 1381, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(96, 'bihar', 2024, 'July', 'Food', 921, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(33, 'kerala', 2024, 'June', 'General', 1300, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(140, 'odisha', 2024, 'July', 'Food', 982, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(130, 'manipur', 2024, 'July', 'General', 1153, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(76, 'uttarpradesh', 2024, 'July', 'Food', 1152, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(162, 'westbengal', 2024, 'July', 'General', 1100, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(108, 'himachalpradesh', 2024, 'July', 'Food', 1049, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(54, 'odisha', 2024, 'July', 'General', 1125, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(55, 'odisha', 2024, 'June', 'Food', 968, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(127, 'maharashtra', 2024, 'June', 'Food', 1518, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(69, 'tripura', 2024, 'June', 'General', 1086, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(68, 'tamilnadu', 2024, 'July', 'Food', 1417, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(160, 'uttarpradesh', 2024, 'July', 'Food', 1145, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(98, 'gujarat', 2024, 'July', 'General', 1320, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(17, 'haryana', 2024, 'June', 'General', 1373, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(86, 'andhrapradesh', 2024, 'July', 'General', 1486, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(110, 'jammukashmir', 2024, 'July', 'General', 1198, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(113, 'karnataka', 2024, 'June', 'General', 1467, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(163, 'westbengal', 2024, 'June', 'Food', 937, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(80, 'westbengal', 2024, 'July', 'Food', 965, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+
+2025-10-15 12:39:04,806 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:39:05,106 - handler_sql - INFO - [Query ID:2] - query for table: CPI for rural labourers in different states, June 2024 to July 2024
+2025-10-15 12:39:05,106 - handler_sql - INFO - [Query ID:2] - response: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE labour_type = 'rural' AND year = 2024 AND (month = 'June' OR month = 'July');
+2025-10-15 12:39:05,107 - handler_sql - INFO - [Query ID:2] - Used query for specific table: CPI for rural labourers in different states, June 2024 to July 2024
+2025-10-15 12:39:05,107 - handler_sql - INFO - [Query ID:2] - SQL query:
+2025-10-15 12:39:05,107 - handler_sql - WARNING - [Query ID:2] - Could not remove decorator from original query
+2025-10-15 12:39:05,107 - handler_sql - INFO - [Query ID:2] - Originally: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE labour_type = 'rural' AND year = 2024 AND (month = 'June' OR month = 'July');
+2025-10-15 12:39:05,731 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:39:05,733 - openai._base_client - INFO - [Query ID:2] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:39:26,934 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:39:26,937 - handler_sql - WARNING - [Query ID:2] - Could not remove decorator from validated query
+2025-10-15 12:39:26,938 - handler_sql - INFO - [Query ID:2] - After validation: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE labour_type = 'rural' AND year = 2024;
+2025-10-15 12:39:27,242 - handler_sql - INFO - [Query ID:2] - Cleaned SQL: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE labour_type = 'rural' AND year = 2024
+2025-10-15 12:39:27,243 - handler_sql - INFO - [Query ID:2] - SELECT * 
+FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE labour_type = 'rural' AND year = 2024
+ORDER BY year DESC
+LIMIT 62;
+2025-10-15 12:39:27,244 - handler_sql - INFO - [Query ID:2] - SQL response:
+2025-10-15 12:39:27,571 - handler_sql - INFO - [Query ID:2] - Number of rows pulled: 62
+2025-10-15 12:39:27,802 - handler_sql - INFO - [Query ID:2] - Got metadata: Ministry of Labour & Employment, https://labourbureau.gov.in/uploads/public/notice/MIL-07-2024pdf-bd246163a1b7f2b4515a6eedd5df650d.pdf, Inflation trends affecting rural/agricultural labor for wage/policy insights.
+2025-10-15 12:39:27,896 - handler_sql - INFO - [Query ID:2] - Found a data source column: MINISTRY OF LABOUR & EMPLOYMENT
+2025-10-15 12:39:29,343 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:39:31,052 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:39:31,059 - handler_sql - INFO - [Query ID:2] - Got result: Current time: 2025-10-15 07-09-31
+2025-10-15 12:39:31,060 - handler_sql - INFO - [Query ID:2] - Response: {'summarized_info': '| state           |   year | month   | category   |   index_value |\n|:----------------|-------:|:--------|:-----------|--------------:|\n| karnataka       |   2024 | July    | Food       |          1437 |\n| maharashtra     |   2024 | July    | General    |          1452 |\n| jammu&kashmir   |   2024 | July    | General    |          1213 |\n| jammu&kashmir   |   2024 | July    | Food       |          1208 |\n| karnataka       |   2024 | July    | General    |          1468 |\n| andhrapradesh   |   2024 | July    | General    |          1485 |\n| kerala          |   2024 | July    | General    |          1310 |\n| kerala          |   2024 | July    | Food       |          1288 |\n| madhyapradesh   |   2024 | July    | General    |          1216 |\n| madhyapradesh   |   2024 | July    | Food       |          1094 |\n| maharashtra     |   2024 | July    | Food       |          1505 |\n| himachalpradesh |   2024 | July    | General    |          1056 |\n| manipur         |   2024 | July    | General    |          1164 |\n| manipur         |   2024 | July    | Food       |           945 |\n| meghalaya       |   2024 | July    | General    |          1265 |\n| meghalaya       |   2024 | July    | Food       |          1156 |\n| odisha          |   2024 | July    | General    |          1125 |\n| odisha          |   2024 | July    | Food       |           983 |\n| punjab          |   2024 | July    | General    |          1381 |\n| punjab          |   2024 | July    | Food       |          1427 |\n| himachalpradesh |   2024 | July    | Food       |          1108 |\n| rajasthan       |   2024 | July    | General    |          1342 |\n| gujarat         |   2024 | July    | Food       |          1327 |\n| haryana         |   2024 | July    | Food       |          1424 |\n| bihar           |   2024 | July    | Food       |           921 |\n| andhrapradesh   |   2024 | July    | Food       |          1477 |\n| haryana         |   2024 | July    | General    |          1386 |\n| assam           |   2024 | July    | Food       |          1092 |\n| gujarat         |   2024 | July    | General    |          1321 |\n| bihar           |   2024 | July    | General    |          1074 |\n| assam           |   2024 | July    | General    |          1154 |'}
+2025-10-15 12:39:31,061 - handler_sql - INFO - [Query ID:2] - Total processing time: 32.63 seconds
+2025-10-15 12:39:31,062 - handler_sql - INFO - [Query ID:2] - START: Processing query: CPI for general category in different states, June 2024 to July 2024
+2025-10-15 12:39:31,062 - handler_sql - INFO - [Query ID:2] - Start processing: Current time: 2025-10-15 07-09-31
+2025-10-15 12:39:31,062 - handler_sql - INFO - [Query ID:2] - Received unitary query: CPI for general category in different states, June 2024 to July 2024
+2025-10-15 12:39:33,000 - handler_sql - INFO - [Query ID:2] - Query class: CPI
+2025-10-15 12:39:34,382 - handler_sql - INFO - [Query ID:2] - Selected file: cpi_state_mth_grp_view
+2025-10-15 12:39:34,382 - handler_sql - INFO - [Query ID:2] - Generated schema query:
+2025-10-15 12:39:34,382 - handler_sql - INFO - [Query ID:2] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'cpi_state_mth_grp_view'
+        ORDER BY ordinal_position;
+        
+2025-10-15 12:39:34,382 - handler_sql - INFO - [Query ID:2] - Attempt 1: to process query
+2025-10-15 12:39:34,546 - handler_sql - INFO - [Query ID:2] - Trying to run: SELECT state, sector, group_name FROM cpi_state_mth_grp_view ORDER BY RANDOM() LIMIT 40;
+2025-10-15 12:39:35,600 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:39:35,601 - openai._base_client - INFO - [Query ID:2] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:39:57,285 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:39:57,290 - handler_sql - INFO - [Query ID:2] - Suggested value sets: ("group_name: ['General']", 1101, 6)
+2025-10-15 12:39:57,772 - handler_sql - INFO - [Query ID:2] - Schema:
+('base_year', 'integer', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'character varying', 'YES', None)
+('month_numeric', 'integer', 'YES', None)
+('state', 'character varying', 'YES', None)
+('sector', 'character varying', 'YES', None)
+('group_name', 'character varying', 'YES', None)
+('inflation_index', 'numeric', 'YES', None)
+('inflation_rate', 'numeric', 'YES', None)
+('released_on', 'character varying', 'YES', None)
+('updated_on', 'character varying', 'YES', None)
+('data_source', 'character varying', 'YES', None)
+('date_stamp', 'character varying', 'YES', None)
+('fiscal_year', 'text', 'YES', None)
+
+
+Suggested value settings:
+("group_name: ['General']", 1101, 6)
+
+Sample rows:
+(2012, 2021, 'August', 8, 'Sikkim', 'Combined', 'Clothing and Footwear', Decimal('161.80'), Decimal('7.44'), '13-Sep-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-08-01', '2021-22')
+(2012, 2024, 'September', 9, 'Nagaland', 'Combined', 'Fuel and Light', Decimal('225.70'), Decimal('-3.17'), '14-Oct-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-09-01', '2024-25')
+(2012, 2024, 'September', 9, 'Kerala', 'Combined', 'Food and Beverages', Decimal('208.10'), Decimal('7.55'), '14-Oct-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-09-01', '2024-25')
+(2012, 2024, 'September', 9, 'Tamil Nadu', 'Urban', 'General', Decimal('197.70'), Decimal('4.99'), '14-Oct-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-09-01', '2024-25')
+(2012, 2024, 'May', 5, 'Meghalaya', 'Urban', 'Food and Beverages', Decimal('193.80'), Decimal('4.70'), '12-Jun-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-05-01', '2024-25')
+(2012, 2019, 'September', 9, 'Punjab', 'Rural', 'Clothing and Footwear', Decimal('154.60'), Decimal('-0.19'), '14-Oct-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-09-01', '2019-20')
+(2012, 2017, 'April', 4, 'Madhya Pradesh', 'Combined', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2017-04-01', '2017-18')
+(2012, 2025, 'July', 7, 'Uttar Pradesh', 'Urban', 'General', Decimal('194.10'), Decimal('1.09'), '12-Sep-25', '12-Sep-25', 'Price Statistics Division, MoSPI', '2025-07-01', '2025-26')
+(2012, 2017, 'December', 12, 'Lakshadweep', 'Combined', 'Fuel and Light', Decimal('139.90'), Decimal('13.46'), '12-Jan-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-12-01', '2017-18')
+(2012, 2017, 'March', 3, 'Punjab', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('142.10'), Decimal('3.05'), '12-Apr-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-03-01', '2016-17')
+(2012, 2022, 'August', 8, 'All India', 'Rural', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2022-08-01', '2022-23')
+(2012, 2017, 'December', 12, 'Jharkhand', 'Rural', 'Food and Beverages', Decimal('142.60'), Decimal('4.55'), '12-Jan-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-12-01', '2017-18')
+(2012, 2023, 'July', 7, 'Lakshadweep', 'Rural', 'Fuel and Light', Decimal('261.70'), Decimal('18.36'), '14-Aug-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-07-01', '2023-24')
+(2012, 2017, 'June', 6, 'Jharkhand', 'Rural', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2017-06-01', '2017-18')
+(2012, 2023, 'July', 7, 'Dadra and Nagar Haveli', 'Combined', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2023-07-01', '2023-24')
+(2012, 2022, 'September', 9, 'Karnataka', 'Rural', 'Pan, Tobacco and Intoxicants', Decimal('193.00'), Decimal('3.43'), '12-Oct-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-09-01', '2022-23')
+(2012, 2024, 'November', 11, 'Haryana', 'Rural', 'Pan, Tobacco and Intoxicants', Decimal('224.20'), Decimal('3.08'), '12-Dec-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-11-01', '2024-25')
+(2012, 2022, 'August', 8, 'Odisha', 'Urban', 'Fuel and Light', Decimal('183.90'), Decimal('12.55'), '12-Sep-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-08-01', '2022-23')
+(2012, 2024, 'October', 10, 'Delhi', 'Urban', 'Fuel and Light', Decimal('138.90'), Decimal('-3.07'), '12-Nov-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-10-01', '2024-25')
+(2012, 2025, 'August', 8, 'Dadra and Nagar Haveli', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('198.00'), Decimal('2.48'), '12-Sep-25', '12-Sep-25', 'Price Statistics Division, MoSPI', '2025-08-01', '2025-26')
+(2012, 2017, 'January', 1, 'Karnataka', 'Combined', 'Miscellaneous', Decimal('128.40'), Decimal('4.39'), '13-Feb-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-01-01', '2016-17')
+(2012, 2019, 'January', 1, 'Uttarakhand', 'Urban', 'Miscellaneous', Decimal('126.40'), Decimal('4.20'), '12-Feb-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-01-01', '2018-19')
+(2012, 2024, 'February', 2, 'All India', 'Combined', 'Miscellaneous', Decimal('179.80'), Decimal('3.63'), '12-Mar-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-02-01', '2023-24')
+(2012, 2018, 'December', 12, 'Madhya Pradesh', 'Rural', 'General', Decimal('135.70'), Decimal('1.34'), '14-Jan-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-12-01', '2018-19')
+(2012, 2020, 'September', 9, 'Manipur', 'Urban', 'Food and Beverages', Decimal('187.00'), Decimal('13.82'), '12-Oct-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-09-01', '2020-21')
+(2012, 2018, 'August', 8, 'Himachal Pradesh', 'Rural', 'Miscellaneous', Decimal('132.00'), Decimal('5.10'), '12-Sep-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-08-01', '2018-19')
+(2012, 2025, 'June', 6, 'Haryana', 'Urban', 'Clothing and Footwear', Decimal('202.50'), Decimal('5.41'), '12-Sep-25', '12-Sep-25', 'Price Statistics Division, MoSPI', '2025-06-01', '2025-26')
+(2012, 2024, 'October', 10, 'Manipur', 'Combined', 'Miscellaneous', Decimal('197.70'), Decimal('3.62'), '12-Nov-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-10-01', '2024-25')
+(2012, 2024, 'August', 8, 'Haryana', 'Urban', 'Fuel and Light', Decimal('116.60'), Decimal('-11.60'), '12-Sep-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-08-01', '2024-25')
+(2012, 2021, 'October', 10, 'Telangana', 'Combined', 'Food and Beverages', Decimal('176.40'), Decimal('3.64'), '12-Nov-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-10-01', '2021-22')
+(2012, 2017, 'December', 12, 'Haryana', 'Combined', 'Miscellaneous', Decimal('128.60'), Decimal('4.98'), '12-Jan-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-12-01', '2017-18')
+(2012, 2021, 'November', 11, 'Kerala', 'Combined', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2021-11-01', '2021-22')
+(2012, 2021, 'January', 1, 'Puducherry', 'Rural', 'General', Decimal('164.90'), Decimal('5.98'), '12-Feb-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-01-01', '2020-21')
+(2012, 2025, 'January', 1, 'Telangana', 'Urban', 'Clothing and Footwear', Decimal('186.30'), Decimal('0.92'), '12-Feb-25', '2-Apr-25', 'Price Statistics Division, MoSPI', '2025-01-01', '2024-25')
+(2012, 2021, 'April', 4, 'Jammu and Kashmir', 'Urban', 'Fuel and Light', Decimal('171.20'), None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2021-04-01', '2021-22')
+(2012, 2025, 'August', 8, 'Madhya Pradesh', 'Rural', 'Housing', None, None, '12-Sep-25', '12-Sep-25', 'Price Statistics Division, MoSPI', '2025-08-01', '2025-26')
+(2012, 2023, 'August', 8, 'Uttarakhand', 'Urban', 'Food and Beverages', Decimal('207.20'), Decimal('13.04'), '12-Sep-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-08-01', '2023-24')
+(2012, 2024, 'June', 6, 'Jharkhand', 'Combined', 'Clothing and Footwear', Decimal('192.50'), Decimal('1.26'), '12-Jul-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-06-01', '2024-25')
+(2012, 2025, 'May', 5, 'Daman and Diu', 'Combined', 'Fuel and Light', Decimal('243.10'), Decimal('19.34'), '12-Sep-25', '12-Sep-25', 'Price Statistics Division, MoSPI', '2025-05-01', '2025-26')
+(2012, 2022, 'December', 12, 'Chandigarh', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('210.80'), Decimal('4.46'), '12-Jan-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-12-01', '2022-23')
+
+2025-10-15 12:39:59,300 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:39:59,304 - handler_sql - INFO - [Query ID:2] - query for table: CPI for general category in different states, June 2024 to July 2024
+2025-10-15 12:39:59,305 - handler_sql - INFO - [Query ID:2] - response: SELECT * FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined' AND state != 'All India' LIMIT 125;
+2025-10-15 12:39:59,305 - handler_sql - INFO - [Query ID:2] - Used query for specific table: CPI for general category in different states, June 2024 to July 2024
+2025-10-15 12:39:59,306 - handler_sql - INFO - [Query ID:2] - SQL query:
+2025-10-15 12:39:59,307 - handler_sql - WARNING - [Query ID:2] - Could not remove decorator from original query
+2025-10-15 12:39:59,307 - handler_sql - INFO - [Query ID:2] - Originally: SELECT * FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined' AND state != 'All India' LIMIT 125;
+2025-10-15 12:39:59,691 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:39:59,692 - openai._base_client - INFO - [Query ID:2] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:40:20,923 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:40:20,943 - handler_sql - WARNING - [Query ID:2] - Could not remove decorator from validated query
+2025-10-15 12:40:20,943 - handler_sql - INFO - [Query ID:2] - After validation: SELECT * FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined' AND state != 'All India' LIMIT 125;
+2025-10-15 12:40:21,400 - handler_sql - INFO - [Query ID:2] - Cleaned SQL: SELECT * FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined' AND state != 'All India'
+2025-10-15 12:40:21,400 - handler_sql - INFO - [Query ID:2] - SELECT * 
+FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined' AND state != 'All India'
+ORDER BY date_stamp DESC, month_numeric DESC
+LIMIT 62;
+2025-10-15 12:40:21,400 - handler_sql - INFO - [Query ID:2] - SQL response:
+2025-10-15 12:40:21,669 - handler_sql - INFO - [Query ID:2] - Number of rows pulled: 62
+2025-10-15 12:40:21,995 - handler_sql - WARNING - [Query ID:2] - Could not fetch table metadata
+2025-10-15 12:40:21,995 - handler_sql - WARNING - [Query ID:2] - list index out of range
+2025-10-15 12:40:21,996 - handler_sql - INFO - [Query ID:2] - Found a data source column: Price Statistics Division, MoSPI
+2025-10-15 12:40:23,317 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:40:25,226 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:40:25,227 - handler_sql - INFO - [Query ID:2] - Got result: Current time: 2025-10-15 07-10-25
+2025-10-15 12:40:25,228 - handler_sql - INFO - [Query ID:2] - Response: {'summarized_info': '|   year | month    |   month_numeric | state                       | inflation_index   | inflation_rate   | released_on   | updated_on   | date_stamp   |\n|-------:|:---------|----------------:|:----------------------------|:------------------|:-----------------|:--------------|:-------------|:-------------|\n|   2024 | December |              12 | Puducherry                  | 202.3             | 5.64             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tamil Nadu                  | 202.2             | 5.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Himachal Pradesh            | 183.7             | 4.97             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chhattisgarh                | 190.3             | 7.57             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Haryana                     | 193.7             | 6.02             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Rajasthan                   | 192.8             | 4.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Mizoram                     | 192.7             | 4.11             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Dadra and Nagar Haveli      | 188.3             | 5.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Telangana                   | 203.4             | 3.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Goa                         | 182.6             | 4.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Maharashtra                 | 190.9             | 4.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttarakhand                 | 192.7             | 6.05             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Delhi                       | 171.5             | 2.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | West Bengal                 | 198.7             | 4.8              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Kerala                      | 202.4             | 6.41             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Lakshadweep                 | 195.2             | 5.23             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Arunachal Pradesh           |                   |                  | 15-Apr-25     | 17-Apr-25    | 2024-12-01   |\n|   2024 | December |              12 | Sikkim                      | 200.7             | 3.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttar Pradesh               | 196.8             | 6.26             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chandigarh                  | 182.0             | 6.12             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Punjab                      | 187.0             | 5.06             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Odisha                      | 201.2             | 6.96             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jharkhand                   | 192.3             | 4.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Assam                       | 199.4             | 5.5              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Madhya Pradesh              | 196.4             | 5.71             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Bihar                       | 196.8             | 7.36             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tripura                     | 214.2             | 5.1              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jammu and Kashmir           | 203.6             | 5.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Meghalaya                   | 181.9             | 4.66             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Nagaland                    | 196.2             | 5.48             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Manipur                     | 224.7             | 9.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Andaman and Nicobar Islands | 198.9             | 3.27             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Karnataka                   | 200.6             | 5.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Daman and Diu               | 196.3             | 7.03             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Gujarat                     | 187.4             | 4.93             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Andhra Pradesh              | 199.5             | 4.34             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |'}
+2025-10-15 12:40:25,228 - handler_sql - INFO - [Query ID:2] - Total processing time: 54.17 seconds
+2025-10-15 12:40:25,231 - api_main - INFO - [Query ID:2] - SQL responses obtained
+2025-10-15 12:40:25,231 - api_main - INFO - [Query ID:2] - [{'unit_query': 'CPI for rural labourers in different states, June 2024 to July 2024', 'result': [{'summarized_info': '| state           |   year | month   | category   |   index_value |\n|:----------------|-------:|:--------|:-----------|--------------:|\n| karnataka       |   2024 | July    | Food       |          1437 |\n| maharashtra     |   2024 | July    | General    |          1452 |\n| jammu&kashmir   |   2024 | July    | General    |          1213 |\n| jammu&kashmir   |   2024 | July    | Food       |          1208 |\n| karnataka       |   2024 | July    | General    |          1468 |\n| andhrapradesh   |   2024 | July    | General    |          1485 |\n| kerala          |   2024 | July    | General    |          1310 |\n| kerala          |   2024 | July    | Food       |          1288 |\n| madhyapradesh   |   2024 | July    | General    |          1216 |\n| madhyapradesh   |   2024 | July    | Food       |          1094 |\n| maharashtra     |   2024 | July    | Food       |          1505 |\n| himachalpradesh |   2024 | July    | General    |          1056 |\n| manipur         |   2024 | July    | General    |          1164 |\n| manipur         |   2024 | July    | Food       |           945 |\n| meghalaya       |   2024 | July    | General    |          1265 |\n| meghalaya       |   2024 | July    | Food       |          1156 |\n| odisha          |   2024 | July    | General    |          1125 |\n| odisha          |   2024 | July    | Food       |           983 |\n| punjab          |   2024 | July    | General    |          1381 |\n| punjab          |   2024 | July    | Food       |          1427 |\n| himachalpradesh |   2024 | July    | Food       |          1108 |\n| rajasthan       |   2024 | July    | General    |          1342 |\n| gujarat         |   2024 | July    | Food       |          1327 |\n| haryana         |   2024 | July    | Food       |          1424 |\n| bihar           |   2024 | July    | Food       |           921 |\n| andhrapradesh   |   2024 | July    | Food       |          1477 |\n| haryana         |   2024 | July    | General    |          1386 |\n| assam           |   2024 | July    | Food       |          1092 |\n| gujarat         |   2024 | July    | General    |          1321 |\n| bihar           |   2024 | July    | General    |          1074 |\n| assam           |   2024 | July    | General    |          1154 |'}], 'description': 'The data pertains to rural labor types, released in August 2024 and updated in April 2025, covering the fiscal year 2024-25. Insights may include trends in rural employment and shifts in labor demand during this period.', 'success': True, 'message': 'Successful completion', 'unitary_time': 32.63296031951904, 'reference': 'MINISTRY OF LABOUR & EMPLOYMENT', 'url': 'https://labourbureau.gov.in/uploads/public/notice/MIL-07-2024pdf-bd246163a1b7f2b4515a6eedd5df650d.pdf', 'table_metadata': 'Inflation trends affecting rural/agricultural labor for wage/policy insights.'}, {'unit_query': 'CPI for general category in different states, June 2024 to July 2024', 'result': [{'summarized_info': '|   year | month    |   month_numeric | state                       | inflation_index   | inflation_rate   | released_on   | updated_on   | date_stamp   |\n|-------:|:---------|----------------:|:----------------------------|:------------------|:-----------------|:--------------|:-------------|:-------------|\n|   2024 | December |              12 | Puducherry                  | 202.3             | 5.64             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tamil Nadu                  | 202.2             | 5.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Himachal Pradesh            | 183.7             | 4.97             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chhattisgarh                | 190.3             | 7.57             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Haryana                     | 193.7             | 6.02             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Rajasthan                   | 192.8             | 4.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Mizoram                     | 192.7             | 4.11             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Dadra and Nagar Haveli      | 188.3             | 5.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Telangana                   | 203.4             | 3.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Goa                         | 182.6             | 4.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Maharashtra                 | 190.9             | 4.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttarakhand                 | 192.7             | 6.05             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Delhi                       | 171.5             | 2.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | West Bengal                 | 198.7             | 4.8              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Kerala                      | 202.4             | 6.41             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Lakshadweep                 | 195.2             | 5.23             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Arunachal Pradesh           |                   |                  | 15-Apr-25     | 17-Apr-25    | 2024-12-01   |\n|   2024 | December |              12 | Sikkim                      | 200.7             | 3.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttar Pradesh               | 196.8             | 6.26             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chandigarh                  | 182.0             | 6.12             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Punjab                      | 187.0             | 5.06             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Odisha                      | 201.2             | 6.96             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jharkhand                   | 192.3             | 4.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Assam                       | 199.4             | 5.5              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Madhya Pradesh              | 196.4             | 5.71             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Bihar                       | 196.8             | 7.36             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tripura                     | 214.2             | 5.1              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jammu and Kashmir           | 203.6             | 5.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Meghalaya                   | 181.9             | 4.66             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Nagaland                    | 196.2             | 5.48             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Manipur                     | 224.7             | 9.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Andaman and Nicobar Islands | 198.9             | 3.27             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Karnataka                   | 200.6             | 5.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Daman and Diu               | 196.3             | 7.03             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Gujarat                     | 187.4             | 4.93             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Andhra Pradesh              | 199.5             | 4.34             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |'}], 'description': 'The data pertains to the combined sector for the fiscal year 2024-25, with a base year of 2012, focusing on the general group. Insights reveal trends in growth and performance metrics over the specified period, highlighting key areas for strategic development.', 'success': True, 'message': 'Successful completion', 'unitary_time': 54.16606545448303, 'reference': 'Price Statistics Division, MoSPI', 'url': 'https://esankhyiki.mospi.gov.in/macroindicators?product=cpi', 'table_metadata': 'N/A'}]
+2025-10-15 12:40:25,233 - api_main - INFO - [Query ID:2] - <part> 1 has data
+2025-10-15 12:40:25,233 - api_main - INFO - [Query ID:2] - <part> 2 has data
+2025-10-15 12:40:31,584 - api_main - INFO - [Query ID:2] - Suggested answer: 
+2025-10-15 12:40:31,584 - api_main - INFO - [Query ID:2] - Caption: CPI trends for rural labourers across states in July 2024.
+
+| state           |   year | month   | category   |   index_value |
+|:----------------|-------:|:--------|:-----------|--------------:|
+| karnataka       |   2024 | July    | Food       |          1437 |
+| maharashtra     |   2024 | July    | General    |          1452 |
+| jammu&kashmir   |   2024 | July    | General    |          1213 |
+| jammu&kashmir   |   2024 | July    | Food       |          1208 |
+| karnataka       |   2024 | July    | General    |          1468 |
+| andhrapradesh   |   2024 | July    | General    |          1485 |
+| kerala          |   2024 | July    | General    |          1310 |
+| kerala          |   2024 | July    | Food       |          1288 |
+| madhyapradesh   |   2024 | July    | General    |          1216 |
+| madhyapradesh   |   2024 | July    | Food       |          1094 |
+| maharashtra     |   2024 | July    | Food       |          1505 |
+| himachalpradesh |   2024 | July    | General    |          1056 |
+| manipur         |   2024 | July    | General    |          1164 |
+| manipur         |   2024 | July    | Food       |           945 |
+| meghalaya       |   2024 | July    | General    |          1265 |
+| meghalaya       |   2024 | July    | Food       |          1156 |
+| odisha          |   2024 | July    | General    |          1125 |
+| odisha          |   2024 | July    | Food       |           983 |
+| punjab          |   2024 | July    | General    |          1381 |
+| punjab          |   2024 | July    | Food       |          1427 |
+| himachalpradesh |   2024 | July    | Food       |          1108 |
+| rajasthan       |   2024 | July    | General    |          1342 |
+| gujarat         |   2024 | July    | Food       |          1327 |
+| haryana         |   2024 | July    | Food       |          1424 |
+| bihar           |   2024 | July    | Food       |           921 |
+| andhrapradesh   |   2024 | July    | Food       |          1477 |
+| haryana         |   2024 | July    | General    |          1386 |
+| assam           |   2024 | July    | Food       |          1092 |
+| gujarat         |   2024 | July    | General    |          1321 |
+| bihar           |   2024 | July    | General    |          1074 |
+| assam           |   2024 | July    | General    |          1154 |
+
+2025-10-15 12:40:31,584 - api_main - INFO - [Query ID:2] - Commentary:
+2025-10-15 12:40:31,584 - api_main - INFO - [Query ID:2] - Table information:
+
+2025-10-15 12:40:33,077 - api_main - INFO - [Query ID:2] - Confidence: 1
+2025-10-15 12:40:33,077 - api_main - INFO - [Query ID:2] - Total processing time: 101.59843158721924
+2025-10-15 12:52:57,134 - api_main - INFO - [Query ID:1] - Original received query: What are the cpi trends for rural labourers across different states from June to July 2024, and how do they compare with the General category?
+2025-10-15 12:53:01,612 - httpx - INFO - [Query ID:1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:53:01,658 - api_main - INFO - [Query ID:1] - Rephrased query:
+{
+  "Entity": "CPI (Consumer Price Index)",
+  "Category": "rural labourers, General category",
+  "Qualifiers": "different states, comparison",
+  "Frequency": "monthly",
+  "Date range": "June 2024 to July 2024"
+}
+2025-10-15 12:53:03,171 - handler_sql - INFO - [Query ID:1.1] - START: Processing query: CPI for rural labourers in different states, June 2024 to July 2024
+2025-10-15 12:53:03,171 - handler_sql - INFO - [Query ID:1.1] - Start processing: Current time: 2025-10-15 07-23-03
+2025-10-15 12:53:03,171 - handler_sql - INFO - [Query ID:1.1] - Received unitary query: CPI for rural labourers in different states, June 2024 to July 2024
+2025-10-15 12:53:04,792 - handler_sql - INFO - [Query ID:1.1] - Query class: CPI
+2025-10-15 12:53:06,291 - handler_sql - INFO - [Query ID:1.1] - Selected file: consumer_price_index_cpi_for_agricultural_and_rural_labourers
+2025-10-15 12:53:06,291 - handler_sql - INFO - [Query ID:1.1] - Generated schema query:
+2025-10-15 12:53:06,291 - handler_sql - INFO - [Query ID:1.1] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'consumer_price_index_cpi_for_agricultural_and_rural_labourers'
+        ORDER BY ordinal_position;
+        
+2025-10-15 12:53:06,291 - handler_sql - INFO - [Query ID:1.1] - Attempt 1: to process query
+2025-10-15 12:53:07,758 - handler_sql - INFO - [Query ID:1.1] - Trying to run: SELECT state, category, labour_type FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers ORDER BY RANDOM() LIMIT 40;
+2025-10-15 12:53:09,271 - httpx - INFO - [Query ID:1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:53:09,279 - handler_sql - INFO - [Query ID:1.1] - Suggested value sets: ('labour_type: rural', 960, 5)
+2025-10-15 12:53:09,600 - handler_sql - INFO - [Query ID:1.1] - Schema:
+('state', 'character varying', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'character varying', 'YES', None)
+('category', 'character varying', 'YES', None)
+('index_value', 'integer', 'YES', None)
+('labour_type', 'character varying', 'YES', None)
+('data_release_date', 'character varying', 'YES', "'Aug-2024'::character varying")
+('data_updated_date', 'character varying', 'YES', "'Apr-2025'::character varying")
+('data_source', 'character varying', 'YES', "'MINISTRY OF LABOUR & EMPLOYMENT'::character varying")
+('fiscal_year', 'text', 'YES', None)
+
+
+Suggested value settings:
+('labour_type: rural', 960, 5)
+
+Sample rows:
+(77, 'westbengal', 2024, 'June', 'General', 1114, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(136, 'meghalaya', 2024, 'July', 'Food', 1162, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(106, 'himachalpradesh', 2024, 'July', 'General', 996, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(29, 'karnataka', 2024, 'June', 'General', 1461, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(56, 'odisha', 2024, 'July', 'Food', 983, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(13, 'gujarat', 2024, 'June', 'General', 1320, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(9, 'bihar', 2024, 'June', 'General', 1063, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(149, 'tamilnadu', 2024, 'June', 'General', 1498, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(103, 'haryana', 2024, 'June', 'Food', 1390, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(86, 'andhrapradesh', 2024, 'July', 'General', 1486, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(113, 'karnataka', 2024, 'June', 'General', 1467, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(75, 'uttarpradesh', 2024, 'June', 'Food', 1140, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(76, 'uttarpradesh', 2024, 'July', 'Food', 1152, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(10, 'bihar', 2024, 'July', 'General', 1074, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(57, 'punjab', 2024, 'June', 'General', 1373, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(132, 'manipur', 2024, 'July', 'Food', 940, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(4, 'andhrapradesh', 2024, 'July', 'Food', 1477, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(78, 'westbengal', 2024, 'July', 'General', 1127, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(35, 'kerala', 2024, 'June', 'Food', 1280, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(44, 'maharashtra', 2024, 'July', 'Food', 1505, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(17, 'haryana', 2024, 'June', 'General', 1373, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(70, 'tripura', 2024, 'July', 'General', 1099, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(66, 'tamilnadu', 2024, 'July', 'General', 1489, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(58, 'punjab', 2024, 'July', 'General', 1381, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(114, 'karnataka', 2024, 'July', 'General', 1474, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(122, 'madhyapradesh', 2024, 'July', 'General', 1155, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(16, 'gujarat', 2024, 'July', 'Food', 1327, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(60, 'punjab', 2024, 'July', 'Food', 1427, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(127, 'maharashtra', 2024, 'June', 'Food', 1518, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(14, 'gujarat', 2024, 'July', 'General', 1321, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(54, 'odisha', 2024, 'July', 'General', 1125, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(160, 'uttarpradesh', 2024, 'July', 'Food', 1145, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(130, 'manipur', 2024, 'July', 'General', 1153, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(167, 'allindia', 2024, 'June', 'Food', 1220, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(150, 'tamilnadu', 2024, 'July', 'General', 1508, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(156, 'tripura', 2024, 'July', 'Food', 978, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(144, 'punjab', 2024, 'July', 'Food', 1426, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(142, 'punjab', 2024, 'July', 'General', 1360, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(141, 'punjab', 2024, 'June', 'General', 1351, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(42, 'maharashtra', 2024, 'July', 'General', 1452, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+
+2025-10-15 12:53:10,772 - httpx - INFO - [Query ID:1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:53:10,775 - handler_sql - INFO - [Query ID:1.1] - query for table: CPI for rural labourers in different states, June 2024 to July 2024
+2025-10-15 12:53:10,776 - handler_sql - INFO - [Query ID:1.1] - response: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE labour_type = 'rural' AND year = 2024 LIMIT 125;
+2025-10-15 12:53:10,776 - handler_sql - INFO - [Query ID:1.1] - Used query for specific table: CPI for rural labourers in different states, June 2024 to July 2024
+2025-10-15 12:53:10,776 - handler_sql - INFO - [Query ID:1.1] - SQL query:
+2025-10-15 12:53:10,776 - handler_sql - WARNING - [Query ID:1.1] - Could not remove decorator from original query
+2025-10-15 12:53:10,776 - handler_sql - INFO - [Query ID:1.1] - Originally: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE labour_type = 'rural' AND year = 2024 LIMIT 125;
+2025-10-15 12:53:11,164 - httpx - INFO - [Query ID:1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:53:11,166 - openai._base_client - INFO - [Query ID:1.1] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:53:32,736 - httpx - INFO - [Query ID:1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:53:32,738 - handler_sql - WARNING - [Query ID:1.1] - Could not remove decorator from validated query
+2025-10-15 12:53:32,738 - handler_sql - INFO - [Query ID:1.1] - After validation: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE labour_type = 'rural' AND year = 2024 LIMIT 125;
+2025-10-15 12:53:33,083 - handler_sql - INFO - [Query ID:1.1] - Cleaned SQL: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE labour_type = 'rural' AND year = 2024
+2025-10-15 12:53:33,083 - handler_sql - INFO - [Query ID:1.1] - SELECT * 
+FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE labour_type = 'rural' AND year = 2024
+ORDER BY year DESC
+LIMIT 62;
+2025-10-15 12:53:33,083 - handler_sql - INFO - [Query ID:1.1] - SQL response:
+2025-10-15 12:53:33,350 - handler_sql - INFO - [Query ID:1.1] - Number of rows pulled: 62
+2025-10-15 12:53:33,600 - handler_sql - INFO - [Query ID:1.1] - Got metadata: Ministry of Labour & Employment, https://labourbureau.gov.in/uploads/public/notice/MIL-07-2024pdf-bd246163a1b7f2b4515a6eedd5df650d.pdf, Inflation trends affecting rural/agricultural labor for wage/policy insights.
+2025-10-15 12:53:33,678 - handler_sql - INFO - [Query ID:1.1] - Found a data source column: MINISTRY OF LABOUR & EMPLOYMENT
+2025-10-15 12:53:34,855 - httpx - INFO - [Query ID:1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:53:36,365 - httpx - INFO - [Query ID:1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:53:36,369 - handler_sql - INFO - [Query ID:1.1] - Got result: Current time: 2025-10-15 07-23-36
+2025-10-15 12:53:36,369 - handler_sql - INFO - [Query ID:1.1] - Response: {'summarized_info': '| state           |   year | month   | category   |   index_value |\n|:----------------|-------:|:--------|:-----------|--------------:|\n| karnataka       |   2024 | July    | Food       |          1437 |\n| maharashtra     |   2024 | July    | General    |          1452 |\n| jammu&kashmir   |   2024 | July    | General    |          1213 |\n| jammu&kashmir   |   2024 | July    | Food       |          1208 |\n| karnataka       |   2024 | July    | General    |          1468 |\n| andhrapradesh   |   2024 | July    | General    |          1485 |\n| kerala          |   2024 | July    | General    |          1310 |\n| kerala          |   2024 | July    | Food       |          1288 |\n| madhyapradesh   |   2024 | July    | General    |          1216 |\n| madhyapradesh   |   2024 | July    | Food       |          1094 |\n| maharashtra     |   2024 | July    | Food       |          1505 |\n| himachalpradesh |   2024 | July    | General    |          1056 |\n| manipur         |   2024 | July    | General    |          1164 |\n| manipur         |   2024 | July    | Food       |           945 |\n| meghalaya       |   2024 | July    | General    |          1265 |\n| meghalaya       |   2024 | July    | Food       |          1156 |\n| odisha          |   2024 | July    | General    |          1125 |\n| odisha          |   2024 | July    | Food       |           983 |\n| punjab          |   2024 | July    | General    |          1381 |\n| punjab          |   2024 | July    | Food       |          1427 |\n| himachalpradesh |   2024 | July    | Food       |          1108 |\n| rajasthan       |   2024 | July    | General    |          1342 |\n| gujarat         |   2024 | July    | Food       |          1327 |\n| haryana         |   2024 | July    | Food       |          1424 |\n| bihar           |   2024 | July    | Food       |           921 |\n| andhrapradesh   |   2024 | July    | Food       |          1477 |\n| haryana         |   2024 | July    | General    |          1386 |\n| assam           |   2024 | July    | Food       |          1092 |\n| gujarat         |   2024 | July    | General    |          1321 |\n| bihar           |   2024 | July    | General    |          1074 |\n| assam           |   2024 | July    | General    |          1154 |'}
+2025-10-15 12:53:36,370 - handler_sql - INFO - [Query ID:1.1] - Total processing time: 33.20 seconds
+2025-10-15 12:53:36,370 - handler_sql - INFO - [Query ID:1.2] - START: Processing query: CPI for general category in different states, June 2024 to July 2024
+2025-10-15 12:53:36,370 - handler_sql - INFO - [Query ID:1.2] - Start processing: Current time: 2025-10-15 07-23-36
+2025-10-15 12:53:36,371 - handler_sql - INFO - [Query ID:1.2] - Received unitary query: CPI for general category in different states, June 2024 to July 2024
+2025-10-15 12:53:37,855 - handler_sql - INFO - [Query ID:1.2] - Query class: CPI
+2025-10-15 12:53:39,648 - handler_sql - INFO - [Query ID:1.2] - Selected file: cpi_state_mth_grp_view
+2025-10-15 12:53:39,648 - handler_sql - INFO - [Query ID:1.2] - Generated schema query:
+2025-10-15 12:53:39,648 - handler_sql - INFO - [Query ID:1.2] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'cpi_state_mth_grp_view'
+        ORDER BY ordinal_position;
+        
+2025-10-15 12:53:39,648 - handler_sql - INFO - [Query ID:1.2] - Attempt 1: to process query
+2025-10-15 12:53:39,848 - handler_sql - INFO - [Query ID:1.2] - Trying to run: SELECT state, sector, group_name FROM cpi_state_mth_grp_view ORDER BY RANDOM() LIMIT 40;
+2025-10-15 12:53:41,364 - httpx - INFO - [Query ID:1.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:53:41,398 - handler_sql - INFO - [Query ID:1.2] - Suggested value sets: ("group_name = ['General']", 1102, 6)
+2025-10-15 12:53:41,908 - handler_sql - INFO - [Query ID:1.2] - Schema:
+('base_year', 'integer', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'character varying', 'YES', None)
+('month_numeric', 'integer', 'YES', None)
+('state', 'character varying', 'YES', None)
+('sector', 'character varying', 'YES', None)
+('group_name', 'character varying', 'YES', None)
+('inflation_index', 'numeric', 'YES', None)
+('inflation_rate', 'numeric', 'YES', None)
+('released_on', 'character varying', 'YES', None)
+('updated_on', 'character varying', 'YES', None)
+('data_source', 'character varying', 'YES', None)
+('date_stamp', 'character varying', 'YES', None)
+('fiscal_year', 'text', 'YES', None)
+
+
+Suggested value settings:
+("group_name = ['General']", 1102, 6)
+
+Sample rows:
+(2012, 2019, 'September', 9, 'Arunachal Pradesh', 'Combined', 'General', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2019-09-01', '2019-20')
+(2012, 2022, 'April', 4, 'Jharkhand', 'Combined', 'Clothing and Footwear', Decimal('178.50'), Decimal('9.44'), '12-May-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-04-01', '2022-23')
+(2012, 2023, 'July', 7, 'Goa', 'Combined', 'Miscellaneous', Decimal('170.90'), Decimal('3.39'), '14-Aug-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-07-01', '2023-24')
+(2012, 2024, 'August', 8, 'Rajasthan', 'Combined', 'Food and Beverages', Decimal('199.70'), Decimal('3.96'), '12-Sep-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-08-01', '2024-25')
+(2012, 2019, 'August', 8, 'Gujarat', 'Urban', 'Miscellaneous', Decimal('130.90'), Decimal('2.75'), '12-Sep-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-08-01', '2019-20')
+(2012, 2021, 'July', 7, 'Bihar', 'Combined', 'General', Decimal('159.40'), Decimal('5.21'), '12-Aug-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-07-01', '2021-22')
+(2012, 2022, 'September', 9, 'Tripura', 'Rural', 'General', Decimal('192.20'), Decimal('8.10'), '12-Oct-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-09-01', '2022-23')
+(2012, 2018, 'November', 11, 'Meghalaya', 'Combined', 'Clothing and Footwear', Decimal('135.30'), Decimal('-3.56'), '12-Dec-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-11-01', '2018-19')
+(2012, 2022, 'July', 7, 'Maharashtra', 'Rural', 'Pan, Tobacco and Intoxicants', Decimal('180.20'), Decimal('5.26'), '12-Aug-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-07-01', '2022-23')
+(2012, 2021, 'February', 2, 'Himachal Pradesh', 'Urban', 'Fuel and Light', Decimal('158.70'), Decimal('14.25'), '12-Mar-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-02-01', '2020-21')
+(2012, 2022, 'August', 8, 'Sikkim', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('184.10'), Decimal('4.72'), '12-Sep-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-08-01', '2022-23')
+(2012, 2017, 'October', 10, 'Puducherry', 'Urban', 'Food and Beverages', Decimal('142.60'), Decimal('2.89'), '13-Nov-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-10-01', '2017-18')
+(2012, 2017, 'October', 10, 'Goa', 'Urban', 'Food and Beverages', Decimal('140.20'), Decimal('4.63'), '13-Nov-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-10-01', '2017-18')
+(2012, 2025, 'January', 1, 'Chandigarh', 'Combined', 'Food and Beverages', Decimal('196.90'), Decimal('8.37'), '12-Feb-25', '2-Apr-25', 'Price Statistics Division, MoSPI', '2025-01-01', '2024-25')
+(2012, 2023, 'November', 11, 'Bihar', 'Urban', 'Pan, Tobacco and Intoxicants', Decimal('202.70'), Decimal('4.86'), '12-Dec-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-11-01', '2023-24')
+(2012, 2019, 'November', 11, 'Daman and Diu', 'Combined', 'Miscellaneous', Decimal('139.10'), Decimal('2.66'), '12-Dec-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-11-01', '2019-20')
+(2012, 2023, 'September', 9, 'Kerala', 'Urban', 'Housing', Decimal('183.00'), Decimal('3.86'), '12-Oct-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-09-01', '2023-24')
+(2012, 2021, 'March', 3, 'Lakshadweep', 'Urban', 'Fuel and Light', Decimal('147.30'), None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2021-03-01', '2020-21')
+(2012, 2018, 'October', 10, 'Kerala', 'Combined', 'Fuel and Light', Decimal('153.40'), Decimal('10.20'), '12-Nov-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-10-01', '2018-19')
+(2012, 2025, 'June', 6, 'Mizoram', 'Urban', 'Miscellaneous', Decimal('162.10'), Decimal('4.51'), '12-Sep-25', '12-Sep-25', 'Price Statistics Division, MoSPI', '2025-06-01', '2025-26')
+(2012, 2022, 'May', 5, 'All India', 'Rural', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2022-05-01', '2022-23')
+(2012, 2019, 'July', 7, 'Gujarat', 'Urban', 'Housing', Decimal('136.80'), Decimal('3.32'), '13-Aug-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-07-01', '2019-20')
+(2012, 2020, 'August', 8, 'Meghalaya', 'Rural', 'General', Decimal('155.00'), Decimal('9.46'), '14-Sep-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-08-01', '2020-21')
+(2012, 2024, 'December', 12, 'Jharkhand', 'Urban', 'Food and Beverages', Decimal('211.40'), Decimal('9.48'), '13-Jan-25', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-12-01', '2024-25')
+(2012, 2023, 'December', 12, 'Chandigarh', 'Urban', 'Housing', Decimal('162.00'), Decimal('3.32'), '12-Jan-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-12-01', '2023-24')
+(2012, 2024, 'November', 11, 'Dadra and Nagar Haveli', 'Combined', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2024-11-01', '2024-25')
+(2012, 2023, 'January', 1, 'Karnataka', 'Combined', 'General', Decimal('180.00'), Decimal('5.08'), '13-Feb-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-01-01', '2022-23')
+(2012, 2019, 'September', 9, 'Sikkim', 'Combined', 'General', Decimal('153.30'), Decimal('3.65'), '14-Oct-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-09-01', '2019-20')
+(2012, 2017, 'January', 1, 'Goa', 'Rural', 'Food and Beverages', Decimal('152.80'), Decimal('3.59'), '13-Feb-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-01-01', '2016-17')
+(2012, 2023, 'January', 1, 'Lakshadweep', 'Urban', 'Food and Beverages', Decimal('179.00'), Decimal('11.60'), '13-Feb-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-01-01', '2022-23')
+(2012, 2024, 'March', 3, 'Puducherry', 'Urban', 'Pan, Tobacco and Intoxicants', Decimal('208.40'), Decimal('0.43'), '12-Apr-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-03-01', '2023-24')
+(2012, 2018, 'March', 3, 'Jammu and Kashmir', 'Urban', 'General', Decimal('134.50'), Decimal('5.82'), '12-Apr-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-03-01', '2017-18')
+(2012, 2020, 'August', 8, 'West Bengal', 'Combined', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2020-08-01', '2020-21')
+(2012, 2020, 'August', 8, 'Haryana', 'Rural', 'General', Decimal('150.90'), Decimal('5.82'), '14-Sep-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-08-01', '2020-21')
+(2012, 2021, 'August', 8, 'West Bengal', 'Combined', 'General', Decimal('166.60'), Decimal('4.78'), '13-Sep-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-08-01', '2021-22')
+(2012, 2025, 'February', 2, 'Andaman and Nicobar Islands', 'Rural', 'Clothing and Footwear', Decimal('197.50'), Decimal('3.19'), '12-Mar-25', '2-Apr-25', 'Price Statistics Division, MoSPI', '2025-02-01', '2024-25')
+(2012, 2017, 'October', 10, 'Andhra Pradesh', 'Combined', 'Clothing and Footwear', Decimal('143.20'), Decimal('5.22'), '13-Nov-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-10-01', '2017-18')
+(2012, 2021, 'May', 5, 'Karnataka', 'Rural', 'Clothing and Footwear', Decimal('166.60'), None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2021-05-01', '2021-22')
+(2012, 2020, 'February', 2, 'Tamil Nadu', 'Combined', 'Food and Beverages', Decimal('157.50'), Decimal('10.14'), '12-Mar-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-02-01', '2019-20')
+(2012, 2023, 'March', 3, 'Lakshadweep', 'Rural', 'Clothing and Footwear', Decimal('201.10'), Decimal('5.90'), '12-Apr-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-03-01', '2022-23')
+
+2025-10-15 12:53:42,354 - httpx - INFO - [Query ID:1.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:53:42,354 - openai._base_client - INFO - [Query ID:1.2] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:54:05,266 - httpx - INFO - [Query ID:1.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:54:05,270 - handler_sql - INFO - [Query ID:1.2] - query for table: CPI for general category in different states, June 2024 to July 2024
+2025-10-15 12:54:05,270 - handler_sql - INFO - [Query ID:1.2] - response: SELECT * FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined' AND month_numeric >= 6 AND month_numeric <= 7;
+2025-10-15 12:54:05,270 - handler_sql - INFO - [Query ID:1.2] - Used query for specific table: CPI for general category in different states, June 2024 to July 2024
+2025-10-15 12:54:05,270 - handler_sql - INFO - [Query ID:1.2] - SQL query:
+2025-10-15 12:54:05,270 - handler_sql - WARNING - [Query ID:1.2] - Could not remove decorator from original query
+2025-10-15 12:54:05,270 - handler_sql - INFO - [Query ID:1.2] - Originally: SELECT * FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined' AND month_numeric >= 6 AND month_numeric <= 7;
+2025-10-15 12:54:05,656 - httpx - INFO - [Query ID:1.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:54:05,657 - openai._base_client - INFO - [Query ID:1.2] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:54:26,982 - httpx - INFO - [Query ID:1.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:54:26,984 - handler_sql - WARNING - [Query ID:1.2] - Could not remove decorator from validated query
+2025-10-15 12:54:26,984 - handler_sql - INFO - [Query ID:1.2] - After validation: SELECT * FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined';
+2025-10-15 12:54:27,360 - handler_sql - INFO - [Query ID:1.2] - Cleaned SQL: SELECT * FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined'
+2025-10-15 12:54:27,360 - handler_sql - INFO - [Query ID:1.2] - SELECT * 
+FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined'
+ORDER BY date_stamp DESC, month_numeric DESC
+LIMIT 62;
+2025-10-15 12:54:27,360 - handler_sql - INFO - [Query ID:1.2] - SQL response:
+2025-10-15 12:54:27,607 - handler_sql - INFO - [Query ID:1.2] - Number of rows pulled: 62
+2025-10-15 12:54:27,923 - handler_sql - WARNING - [Query ID:1.2] - Could not fetch table metadata
+2025-10-15 12:54:27,924 - handler_sql - WARNING - [Query ID:1.2] - list index out of range
+2025-10-15 12:54:27,924 - handler_sql - INFO - [Query ID:1.2] - Found a data source column: Price Statistics Division, MoSPI
+2025-10-15 12:54:28,830 - httpx - INFO - [Query ID:1.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:54:30,410 - httpx - INFO - [Query ID:1.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:54:30,417 - handler_sql - INFO - [Query ID:1.2] - Got result: Current time: 2025-10-15 07-24-30
+2025-10-15 12:54:30,418 - handler_sql - INFO - [Query ID:1.2] - Response: {'summarized_info': '|   year | month    |   month_numeric | state                       | inflation_index   | inflation_rate   | released_on   | updated_on   | date_stamp   |\n|-------:|:---------|----------------:|:----------------------------|:------------------|:-----------------|:--------------|:-------------|:-------------|\n|   2024 | December |              12 | Andhra Pradesh              | 199.5             | 4.34             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Maharashtra                 | 190.9             | 4.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Punjab                      | 187.0             | 5.06             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chandigarh                  | 182.0             | 6.12             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Nagaland                    | 196.2             | 5.48             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Mizoram                     | 192.7             | 4.11             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Rajasthan                   | 192.8             | 4.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chhattisgarh                | 190.3             | 7.57             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Manipur                     | 224.7             | 9.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Delhi                       | 171.5             | 2.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tamil Nadu                  | 202.2             | 5.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tripura                     | 214.2             | 5.1              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Lakshadweep                 | 195.2             | 5.23             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttar Pradesh               | 196.8             | 6.26             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | West Bengal                 | 198.7             | 4.8              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Kerala                      | 202.4             | 6.41             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Daman and Diu               | 196.3             | 7.03             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Arunachal Pradesh           |                   |                  | 15-Apr-25     | 17-Apr-25    | 2024-12-01   |\n|   2024 | December |              12 | Himachal Pradesh            | 183.7             | 4.97             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttarakhand                 | 192.7             | 6.05             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Bihar                       | 196.8             | 7.36             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Haryana                     | 193.7             | 6.02             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | All India                   | 195.4             | 5.22             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Telangana                   | 203.4             | 3.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Puducherry                  | 202.3             | 5.64             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Andaman and Nicobar Islands | 198.9             | 3.27             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Dadra and Nagar Haveli      | 188.3             | 5.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Odisha                      | 201.2             | 6.96             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Sikkim                      | 200.7             | 3.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Goa                         | 182.6             | 4.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Gujarat                     | 187.4             | 4.93             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jammu and Kashmir           | 203.6             | 5.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Madhya Pradesh              | 196.4             | 5.71             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jharkhand                   | 192.3             | 4.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Karnataka                   | 200.6             | 5.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Meghalaya                   | 181.9             | 4.66             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Assam                       | 199.4             | 5.5              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |'}
+2025-10-15 12:54:30,418 - handler_sql - INFO - [Query ID:1.2] - Total processing time: 54.05 seconds
+2025-10-15 12:54:30,419 - api_main - INFO - [Query ID:1] - SQL responses obtained
+2025-10-15 12:54:30,419 - api_main - INFO - [Query ID:1] - [{'unit_query': 'CPI for rural labourers in different states, June 2024 to July 2024', 'result': [{'summarized_info': '| state           |   year | month   | category   |   index_value |\n|:----------------|-------:|:--------|:-----------|--------------:|\n| karnataka       |   2024 | July    | Food       |          1437 |\n| maharashtra     |   2024 | July    | General    |          1452 |\n| jammu&kashmir   |   2024 | July    | General    |          1213 |\n| jammu&kashmir   |   2024 | July    | Food       |          1208 |\n| karnataka       |   2024 | July    | General    |          1468 |\n| andhrapradesh   |   2024 | July    | General    |          1485 |\n| kerala          |   2024 | July    | General    |          1310 |\n| kerala          |   2024 | July    | Food       |          1288 |\n| madhyapradesh   |   2024 | July    | General    |          1216 |\n| madhyapradesh   |   2024 | July    | Food       |          1094 |\n| maharashtra     |   2024 | July    | Food       |          1505 |\n| himachalpradesh |   2024 | July    | General    |          1056 |\n| manipur         |   2024 | July    | General    |          1164 |\n| manipur         |   2024 | July    | Food       |           945 |\n| meghalaya       |   2024 | July    | General    |          1265 |\n| meghalaya       |   2024 | July    | Food       |          1156 |\n| odisha          |   2024 | July    | General    |          1125 |\n| odisha          |   2024 | July    | Food       |           983 |\n| punjab          |   2024 | July    | General    |          1381 |\n| punjab          |   2024 | July    | Food       |          1427 |\n| himachalpradesh |   2024 | July    | Food       |          1108 |\n| rajasthan       |   2024 | July    | General    |          1342 |\n| gujarat         |   2024 | July    | Food       |          1327 |\n| haryana         |   2024 | July    | Food       |          1424 |\n| bihar           |   2024 | July    | Food       |           921 |\n| andhrapradesh   |   2024 | July    | Food       |          1477 |\n| haryana         |   2024 | July    | General    |          1386 |\n| assam           |   2024 | July    | Food       |          1092 |\n| gujarat         |   2024 | July    | General    |          1321 |\n| bihar           |   2024 | July    | General    |          1074 |\n| assam           |   2024 | July    | General    |          1154 |'}], 'description': 'The data pertains to rural labor types, with a release date set for August 2024 and an update scheduled for April 2025, covering the fiscal year 2024-25. Insights may reveal trends in rural employment and economic conditions during this period.', 'success': True, 'message': 'Successful completion', 'unitary_time': 33.19813370704651, 'reference': 'MINISTRY OF LABOUR & EMPLOYMENT', 'url': 'https://labourbureau.gov.in/uploads/public/notice/MIL-07-2024pdf-bd246163a1b7f2b4515a6eedd5df650d.pdf', 'table_metadata': 'Inflation trends affecting rural/agricultural labor for wage/policy insights.'}, {'unit_query': 'CPI for general category in different states, June 2024 to July 2024', 'result': [{'summarized_info': '|   year | month    |   month_numeric | state                       | inflation_index   | inflation_rate   | released_on   | updated_on   | date_stamp   |\n|-------:|:---------|----------------:|:----------------------------|:------------------|:-----------------|:--------------|:-------------|:-------------|\n|   2024 | December |              12 | Andhra Pradesh              | 199.5             | 4.34             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Maharashtra                 | 190.9             | 4.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Punjab                      | 187.0             | 5.06             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chandigarh                  | 182.0             | 6.12             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Nagaland                    | 196.2             | 5.48             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Mizoram                     | 192.7             | 4.11             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Rajasthan                   | 192.8             | 4.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chhattisgarh                | 190.3             | 7.57             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Manipur                     | 224.7             | 9.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Delhi                       | 171.5             | 2.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tamil Nadu                  | 202.2             | 5.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tripura                     | 214.2             | 5.1              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Lakshadweep                 | 195.2             | 5.23             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttar Pradesh               | 196.8             | 6.26             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | West Bengal                 | 198.7             | 4.8              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Kerala                      | 202.4             | 6.41             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Daman and Diu               | 196.3             | 7.03             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Arunachal Pradesh           |                   |                  | 15-Apr-25     | 17-Apr-25    | 2024-12-01   |\n|   2024 | December |              12 | Himachal Pradesh            | 183.7             | 4.97             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttarakhand                 | 192.7             | 6.05             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Bihar                       | 196.8             | 7.36             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Haryana                     | 193.7             | 6.02             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | All India                   | 195.4             | 5.22             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Telangana                   | 203.4             | 3.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Puducherry                  | 202.3             | 5.64             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Andaman and Nicobar Islands | 198.9             | 3.27             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Dadra and Nagar Haveli      | 188.3             | 5.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Odisha                      | 201.2             | 6.96             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Sikkim                      | 200.7             | 3.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Goa                         | 182.6             | 4.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Gujarat                     | 187.4             | 4.93             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jammu and Kashmir           | 203.6             | 5.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Madhya Pradesh              | 196.4             | 5.71             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jharkhand                   | 192.3             | 4.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Karnataka                   | 200.6             | 5.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Meghalaya                   | 181.9             | 4.66             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Assam                       | 199.4             | 5.5              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |'}], 'description': 'The data pertains to the combined sector for the fiscal year 2024-25, with a base year of 2012, focusing on the general group. Insights reveal trends in growth and performance metrics over the specified period, highlighting key areas for strategic development.', 'success': True, 'message': 'Successful completion', 'unitary_time': 54.04701089859009, 'reference': 'Price Statistics Division, MoSPI', 'url': 'https://esankhyiki.mospi.gov.in/macroindicators?product=cpi', 'table_metadata': 'N/A'}]
+2025-10-15 12:54:30,420 - api_main - INFO - [Query ID:1] - <part> 1 has data
+2025-10-15 12:54:30,420 - api_main - INFO - [Query ID:1] - <part> 2 has data
+2025-10-15 12:54:36,154 - api_main - INFO - [Query ID:1] - Suggested answer: 
+2025-10-15 12:54:36,154 - api_main - INFO - [Query ID:1] - Caption: CPI trends for rural labourers across states (July 2024).
+
+| state           |   year | month   | category   |   index_value |
+|:----------------|-------:|:--------|:-----------|--------------:|
+| karnataka       |   2024 | July    | Food       |          1437 |
+| maharashtra     |   2024 | July    | General    |          1452 |
+| jammu&kashmir   |   2024 | July    | General    |          1213 |
+| jammu&kashmir   |   2024 | July    | Food       |          1208 |
+| karnataka       |   2024 | July    | General    |          1468 |
+| andhrapradesh   |   2024 | July    | General    |          1485 |
+| kerala          |   2024 | July    | General    |          1310 |
+| kerala          |   2024 | July    | Food       |          1288 |
+| madhyapradesh   |   2024 | July    | General    |          1216 |
+| madhyapradesh   |   2024 | July    | Food       |          1094 |
+| maharashtra     |   2024 | July    | Food       |          1505 |
+| himachalpradesh |   2024 | July    | General    |          1056 |
+| manipur         |   2024 | July    | General    |          1164 |
+| manipur         |   2024 | July    | Food       |           945 |
+| meghalaya       |   2024 | July    | General    |          1265 |
+| meghalaya       |   2024 | July    | Food       |          1156 |
+| odisha          |   2024 | July    | General    |          1125 |
+| odisha          |   2024 | July    | Food       |           983 |
+| punjab          |   2024 | July    | General    |          1381 |
+| punjab          |   2024 | July    | Food       |          1427 |
+| himachalpradesh |   2024 | July    | Food       |          1108 |
+| rajasthan       |   2024 | July    | General    |          1342 |
+| gujarat         |   2024 | July    | Food       |          1327 |
+| haryana         |   2024 | July    | Food       |          1424 |
+| bihar           |   2024 | July    | Food       |           921 |
+| andhrapradesh   |   2024 | July    | Food       |          1477 |
+| haryana         |   2024 | July    | General    |          1386 |
+| assam           |   2024 | July    | Food       |          1092 |
+| gujarat         |   2024 | July    | General    |          1321 |
+| bihar           |   2024 | July    | General    |          1074 |
+| assam           |   2024 | July    | General    |          1154 |
+
+2025-10-15 12:54:36,154 - api_main - INFO - [Query ID:1] - Commentary:
+2025-10-15 12:54:36,154 - api_main - INFO - [Query ID:1] - Table information:
+
+2025-10-15 12:54:37,590 - api_main - INFO - [Query ID:1] - Confidence: 1
+2025-10-15 12:54:37,590 - api_main - INFO - [Query ID:1] - Total processing time: 100.45599269866943
+2025-10-15 12:56:02,636 - api_main - INFO - [Query ID:2] - Original received query: What is the correlation between the growth rates in constant and current prices for the primary sector over the years?
+2025-10-15 12:56:06,764 - httpx - INFO - [Query ID:2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:56:06,792 - api_main - INFO - [Query ID:2] - Rephrased query:
+{
+  "Entity": "growth rates",
+  "Category": "constant prices, current prices, primary sector",
+  "Qualifiers": "",
+  "Frequency": "annual",
+  "Date range": { "minimum": "October 2023", "maximum": "October 2025" }
+}
+2025-10-15 12:56:08,487 - handler_sql - INFO - [Query ID:2.1] - START: Processing query: Growth rates of primary sector at constant prices from October 2023 to October 2025
+2025-10-15 12:56:08,489 - handler_sql - INFO - [Query ID:2.1] - Start processing: Current time: 2025-10-15 07-26-08
+2025-10-15 12:56:08,489 - handler_sql - INFO - [Query ID:2.1] - Received unitary query: Growth rates of primary sector at constant prices from October 2023 to October 2025
+2025-10-15 12:56:10,067 - handler_sql - INFO - [Query ID:2.1] - Query class: GDP
+2025-10-15 12:56:11,646 - httpx - INFO - [Query ID:2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:56:11,657 - handler_sql - INFO - [Query ID:2.1] - Selected file: gdp_india_qtr_primsector_estimates_view
+2025-10-15 12:56:11,661 - handler_sql - INFO - [Query ID:2.1] - Generated schema query:
+2025-10-15 12:56:11,661 - handler_sql - INFO - [Query ID:2.1] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'gdp_india_qtr_primsector_estimates_view'
+        ORDER BY ordinal_position;
+        
+2025-10-15 12:56:11,661 - handler_sql - INFO - [Query ID:2.1] - Attempt 1: to process query
+2025-10-15 12:56:12,312 - handler_sql - INFO - [Query ID:2.1] - Trying to run: SELECT item FROM gdp_india_qtr_primsector_estimates_view ORDER BY RANDOM() LIMIT 40;
+2025-10-15 12:56:13,382 - httpx - INFO - [Query ID:2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:56:13,384 - handler_sql - INFO - [Query ID:2.1] - Suggested value sets: ("item = 'PRIMARY SECTOR'", 562, 7)
+2025-10-15 12:56:13,752 - handler_sql - INFO - [Query ID:2.1] - Schema:
+('year', 'text', 'YES', None)
+('item', 'text', 'YES', None)
+('value_in_cr_const', 'bigint', 'YES', None)
+('growth_rate_const', 'double precision', 'YES', None)
+('value_in_cr_current', 'bigint', 'YES', None)
+('growth_rate_current', 'double precision', 'YES', None)
+('data_updated_date', 'text', 'YES', None)
+
+
+Suggested value settings:
+("item = 'PRIMARY SECTOR'", 562, 7)
+
+Sample rows:
+('2017-18', 'PRIMARY SECTOR', 592803, 4.7, 846951, 10.6, '16-07-2025')
+('2012-13', 'PRIMARY SECTOR', 474030, 1.5, 534162, 11.7, '16-07-2025')
+('2018-19', 'PRIMARY SECTOR', 668515, 1.2, 1053447, 5.6, '16-07-2025')
+('2015-16', 'PRIMARY SECTOR', 458457, 3.7, 589639, 6.0, '16-07-2025')
+('2018-19', 'PRIMARY SECTOR', 516246, 3.8, 780989, 11.1, '16-07-2025')
+('2019-20', 'PRIMARY SECTOR', 700098, 4.7, 1172438, 11.3, '16-07-2025')
+('2015-16', 'PRIMARY SECTOR', 516959, 2.7, 656482, 7.4, '16-07-2025')
+('2014-15', 'PRIMARY SECTOR', 357434, 3.6, 473244, 14.3, '16-07-2025')
+('2013-14', 'PRIMARY SECTOR', 345026, 4.6, 413980, 14.1, '16-07-2025')
+('2012-13', 'PRIMARY SECTOR', 329981, 1.2, 362859, 11.4, '16-07-2025')
+('2025-26', 'PRIMARY SECTOR', 655701, 2.8, 1335410, 1.7, '10-09-2025')
+('2012-13', 'PRIMARY SECTOR', 411979, 2.0, 435884, 12.4, '16-07-2025')
+('2023-24', 'PRIMARY SECTOR', 741690, 0.8, 1473362, 7.6, '16-07-2025')
+('2013-14', 'PRIMARY SECTOR', 422583, 2.6, 478358, 9.7, '16-07-2025')
+('2020-21', 'PRIMARY SECTOR', 535772, 0.5, 868805, 4.2, '16-07-2025')
+('2013-14', 'PRIMARY SECTOR', 500915, 5.7, 585125, 9.5, '16-07-2025')
+('2013-14', 'PRIMARY SECTOR', 603780, 5.8, 744702, 18.6, '16-07-2025')
+('2024-25', 'PRIMARY SECTOR', 858220, 6.1, 1881076, 14.2, '16-07-2025')
+('2024-25', 'PRIMARY SECTOR', 778738, 5.0, 1587571, 7.8, '16-07-2025')
+('2014-15', 'PRIMARY SECTOR', 442189, 4.6, 556005, 16.2, '16-07-2025')
+('2021-22', 'PRIMARY SECTOR', 564817, 5.4, 971689, 11.8, '16-07-2025')
+('2015-16', 'PRIMARY SECTOR', 371276, 3.9, 485379, 2.6, '16-07-2025')
+('2023-24', 'PRIMARY SECTOR', 624534, 5.5, 1216656, 8.1, '16-07-2025')
+('2011-12', 'PRIMARY SECTOR', 565814, 0.0, 571361, 0.0, '16-07-2025')
+('2016-17', 'PRIMARY SECTOR', 394210, 6.2, 546080, 12.5, '16-07-2025')
+('2024-25', 'PRIMARY SECTOR', 638065, 2.2, 1313607, 8.0, '16-07-2025')
+('2017-18', 'PRIMARY SECTOR', 418669, 6.2, 618472, 13.3, '16-07-2025')
+('2011-12', 'PRIMARY SECTOR', 326041, 0.0, 325694, 0.0, '16-07-2025')
+('2022-23', 'PRIMARY SECTOR', 592112, 4.8, 1125398, 15.8, '16-07-2025')
+('2022-23', 'PRIMARY SECTOR', 503356, 3.0, 958521, 11.3, '16-07-2025')
+('2020-21', 'PRIMARY SECTOR', 645327, 2.4, 1092847, 8.8, '16-07-2025')
+('2019-20', 'PRIMARY SECTOR', 533357, 3.3, 833904, 6.8, '16-07-2025')
+('2016-17', 'PRIMARY SECTOR', 566100, 9.5, 766111, 16.7, '16-07-2025')
+('2016-17', 'PRIMARY SECTOR', 631950, 7.6, 878253, 11.2, '16-07-2025')
+('2022-23', 'PRIMARY SECTOR', 794803, 6.0, 1507396, 5.4, '16-07-2025')
+('2011-12', 'PRIMARY SECTOR', 467144, 0.0, 478036, 0.0, '16-07-2025')
+('2014-15', 'PRIMARY SECTOR', 503221, 0.5, 611196, 4.5, '16-07-2025')
+('2014-15', 'PRIMARY SECTOR', 591557, -2.0, 761643, 2.3, '16-07-2025')
+('2021-22', 'PRIMARY SECTOR', 488553, 6.5, 861239, 10.7, '16-07-2025')
+('2012-13', 'PRIMARY SECTOR', 570907, 0.9, 628043, 9.9, '16-07-2025')
+
+2025-10-15 12:56:15,490 - httpx - INFO - [Query ID:2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:56:15,492 - openai._base_client - INFO - [Query ID:2.1] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:56:36,982 - httpx - INFO - [Query ID:2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:56:36,998 - handler_sql - INFO - [Query ID:2.1] - query for table: Growth rates of primary sector at constant prices from October 2023 to October 2025
+2025-10-15 12:56:36,998 - handler_sql - INFO - [Query ID:2.1] - response: SELECT * FROM gdp_india_qtr_primsector_estimates_view WHERE item = 'PRIMARY SECTOR' AND year >= '2023-24' AND year <= '2025-26' LIMIT 125;
+2025-10-15 12:56:36,998 - handler_sql - INFO - [Query ID:2.1] - Used query for specific table: Growth rates of primary sector at constant prices from October 2023 to October 2025
+2025-10-15 12:56:36,998 - handler_sql - INFO - [Query ID:2.1] - SQL query:
+2025-10-15 12:56:36,999 - handler_sql - WARNING - [Query ID:2.1] - Could not remove decorator from original query
+2025-10-15 12:56:36,999 - handler_sql - INFO - [Query ID:2.1] - Originally: SELECT * FROM gdp_india_qtr_primsector_estimates_view WHERE item = 'PRIMARY SECTOR' AND year >= '2023-24' AND year <= '2025-26' LIMIT 125;
+2025-10-15 12:56:37,363 - httpx - INFO - [Query ID:2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:56:37,363 - openai._base_client - INFO - [Query ID:2.1] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:56:59,493 - httpx - INFO - [Query ID:2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:56:59,497 - handler_sql - WARNING - [Query ID:2.1] - Could not remove decorator from validated query
+2025-10-15 12:56:59,497 - handler_sql - INFO - [Query ID:2.1] - After validation: SELECT * FROM gdp_india_qtr_primsector_estimates_view WHERE item = 'PRIMARY SECTOR' AND year >= '2022-23' AND year <= '2024-25' LIMIT 125;
+2025-10-15 12:56:59,868 - handler_sql - INFO - [Query ID:2.1] - Cleaned SQL: SELECT * FROM gdp_india_qtr_primsector_estimates_view WHERE item = 'PRIMARY SECTOR' AND year >= '2022-23' AND year <= '2024-25'
+2025-10-15 12:56:59,868 - handler_sql - INFO - [Query ID:2.1] - SELECT * 
+FROM gdp_india_qtr_primsector_estimates_view WHERE item = 'PRIMARY SECTOR' AND year >= '2022-23' AND year <= '2024-25'
+ORDER BY year DESC
+LIMIT 62;
+2025-10-15 12:56:59,870 - handler_sql - INFO - [Query ID:2.1] - SQL response:
+2025-10-15 12:57:00,134 - handler_sql - INFO - [Query ID:2.1] - Number of rows pulled: 12
+2025-10-15 12:57:00,451 - handler_sql - WARNING - [Query ID:2.1] - Could not fetch table metadata
+2025-10-15 12:57:00,452 - handler_sql - WARNING - [Query ID:2.1] - list index out of range
+2025-10-15 12:57:01,333 - httpx - INFO - [Query ID:2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:57:02,518 - httpx - INFO - [Query ID:2.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:57:02,521 - handler_sql - INFO - [Query ID:2.1] - Got result: Current time: 2025-10-15 07-27-02
+2025-10-15 12:57:02,521 - handler_sql - INFO - [Query ID:2.1] - Response: {'summarized_info': '| year    |   value_in_cr_const |   growth_rate_const |   value_in_cr_current |   growth_rate_current |\n|:--------|--------------------:|--------------------:|----------------------:|----------------------:|\n| 2024-25 |              778738 |                 5   |               1587571 |                   7.8 |\n| 2024-25 |              858220 |                 6.1 |               1881076 |                  14.2 |\n| 2024-25 |              638065 |                 2.2 |               1313607 |                   8   |\n| 2024-25 |              540666 |                 3.5 |               1143824 |                   6.7 |\n| 2023-24 |              808881 |                 1.8 |               1647872 |                   9.3 |\n| 2023-24 |              624534 |                 5.5 |               1216656 |                   8.1 |\n| 2023-24 |              522188 |                 3.7 |               1072320 |                  11.9 |\n| 2023-24 |              741690 |                 0.8 |               1473362 |                   7.6 |\n| 2022-23 |              592112 |                 4.8 |               1125398 |                  15.8 |\n| 2022-23 |              735440 |                 8.7 |               1368699 |                   7.3 |\n| 2022-23 |              794803 |                 6   |               1507396 |                   5.4 |\n| 2022-23 |              503356 |                 3   |                958521 |                  11.3 |'}
+2025-10-15 12:57:02,522 - handler_sql - INFO - [Query ID:2.1] - Total processing time: 54.04 seconds
+2025-10-15 12:57:02,523 - handler_sql - INFO - [Query ID:2.2] - START: Processing query: Growth rates of primary sector at current prices from October 2023 to October 2025
+2025-10-15 12:57:02,523 - handler_sql - INFO - [Query ID:2.2] - Start processing: Current time: 2025-10-15 07-27-02
+2025-10-15 12:57:02,523 - handler_sql - INFO - [Query ID:2.2] - Received unitary query: Growth rates of primary sector at current prices from October 2023 to October 2025
+2025-10-15 12:57:03,964 - handler_sql - INFO - [Query ID:2.2] - Query class: GDP
+2025-10-15 12:57:04,436 - httpx - INFO - [Query ID:2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:57:04,436 - openai._base_client - INFO - [Query ID:2.2] - Retrying request to /chat/completions in 7.530000 seconds
+2025-10-15 12:57:13,569 - httpx - INFO - [Query ID:2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:57:13,570 - handler_sql - INFO - [Query ID:2.2] - Selected file: gdp_india_qtr_primsector_estimates_view
+2025-10-15 12:57:13,570 - handler_sql - INFO - [Query ID:2.2] - Generated schema query:
+2025-10-15 12:57:13,570 - handler_sql - INFO - [Query ID:2.2] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'gdp_india_qtr_primsector_estimates_view'
+        ORDER BY ordinal_position;
+        
+2025-10-15 12:57:13,570 - handler_sql - INFO - [Query ID:2.2] - Attempt 1: to process query
+2025-10-15 12:57:13,722 - handler_sql - INFO - [Query ID:2.2] - Trying to run: SELECT item FROM gdp_india_qtr_primsector_estimates_view ORDER BY RANDOM() LIMIT 40;
+2025-10-15 12:57:14,235 - httpx - INFO - [Query ID:2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:57:14,236 - openai._base_client - INFO - [Query ID:2.2] - Retrying request to /chat/completions in 1.410000 seconds
+2025-10-15 12:57:16,006 - httpx - INFO - [Query ID:2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:57:16,007 - openai._base_client - INFO - [Query ID:2.2] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:57:37,194 - httpx - INFO - [Query ID:2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:57:37,196 - handler_sql - INFO - [Query ID:2.2] - Suggested value sets: ("item = 'PRIMARY SECTOR'", 562, 7)
+2025-10-15 12:57:37,500 - handler_sql - INFO - [Query ID:2.2] - Schema:
+('year', 'text', 'YES', None)
+('item', 'text', 'YES', None)
+('value_in_cr_const', 'bigint', 'YES', None)
+('growth_rate_const', 'double precision', 'YES', None)
+('value_in_cr_current', 'bigint', 'YES', None)
+('growth_rate_current', 'double precision', 'YES', None)
+('data_updated_date', 'text', 'YES', None)
+
+
+Suggested value settings:
+("item = 'PRIMARY SECTOR'", 562, 7)
+
+Sample rows:
+('2022-23', 'PRIMARY SECTOR', 592112, 4.8, 1125398, 15.8, '16-07-2025')
+('2024-25', 'PRIMARY SECTOR', 778738, 5.0, 1587571, 7.8, '16-07-2025')
+('2013-14', 'PRIMARY SECTOR', 422583, 2.6, 478358, 9.7, '16-07-2025')
+('2017-18', 'PRIMARY SECTOR', 497397, 3.0, 702884, 7.3, '16-07-2025')
+('2020-21', 'PRIMARY SECTOR', 458807, 2.5, 778249, 8.9, '16-07-2025')
+('2012-13', 'PRIMARY SECTOR', 474030, 1.5, 534162, 11.7, '16-07-2025')
+('2014-15', 'PRIMARY SECTOR', 357434, 3.6, 473244, 14.3, '16-07-2025')
+('2011-12', 'PRIMARY SECTOR', 467144, 0.0, 478036, 0.0, '16-07-2025')
+('2013-14', 'PRIMARY SECTOR', 603780, 5.8, 744702, 18.6, '16-07-2025')
+('2019-20', 'PRIMARY SECTOR', 630475, 7.1, 1004647, 11.5, '16-07-2025')
+('2012-13', 'PRIMARY SECTOR', 570907, 0.9, 628043, 9.9, '16-07-2025')
+('2020-21', 'PRIMARY SECTOR', 645327, 2.4, 1092847, 8.8, '16-07-2025')
+('2023-24', 'PRIMARY SECTOR', 522188, 3.7, 1072320, 11.9, '16-07-2025')
+('2021-22', 'PRIMARY SECTOR', 749477, 3.3, 1430096, 10.8, '16-07-2025')
+('2017-18', 'PRIMARY SECTOR', 592803, 4.7, 846951, 10.6, '16-07-2025')
+('2019-20', 'PRIMARY SECTOR', 533357, 3.3, 833904, 6.8, '16-07-2025')
+('2018-19', 'PRIMARY SECTOR', 588567, -0.7, 901377, 6.4, '16-07-2025')
+('2012-13', 'PRIMARY SECTOR', 329981, 1.2, 362859, 11.4, '16-07-2025')
+('2015-16', 'PRIMARY SECTOR', 458457, 3.7, 589639, 6.0, '16-07-2025')
+('2014-15', 'PRIMARY SECTOR', 442189, 4.6, 556005, 16.2, '16-07-2025')
+('2024-25', 'PRIMARY SECTOR', 638065, 2.2, 1313607, 8.0, '16-07-2025')
+('2016-17', 'PRIMARY SECTOR', 566100, 9.5, 766111, 16.7, '16-07-2025')
+('2024-25', 'PRIMARY SECTOR', 540666, 3.5, 1143824, 6.7, '16-07-2025')
+('2021-22', 'PRIMARY SECTOR', 488553, 6.5, 861239, 10.7, '16-07-2025')
+('2012-13', 'PRIMARY SECTOR', 411979, 2.0, 435884, 12.4, '16-07-2025')
+('2020-21', 'PRIMARY SECTOR', 725382, 3.6, 1290708, 10.1, '16-07-2025')
+('2023-24', 'PRIMARY SECTOR', 741690, 0.8, 1473362, 7.6, '16-07-2025')
+('2019-20', 'PRIMARY SECTOR', 447530, 3.6, 714484, 6.4, '16-07-2025')
+('2020-21', 'PRIMARY SECTOR', 535772, 0.5, 868805, 4.2, '16-07-2025')
+('2011-12', 'PRIMARY SECTOR', 403982, 0.0, 387892, 0.0, '16-07-2025')
+('2016-17', 'PRIMARY SECTOR', 482991, 5.4, 655026, 11.1, '16-07-2025')
+('2022-23', 'PRIMARY SECTOR', 794803, 6.0, 1507396, 5.4, '16-07-2025')
+('2018-19', 'PRIMARY SECTOR', 516246, 3.8, 780989, 11.1, '16-07-2025')
+('2013-14', 'PRIMARY SECTOR', 345026, 4.6, 413980, 14.1, '16-07-2025')
+('2019-20', 'PRIMARY SECTOR', 700098, 4.7, 1172438, 11.3, '16-07-2025')
+('2015-16', 'PRIMARY SECTOR', 587428, -0.7, 790043, 3.7, '16-07-2025')
+('2016-17', 'PRIMARY SECTOR', 631950, 7.6, 878253, 11.2, '16-07-2025')
+('2023-24', 'PRIMARY SECTOR', 808881, 1.8, 1647872, 9.3, '16-07-2025')
+('2025-26', 'PRIMARY SECTOR', 655701, 2.8, 1335410, 1.7, '10-09-2025')
+('2018-19', 'PRIMARY SECTOR', 432087, 3.2, 671773, 8.6, '16-07-2025')
+
+2025-10-15 12:57:38,056 - httpx - INFO - [Query ID:2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:57:38,057 - openai._base_client - INFO - [Query ID:2.2] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:57:59,914 - httpx - INFO - [Query ID:2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:57:59,918 - handler_sql - INFO - [Query ID:2.2] - query for table: Growth rates of primary sector at current prices from October 2023 to October 2025
+2025-10-15 12:57:59,918 - handler_sql - INFO - [Query ID:2.2] - response: SELECT * FROM gdp_india_qtr_primsector_estimates_view WHERE item = 'PRIMARY SECTOR' AND year >= '2023-24' AND year <= '2025-26' LIMIT 125;
+2025-10-15 12:57:59,919 - handler_sql - INFO - [Query ID:2.2] - Used query for specific table: Growth rates of primary sector at current prices from October 2023 to October 2025
+2025-10-15 12:57:59,919 - handler_sql - INFO - [Query ID:2.2] - SQL query:
+2025-10-15 12:57:59,919 - handler_sql - WARNING - [Query ID:2.2] - Could not remove decorator from original query
+2025-10-15 12:57:59,919 - handler_sql - INFO - [Query ID:2.2] - Originally: SELECT * FROM gdp_india_qtr_primsector_estimates_view WHERE item = 'PRIMARY SECTOR' AND year >= '2023-24' AND year <= '2025-26' LIMIT 125;
+2025-10-15 12:58:00,312 - httpx - INFO - [Query ID:2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:58:00,313 - openai._base_client - INFO - [Query ID:2.2] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:58:21,580 - httpx - INFO - [Query ID:2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:58:21,585 - handler_sql - WARNING - [Query ID:2.2] - Could not remove decorator from validated query
+2025-10-15 12:58:21,585 - handler_sql - INFO - [Query ID:2.2] - After validation: SELECT * FROM gdp_india_qtr_primsector_estimates_view WHERE item = 'PRIMARY SECTOR' AND year >= '2022-23' AND year <= '2024-25' LIMIT 125;
+2025-10-15 12:58:21,973 - handler_sql - INFO - [Query ID:2.2] - Cleaned SQL: SELECT * FROM gdp_india_qtr_primsector_estimates_view WHERE item = 'PRIMARY SECTOR' AND year >= '2022-23' AND year <= '2024-25'
+2025-10-15 12:58:21,973 - handler_sql - INFO - [Query ID:2.2] - SELECT * 
+FROM gdp_india_qtr_primsector_estimates_view WHERE item = 'PRIMARY SECTOR' AND year >= '2022-23' AND year <= '2024-25'
+ORDER BY year DESC
+LIMIT 62;
+2025-10-15 12:58:21,973 - handler_sql - INFO - [Query ID:2.2] - SQL response:
+2025-10-15 12:58:22,159 - handler_sql - INFO - [Query ID:2.2] - Number of rows pulled: 12
+2025-10-15 12:58:22,457 - handler_sql - WARNING - [Query ID:2.2] - Could not fetch table metadata
+2025-10-15 12:58:22,457 - handler_sql - WARNING - [Query ID:2.2] - list index out of range
+2025-10-15 12:58:23,452 - httpx - INFO - [Query ID:2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:58:26,290 - httpx - INFO - [Query ID:2.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:58:26,294 - handler_sql - INFO - [Query ID:2.2] - Got result: Current time: 2025-10-15 07-28-26
+2025-10-15 12:58:26,294 - handler_sql - INFO - [Query ID:2.2] - Response: {'summarized_info': '| year    |   value_in_cr_const |   growth_rate_const |   value_in_cr_current |   growth_rate_current |\n|:--------|--------------------:|--------------------:|----------------------:|----------------------:|\n| 2024-25 |              778738 |                 5   |               1587571 |                   7.8 |\n| 2024-25 |              858220 |                 6.1 |               1881076 |                  14.2 |\n| 2024-25 |              638065 |                 2.2 |               1313607 |                   8   |\n| 2024-25 |              540666 |                 3.5 |               1143824 |                   6.7 |\n| 2023-24 |              808881 |                 1.8 |               1647872 |                   9.3 |\n| 2023-24 |              624534 |                 5.5 |               1216656 |                   8.1 |\n| 2023-24 |              522188 |                 3.7 |               1072320 |                  11.9 |\n| 2023-24 |              741690 |                 0.8 |               1473362 |                   7.6 |\n| 2022-23 |              592112 |                 4.8 |               1125398 |                  15.8 |\n| 2022-23 |              735440 |                 8.7 |               1368699 |                   7.3 |\n| 2022-23 |              794803 |                 6   |               1507396 |                   5.4 |\n| 2022-23 |              503356 |                 3   |                958521 |                  11.3 |'}
+2025-10-15 12:58:26,295 - handler_sql - INFO - [Query ID:2.2] - Total processing time: 83.77 seconds
+2025-10-15 12:58:26,315 - api_main - INFO - [Query ID:3] - Original received query: What are the cpi trends for rural labourers across different states from June to July 2024, and how do they compare with the General category?
+2025-10-15 12:58:29,900 - httpx - INFO - [Query ID:3] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:58:29,911 - api_main - INFO - [Query ID:3] - Rephrased query:
+{
+  "Entity": "CPI (Consumer Price Index)",
+  "Category": "rural labourers, General category",
+  "Qualifiers": "across different states, comparison",
+  "Frequency": "monthly",
+  "Date range": "June 2024 to July 2024"
+}
+2025-10-15 12:58:31,478 - api_main - INFO - [Query ID:2] - SQL responses obtained
+2025-10-15 12:58:31,479 - api_main - INFO - [Query ID:2] - [{'unit_query': 'Growth rates of primary sector at constant prices from October 2023 to October 2025', 'result': [{'summarized_info': '| year    |   value_in_cr_const |   growth_rate_const |   value_in_cr_current |   growth_rate_current |\n|:--------|--------------------:|--------------------:|----------------------:|----------------------:|\n| 2024-25 |              778738 |                 5   |               1587571 |                   7.8 |\n| 2024-25 |              858220 |                 6.1 |               1881076 |                  14.2 |\n| 2024-25 |              638065 |                 2.2 |               1313607 |                   8   |\n| 2024-25 |              540666 |                 3.5 |               1143824 |                   6.7 |\n| 2023-24 |              808881 |                 1.8 |               1647872 |                   9.3 |\n| 2023-24 |              624534 |                 5.5 |               1216656 |                   8.1 |\n| 2023-24 |              522188 |                 3.7 |               1072320 |                  11.9 |\n| 2023-24 |              741690 |                 0.8 |               1473362 |                   7.6 |\n| 2022-23 |              592112 |                 4.8 |               1125398 |                  15.8 |\n| 2022-23 |              735440 |                 8.7 |               1368699 |                   7.3 |\n| 2022-23 |              794803 |                 6   |               1507396 |                   5.4 |\n| 2022-23 |              503356 |                 3   |                958521 |                  11.3 |'}], 'description': 'The data pertains to the primary sector, with the latest update recorded on July 16, 2025. Insights from this sector may include trends in agriculture, mining, and forestry, reflecting economic shifts and resource management practices.', 'success': True, 'message': 'Successful completion', 'unitary_time': 54.03522515296936, 'reference': 'Unknown', 'url': 'https://esankhyiki.mospi.gov.in/macroindicators?product=nas', 'table_metadata': 'N/A'}, {'unit_query': 'Growth rates of primary sector at current prices from October 2023 to October 2025', 'result': [{'summarized_info': '| year    |   value_in_cr_const |   growth_rate_const |   value_in_cr_current |   growth_rate_current |\n|:--------|--------------------:|--------------------:|----------------------:|----------------------:|\n| 2024-25 |              778738 |                 5   |               1587571 |                   7.8 |\n| 2024-25 |              858220 |                 6.1 |               1881076 |                  14.2 |\n| 2024-25 |              638065 |                 2.2 |               1313607 |                   8   |\n| 2024-25 |              540666 |                 3.5 |               1143824 |                   6.7 |\n| 2023-24 |              808881 |                 1.8 |               1647872 |                   9.3 |\n| 2023-24 |              624534 |                 5.5 |               1216656 |                   8.1 |\n| 2023-24 |              522188 |                 3.7 |               1072320 |                  11.9 |\n| 2023-24 |              741690 |                 0.8 |               1473362 |                   7.6 |\n| 2022-23 |              592112 |                 4.8 |               1125398 |                  15.8 |\n| 2022-23 |              735440 |                 8.7 |               1368699 |                   7.3 |\n| 2022-23 |              794803 |                 6   |               1507396 |                   5.4 |\n| 2022-23 |              503356 |                 3   |                958521 |                  11.3 |'}], 'description': "The data pertains to the primary sector, with the last update recorded on July 16, 2025. Insights from this data may include trends in agricultural production and resource extraction, reflecting the sector's impact on economic growth and sustainability.", 'success': True, 'message': 'Successful completion', 'unitary_time': 83.77067184448242, 'reference': 'Unknown', 'url': 'https://esankhyiki.mospi.gov.in/macroindicators?product=nas', 'table_metadata': 'N/A'}]
+2025-10-15 12:58:31,479 - api_main - INFO - [Query ID:2] - <part> 1 has data
+2025-10-15 12:58:31,479 - api_main - INFO - [Query ID:2] - <part> 2 has data
+2025-10-15 12:58:35,618 - api_main - INFO - [Query ID:2] - Suggested answer: 
+2025-10-15 12:58:35,619 - api_main - INFO - [Query ID:2] - | Caption: Primary sector growth rates (constant & current prices) as of July 16, 2025 |
+| :------------------------------------------------------------------------------------ |
+
+| year    |   value_in_cr_const |   growth_rate_const |   value_in_cr_current |   growth_rate_current |
+|:--------|--------------------:|--------------------:|----------------------:|----------------------:|
+| 2024-25 |              778738 |                 5   |               1587571 |                   7.8 |
+| 2024-25 |              858220 |                 6.1 |               1881076 |                  14.2 |
+| 2024-25 |              638065 |                 2.2 |               1313607 |                   8   |
+| 2024-25 |              540666 |                 3.5 |               1143824 |                   6.7 |
+| 2023-24 |              808881 |                 1.8 |               1647872 |                   9.3 |
+| 2023-24 |              624534 |                 5.5 |               1216656 |                   8.1 |
+| 2023-24 |              522188 |                 3.7 |               1072320 |                  11.9 |
+| 2023-24 |              741690 |                 0.8 |               1473362 |                   7.6 |
+| 2022-23 |              592112 |                 4.8 |               1125398 |                  15.8 |
+| 2022-23 |              735440 |                 8.7 |               1368699 |                   7.3 |
+| 2022-23 |              794803 |                 6   |               1507396 |                   5.4 |
+| 2022-23 |              503356 |                 3   |                958521 |                  11.3 |
+
+2025-10-15 12:58:35,619 - api_main - INFO - [Query ID:2] - Commentary:
+2025-10-15 12:58:35,620 - api_main - INFO - [Query ID:2] - Table information:
+
+2025-10-15 12:58:36,961 - api_main - INFO - [Query ID:2] - Confidence: 1
+2025-10-15 12:58:36,961 - api_main - INFO - [Query ID:2] - Total processing time: 154.32750272750854
+2025-10-15 12:58:36,983 - handler_sql - INFO - [Query ID:3.1] - START: Processing query: CPI for rural labourers across states, June 2024 to July 2024
+2025-10-15 12:58:36,983 - handler_sql - INFO - [Query ID:3.1] - Start processing: Current time: 2025-10-15 07-28-36
+2025-10-15 12:58:36,983 - handler_sql - INFO - [Query ID:3.1] - Received unitary query: CPI for rural labourers across states, June 2024 to July 2024
+2025-10-15 12:58:39,120 - handler_sql - INFO - [Query ID:3.1] - Query class: CPI
+2025-10-15 12:58:40,731 - handler_sql - INFO - [Query ID:3.1] - Selected file: consumer_price_index_cpi_for_agricultural_and_rural_labourers
+2025-10-15 12:58:40,731 - handler_sql - INFO - [Query ID:3.1] - Generated schema query:
+2025-10-15 12:58:40,731 - handler_sql - INFO - [Query ID:3.1] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'consumer_price_index_cpi_for_agricultural_and_rural_labourers'
+        ORDER BY ordinal_position;
+        
+2025-10-15 12:58:40,733 - handler_sql - INFO - [Query ID:3.1] - Attempt 1: to process query
+2025-10-15 12:58:40,915 - handler_sql - INFO - [Query ID:3.1] - Trying to run: SELECT state, category, labour_type FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers ORDER BY RANDOM() LIMIT 40;
+2025-10-15 12:58:41,758 - httpx - INFO - [Query ID:3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:58:41,759 - openai._base_client - INFO - [Query ID:3.1] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:59:03,350 - httpx - INFO - [Query ID:3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:59:03,352 - handler_sql - INFO - [Query ID:3.1] - Suggested value sets: ('category: General  \nlabour_type: rural', 962, 9)
+2025-10-15 12:59:03,659 - handler_sql - INFO - [Query ID:3.1] - Schema:
+('state', 'character varying', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'character varying', 'YES', None)
+('category', 'character varying', 'YES', None)
+('index_value', 'integer', 'YES', None)
+('labour_type', 'character varying', 'YES', None)
+('data_release_date', 'character varying', 'YES', "'Aug-2024'::character varying")
+('data_updated_date', 'character varying', 'YES', "'Apr-2025'::character varying")
+('data_source', 'character varying', 'YES', "'MINISTRY OF LABOUR & EMPLOYMENT'::character varying")
+('fiscal_year', 'text', 'YES', None)
+
+
+Suggested value settings:
+('category: General  \nlabour_type: rural', 962, 9)
+
+Sample rows:
+(9, 'bihar', 2024, 'June', 'General', 1063, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(43, 'maharashtra', 2024, 'June', 'Food', 1486, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(89, 'assam', 2024, 'June', 'General', 1119, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(64, 'rajasthan', 2024, 'July', 'Food', 1364, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(106, 'himachalpradesh', 2024, 'July', 'General', 996, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(22, 'himachalpradesh', 2024, 'July', 'General', 1056, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(55, 'odisha', 2024, 'June', 'Food', 968, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(112, 'jammukashmir', 2024, 'July', 'Food', 1208, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(44, 'maharashtra', 2024, 'July', 'Food', 1505, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(4, 'andhrapradesh', 2024, 'July', 'Food', 1477, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(119, 'kerala', 2024, 'June', 'Food', 1278, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(62, 'rajasthan', 2024, 'July', 'General', 1342, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(74, 'uttarpradesh', 2024, 'July', 'General', 1141, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(17, 'haryana', 2024, 'June', 'General', 1373, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(135, 'meghalaya', 2024, 'June', 'Food', 1154, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(140, 'odisha', 2024, 'July', 'Food', 982, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(148, 'rajasthan', 2024, 'July', 'Food', 1381, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(81, 'allindia', 2024, 'June', 'General', 1292, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(7, 'assam', 2024, 'June', 'Food', 1078, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(156, 'tripura', 2024, 'July', 'Food', 978, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(82, 'allindia', 2024, 'July', 'General', 1302, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(71, 'tripura', 2024, 'June', 'Food', 961, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(75, 'uttarpradesh', 2024, 'June', 'Food', 1140, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(37, 'madhyapradesh', 2024, 'June', 'General', 1204, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(130, 'manipur', 2024, 'July', 'General', 1153, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(66, 'tamilnadu', 2024, 'July', 'General', 1489, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(152, 'tamilnadu', 2024, 'July', 'Food', 1409, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(132, 'manipur', 2024, 'July', 'Food', 940, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(109, 'jammukashmir', 2024, 'June', 'General', 1188, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(21, 'himachalpradesh', 2024, 'June', 'General', 1046, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(137, 'odisha', 2024, 'June', 'General', 1112, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(49, 'meghalaya', 2024, 'June', 'General', 1257, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(69, 'tripura', 2024, 'June', 'General', 1086, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(12, 'bihar', 2024, 'July', 'Food', 921, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(155, 'tripura', 2024, 'June', 'Food', 968, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(41, 'maharashtra', 2024, 'June', 'General', 1440, 'rural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(93, 'bihar', 2024, 'June', 'General', 1047, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(164, 'westbengal', 2024, 'July', 'Food', 954, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(116, 'karnataka', 2024, 'July', 'Food', 1456, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+(159, 'uttarpradesh', 2024, 'June', 'Food', 1134, 'agricultural', 'Aug-2024', 'Apr-2025', 'MINISTRY OF LABOUR & EMPLOYMENT', '2024-25')
+
+2025-10-15 12:59:04,004 - httpx - INFO - [Query ID:3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:59:04,005 - openai._base_client - INFO - [Query ID:3.1] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:59:25,799 - httpx - INFO - [Query ID:3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:59:25,814 - handler_sql - INFO - [Query ID:3.1] - query for table: CPI for rural labourers across states, June 2024 to July 2024
+2025-10-15 12:59:25,814 - handler_sql - INFO - [Query ID:3.1] - response: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE year = 2024 AND month IN ('June', 'July') AND category = 'General' AND labour_type = 'rural' LIMIT 125;
+2025-10-15 12:59:25,814 - handler_sql - INFO - [Query ID:3.1] - Used query for specific table: CPI for rural labourers across states, June 2024 to July 2024
+2025-10-15 12:59:25,814 - handler_sql - INFO - [Query ID:3.1] - SQL query:
+2025-10-15 12:59:25,814 - handler_sql - WARNING - [Query ID:3.1] - Could not remove decorator from original query
+2025-10-15 12:59:25,814 - handler_sql - INFO - [Query ID:3.1] - Originally: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE year = 2024 AND month IN ('June', 'July') AND category = 'General' AND labour_type = 'rural' LIMIT 125;
+2025-10-15 12:59:26,861 - httpx - INFO - [Query ID:3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:59:26,870 - handler_sql - WARNING - [Query ID:3.1] - Could not remove decorator from validated query
+2025-10-15 12:59:26,871 - handler_sql - INFO - [Query ID:3.1] - After validation: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE year = 2024 AND category = 'General' AND labour_type = 'rural' LIMIT 125;
+2025-10-15 12:59:27,248 - handler_sql - INFO - [Query ID:3.1] - Cleaned SQL: SELECT * FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE year = 2024 AND category = 'General' AND labour_type = 'rural'
+2025-10-15 12:59:27,248 - handler_sql - INFO - [Query ID:3.1] - SELECT * 
+FROM consumer_price_index_cpi_for_agricultural_and_rural_labourers WHERE year = 2024 AND category = 'General' AND labour_type = 'rural'
+ORDER BY year DESC
+LIMIT 62;
+2025-10-15 12:59:27,248 - handler_sql - INFO - [Query ID:3.1] - SQL response:
+2025-10-15 12:59:27,412 - handler_sql - INFO - [Query ID:3.1] - Number of rows pulled: 42
+2025-10-15 12:59:27,652 - handler_sql - INFO - [Query ID:3.1] - Got metadata: Ministry of Labour & Employment, https://labourbureau.gov.in/uploads/public/notice/MIL-07-2024pdf-bd246163a1b7f2b4515a6eedd5df650d.pdf, Inflation trends affecting rural/agricultural labor for wage/policy insights.
+2025-10-15 12:59:27,726 - handler_sql - INFO - [Query ID:3.1] - Found a data source column: MINISTRY OF LABOUR & EMPLOYMENT
+2025-10-15 12:59:28,538 - httpx - INFO - [Query ID:3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:59:30,134 - httpx - INFO - [Query ID:3.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:59:30,135 - handler_sql - INFO - [Query ID:3.1] - Got result: Current time: 2025-10-15 07-29-30
+2025-10-15 12:59:30,135 - handler_sql - INFO - [Query ID:3.1] - Response: {'summarized_info': '| state           |   year | month   |   index_value |\n|:----------------|-------:|:--------|--------------:|\n| maharashtra     |   2024 | July    |          1452 |\n| karnataka       |   2024 | July    |          1468 |\n| westbengal      |   2024 | July    |          1127 |\n| uttarpradesh    |   2024 | July    |          1141 |\n| tripura         |   2024 | July    |          1099 |\n| tamilnadu       |   2024 | July    |          1489 |\n| rajasthan       |   2024 | July    |          1342 |\n| punjab          |   2024 | July    |          1381 |\n| odisha          |   2024 | July    |          1125 |\n| meghalaya       |   2024 | July    |          1265 |\n| manipur         |   2024 | July    |          1164 |\n| andhrapradesh   |   2024 | July    |          1485 |\n| madhyapradesh   |   2024 | July    |          1216 |\n| kerala          |   2024 | July    |          1310 |\n| allindia        |   2024 | July    |          1302 |\n| jammu&kashmir   |   2024 | July    |          1213 |\n| himachalpradesh |   2024 | July    |          1056 |\n| assam           |   2024 | July    |          1154 |\n| haryana         |   2024 | July    |          1386 |\n| bihar           |   2024 | July    |          1074 |\n| gujarat         |   2024 | July    |          1321 |'}
+2025-10-15 12:59:30,135 - handler_sql - INFO - [Query ID:3.1] - Total processing time: 53.15 seconds
+2025-10-15 12:59:30,135 - handler_sql - INFO - [Query ID:3.2] - START: Processing query: CPI for general category across states, June 2024 to July 2024
+2025-10-15 12:59:30,135 - handler_sql - INFO - [Query ID:3.2] - Start processing: Current time: 2025-10-15 07-29-30
+2025-10-15 12:59:30,135 - handler_sql - INFO - [Query ID:3.2] - Received unitary query: CPI for general category across states, June 2024 to July 2024
+2025-10-15 12:59:31,633 - handler_sql - INFO - [Query ID:3.2] - Query class: CPI
+2025-10-15 12:59:33,068 - handler_sql - INFO - [Query ID:3.2] - Selected file: cpi_state_mth_grp_view
+2025-10-15 12:59:33,069 - handler_sql - INFO - [Query ID:3.2] - Generated schema query:
+2025-10-15 12:59:33,069 - handler_sql - INFO - [Query ID:3.2] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'cpi_state_mth_grp_view'
+        ORDER BY ordinal_position;
+        
+2025-10-15 12:59:33,069 - handler_sql - INFO - [Query ID:3.2] - Attempt 1: to process query
+2025-10-15 12:59:33,218 - handler_sql - INFO - [Query ID:3.2] - Trying to run: SELECT state, sector, group_name FROM cpi_state_mth_grp_view ORDER BY RANDOM() LIMIT 40;
+2025-10-15 12:59:34,032 - httpx - INFO - [Query ID:3.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:59:34,032 - openai._base_client - INFO - [Query ID:3.2] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 12:59:55,426 - httpx - INFO - [Query ID:3.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 12:59:55,440 - handler_sql - INFO - [Query ID:3.2] - Suggested value sets: ("group_name = ['General']", 1096, 6)
+2025-10-15 12:59:55,913 - handler_sql - INFO - [Query ID:3.2] - Schema:
+('base_year', 'integer', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'character varying', 'YES', None)
+('month_numeric', 'integer', 'YES', None)
+('state', 'character varying', 'YES', None)
+('sector', 'character varying', 'YES', None)
+('group_name', 'character varying', 'YES', None)
+('inflation_index', 'numeric', 'YES', None)
+('inflation_rate', 'numeric', 'YES', None)
+('released_on', 'character varying', 'YES', None)
+('updated_on', 'character varying', 'YES', None)
+('data_source', 'character varying', 'YES', None)
+('date_stamp', 'character varying', 'YES', None)
+('fiscal_year', 'text', 'YES', None)
+
+
+Suggested value settings:
+("group_name = ['General']", 1096, 6)
+
+Sample rows:
+(2012, 2018, 'October', 10, 'Kerala', 'Urban', 'Clothing and Footwear', Decimal('132.40'), Decimal('4.50'), '12-Nov-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-10-01', '2018-19')
+(2012, 2023, 'March', 3, 'Goa', 'Combined', 'Clothing and Footwear', Decimal('157.70'), Decimal('4.09'), '12-Apr-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-03-01', '2022-23')
+(2012, 2024, 'September', 9, 'Meghalaya', 'Rural', 'Fuel and Light', Decimal('199.30'), Decimal('2.21'), '14-Oct-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-09-01', '2024-25')
+(2012, 2022, 'May', 5, 'Jharkhand', 'Urban', 'General', Decimal('173.10'), Decimal('8.53'), '13-Jun-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-05-01', '2022-23')
+(2012, 2017, 'May', 5, 'Goa', 'Combined', 'Fuel and Light', Decimal('122.80'), Decimal('6.69'), '12-Jun-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-05-01', '2017-18')
+(2012, 2019, 'May', 5, 'Odisha', 'Combined', 'General', Decimal('142.60'), Decimal('2.00'), '12-Jun-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-05-01', '2019-20')
+(2012, 2017, 'November', 11, 'Lakshadweep', 'Combined', 'Miscellaneous', Decimal('114.90'), Decimal('0.70'), '12-Dec-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-11-01', '2017-18')
+(2012, 2021, 'October', 10, 'Chandigarh', 'Urban', 'Housing', Decimal('150.80'), Decimal('-0.07'), '12-Nov-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-10-01', '2021-22')
+(2012, 2023, 'March', 3, 'Rajasthan', 'Urban', 'General', Decimal('173.80'), Decimal('5.46'), '12-Apr-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-03-01', '2022-23')
+(2012, 2019, 'January', 1, 'Tripura', 'Combined', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2019-01-01', '2018-19')
+(2012, 2017, 'December', 12, 'Mizoram', 'Urban', 'Clothing and Footwear', Decimal('119.50'), Decimal('1.62'), '12-Jan-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-12-01', '2017-18')
+(2012, 2020, 'August', 8, 'Odisha', 'Rural', 'Clothing and Footwear', Decimal('159.50'), Decimal('4.11'), '14-Sep-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-08-01', '2020-21')
+(2012, 2024, 'November', 11, 'Haryana', 'Rural', 'General', Decimal('200.90'), Decimal('6.02'), '12-Dec-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-11-01', '2024-25')
+(2012, 2023, 'April', 4, 'Rajasthan', 'Urban', 'Miscellaneous', Decimal('171.30'), Decimal('4.83'), '12-May-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-04-01', '2023-24')
+(2012, 2022, 'September', 9, 'West Bengal', 'Rural', 'Clothing and Footwear', Decimal('194.00'), Decimal('14.59'), '12-Oct-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-09-01', '2022-23')
+(2012, 2021, 'October', 10, 'Uttarakhand', 'Combined', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2021-10-01', '2021-22')
+(2012, 2019, 'October', 10, 'Himachal Pradesh', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('174.90'), Decimal('11.69'), '13-Nov-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-10-01', '2019-20')
+(2012, 2023, 'December', 12, 'Punjab', 'Urban', 'Food and Beverages', Decimal('191.60'), Decimal('10.69'), '12-Jan-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-12-01', '2023-24')
+(2012, 2023, 'March', 3, 'Assam', 'Rural', 'Clothing and Footwear', Decimal('179.20'), Decimal('5.66'), '12-Apr-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-03-01', '2022-23')
+(2012, 2024, 'March', 3, 'Uttar Pradesh', 'Combined', 'Food and Beverages', Decimal('191.60'), Decimal('8.56'), '12-Apr-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-03-01', '2023-24')
+(2012, 2023, 'May', 5, 'Kerala', 'Urban', 'Pan, Tobacco and Intoxicants', Decimal('205.90'), Decimal('2.85'), '12-Jun-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-05-01', '2023-24')
+(2012, 2022, 'August', 8, 'Punjab', 'Combined', 'Miscellaneous', Decimal('168.80'), Decimal('4.20'), '12-Sep-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-08-01', '2022-23')
+(2012, 2023, 'August', 8, 'Telangana', 'Rural', 'Clothing and Footwear', Decimal('215.60'), Decimal('6.47'), '12-Sep-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-08-01', '2023-24')
+(2012, 2019, 'January', 1, 'Andhra Pradesh', 'Combined', 'General', Decimal('139.70'), Decimal('-1.20'), '12-Feb-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-01-01', '2018-19')
+(2012, 2019, 'April', 4, 'Puducherry', 'Combined', 'Fuel and Light', Decimal('145.20'), Decimal('-3.14'), '13-May-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-04-01', '2019-20')
+(2012, 2017, 'October', 10, 'Tamil Nadu', 'Rural', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2017-10-01', '2017-18')
+(2012, 2023, 'March', 3, 'Odisha', 'Combined', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2023-03-01', '2022-23')
+(2012, 2017, 'January', 1, 'Sikkim', 'Urban', 'Food and Beverages', Decimal('133.90'), Decimal('4.36'), '13-Feb-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-01-01', '2016-17')
+(2012, 2022, 'September', 9, 'Mizoram', 'Combined', 'General', Decimal('176.90'), Decimal('8.73'), '12-Oct-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-09-01', '2022-23')
+(2012, 2024, 'December', 12, 'Tamil Nadu', 'Urban', 'Fuel and Light', Decimal('192.40'), Decimal('-2.38'), '13-Jan-25', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-12-01', '2024-25')
+(2012, 2022, 'October', 10, 'Jammu and Kashmir', 'Urban', 'General', Decimal('186.20'), Decimal('7.07'), '14-Nov-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-10-01', '2022-23')
+(2012, 2024, 'April', 4, 'Gujarat', 'Urban', 'General', Decimal('175.10'), Decimal('4.29'), '12-May-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-04-01', '2024-25')
+(2012, 2020, 'December', 12, 'All India', 'Urban', 'Pan, Tobacco and Intoxicants', Decimal('191.80'), Decimal('12.56'), '12-Jan-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-12-01', '2020-21')
+(2012, 2018, 'July', 7, 'Arunachal Pradesh', 'Combined', 'Fuel and Light', Decimal('160.60'), Decimal('6.15'), '13-Aug-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-07-01', '2018-19')
+(2012, 2018, 'April', 4, 'West Bengal', 'Rural', 'Clothing and Footwear', Decimal('148.00'), Decimal('6.63'), 'NaN', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-04-01', '2018-19')
+(2012, 2024, 'January', 1, 'Maharashtra', 'Rural', 'Miscellaneous', Decimal('180.80'), Decimal('2.20'), '12-Feb-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-01-01', '2023-24')
+(2012, 2023, 'May', 5, 'Daman and Diu', 'Combined', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2023-05-01', '2023-24')
+(2012, 2021, 'August', 8, 'All India', 'Combined', 'Consumer Food Price', Decimal('162.70'), Decimal('3.11'), '13-Sep-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-08-01', '2021-22')
+(2012, 2023, 'November', 11, 'Daman and Diu', 'Combined', 'Miscellaneous', Decimal('174.40'), Decimal('3.93'), '12-Dec-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-11-01', '2023-24')
+(2012, 2023, 'February', 2, 'Dadra and Nagar Haveli', 'Combined', 'Fuel and Light', Decimal('177.60'), Decimal('15.55'), '13-Mar-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-02-01', '2022-23')
+
+2025-10-15 12:59:56,353 - httpx - INFO - [Query ID:3.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 12:59:56,355 - openai._base_client - INFO - [Query ID:3.2] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 13:00:18,198 - httpx - INFO - [Query ID:3.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 13:00:18,200 - handler_sql - INFO - [Query ID:3.2] - query for table: CPI for general category across states, June 2024 to July 2024
+2025-10-15 13:00:18,200 - handler_sql - INFO - [Query ID:3.2] - response: SELECT * FROM cpi_state_mth_grp_view WHERE year >= 2024 AND year <= 2024 AND group_name = 'General' AND sector = 'Combined' LIMIT 125;
+2025-10-15 13:00:18,200 - handler_sql - INFO - [Query ID:3.2] - Used query for specific table: CPI for general category across states, June 2024 to July 2024
+2025-10-15 13:00:18,200 - handler_sql - INFO - [Query ID:3.2] - SQL query:
+2025-10-15 13:00:18,201 - handler_sql - WARNING - [Query ID:3.2] - Could not remove decorator from original query
+2025-10-15 13:00:18,201 - handler_sql - INFO - [Query ID:3.2] - Originally: SELECT * FROM cpi_state_mth_grp_view WHERE year >= 2024 AND year <= 2024 AND group_name = 'General' AND sector = 'Combined' LIMIT 125;
+2025-10-15 13:00:18,540 - httpx - INFO - [Query ID:3.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+2025-10-15 13:00:18,540 - openai._base_client - INFO - [Query ID:3.2] - Retrying request to /chat/completions in 20.000000 seconds
+2025-10-15 13:00:39,672 - httpx - INFO - [Query ID:3.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 13:00:39,675 - handler_sql - WARNING - [Query ID:3.2] - Could not remove decorator from validated query
+2025-10-15 13:00:39,675 - handler_sql - INFO - [Query ID:3.2] - After validation: SELECT * FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined' LIMIT 125;
+2025-10-15 13:00:40,048 - handler_sql - INFO - [Query ID:3.2] - Cleaned SQL: SELECT * FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined'
+2025-10-15 13:00:40,048 - handler_sql - INFO - [Query ID:3.2] - SELECT * 
+FROM cpi_state_mth_grp_view WHERE year = 2024 AND group_name = 'General' AND sector = 'Combined'
+ORDER BY date_stamp DESC, month_numeric DESC
+LIMIT 62;
+2025-10-15 13:00:40,049 - handler_sql - INFO - [Query ID:3.2] - SQL response:
+2025-10-15 13:00:40,294 - handler_sql - INFO - [Query ID:3.2] - Number of rows pulled: 62
+2025-10-15 13:00:40,590 - handler_sql - WARNING - [Query ID:3.2] - Could not fetch table metadata
+2025-10-15 13:00:40,590 - handler_sql - WARNING - [Query ID:3.2] - list index out of range
+2025-10-15 13:00:40,592 - handler_sql - INFO - [Query ID:3.2] - Found a data source column: Price Statistics Division, MoSPI
+2025-10-15 13:00:41,267 - httpx - INFO - [Query ID:3.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 13:00:43,304 - httpx - INFO - [Query ID:3.2] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-15 13:00:43,307 - handler_sql - INFO - [Query ID:3.2] - Got result: Current time: 2025-10-15 07-30-43
+2025-10-15 13:00:43,309 - handler_sql - INFO - [Query ID:3.2] - Response: {'summarized_info': '|   year | month    |   month_numeric | state                       | inflation_index   | inflation_rate   | released_on   | updated_on   | date_stamp   |\n|-------:|:---------|----------------:|:----------------------------|:------------------|:-----------------|:--------------|:-------------|:-------------|\n|   2024 | December |              12 | Andhra Pradesh              | 199.5             | 4.34             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Maharashtra                 | 190.9             | 4.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Punjab                      | 187.0             | 5.06             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chandigarh                  | 182.0             | 6.12             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Nagaland                    | 196.2             | 5.48             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Mizoram                     | 192.7             | 4.11             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Rajasthan                   | 192.8             | 4.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chhattisgarh                | 190.3             | 7.57             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Manipur                     | 224.7             | 9.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Delhi                       | 171.5             | 2.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tamil Nadu                  | 202.2             | 5.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tripura                     | 214.2             | 5.1              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Lakshadweep                 | 195.2             | 5.23             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttar Pradesh               | 196.8             | 6.26             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | West Bengal                 | 198.7             | 4.8              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Kerala                      | 202.4             | 6.41             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Daman and Diu               | 196.3             | 7.03             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Arunachal Pradesh           |                   |                  | 15-Apr-25     | 17-Apr-25    | 2024-12-01   |\n|   2024 | December |              12 | Himachal Pradesh            | 183.7             | 4.97             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttarakhand                 | 192.7             | 6.05             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Bihar                       | 196.8             | 7.36             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Haryana                     | 193.7             | 6.02             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | All India                   | 195.4             | 5.22             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Telangana                   | 203.4             | 3.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Puducherry                  | 202.3             | 5.64             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Andaman and Nicobar Islands | 198.9             | 3.27             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Dadra and Nagar Haveli      | 188.3             | 5.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Odisha                      | 201.2             | 6.96             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Sikkim                      | 200.7             | 3.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Goa                         | 182.6             | 4.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Gujarat                     | 187.4             | 4.93             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jammu and Kashmir           | 203.6             | 5.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Madhya Pradesh              | 196.4             | 5.71             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jharkhand                   | 192.3             | 4.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Karnataka                   | 200.6             | 5.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Meghalaya                   | 181.9             | 4.66             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Assam                       | 199.4             | 5.5              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |'}
+2025-10-15 13:00:43,310 - handler_sql - INFO - [Query ID:3.2] - Total processing time: 73.17 seconds
+2025-10-15 13:00:43,315 - api_main - INFO - [Query ID:3] - SQL responses obtained
+2025-10-15 13:00:43,315 - api_main - INFO - [Query ID:3] - [{'unit_query': 'CPI for rural labourers across states, June 2024 to July 2024', 'result': [{'summarized_info': '| state           |   year | month   |   index_value |\n|:----------------|-------:|:--------|--------------:|\n| maharashtra     |   2024 | July    |          1452 |\n| karnataka       |   2024 | July    |          1468 |\n| westbengal      |   2024 | July    |          1127 |\n| uttarpradesh    |   2024 | July    |          1141 |\n| tripura         |   2024 | July    |          1099 |\n| tamilnadu       |   2024 | July    |          1489 |\n| rajasthan       |   2024 | July    |          1342 |\n| punjab          |   2024 | July    |          1381 |\n| odisha          |   2024 | July    |          1125 |\n| meghalaya       |   2024 | July    |          1265 |\n| manipur         |   2024 | July    |          1164 |\n| andhrapradesh   |   2024 | July    |          1485 |\n| madhyapradesh   |   2024 | July    |          1216 |\n| kerala          |   2024 | July    |          1310 |\n| allindia        |   2024 | July    |          1302 |\n| jammu&kashmir   |   2024 | July    |          1213 |\n| himachalpradesh |   2024 | July    |          1056 |\n| assam           |   2024 | July    |          1154 |\n| haryana         |   2024 | July    |          1386 |\n| bihar           |   2024 | July    |          1074 |\n| gujarat         |   2024 | July    |          1321 |'}], 'description': 'The dataset, categorized as General, focuses on rural labor and is set for release in August 2024, with updates planned for April 2025, covering the fiscal year 2024-25. Insights may reveal trends in rural employment and economic conditions during this period.', 'success': True, 'message': 'Successful completion', 'unitary_time': 53.152271032333374, 'reference': 'MINISTRY OF LABOUR & EMPLOYMENT', 'url': 'https://labourbureau.gov.in/uploads/public/notice/MIL-07-2024pdf-bd246163a1b7f2b4515a6eedd5df650d.pdf', 'table_metadata': 'Inflation trends affecting rural/agricultural labor for wage/policy insights.'}, {'unit_query': 'CPI for general category across states, June 2024 to July 2024', 'result': [{'summarized_info': '|   year | month    |   month_numeric | state                       | inflation_index   | inflation_rate   | released_on   | updated_on   | date_stamp   |\n|-------:|:---------|----------------:|:----------------------------|:------------------|:-----------------|:--------------|:-------------|:-------------|\n|   2024 | December |              12 | Andhra Pradesh              | 199.5             | 4.34             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Maharashtra                 | 190.9             | 4.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Punjab                      | 187.0             | 5.06             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chandigarh                  | 182.0             | 6.12             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Nagaland                    | 196.2             | 5.48             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Mizoram                     | 192.7             | 4.11             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Rajasthan                   | 192.8             | 4.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Chhattisgarh                | 190.3             | 7.57             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Manipur                     | 224.7             | 9.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Delhi                       | 171.5             | 2.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tamil Nadu                  | 202.2             | 5.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Tripura                     | 214.2             | 5.1              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Lakshadweep                 | 195.2             | 5.23             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttar Pradesh               | 196.8             | 6.26             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | West Bengal                 | 198.7             | 4.8              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Kerala                      | 202.4             | 6.41             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Daman and Diu               | 196.3             | 7.03             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Arunachal Pradesh           |                   |                  | 15-Apr-25     | 17-Apr-25    | 2024-12-01   |\n|   2024 | December |              12 | Himachal Pradesh            | 183.7             | 4.97             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Uttarakhand                 | 192.7             | 6.05             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Bihar                       | 196.8             | 7.36             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Haryana                     | 193.7             | 6.02             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | All India                   | 195.4             | 5.22             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Telangana                   | 203.4             | 3.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Puducherry                  | 202.3             | 5.64             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Andaman and Nicobar Islands | 198.9             | 3.27             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Dadra and Nagar Haveli      | 188.3             | 5.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Odisha                      | 201.2             | 6.96             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Sikkim                      | 200.7             | 3.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Goa                         | 182.6             | 4.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Gujarat                     | 187.4             | 4.93             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jammu and Kashmir           | 203.6             | 5.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Madhya Pradesh              | 196.4             | 5.71             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Jharkhand                   | 192.3             | 4.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Karnataka                   | 200.6             | 5.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Meghalaya                   | 181.9             | 4.66             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |\n|   2024 | December |              12 | Assam                       | 199.4             | 5.5              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |'}], 'description': 'The data pertains to the combined sector for the fiscal year 2024-25, with a base year of 2012, focusing on the general group. Insights reveal trends in growth and performance metrics over the specified period, highlighting key areas for strategic development.', 'success': True, 'message': 'Successful completion', 'unitary_time': 73.17325067520142, 'reference': 'Price Statistics Division, MoSPI', 'url': 'https://esankhyiki.mospi.gov.in/macroindicators?product=cpi', 'table_metadata': 'N/A'}]
+2025-10-15 13:00:43,317 - api_main - INFO - [Query ID:3] - <part> 1 has data
+2025-10-15 13:00:43,317 - api_main - INFO - [Query ID:3] - <part> 2 has data
+2025-10-15 13:01:01,437 - api_main - INFO - [Query ID:3] - Suggested answer: 
+2025-10-15 13:01:01,438 - api_main - INFO - [Query ID:3] - Caption: CPI trends for rural labourers across states in July 2024.
+
+| state               |   year | month   |   index_value |
+|:--------------------|-------:|:--------|--------------:|
+| maharashtra         |   2024 | July    |          1452 |
+| karnataka           |   2024 | July    |          1468 |
+| westbengal          |   2024 | July    |          1127 |
+| uttarpradesh        |   2024 | July    |          1141 |
+| tripura             |   2024 | July    |          1099 |
+| tamilnadu           |   2024 | July    |          1489 |
+| rajasthan           |   2024 | July    |          1342 |
+| punjab              |   2024 | July    |          1381 |
+| odisha              |   2024 | July    |          1125 |
+| meghalaya           |   2024 | July    |          1265 |
+| manipur             |   2024 | July    |          1164 |
+| andhrapradesh       |   2024 | July    |          1485 |
+| madhyapradesh       |   2024 | July    |          1216 |
+| kerala              |   2024 | July    |          1310 |
+| allindia            |   2024 | July    |          1302 |
+| jammu&kashmir       |   2024 | July    |          1213 |
+| himachalpradesh     |   2024 | July    |          1056 |
+| assam               |   2024 | July    |          1154 |
+| haryana             |   2024 | July    |          1386 |
+| bihar               |   2024 | July    |          1074 |
+| gujarat             |   2024 | July    |          1321 |
+
+|   year | month    |   month_numeric | state                       | inflation_index   | inflation_rate   | released_on   | updated_on   | date_stamp   |
+|-------:|:---------|----------------:|:----------------------------|:------------------|:-----------------|:--------------|:-------------|:-------------|
+|   2024 | December |              12 | Andhra Pradesh              | 199.5             | 4.34             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Maharashtra                 | 190.9             | 4.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Punjab                      | 187.0             | 5.06             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Chandigarh                  | 182.0             | 6.12             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Nagaland                    | 196.2             | 5.48             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Mizoram                     | 192.7             | 4.11             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Rajasthan                   | 192.8             | 4.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Chhattisgarh                | 190.3             | 7.57             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Manipur                     | 224.7             | 9.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Delhi                       | 171.5             | 2.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Tamil Nadu                  | 202.2             | 5.2              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Tripura                     | 214.2             | 5.1              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Lakshadweep                 | 195.2             | 5.23             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Uttar Pradesh               | 196.8             | 6.26             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | West Bengal                 | 198.7             | 4.8              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Kerala                      | 202.4             | 6.41             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Daman and Diu               | 196.3             | 7.03             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Arunachal Pradesh           |                   |                  | 15-Apr-25     | 17-Apr-25    | 2024-12-01   |
+|   2024 | December |              12 | Himachal Pradesh            | 183.7             | 4.97             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Uttarakhand                 | 192.7             | 6.05             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Bihar                       | 196.8             | 7.36             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Haryana                     | 193.7             | 6.02             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | All India                   | 195.4             | 5.22             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Telangana                   | 203.4             | 3.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Puducherry                  | 202.3             | 5.64             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Andaman and Nicobar Islands | 198.9             | 3.27             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Dadra and Nagar Haveli      | 188.3             | 5.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Odisha                      | 201.2             | 6.96             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Sikkim                      | 200.7             | 3.61             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Goa                         | 182.6             | 4.4              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Gujarat                     | 187.4             | 4.93             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Jammu and Kashmir           | 203.6             | 5.44             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Madhya Pradesh              | 196.4             | 5.71             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Jharkhand                   | 192.3             | 4.51             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Karnataka                   | 200.6             | 5.14             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Meghalaya                   | 181.9             | 4.66             | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+|   2024 | December |              12 | Assam                       | 199.4             | 5.5              | 13-Jan-25     | 2-Apr-25     | 2024-12-01   |
+
+2025-10-15 13:01:01,439 - api_main - INFO - [Query ID:3] - Commentary:
+2025-10-15 13:01:01,439 - api_main - INFO - [Query ID:3] - Table information:
+
+2025-10-15 13:01:02,946 - api_main - INFO - [Query ID:3] - Confidence: 1
+2025-10-15 13:01:02,946 - api_main - INFO - [Query ID:3] - Total processing time: 156.63156247138977

@@ -6,7 +6,8 @@ import ast
 
 def classify_query(query):
     system_instruction=dedent("""
-                You are tasked with classifying the given query into one of the following categories: "CPI", "GDP", "IIP", "MSME", "agriculture_and_rural", "social_migration_and_households", "enterprise_establishment_surveys", or "Out of domain". Use the guidelines below to analyze key entities and determine the best fit. Respond only with the selected category name—do not include reasoning, explanations, or additional text.
+                You are tasked with classifying the given query into one of the following categories: "CPI", "GDP", "IIP", "MSME", "agriculture_and_rural", "social_migration_and_households", "enterprise_surveys", "worker_surveys", "district_level" or "Out of domain". Use the guidelines below to analyze key entities and determine the best fit. Respond only with the selected category name—do not include reasoning, explanations, or additional text.
+                If any query is asking for district level data, classify it into "district_level" class.
 
                 You proceed using the following hints:
 
@@ -67,16 +68,27 @@ def classify_query(query):
                     mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, labour_india_sector_industry_occupation_wages, labour_india_rural_wages,
                     airport_sewa_services_data, traffic_india_mth_air_passengers, sp_india_daily_state], demography_india_yr_popsexgrowth, demography_india_state_yr_literacy
                 Any query that can be answered with these data sets should be classified as "social_migration_and_households".
+                
+                ## enterprise_surveys
+                
+                a. Classify queries related to enterprise-level characteristics and performance — including ownership type, registration status, nature of operation (perennial/seasonal), industry type, location (rural/urban), use of digital infrastructure (computers/internet), franchisee or NPI status, financial structure (capital invested, outstanding loans, working capital, banking access), and production metrics such as total output, intermediate consumption, and Gross Value Added (GVA) per enterprise. This class covers statistical surveys like ASI (Annual Survey of Industries) and NSS (National Sample Survey) enterprise modules that report on enterprise count, ownership pattern, economic activity, turnover, and profitability across industries and states. Queries under this class may involve enterprise distributions, average size, industrial classification (NIC codes), or productivity indicators at the enterprise level.
 
-                ## enterprise_establishment_surveys
+                b. The following files comprise the "enterprise_surveys" datasets: [asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use, asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, 
+                asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_estimated_annual_gva_per_establishment_rupees, 
+                asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc, asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, 
+                asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, asi_state_principal_characteristics, asi_imp_principal_characteristics_by_rural_urban_sector, asi_imp_principal_characteristics_india_by_mjr_indus_grp, asi_industrywise_factories_2022_23, asi_num_of_factories_nva, asi_statewise_number_of_factories_for_2022_23, asi_top_ten_states_by_number_of_factories, asi_trend_imp_characteristics_technical_coefficients, asi_trend_of_imp_characteristics_structural_ratios, 
+                asi_trend_of_imp_principal_characteristics_india]
+                
+                Any query that can be answered with these data sets should be classified as "enterprise_surveys".
 
-                a. Classify queries on establishment/enterprise characteristics like ownership types,principal characteristics of industries, owner social groups/education, gender/employment composition, digital adoption (computers/internet), operation nature (perennial/seasonal), location types, registration status, franchisee/NPI status, financial metrics , GVA (Gross Value Added) per establishment/worker, distribution of workers, emoluments, outstanding loans, banking access), and operational details (hours/days worked). This includes ASI (Annual Survey of Industries) on industrial establishments, capital/investment, stocks, financials, employment, production; and PLFS (Periodic Labour Force Survey) on employment, unemployment, Unemployment Rate (UR), labor participation, ,Labour Force Participation Rate (LFPR),Worker Population Ratio (WPR). Datasets encompass emoluments/GVA (Gross Value Added) per worker, worker distributions by type/gender, key characteristics, hours/months operated, registrations, computer/internet use, ownership/operation/location distributions, state-wise estimates, and survey data on industries and labor force.
-
-                b. The following files comprise the "enterprise_establishment_surveys" datasets: [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
-                    asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
-                    asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
-                    asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll, asi_imp_principal_characteristics_by_rural_urban_sector, asi_imp_principal_characteristics_india_by_mjr_indus_grp, asi_industrywise_factories_2022_23, asi_no_of_workers_and_person_engaged, asi_num_of_factories_nva, asi_statewise_number_of_factories_for_2022_23, asi_top_ten_states_by_number_of_factories, asi_trend_imp_characteristics_technical_coefficients, asi_trend_of_imp_characteristics_structural_ratios, asi_trend_of_imp_principal_characteristics_india,lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age  ]
-                Any query that can be answered with these data sets should be classified as "enterprise_establishment_surveys".
+                ## worker_surveys
+                
+                a.Classify queries related to worker-level and employment characteristics — including worker distribution by gender, social group, education, employment level and employment  type (self-employed, regular wage, casual labor); working hours/days; wages, emoluments, and compensation; labor participation indicators such as LFPR (Labour Force Participation Rate), Gross Value Added (GVA) per worker, WPR (Worker Population Ratio), and UR (Unemployment Rate). This class includes insights from PLFS (Periodic Labour Force Survey), NSS workforce modules, and establishment-based labor surveys. Queries may involve the number or proportion of workers across industries, average emoluments per worker, gender-wise employment trends, occupational classifications, or worker distribution by enterprise size and activity. 
+                
+                b. The following files comprise the "worker_surveys" datasets: [asuse_est_annual_emoluments_per_hired_worker,asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_statewise_est_num_of_worker_by_employment_and_gender, asuse_statewise_estimated_annual_emoluments_per_hired_worker, aasuse_statewise_estimated_annual_gva_per_worker_rupees,
+                asuse_statewise_estimated_number_of_workers_by_type_of_workers, asi_no_of_workers_and_person_engaged,periodic_labour_force_survey, lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age, epfo_india_mth_payroll]
+                
+                Any query that can be answered with these data sets should be classified as "worker_surveys".
 
                 ## GST
 
@@ -85,14 +97,21 @@ def classify_query(query):
                 b. The following files comprise the GST datasets: [gst_registrations, gst_statewise_tax_collection_refund_data, gst_statewise_tax_collection_data, gst_settlement_of_igst_to_states, gstr_three_b, gstr_one, gross_and_net_tax_collection, gst_statewise_fiscal_year_collection_view,
                 gst_statewise_fiscal_year_igst_settlement_view, gst_statewise_fiscal_year_refund_view].
                 Any query that can be answered with these data sets should be classified as "GST".
+                
+                ## district_level
+                
+                a. Classify queries related to youth empowerment, employment, education, skill development indicators and any other query at the district level across India. These include queries about youth opportunity, opportunity metrics around population, csr spend, gdp growth, msme establishments etc, workforce participation, education and readiness scores, schools and college data, MSME distribution, skill training statistics, and other metrics that evaluate district-level youth development or performance, it also includes district level daily average rainfall data.
+                
+                b. The following file comprises the Youth Power dataset: [youthpower_district_level_metrics, rainfall_data]
+                 Any query that can be answered using this dataset — such as those involving district-wise or state-wise youth power scores, unemployment rates, education indices, workforce data, MSME counts, or skill training statistics, district wise rainfall data — should be classified as "district_level".
 
             # 2. Rules for rejection as "Out of Domain"
 
-            Any query that belongs to none of [finance_and_industry, CPI, GDP, IIP, MSME, agriculture_and_rural, social_migration_and_households, enterprise_establishment_surveys] should be classified "Out of domain". Examples of out of domain queries include those about general queries about the economy, queries about government policies, queries about upcoming challenges, and queries unrelated to finance. All of these should be marked "Out of domain".
+            Any query that belongs to none of [finance_and_industry, CPI, GDP, IIP, MSME, agriculture_and_rural, social_migration_and_households, enterprise_surveys, worker_surveys, district_level] should be classified "Out of domain". Examples of out of domain queries include those about general queries about the economy, queries about government policies, queries about upcoming challenges, and queries unrelated to finance. All of these should be marked "Out of domain".
 
             # 3. EXTREMELY IMPORTANT:
                 - Based on the above description, respond ONLY with one of the classes from the following list:
-                    [CPI, GDP, IIP, MSME, GST, agriculture_and_rural, social_migration_and_households, enterprise_establishment_surveys, finance_and_industry, Out of domain]
+                    [CPI, GDP, IIP, MSME, GST, agriculture_and_rural, social_migration_and_households, enterprise_surveys, worker_surveys, finance_and_industry, district_level, Out of domain]
                 - DO NOT include any reasoning traces or other text apart from the class selected from the above list.
             """)
     query_class, i_tokens, o_tokens = llm_call(system_instruction, query)
@@ -254,21 +273,21 @@ def file_selector_finance_and_industry(query):
         Queries: Show the total transaction amount for each state in fiscal year 2025-26.
         Queries: List the monthly transaction counts for Bharthana Toll Plaza in Gujarat.
         Queries: Get the total number of transactions for each month across all plazas.
-        
+
         19. ev_state_yr_catg: This table contains yearly data on electric vehicle (EV) registrations by state and vehicle category in India, including the number of EVs registered and their percentage share among total vehicle registrations.
         Instructions: Use this table to analyze EV registration trends across different states, years, and vehicle categories, or to compare the share of EVs in total vehicle registrations.
         Example Queries :
         Query: Show the total number of EVs registered in Maharashtra for each year.
         Query: List the top 5 states with the highest percentage share of EVs in total vehicle registrations for the year 2022-23.
         Query: Find the number of 2 Wheeler EVs registered in Karnataka in 2021-22.
-        
+
         20. trade_india_mth_commodity_import: This table contains monthly import data for various commodities in India, including HS codes, commodity names, month, year, financial year, import values (in crores), percentage growth, and last update date.
         Instructions: Use this table to analyze or retrieve India's monthly commodity import statistics, such as import values, growth rates, or trends by HS code, commodity, month, or year.
         Examples Queries :
         Query: Show the total import value for IRON AND STEEL in 2025.
         Query: List all commodities with negative percentage growth in June 2025.
         Query: Get the import value and growth for each commodity in financial year 2025-26.
-        
+
         21. trade_india_mth_commodity_export: This table contains monthly export data from India by commodity, including HS code, commodity name, month, year, financial year, export values (in crores), percentage growth, and last update date.
         Instructions: Use this table to analyze or retrieve India's monthly export statistics by commodity, HS code, time period, or growth trends.
         Examples Queries
@@ -276,14 +295,14 @@ def file_selector_finance_and_industry(query):
         Query: List all commodities exported in the financial year 2024-25 with their total export values.
         Query: Get the percentage growth for each commodity in March 2025.
         Query: Find the latest updated export data for HS code '39.00'.
-        
+
         22. trade_india_mth_stateut_country_export: This table provides monthly export statistics for Indian states and union territories, including total exports, exports for March and February, monthly growth percentage, and share in total exports for each fiscal year.
         Instructions: Use this table to analyze and compare export performance of Indian states/UTs by month, fiscal year, or growth trends. Filter by 'states_ut_name' for specific regions, or by 'fiscal_year' for year-wise data.
         Example Queries :
         Query: Show the top 3 states by total exports for fiscal year 2024-25.
         Query: List states with more than 10% growth in exports compared to the previous month for 2024-25.
         Query: Get March export values for all states for the latest fiscal year.
-        
+
         23. trade_india_mth_commoditygrp_country_export: This table provides monthly export data of India by commodity group, including total exports, exports for March and February (in million dollars), percentage growth compared to the previous month, percentage share in total exports, and fiscal year.
         Instructions: Use this table to analyze India's export performance by commodity group for specific months, compare monthly export values, calculate growth rates, or determine the share of each commodity group in total exports for a given fiscal year.
         Example Queries :
@@ -291,21 +310,21 @@ def file_selector_finance_and_industry(query):
         Query: Which commodity group had the highest percentage growth in exports compared to the previous month in fiscal year 2024-25?
         Query: List the total exports and percentage share for Engineering Goods in the latest fiscal year.
         Query: Find the commodity groups where exports decreased in March compared to February for 2024-25.
-        
+
         24. fdi_india_fy_state: This table contains data on Foreign Direct Investment (FDI) inflows into Indian states by financial year, including FDI amounts in INR crore and USD million, inflow percentage, and state names.
         Instructions: Use this table to analyze FDI inflows by state and financial year, compare FDI amounts across states, or examine trends in FDI distribution.
         Example Queries :
         Query: Show the top 5 states by FDI inflow in USD for the financial year 2024-25.
         Query: List the FDI inflow percentage for each state in 2024-25.
         Query: What was the total FDI in INR crore received by Karnataka over all years?
-        
+
         25. fdi_india_fy_sector: This table contains data on Foreign Direct Investment (FDI) inflows into India by sector and financial year, including values in INR crore, USD million, and percentage share.
         Instructions: Use this table to analyze FDI inflows by sector, compare sector-wise FDI amounts, or examine trends across financial years.
         Example Queries :
         Query: Show the top 5 sectors by FDI inflow in USD for 2024-25.
         Query: What was the total FDI in INR crore for the Computer Software & Hardware sector in 2024-25?
         Query: List all sectors with an FDI inflow percentage greater than 10% in 2024-25.
-        
+
         26. fdi_india_fy_country: This table provides annual Foreign Direct Investment (FDI) inflow data into India, broken down by country, with values in INR crore, USD million, and percentage share for each financial year.
         Instructions: Use this table to analyze FDI inflows into India by country and financial year, compare contributions, or track trends in FDI from different countries.
         Example Queries :
@@ -313,21 +332,20 @@ def file_selector_finance_and_industry(query):
         Query: List the FDI inflow percentage for each country in 2024-25.
         Query: What was the total FDI in INR crore received by India in 2024-25?
         Query: Show FDI inflow in USD million from the USA over all available years.
-        
+
         27. energy_india_statewise_crude_oil_ngas_reserves: This table provides state-wise annual data on estimated reserves and distribution percentages of crude oil and natural gas in India.
         Instructions: Use this table to analyze or retrieve information about crude oil and natural gas reserves and their distribution across Indian states for specific years.
         Example Queries :
         Query: Show the crude oil and natural gas estimated reserves for Andhra Pradesh in 2024.
         Query: List all states with their crude oil distribution percent for the year 2023.
         Query: Get the natural gas estimated reserves and distribution percent for Arunachal Pradesh for all years.
-        
+
         28. energy_india_statewise_coal_reserves: This table provides state-wise annual data on coal reserves in India, including proved, indicated, inferred, and total reserves, along with each state's percentage share of the national total.
         Instructions: Use this table to retrieve or analyze coal reserve statistics by state and year, such as total reserves, reserve categories, or distribution percentages. Filter by 'year' and 'state' as needed.
         Examples Queries :
         Query: Show the total coal reserves for each state in 2024.
         Query: Which state had the highest distribution percent of coal reserves in 2023?
         Query: List the proved, indicated, and inferred reserves for Andhra Pradesh over the years.
-        
 
         29. crude_oil_mth_data: This table contains monthly crude oil data by company, including the month, year, oil company name, and the quantity in metric tonnes.
         Instructions: Use this table to analyze crude oil quantities by company, month, and year. Filter by 'month', 'year', or 'oil_company' to get specific data.
@@ -335,14 +353,14 @@ def file_selector_finance_and_industry(query):
         Query: Show the total crude oil quantity for each company in 2022.
         Query: List the crude oil quantities for September 2022.
         Query: Find the total crude oil quantity for BPCL-KOCHI, KERALA across all years.
-        
+
         30. ppac_mth_petroleum_consumption: Monthly petroleum product consumption data, including product type, quantity in metric tonnes, and reporting date.
         Instructions: Use this table to analyze monthly consumption trends of various petroleum products by month and year, or to retrieve quantities for specific products and time periods.
         Example Queries :
         Query: Show the total quantity of ATF consumed in 2023.
         Query: List the monthly consumption of all products for July 2023.
         Query: Get the latest updated date in the table.
-        
+
         31. ores_minerals_exports_yearly: This table provides yearly export data for various ores and minerals, including quantities and values for the years 2015-16, 2016-17, and 2017-18, along with relevant measurement units and notes.
         Instructions: Use this table to analyze or retrieve export quantities and values for specific ores and minerals by year. You can filter by mineral name, year, or measurement unit, and review notes for data caveats.
         Example Queries :
@@ -350,8 +368,8 @@ def file_selector_finance_and_industry(query):
         Query: List all ores and minerals with their exported quantities in 2016-17.
         Query: Find the measurement unit used for 'Alabaster'.
         Query: Get the total export value for all minerals in 2015-16.
-        Query: Show notes related to quantity for 'Alabaster' in 2015-16. 
-        
+        Query: Show notes related to quantity for 'Alabaster' in 2015-16.
+
         32. mf_india_qtr_total: This table provides quarterly aggregated data on mutual fund schemes in India, including scheme names, number of schemes and folios, funds mobilized, redemptions, net inflows/outflows, assets under management, and other related metrics.
         Instructions: Use this table to analyze quarterly trends, compare mutual fund scheme categories, or summarize assets, inflows, and other key statistics for Indian mutual funds by scheme, quarter, or year.
         Example Queries :
@@ -359,49 +377,49 @@ def file_selector_finance_and_industry(query):
         Query: List the total number of folios for all schemes in June 2025.
         Query: Get the average net assets under management for each scheme type in 2025.
         Query: Which scheme had the highest funds mobilized in Q1 (Apr-Jun) 2025?
-        
+
         33. insurance_india_mth_life_insurer → This table contains monthly performance data for life insurance companies in India, including premium values, growth percentages, and market share by insurer, category, and metric type.
         Instructions: Use this table to analyze and compare monthly life insurance metrics such as first year premium, growth, and market share across different insurers, categories, and time periods.
         Example Queries:
         Query: Show the total first year premium for all insurers in August 2025.
         Query: List the growth percentage for each insurer's Individual Non-Single Premium in August 2025.
-        Query: Get the market share of Acko Life Insurance Limited for all categories in August 2025. 
-        
+        Query: Get the market share of Acko Life Insurance Limited for all categories in August 2025.
+
         34. trade_india_annual_country: This table shows the annual count of HS code tariff lines for different countries in trade with India.
         Instructions: Use this table to find the number of HS code tariff lines for a specific country and year, or to analyze trends in tariff lines over time for one or more countries.
         Example queries :
         Query: Show the total HS code tariff lines for USA in 2024.
         Query: List the annual HS code tariff lines for USA from 2022 to 2024.
         Query: Which countries had more than 20 HS code tariff lines in 2024?
-        
+
         35. trade_india_mth_region_commodity: Monthly trade values between India and various regions and subregions, including actual and forecast data, broken down by month, year, and trade type.
         Instructions: Use this table to analyze India's trade values by region, subregion, month, year, and type (Actual or Forecast). Filter by region, subregion, month, year, or type as needed to get specific trade data.
         Example Queries :
         Query: Show the actual trade value for Europe in July 2024.
         Query: List forecasted trade values for all regions in July 2025.
-        Query: Get the actual trade value for EU Countries in July 2024. 
-        
+        Query: Get the actual trade value for EU Countries in July 2024.
+
         36. port_dwell_time_month: This table contains monthly average dwell time data for imports and exports at various Indian port regions from 2021 to 2023, including details such as port name, month, year, category, and data source.
         Instructions: Use this table to analyze or retrieve port dwell time statistics by port region, month, year, and cargo category (Import/Export) for the years 2021 to 2023.
         Example Queries :
         Query: Show the average dwell time for imports at SOUTHERN REGION AVG. in January 2022.
         Query: List all export dwell times for EASTERN REGION AVG. in 2023.
         Query: What is the trend of import dwell times for SOUTHERN REGION AVG. from 2021 to 2023?
-        
+
         37. trade_india_mth_country: This table contains monthly trade values between India and various countries, with details on country, year, month, and trade value.
         Instructions: Use this table to analyze India's trade values with specific countries by month and year. Filter by 'country', 'year', or 'month' as needed.
         Example Queries :
         Query: Show India's trade value with Afghanistan in July 2024.
         Query: List all countries and their trade values with India for July 2024.
         Query: Get the total trade value for all countries in 2024.
-        
+
         38. trade_india_mth_region: Monthly trade values between India and different regions and subregions, including actual and forecast data.
         Instructions: Use this table to analyze India's trade values by region, subregion, month, year, and type (Actual or Forecast). Filter by these columns to get specific trade data.
         Example Queries :
         Query: Show the actual trade value for Europe in July 2024.
         Query: List forecasted trade values for all regions in July 2025.
-        Query: Get trade values for EU Countries subregion in July 2024. 
-        
+        Query: Get trade values for EU Countries subregion in July 2024.
+
         39. cumulative_capacity_state_month: This table contains cumulative monthly renewable energy capacity data by Indian state, including various power sources such as wind, solar, hydro, and bioenergy.
         Instructions: Use this table to retrieve or analyze renewable energy capacity figures (in MW) for different Indian states, broken down by energy source and month/year.
         Example queries:
@@ -410,9 +428,9 @@ def file_selector_finance_and_industry(query):
         Query: Get the wind power and small hydro power for Rajasthan for July 2025.
         Query: Which state had the highest total renewable energy capacity in July 2025?
         Query: Show all columns for Tamil Nadu for July 2025.
-        
+
         Consider the list above and respond only with one of the following file names:
-        [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_state_qtr_view, revenue_maharashtra_fy_category, mf_monthly_schemes, 
+        [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_state_qtr_view, revenue_maharashtra_fy_category, mf_monthly_schemes,
         statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg,
         insurance_india_mth_sctg,toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export, trade_india_mth_stateut_country_export,
         trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves,
@@ -588,231 +606,148 @@ def file_selector_agriculture_and_rural(query):
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 
-def file_selector_enterprise_establishment_surveys(query):
+def file_selector_enterprise_surveys(query):
     system_instruction=dedent(f"""
         You are tasked with identifying the file that contains the required data based on the query: "{query}".
         You must pick one file name only from the following list:
 
         Choose a file only if the table description explicitly confirms that the data required by the query is covered.
 
-        1. asuse_est_annual_emoluments_per_hired_worker: This table provides annual, all-India-level data on estimated annual emoluments and number of hired workers by industry (e.g., Manufacture of Rubber and Plastics Products, Land Transport, Education, Accommodation), sector (Rural/Urban/Combined), establishment type (Own Account, Hired Worker), and formality status (Formal/Informal). Example entries include annual emoluments in 'Education' (Urban, 2022-23: Rs 265,897) and hired workers in 'Wholesale on a Fee or Contract Basis' (Combined, Informal, 2023-24: 153,601).
+        1. asuse_est_num_establishments_pursuing_mixed_activity: This table presents annual, all-India estimates of establishments pursuing mixed activities, disaggregated by sector (urban, rural, combined), establishment type (Own Account, Hired Worker, All), and economic activity (e.g., Tobacco Products, Professional Services, Real Estate, Food Manufacturing). Data come from the National Sample Survey Office, MoSPI. Examples: 452,291 urban OAEs in tobacco manufacture (2022-23), 10,336,002 rural retail trade establishments (2023-24), and 24,643,235 all-India service providers (2022-23).
         Sample queries:
-        a. What were the estimated annual emoluments per hired worker for Land Transport in rural areas for 2022-23?
-        b. How many hired workers were there in the Manufacture of Tobacco Products industry in All India combined for 2021-22?
+        a. How many rural own account establishments were engaged in real estate activities in 2022-23?
+        b. What is the estimated number of establishments involved in 'Other Retail Trade' at all-India level for 2023-24?
 
+        2. asuse_per1000_estb_by_hours_worked_per_day: This table reports annual, All-India level data on the per-1000 distribution of establishments by hours worked per day, categorized by rural/urban/combined sectors and establishment types such as Own Account Establishments and Hired Worker Establishments. Industry categories include 'Manufacture of Beverages', 'Trading Activities', 'Financial Services', and 'Food and Accommodation Service Activities', with working hours grouped as '<4', '4-7', '8-11', '>11', and 'All'. Example: 705 establishments (urban, professional activities) work '8-11' hours.
+        Sample queries:
+        a. What percentage of rural establishments in the Manufacture of Beverages category worked more than 11 hours a day in 2023-24?
+        b. How does the distribution of working hours differ between urban and rural establishments in the Financial Service Activities Except Insurance and Pension Funding sector in 2022-23?
 
-        2. asuse_est_annual_gva_per_establishment: This table provides estimated annual Gross Value Added (GVA (Gross Value Added)) per establishment, categorized by year, state/UT, sector, activity category, and establishment type, sourced from the National Sample Survey Office.
+        3. asuse_per1000_estb_by_months_operated_last_365days: This table presents annual all-India data on the distribution of establishments by months of operation, disaggregated by sector (e.g., Manufacture of Electrical Equipment, Real Estate Activities, Water Transport), type (Own Account, Hired Worker), and rural/urban/combined geographies. Key metrics include per-1000 distribution or average months operated for categories such as '<= 3 Months', '7 to 9 Months', and '> 9 Months'. Data is sourced from the National Sample Survey Office (MoSPI).
+        Sample queries:
+        a. What was the average number of months operated by rural establishments engaged in the manufacture of leather and related products in 2023-24?
+        b. How many per 1000 urban hired worker establishments in wholesale on a fee or contract basis operated for less than or equal to 3 months in 2021-22?
+
+        4. asuse_per1000_estb_registered_under_acts_authorities: This table provides annual, all-India data on the number per 1000 of establishments registered under various Acts or authorities (e.g., Societies Reg. Act, CGST Act, EPFO/ESIC, RTO). The data is category-wise (urban, rural, combined), sector-wise (e.g., Manufacture of Textiles, Information and Communication, Trading Activities), and by type of establishment (All/Own Account/Hired Worker). For example, in 2021-22, 277 per 1000 urban hired worker establishments in wood manufacturing were registered under Shops & Establishments Act.
+        Sample queries:
+        a. What was the number per 1000 of rural establishments registered under the CGST Act for 'Wholesale and Retail Trade of Motor Vehicles and Motor Cycles' in 2021-22?
+        b. How did registration of hired worker establishments in 'Non-captive Electricity Generation and Transmission' change between 2022-23 and 2023-24 under 'Others' in urban areas?
+
+        5. asuse_per1000_estb_using_computer_internet_last365_days: This table presents annual, all-India data from the National Sample Survey Office on the number per 1000 establishments using computers and internet during the last 365 days. The data is available by sector (Trade, Manufacturing, Other Services), location (Rural, Urban, Combined), and type (Own Account Establishments, Hired Worker Establishments, All). For example, in 2023-24, 129 per 1000 urban service establishments used computers, while 640 per 1000 hired worker trade establishments used internet.
+        Sample queries:
+        a. What was the number per 1000 manufacturing establishments using the internet in urban areas in 2023-24?
+        b. How many per 1000 own account trade establishments in rural areas used computers in 2022-23?
+
+        6. asuse_est_annual_gva_per_establishment: This table provides estimated annual Gross Value Added (GVA (Gross Value Added)) per establishment, categorized by year, state/UT, sector, activity category, and establishment type, sourced from the National Sample Survey Office.
         Instructions: Use this table to analyze or compare the estimated annual GVA (Gross Value Added) per establishment across different years, states/UTs, sectors (rural/urban), activity categories, and establishment types (such as Hired Worker Establishments or Own Account Establishments). Filter by relevant columns to get specific insights.
         Example queries:
         Query: What was the estimated annual GVA (Gross Value Added) per establishment for Cotton Ginning, Cleaning and Bailing in rural All India for 2023-24?
         Query: Show the GVA (Gross Value Added) per establishment for all establishment types in 2023-24 for rural sector.
         Query: List the years and GVA (Gross Value Added) per establishment for Hired Worker Establishments in Cotton Ginning, Cleaning and Bailing activity.
-        
-        3. asuse_est_num_establishments_pursuing_mixed_activity: This table presents annual, all-India estimates of establishments pursuing mixed activities, disaggregated by sector (urban, rural, combined), establishment type (Own Account, Hired Worker, All), and economic activity (e.g., Tobacco Products, Professional Services, Real Estate, Food Manufacturing). Data come from the National Sample Survey Office, MoSPI. Examples: 452,291 urban OAEs in tobacco manufacture (2022-23), 10,336,002 rural retail trade establishments (2023-24), and 24,643,235 all-India service providers (2022-23).
-        Sample queries:
-        a. How many rural own account establishments were engaged in real estate activities in 2022-23?
-        b. What is the estimated number of establishments involved in 'Other Retail Trade' at all-India level for 2023-24?
 
-
-        4. asuse_est_num_workers_by_employment_gender: This table provides annual, all-India estimates of the number of workers by economic activity (e.g., Manufacturing of Motor Vehicles, Real Estate, Land Transport), nature of establishment (Own Account, Hired Worker, or All), sector (Rural, Urban, Combined), and gender (Male, Female, All). Data is published by the National Sample Survey Office (MoSPI). Sample entries include 'Manufacture of Beverages' (2023-24) and 'Other Retail Trade' (2022-23).
-        Sample queries:
-        a. How many female workers were engaged in land transport in urban areas during 2021-22?
-        b. What was the estimated number of workers in 'Manufacture of Beverages' at all-India level for 2023-24?
-
-
-        5. asuse_est_value_key_characteristics_by_workers: This table provides estimated values of key characteristics (such as input per worker) by number of workers, sector, activity category, and region for different years, based on data from the National Sample Survey Office.
-        Instructions: Use this table to analyze or retrieve estimated values of key economic characteristics (like input per worker) segmented by year, state/UT, sector (rural/urban), broad activity category (e.g., Manufacturing), and number of workers.
-        Example queries:
-        Query: Show the input per worker for manufacturing in rural India for 2023-24, broken down by number of workers.
-        Query: Get all key characteristics for urban sector in 2023-24 for the state of Maharashtra.
-        Query: What is the estimated value for input per worker in the rural sector for all activity categories in 2023-24?
-        
-        6. asuse_estimated_annual_gva_per_worker_rupees: This table provides the estimated annual Gross Value Added (GVA (Gross Value Added)) per worker (in rupees) for various activity categories, establishment types, and sectors across Indian states and union territories, based on data from the National Sample Survey Office.
-        Instructions: Use this table to analyze or retrieve GVA (Gross Value Added) per worker statistics by year, state/UT, sector (rural/urban), activity category, and establishment type. Filter by these columns to get specific GVA (Gross Value Added) values or trends.
-        Example queries:
-        Query: What was the estimated annual GVA (Gross Value Added) per worker for 'Cotton Ginning, Cleaning and Bailing' in rural India in 2023-24 for Hired Worker Establishments?
-        Query: Show the GVA (Gross Value Added) per worker for all establishment types in rural India for 'Cotton Ginning, Cleaning and Bailing' in 2023-24.
-        Query: List the estimated annual GVA (Gross Value Added) per worker for each activity category in rural India for 2023-24.
-        
-        
-        7. asuse_estimated_number_of_workers_by_type_of_workers: This table presents annual, all-India estimates of worker numbers by industry category (e.g., Water Transport, Manufacture of Textiles), worker type (e.g., Formal Hired Workers, Unpaid Family Member), gender, and establishment type (All, Hired Worker, Own Account). Data is disaggregated for urban, rural, and combined areas. Examples include 116 male informal water transport workers (urban, 2023-24) and 2,006 female unpaid family workers in manufacturing (rural, 2022-23).
-        Sample queries:
-        a. How many informal hired workers were there in urban food and accommodation service activities in 2023-24?
-        b. What is the estimated number of female working owners in rural trading activities for 2021-22?
-
-
-        8. asuse_per1000_estb_by_hours_worked_per_day: This table reports annual, All-India level data on the per-1000 distribution of establishments by hours worked per day, categorized by rural/urban/combined sectors and establishment types such as Own Account Establishments and Hired Worker Establishments. Industry categories include 'Manufacture of Beverages', 'Trading Activities', 'Financial Services', and 'Food and Accommodation Service Activities', with working hours grouped as '<4', '4-7', '8-11', '>11', and 'All'. Example: 705 establishments (urban, professional activities) work '8-11' hours.
-        Sample queries:
-        a. What percentage of rural establishments in the Manufacture of Beverages category worked more than 11 hours a day in 2023-24?
-        b. How does the distribution of working hours differ between urban and rural establishments in the Financial Service Activities Except Insurance and Pension Funding sector in 2022-23?
-
-
-        9. asuse_per1000_estb_by_months_operated_last_365days: This table presents annual all-India data on the distribution of establishments by months of operation, disaggregated by sector (e.g., Manufacture of Electrical Equipment, Real Estate Activities, Water Transport), type (Own Account, Hired Worker), and rural/urban/combined geographies. Key metrics include per-1000 distribution or average months operated for categories such as '<= 3 Months', '7 to 9 Months', and '> 9 Months'. Data is sourced from the National Sample Survey Office (MoSPI).
-        Sample queries:
-        a. What was the average number of months operated by rural establishments engaged in the manufacture of leather and related products in 2023-24?
-        b. How many per 1000 urban hired worker establishments in wholesale on a fee or contract basis operated for less than or equal to 3 months in 2021-22?
-
-
-        10. asuse_per1000_estb_registered_under_acts_authorities: This table provides annual, all-India data on the number per 1000 of establishments registered under various Acts or authorities (e.g., Societies Reg. Act, CGST Act, EPFO/ESIC, RTO). The data is category-wise (urban, rural, combined), sector-wise (e.g., Manufacture of Textiles, Information and Communication, Trading Activities), and by type of establishment (All/Own Account/Hired Worker). For example, in 2021-22, 277 per 1000 urban hired worker establishments in wood manufacturing were registered under Shops & Establishments Act.
-        Sample queries:
-        a. What was the number per 1000 of rural establishments registered under the CGST Act for 'Wholesale and Retail Trade of Motor Vehicles and Motor Cycles' in 2021-22?
-        b. How did registration of hired worker establishments in 'Non-captive Electricity Generation and Transmission' change between 2022-23 and 2023-24 under 'Others' in urban areas?
-
-
-        11. asuse_per1000_estb_using_computer_internet_last365_days: This table presents annual, all-India data from the National Sample Survey Office on the number per 1000 establishments using computers and internet during the last 365 days. The data is available by sector (Trade, Manufacturing, Other Services), location (Rural, Urban, Combined), and type (Own Account Establishments, Hired Worker Establishments, All). For example, in 2023-24, 129 per 1000 urban service establishments used computers, while 640 per 1000 hired worker trade establishments used internet.
-        Sample queries:
-        a. What was the number per 1000 manufacturing establishments using the internet in urban areas in 2023-24?
-        b. How many per 1000 own account trade establishments in rural areas used computers in 2022-23?
-
-
-        12. asuse_per1000_of_estb_using_internet_by_type_of_its_use: This table provides annual, all-India statistics on the number per 1,000 of establishments using the Internet, broken down by sector (e.g., Manufacturing, Trade, Other Services), area (Rural, Urban, Combined), and specific types of Internet use (such as Internet Banking, Delivering Products Online, Telephoning Over VoIP, Customer Services). Example entries include: Manufacturing establishments in rural India using the Internet for government information in 2022-23 (46), or Urban Trade sector using it for staff training in 2021-22 (323).
+        7. asuse_per1000_of_estb_using_internet_by_type_of_its_use: This table provides annual, all-India statistics on the number per 1,000 of establishments using the Internet, broken down by sector (e.g., Manufacturing, Trade, Other Services), area (Rural, Urban, Combined), and specific types of Internet use (such as Internet Banking, Delivering Products Online, Telephoning Over VoIP, Customer Services). Example entries include: Manufacturing establishments in rural India using the Internet for government information in 2022-23 (46), or Urban Trade sector using it for staff training in 2021-22 (323).
         Sample queries:
         a. How many establishments per 1,000 in the Trade sector used Internet banking in urban India in 2021-22?
         b. What was the number per 1,000 of rural manufacturing establishments using the Internet for accessing financial services in 2023-24?
 
-
-        13. asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner: This dataset provides the annual (financial year) per 1000 distribution of proprietary and partnership establishments in India, categorized by the level of general education of the owner or major partner. Data is available at the all-India level, disaggregated by rural, urban, and combined sectors. Education categories include Not Literate, Literate Below Primary, Literate Graduate and Above, among others. Example: 199 urban establishments per 1000 had graduate owners in 2022-23.
+        8. asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner: This dataset provides the annual (financial year) per 1000 distribution of proprietary and partnership establishments in India, categorized by the level of general education of the owner or major partner. Data is available at the all-India level, disaggregated by rural, urban, and combined sectors. Education categories include Not Literate, Literate Below Primary, Literate Graduate and Above, among others. Example: 199 urban establishments per 1000 had graduate owners in 2022-23.
         Sample queries:
         a. What percentage of rural proprietary establishments in 2022-23 were owned by people with primary to below secondary education?
         b. How did the distribution of urban establishments owned by graduates change between 2021-22 and 2023-24?
 
-
-        14. asuse_per1000_proppartn_estb_by_other_econ_activities: This table provides annual, all-India level data on the distribution per 1,000 Proprietary and Partnership establishments by various economic activities (e.g., Manufacturing Activities, Food and Accommodation Service Activities, Real Estate, Education). Data is disaggregated by rural/urban/combined sectors, establishment size (e.g., Hired Worker Establishments, Own Account Establishments), and the number of other economic activities present. Data spans years like 2021-22 to 2023-24. Source: National Sample Survey Office, MoSPI.
+        9. asuse_per1000_proppartn_estb_by_other_econ_activities: This table provides annual, all-India level data on the distribution per 1,000 Proprietary and Partnership establishments by various economic activities (e.g., Manufacturing Activities, Food and Accommodation Service Activities, Real Estate, Education). Data is disaggregated by rural/urban/combined sectors, establishment size (e.g., Hired Worker Establishments, Own Account Establishments), and the number of other economic activities present. Data spans years like 2021-22 to 2023-24. Source: National Sample Survey Office, MoSPI.
         Sample queries:
         a. What was the per 1000 distribution of proprietary and partnership establishments for Manufacture of Pharmaceuticals in urban India in 2022-23?
         b. Show the annual trend from 2021-22 to 2023-24 for All Establishments in Food and Accommodation Service Activities at the all-India level.
 
-
-        15. asuse_per1000_proppartn_estb_by_socialgroup_owner: This table presents all-India level, annual data on the per 1000 distribution of proprietary and partnership establishments by the social group of owner or major partner. Data is provided across urban, rural, and combined sectors, for various establishment types (Own Account, Hired Worker, All), and industries such as Manufacture of Rubber and Plastics Products, Accommodation, and Trading Activities. Social group categories include Scheduled Tribe, Scheduled Caste, OBC, Others, and Not Known.
+        10. asuse_per1000_proppartn_estb_by_socialgroup_owner: This table presents all-India level, annual data on the per 1000 distribution of proprietary and partnership establishments by the social group of owner or major partner. Data is provided across urban, rural, and combined sectors, for various establishment types (Own Account, Hired Worker, All), and industries such as Manufacture of Rubber and Plastics Products, Accommodation, and Trading Activities. Social group categories include Scheduled Tribe, Scheduled Caste, OBC, Others, and Not Known.
         Sample queries:
         a. What is the distribution of hired worker establishments owned by Scheduled Tribe groups in the financial service sector for 2022-23?
         b. How do the per 1000 establishment distributions for the manufacture of paper and paper products differ between urban and rural areas for OAE in 2023-24?
 
-
-        16. asuse_per_1000_distri_of_establishments_by_nature_of_operation: This table presents annual all-India estimates of the per 1000 distribution of establishments by nature of operation, disaggregated by sector (e.g., manufacture of food products, education, retail trade), type of establishment (Own Account, Hired Worker, All), and operational status (Perennial, Seasonal, Casual), for rural, urban, and combined regions. Data examples include 'Manufacture of Furniture' (urban, all), 'Other Wholesale Trade' (rural, HWE, seasonal), and 'Human Health and Social Work Activities'.
+        11. asuse_per_1000_distri_of_establishments_by_nature_of_operation: This table presents annual all-India estimates of the per 1000 distribution of establishments by nature of operation, disaggregated by sector (e.g., manufacture of food products, education, retail trade), type of establishment (Own Account, Hired Worker, All), and operational status (Perennial, Seasonal, Casual), for rural, urban, and combined regions. Data examples include 'Manufacture of Furniture' (urban, all), 'Other Wholesale Trade' (rural, HWE, seasonal), and 'Human Health and Social Work Activities'.
         Sample queries:
         a. What percentage of urban establishments in India engaged in manufacture of furniture are perennial according to the latest available year?
         b. How does the distribution of hired worker establishments in the education sector vary between rural and urban areas for 2022-23?
 
-
-        17. asuse_per_1000_distri_of_establishments_by_type_of_location: This table presents annual all-India data on the per 1000 distribution of establishments by type of location, categorized by rural, urban, and combined regions. Industries covered range from 'Other Manufacturing', 'Land Transport', 'Education', 'Financial Service Activities' to 'Manufacture of Chemicals'. Data is further detailed for own account, hired worker, and all establishments across location types such as household premises, permanent and temporary structures, and mobile markets.
+        12. asuse_per_1000_distri_of_establishments_by_type_of_location: This table presents annual all-India data on the per 1000 distribution of establishments by type of location, categorized by rural, urban, and combined regions. Industries covered range from 'Other Manufacturing', 'Land Transport', 'Education', 'Financial Service Activities' to 'Manufacture of Chemicals'. Data is further detailed for own account, hired worker, and all establishments across location types such as household premises, permanent and temporary structures, and mobile markets.
         Sample queries:
         a. What is the distribution of 'Land Transport' establishments located outside household premises with permanent structure in rural areas for 2021-22?
         b. How many 'Manufacture of Chemicals and Chemical Products' own account establishments operated within household premises in urban India in 2023-24 per 1000 units?
 
-
-        18. asuse_per_1000_distri_of_establishments_by_type_of_ownership: This table presents all-India annual data on the per-1000 distribution of establishments by ownership type, for different activity categories (e.g., Manufacture of Textiles, Trading Activities, Accommodation) and sectors (urban, rural, combined). Ownership types include Proprietary-Male, SHG, Partnership, Co-operatives, among others. For example, in 2023-24, 908 per 1000 urban 'Other Financial Activities' establishments were 'Proprietary-Male', and 1000 per 1000 urban 'Accommodation' HWE were 'All'.
+        13. asuse_per_1000_distri_of_establishments_by_type_of_ownership: This table presents all-India annual data on the per-1000 distribution of establishments by ownership type, for different activity categories (e.g., Manufacture of Textiles, Trading Activities, Accommodation) and sectors (urban, rural, combined). Ownership types include Proprietary-Male, SHG, Partnership, Co-operatives, among others. For example, in 2023-24, 908 per 1000 urban 'Other Financial Activities' establishments were 'Proprietary-Male', and 1000 per 1000 urban 'Accommodation' HWE were 'All'.
         Sample queries:
         a. What percentage of urban establishments under 'Manufacture of Tobacco Products' are owned by women in 2023-24?
         b. How does the distribution of ownership type in 'Accommodation' activities differ between rural and urban India for 2022-23?
 
-
-        19. asuse_per_1000_of_establishments_which_are_npis_and_non_npis: This table presents annual state-wise data on the number per 1000 of establishments classified as NPIs (Non-Profit Institutions) and non-NPIs, disaggregated by urban, rural, and combined sectors across India. Categories include 'Trade', 'Manufacturing', and 'Other Services', with receipt sources such as 'Donation/Grants' and 'Other Sources'. Examples include 947 non-NPIs per 1000 establishments in urban Nagaland (2023-24) and all-India combined data for manufacturing in 2022-23.
+        14. asuse_per_1000_of_establishments_which_are_npis_and_non_npis: This table presents annual state-wise data on the number per 1000 of establishments classified as NPIs (Non-Profit Institutions) and non-NPIs, disaggregated by urban, rural, and combined sectors across India. Categories include 'Trade', 'Manufacturing', and 'Other Services', with receipt sources such as 'Donation/Grants' and 'Other Sources'. Examples include 947 non-NPIs per 1000 establishments in urban Nagaland (2023-24) and all-India combined data for manufacturing in 2022-23.
         Sample queries:
         a. What percentage of trade establishments were NPIs with major receipts from donations in Rajasthan (urban) in 2021-22?
         b. Show state-wise data for non-NPI establishments in other services for the year 2022-23.
 
-
-        20. asuse_statewise_est_num_of_estb_pursuing_mixed_activity: This table provides annual state/UT-wise data on the estimated number of establishments pursuing mixed activities in India, disaggregated by sector (e.g., Manufacturing, Trade, Other Services), area (Urban, Rural, Combined), and establishment type (Own Account Establishments, Hired Worker Establishments, All). Data examples include 763,860 rural manufacturing establishments in Maharashtra (2022-23), 9,483 urban HWE in Chandigarh (2022-23), and 2,197,497 combined OAE in Odisha (2021-22).
+        15. asuse_statewise_est_num_of_estb_pursuing_mixed_activity: This table provides annual state/UT-wise data on the estimated number of establishments pursuing mixed activities in India, disaggregated by sector (e.g., Manufacturing, Trade, Other Services), area (Urban, Rural, Combined), and establishment type (Own Account Establishments, Hired Worker Establishments, All). Data examples include 763,860 rural manufacturing establishments in Maharashtra (2022-23), 9,483 urban HWE in Chandigarh (2022-23), and 2,197,497 combined OAE in Odisha (2021-22).
         Sample queries:
         a. How many urban hired worker establishments pursuing mixed activities were there in Uttarakhand in 2023-24?
         b. Provide the number of manufacturing establishments in Tamil Nadu (all establishment types) for 2022-23, broken down by area.
 
-
-        21. asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet: This table contains annual state/UT-wise estimates of the number of establishments serving as franchisee outlets across India from 2021-22 to 2023-24, with data provided at both state (e.g., Bihar: 1129; Odisha: 5826; Telangana: 7308) and all-India levels (e.g., 132471 in 2023-24). Data covers all major states and union territories, including minor entries (e.g., Lakshadweep: 0), and is sourced from the National Sample Survey Office, MoSPI.
+        16. asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet: This table contains annual state/UT-wise estimates of the number of establishments serving as franchisee outlets across India from 2021-22 to 2023-24, with data provided at both state (e.g., Bihar: 1129; Odisha: 5826; Telangana: 7308) and all-India levels (e.g., 132471 in 2023-24). Data covers all major states and union territories, including minor entries (e.g., Lakshadweep: 0), and is sourced from the National Sample Survey Office, MoSPI.
         Sample queries:
         a. How many franchisee outlets were estimated in Tamil Nadu in each of the last three years?
         b. Which Indian state had the highest number of franchisee establishments in 2022-23 according to the NSSO?
 
-
-        22. asuse_statewise_est_num_of_worker_by_employment_and_gender: This table provides annual state/UT-wise estimates of the number of workers in India by industry (e.g., Manufacturing, Trade, Other Services), establishment type (Own Account, Hired Worker, All), gender, work status (Full/Part time), and location (Rural/Urban/Combined). Data covers multiple states such as Assam, Maharashtra, Kerala, and union territories like Chandigarh, for years like 2021-22 to 2023-24. Example: 182,703 male full-time manufacturing workers in urban Andhra Pradesh (2023-24).
-        Sample queries:
-        a. How many female hired workers were employed full-time in manufacturing establishments in Jammu and Kashmir for 2022-23?
-        b. What is the estimated number of part-time male workers in trade sector own account establishments in rural West Bengal for 2023-24?
-
-
-        23. asuse_statewise_estimated_annual_emoluments_per_hired_worker: This table presents annual, state/UT-wise data on estimated annual emoluments (in Rs.) and hired worker counts across India, sourced from the National Sample Survey Office (MoSPI). Data is available by sector (e.g., Manufacturing, Trade, Other Services), establishment type (Own Account, Hired Worker, All), formality (Formal/Informal/All), and area (Rural, Urban, Combined) for years 2021-22 to 2023-24. Sample entries include Uttar Pradesh, Maharashtra, Meghalaya, Telangana, and Delhi.
-        Sample queries:
-        a. What was the annual emolument per hired worker in the manufacturing sector for rural Karnataka in 2021-22?
-        b. How many hired workers were estimated in all establishments of urban Maharashtra in 2021-22?
-
-
-        24. asuse_statewise_estimated_annual_gva_per_establishment_rupees: This table provides state and sector-wise estimated annual Gross Value Added (GVA (Gross Value Added)) per establishment (in Rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
+        17. asuse_statewise_estimated_annual_gva_per_establishment_rupees: This table provides state and sector-wise estimated annual Gross Value Added (GVA (Gross Value Added)) per establishment (in Rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
         Instructions: Use this table to analyze or retrieve estimated annual GVA (Gross Value Added) per establishment by state/UT, year, sector (rural/urban), establishment type (HWE/OAE/All), and broad activity category (e.g., Manufacturing). Filter by relevant columns to get specific GVA (Gross Value Added) values.
         Example queries:
         Query: Show the estimated annual GVA (Gross Value Added) per establishment for all establishment types in Andhra Pradesh (rural, manufacturing) for 2023-24.
         Query: List the GVA (Gross Value Added) per establishment for each state in the manufacturing sector for 2023-24 (all establishment types, rural only).
         Query: Get the GVA (Gross Value Added) per establishment for Own Account Establishments in Andhra Pradesh for 2023-24, manufacturing sector, rural area.
-        
 
-        25. aasuse_statewise_estimated_annual_gva_per_worker_rupees: This table provides state and sector-wise estimated annual Gross Value Added (GVA (Gross Value Added)) per worker (in rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
-        Instructions: Use this table to retrieve GVA (Gross Value Added) per worker data by year, state/UT, sector (rural/urban), establishment type, and activity category. Filter using columns like 'year', 'stateut', 'sector', 'broad_activity_category', and 'establishment_type' as needed.
-        Example queries:
-        Query: Show the estimated annual GVA (Gross Value Added) per worker for all establishment types in Andhra Pradesh for 2023-24.
-        Query: List the GVA (Gross Value Added) per worker in rural manufacturing sector for each state in 2023-24.
-        Query: What is the GVA (Gross Value Added) per worker for Hired Worker Establishments in Andhra Pradesh's rural manufacturing sector in 2023-24?
-        
-
-        26. asuse_statewise_estimated_number_of_workers_by_type_of_workers: This table contains state/UT-wise and all-India annual data on the estimated number of workers by type (e.g., formal/informal hired workers, working owners, unpaid family members) in different sectors (Trade, Manufacturing, Other Services). Data is further broken down by urban/rural/combined, establishment type (All Establishments, Hired Worker, Own Account), and gender. Examples include Rajasthan (rural, Other Services, Other Workers) and Gujarat (urban, Trade, Total workers). Source: National Sample Survey Office, MoSPI.
-        Sample queries:
-        a. What is the number of female informal hired workers in rural Gujarat in the Trade sector for 2022-23?
-        b. Show the annual estimated number of working owners in manufacturing establishments in Madhya Pradesh (urban) for the last three years.
-
-
-        27. asuse_statewise_per1000_distri_of_estb_by_nature_of_operation: This table provides state/UT-wise, rural/urban/combined, and all-India level annual data on the per 1000 distribution of establishments by nature of operation (perennial, seasonal, casual). Categories covered include Manufacturing, Trade, Other Services, and All, with breakdowns for Own Account Establishments (OAE), Hired Worker Establishments (HWE), and all establishments. Example entries: Uttar Pradesh, Gujarat, Sikkim, Puduchery, Maharashtra (2021–2024, all modes and categories).
+        18. asuse_statewise_per1000_distri_of_estb_by_nature_of_operation: This table provides state/UT-wise, rural/urban/combined, and all-India level annual data on the per 1000 distribution of establishments by nature of operation (perennial, seasonal, casual). Categories covered include Manufacturing, Trade, Other Services, and All, with breakdowns for Own Account Establishments (OAE), Hired Worker Establishments (HWE), and all establishments. Example entries: Uttar Pradesh, Gujarat, Sikkim, Puduchery, Maharashtra (2021–2024, all modes and categories).
         Sample queries:
         a. What percentage of manufacturing establishments in rural Uttar Pradesh were perennial in 2021-22?
         b. Show the state-wise distribution of seasonal own account establishments in the trade sector for 2022-23.
 
-
-        28. asuse_statewise_per1000_distri_of_estb_by_type_of_location: This table presents annual, state/UT-wise data on the per-1000 distribution of establishments in India, categorized by sector (Manufacturing, Trade, Other Services), establishment type (Own Account Establishments, Hired Worker Establishments, All), and location type (e.g., within household premises, street vendors, kiosks). Coverage includes states like Tamil Nadu, Gujarat, West Bengal, and all-India aggregates, with data available separately for rural, urban, and combined geographies from 2021-22 to 2023-24.
+        19. asuse_statewise_per1000_distri_of_estb_by_type_of_location: This table presents annual, state/UT-wise data on the per-1000 distribution of establishments in India, categorized by sector (Manufacturing, Trade, Other Services), establishment type (Own Account Establishments, Hired Worker Establishments, All), and location type (e.g., within household premises, street vendors, kiosks). Coverage includes states like Tamil Nadu, Gujarat, West Bengal, and all-India aggregates, with data available separately for rural, urban, and combined geographies from 2021-22 to 2023-24.
         Sample queries:
         a. What is the distribution of manufacturing establishments by location type in rural West Bengal for 2023-24?
         b. How does the per-1000 share of street vendor establishments in urban Gujarat compare between 2021-22 and 2023-24?
 
-
-        29. asuse_statewise_per1000_distri_of_estb_by_type_of_ownership: This table provides annual, state/UT-wise and all-India data on the per-1000 distribution of establishments by type of ownership, segmented by rural, urban, and combined areas. Categories include Manufacturing, Trade, and Other Services, with detailed breakdowns such as Proprietary-Male, Partnerships, Societies, and SHGs. Examples include Assam (Rural, Trade), Punjab (Urban, Other Services), and all-India rural data for Trade. Source: National Sample Survey Office, MoSPI.
+        20. asuse_statewise_per1000_distri_of_estb_by_type_of_ownership: This table provides annual, state/UT-wise and all-India data on the per-1000 distribution of establishments by type of ownership, segmented by rural, urban, and combined areas. Categories include Manufacturing, Trade, and Other Services, with detailed breakdowns such as Proprietary-Male, Partnerships, Societies, and SHGs. Examples include Assam (Rural, Trade), Punjab (Urban, Other Services), and all-India rural data for Trade. Source: National Sample Survey Office, MoSPI.
         Sample queries:
         a. What is the share of proprietary-female owned establishments in the 'Other Services' sector in urban Punjab for 2023-24?
         b. Show per 1000 distribution of SHG-owned establishments for all establishment types in rural Kerala for 2022-23.
 
-
-        30. asuse_statewise_per1000_estb_by_hours_worked_per_day: This table provides annual, state/UT-wise data on the per-1000 distribution of establishments by the number of hours normally worked per day. It covers various states (e.g., Goa, Maharashtra, Gujarat), sectors (Trade, Manufacturing, Other Services), establishment types (Own Account, Hired Worker, All Establishments), and urban/rural status. Examples include 813 Own Account Trade establishments in Goa and 815 Hired Worker Trade establishments in Assam (2023-24).
+        21. asuse_statewise_per1000_estb_by_hours_worked_per_day: This table provides annual, state/UT-wise data on the per-1000 distribution of establishments by the number of hours normally worked per day. It covers various states (e.g., Goa, Maharashtra, Gujarat), sectors (Trade, Manufacturing, Other Services), establishment types (Own Account, Hired Worker, All Establishments), and urban/rural status. Examples include 813 Own Account Trade establishments in Goa and 815 Hired Worker Trade establishments in Assam (2023-24).
         Sample queries:
         a. What is the distribution of manufacturing establishments by hours worked in a day for Telangana (urban) in 2023-24?
         b. Compare the proportion of Own Account versus Hired Worker establishments working 8-11 hours in Gujarat during 2022-23.
 
-
-        31. asuse_statewise_per1000_estb_by_month_num_operated_last365_day: This table presents annual data on the distribution per 1000 of establishments by number of months operated in the last 365 days, covering different states (e.g., Odisha, Karnataka, Delhi), sectors (Trade, Manufacturing, Other Services), and establishment types (Own Account, Hired Worker, All). Data is available at all-India, state, and urban/rural/combined levels with examples like Odisha (Rural, Trade, <=3 Months) and Delhi (Combined, Manufacturing, <=3 Months).
+        22. asuse_statewise_per1000_estb_by_month_num_operated_last365_day: This table presents annual data on the distribution per 1000 of establishments by number of months operated in the last 365 days, covering different states (e.g., Odisha, Karnataka, Delhi), sectors (Trade, Manufacturing, Other Services), and establishment types (Own Account, Hired Worker, All). Data is available at all-India, state, and urban/rural/combined levels with examples like Odisha (Rural, Trade, <=3 Months) and Delhi (Combined, Manufacturing, <=3 Months).
         Sample queries:
         a. How many own account establishments in Haryana traded for <=3 months during 2023-24?
         b. Which state had the highest per 1000 distribution of trade establishments operating more than 9 months in rural areas in 2022-23?
 
-
-        32. asuse_statewise_per1000_estb_maintain_post_bank_saving_acc: This table presents annual, state/UT-wise and location-wise (urban/rural/combined) data on the number per 1000 establishments maintaining bank or post office savings accounts in India, split by sectors such as Trade, Manufacturing, and Other Services. Data is categorized for Own Account and Hired Worker Establishments, and by account holder type. Examples include Maharashtra-rural (317, HWE), Assam-urban (914, OAE), and Chandigarh-rural (1000, HWE), from 2021-22 to 2023-24.
+        23. asuse_statewise_per1000_estb_maintain_post_bank_saving_acc: This table presents annual, state/UT-wise and location-wise (urban/rural/combined) data on the number per 1000 establishments maintaining bank or post office savings accounts in India, split by sectors such as Trade, Manufacturing, and Other Services. Data is categorized for Own Account and Hired Worker Establishments, and by account holder type. Examples include Maharashtra-rural (317, HWE), Assam-urban (914, OAE), and Chandigarh-rural (1000, HWE), from 2021-22 to 2023-24.
         Sample queries:
         a. What was the number per 1000 of urban establishments in Karnataka maintaining any bank account in 2021-22?
         b. How does the proportion of rural own account establishments with Post Office Savings Bank accounts in Punjab compare to Haryana in 2023-24?
 
-
-        33. asuse_statewise_per1000_estb_registered_diff_acts_authorities: This table provides annual, state/UT-wise and all-India statistics on the number per 1000 of establishments registered under various Acts and authorities (e.g., Shops & Establishment Act, EPFO/ESIC, Co-operative Societies Act) by sector (Trade, Manufacturing, Other Services) and type (Own Account, Hired Worker, All). Examples include 0 per 1000 for 'EPFO/ESIC' in Goa Rural (2021-22) and 148 per 1000 for 'Others' in All India Rural (2022-23).
+        24. asuse_statewise_per1000_estb_registered_diff_acts_authorities: This table provides annual, state/UT-wise and all-India statistics on the number per 1000 of establishments registered under various Acts and authorities (e.g., Shops & Establishment Act, EPFO/ESIC, Co-operative Societies Act) by sector (Trade, Manufacturing, Other Services) and type (Own Account, Hired Worker, All). Examples include 0 per 1000 for 'EPFO/ESIC' in Goa Rural (2021-22) and 148 per 1000 for 'Others' in All India Rural (2022-23).
         Sample queries:
         a. What is the number per 1000 of establishments registered under the Shops & Establishment Act in urban Odisha for 2021-22?
         b. Provide state-wise data for 2023-24 on establishments registered under the Co-operative Societies Act, 1912 in the 'Other Services' sector.
 
-
-        34. asuse_statewise_per1000_estb_use_computer_internet_last365_day: This table presents annual, state/UT-wise data on the number per 1000 establishments using computers and internet in India, across years like 2021-22 and 2023-24. Data is disaggregated by sector (e.g., Trade, Manufacturing, Other Services), type of establishment (Own Account, Hired Worker, All), and area (Urban, Rural, Combined). Examples include Kerala (rural, Hired Worker, computer: 278), Chandigarh (Combined, Hired Worker, internet: 958), and Uttar Pradesh (urban, all, internet: 158).
+        25. asuse_statewise_per1000_estb_use_computer_internet_last365_day: This table presents annual, state/UT-wise data on the number per 1000 establishments using computers and internet in India, across years like 2021-22 and 2023-24. Data is disaggregated by sector (e.g., Trade, Manufacturing, Other Services), type of establishment (Own Account, Hired Worker, All), and area (Urban, Rural, Combined). Examples include Kerala (rural, Hired Worker, computer: 278), Chandigarh (Combined, Hired Worker, internet: 958), and Uttar Pradesh (urban, all, internet: 158).
         Sample queries:
         a. What is the number per 1000 of trade establishments using computers in urban Sikkim for 2023-24?
         b. How many own account establishments in rural Madhya Pradesh used the internet per 1000 in 2022-23?
 
-
-        35. asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner: This table provides annual state/UT-wise and national-level data on the per 1000 distribution of proprietary and partnership establishments in India by the social group of the owner-major partner. It covers rural, urban, and combined geographies, establishment types (Own Account, Hired Worker, All), sectors like Manufacturing, Trade, and Other Services, and social groups including Scheduled Castes, Scheduled Tribes, Other Backward Classes, and Others. Example entries: Rajasthan, 2021-22, Manufacturing, Scheduled Caste; All India, 2023-24, Manufacturing, OBC.
+        26. asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner: This table provides annual state/UT-wise and national-level data on the per 1000 distribution of proprietary and partnership establishments in India by the social group of the owner-major partner. It covers rural, urban, and combined geographies, establishment types (Own Account, Hired Worker, All), sectors like Manufacturing, Trade, and Other Services, and social groups including Scheduled Castes, Scheduled Tribes, Other Backward Classes, and Others. Example entries: Rajasthan, 2021-22, Manufacturing, Scheduled Caste; All India, 2023-24, Manufacturing, OBC.
         Sample queries:
         a. What is the proportion of Scheduled Tribe-owned manufacturing establishments in Meghalaya (rural) in 2023-24?
         b. How did the distribution of Other Backward Classes in trade sector establishments change in Andhra Pradesh from 2021-22 to 2023-24?
 
-        36. annual_survey_of_industries: This table contains Annual Survey of Industries (ASI) data with comprehensive industrial performance metrics for India.
+        27. annual_survey_of_industries: This table contains Annual Survey of Industries (ASI) data with comprehensive industrial performance metrics for India.
         It includes:
         **Financial Metrics**: Addition in Stock (Materials, Finished Goods, Semi-Finished Goods), Depreciation, Gross/Net Capital Formation, Gross/Net Value Added, Interest Paid/Received, Invested Capital, Net Income, Net Profit, Outstanding Loan, Physical Working Capital, Rent Paid/Received, Total Inputs/Output, Working Capital
         **Employment & Labor**: Bonus to All Staff, Employers' Contribution, No. of Directly Employed Workers (Male/Female), No. of Employees Other Than Workers, No. of Workers Employed Through Contractors, Total Mandays Employed, Total Number of Persons Engaged, Wages and Salaries (with various breakdowns)
@@ -844,7 +779,163 @@ def file_selector_enterprise_establishment_surveys(query):
         Query19: "Stock of finished goods in automobile sector"
         Query20: "Total inputs cost for electronics manufacturing"
 
-        37. periodic_labour_force_survey: This table contains Periodic Labour Force Survey (PLFS) data - the primary source for employment and unemployment statistics. Contains Labour Force Participation Rate (LFPR), Worker Population Ratio (WPR), Unemployment Rate (UR) by year, state, gender, age group, sector, religion, social group, education levels.
+        28. asi_state_principal_characteristics: This table provides state-wise and sector-wise principal characteristics of industries in India, including employment and other key indicators, classified by NIC codes for the years 2021 to 2023.
+        Instructions: Use this table to analyze industrial statistics such as number of workers, employees, and other principal characteristics by state, sector, year, and NIC classification. Filter by 'state', 'year', 'indicator', 'sector', or 'nic_code' as needed.
+        Example queries:
+        Query: Show the total number of workers in All India for the year 2022-23.
+        Query: List the number of directly employed female workers by state for 2022-23.
+        Query: Get the number of employees other than workers in Book Publishing for 2022-23.
+
+        29. asi_imp_principal_characteristics_by_rural_urban_sector: This table provides annual data on principal industrial characteristics, such as the number of factories, split by rural and urban sectors in India.
+        Instructions: Use this table to analyze trends or compare rural and urban industrial characteristics (like number of factories) across different years.
+        Example queries:
+        Query: Show the number of factories in rural and urban areas for each year.
+        Query: List all principal characteristics available for 2012-13.
+        Query: Get the total number of factories in rural areas between 2010-11 and 2012-13.
+
+        30. asi_imp_principal_characteristics_india_by_mjr_indus_grp: This table provides annual data on the number of factories in India, categorized by major industry groups, as reported by the Enterprise Survey Division of MoSPI.
+        Instructions: Use this table to analyze trends or compare the number of factories across different industries and years. Filter by 'year' for specific periods or by industry columns for sector-specific insights. The 'characteristics' column describes the metric (e.g., 'No. of Factories').
+        Example queries:
+        Query: Show the number of factories in the food products industry for each year.
+        Query: Which year had the highest number of factories in the textiles sector?
+        Query: List the number of factories for all industries in 2011-12.
+        Query: Show the trend of factories in the pharmaceuticals industry over the years.
+
+        31. asi_industrywise_factories_2022_23: This table provides the number of factories in India for various types of industries for the year 2022-23, along with metadata such as release date, last update, and data source.
+        Instructions: Use this table to find the count of factories by industry type, or to analyze industry-wise distribution of factories for the year 2022-23.
+        Example queries:
+        Query: Show the number of factories for each industry type.
+        Query: Which industry has the highest number of factories?
+        Query: List all industries with more than 10,000 factories.
+        Query: What is the total number of factories across all industries?
+        Query: Show the data source and last updated date for the industry-wise factories data.
+
+        32. asi_num_of_factories_nva: This table provides annual data on the number of factories and their net value added (in lakhs) as recorded by the Enterprise Survey Division, MoSPI.
+        Instructions: Use this table to analyze trends in the number of factories and their net value added over different years. You can filter by year, aggregate values, or compare data across years.
+        Example queries:
+        Query: Show the net value added and number of factories for each year.
+        Query: Find the year with the highest net value added.
+        Query: Get the total net value added across all years.
+        Query: List all years where the number of factories was below 100,000.
+
+        33. asi_statewise_number_of_factories_for_2022_23: This table provides the number of factories in each Indian state for the year 2022-23, along with release and update dates and the data source.
+        Instructions: Use this table to retrieve or analyze the count of factories by state for 2022-23, or to filter by release/update dates or data source.
+        Example queries:
+        Query: Show the number of factories in each state.
+        Query: Which state had the highest number of factories in 2022-23?
+        Query: List all states where the number of factories is greater than 30,000.
+        Query: Give me the release date for the factory data.
+
+        34. asi_top_ten_states_by_number_of_factories: This table shows the number of factories in the top ten Indian states for each year from 2010-11 to 2022-23, along with metadata about data release and source.
+        Instructions: Use this table to analyze trends, compare, or retrieve the number of factories in leading Indian states across different years.
+        Example queries:
+        Query: Which state had the highest number of factories in 2022-23?
+        Query: Show the number of factories in Maharashtra and Gujarat for the years 2010-11 and 2022-23.
+        Query: List the trend of factories in Tamil Nadu from 2010-11 to 2022-23.
+        Query: Which state saw the largest increase in the number of factories between 2010-11 and 2022-23?
+
+        35. asi_trend_imp_characteristics_technical_coefficients: This table contains annual technical coefficients data, such as Fixed Capital to Output ratios, for different years, including metadata like release and update dates and data source.
+        Instructions: Use this table to retrieve technical coefficients by year, region, or data source, or to analyze trends in industrial technical characteristics over time.
+        Example queries:
+        Query: Show the technical coefficients for all years for Fixed Capital to Output.
+        Query: List all available regions in the table.
+        Query: Get the technical coefficient for the year 2012-13.
+        Query: Find the latest update date for the data.
+
+        36. asi_trend_of_imp_characteristics_structural_ratios: This table provides annual data on key structural ratios, such as fixed capital per factory, across different regions and years, sourced from the Enterprise Survey Division MoSPI.
+        Instructions: Use this table to analyze trends in structural ratios (e.g., fixed capital per factory) over time or by region. Filter by year, region, or data source as needed.
+        Example queries:
+        Query: Show the fixed capital per factory for each year.
+        Query: List all available regions in the table.
+        Query: Get the structural ratios for the year 2011-12.
+
+        37. asi_trend_of_imp_principal_characteristics_india: This table contains annual data on key industrial characteristics in India, such as the number of factories, with associated metadata including release and update dates, and data source.
+        Instructions: Use this table to retrieve historical trends and statistics related to principal industrial characteristics (e.g., number of factories) in India by year.
+        Example queries:
+        Query: Show the number of factories in India for each year.
+        Query: Get all available data for the year 1982-83.
+        Query: List the years and values for all records sourced from 'Enterprise Survey Division MoSPI'.
+
+        54. none_of_these: for any queries which are unrelated to above files.
+
+        ## Consider the list above, and respond ONLY with one of the file names from the following list:
+        [asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use, asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities,
+        asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_estimated_annual_gva_per_establishment_rupees,
+        asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc, asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day,
+        asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries, asi_state_principal_characteristics, asi_imp_principal_characteristics_by_rural_urban_sector, asi_imp_principal_characteristics_india_by_mjr_indus_grp, asi_industrywise_factories_2022_23, asi_num_of_factories_nva, asi_statewise_number_of_factories_for_2022_23, asi_top_ten_states_by_number_of_factories, asi_trend_imp_characteristics_technical_coefficients, asi_trend_of_imp_characteristics_structural_ratios,
+        asi_trend_of_imp_principal_characteristics_india, none_of_these]
+
+        Do not include any reasoning traces or other text apart from the file name selected from the above list.
+            """)
+    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    return selected_file.strip(), i_tokens, o_tokens
+
+def file_selector_worker_surveys(query):
+    system_instruction=dedent(f"""
+        You are tasked with identifying the file that contains the required data based on the query: "{query}".
+        You must pick one file name only from the following list:
+
+        Choose a file only if the table description explicitly confirms that the data required by the query is covered.
+
+        1. asuse_est_annual_emoluments_per_hired_worker: This table provides annual, all-India-level data on estimated annual emoluments and number of hired workers by industry (e.g., Manufacture of Rubber and Plastics Products, Land Transport, Education, Accommodation), sector (Rural/Urban/Combined), establishment type (Own Account, Hired Worker), and formality status (Formal/Informal). Example entries include annual emoluments in 'Education' (Urban, 2022-23: Rs 265,897) and hired workers in 'Wholesale on a Fee or Contract Basis' (Combined, Informal, 2023-24: 153,601).
+        Sample queries:
+        a. What were the estimated annual emoluments per hired worker for Land Transport in rural areas for 2022-23?
+        b. How many hired workers were there in the Manufacture of Tobacco Products industry in All India combined for 2021-22?
+
+        2. asuse_est_num_workers_by_employment_gender: This table provides annual, all-India estimates of the number of workers by economic activity (e.g., Manufacturing of Motor Vehicles, Real Estate, Land Transport), nature of establishment (Own Account, Hired Worker, or All), sector (Rural, Urban, Combined), and gender (Male, Female, All). Data is published by the National Sample Survey Office (MoSPI). Sample entries include 'Manufacture of Beverages' (2023-24) and 'Other Retail Trade' (2022-23).
+        Sample queries:
+        a. How many female workers were engaged in land transport in urban areas during 2021-22?
+        b. What was the estimated number of workers in 'Manufacture of Beverages' at all-India level for 2023-24?
+
+        3. asuse_est_value_key_characteristics_by_workers: This table provides estimated values of key characteristics (such as input per worker) by number of workers, sector, activity category, and region for different years, based on data from the National Sample Survey Office.
+        Instructions: Use this table to analyze or retrieve estimated values of key economic characteristics (like input per worker) segmented by year, state/UT, sector (rural/urban), broad activity category (e.g., Manufacturing), and number of workers.
+        Example queries:
+        Query: Show the input per worker for manufacturing in rural India for 2023-24, broken down by number of workers.
+        Query: Get all key characteristics for urban sector in 2023-24 for the state of Maharashtra.
+        Query: What is the estimated value for input per worker in the rural sector for all activity categories in 2023-24?
+
+        4. asuse_estimated_annual_gva_per_worker_rupees: This table provides the estimated annual GVA (Gross Value Added) per worker (in rupees) for various activity categories, establishment types, and sectors across Indian states and union territories, based on data from the National Sample Survey Office.
+        Instructions: Use this table to analyze or retrieve GVA (Gross Value Added) per worker statistics by year, state/UT, sector (rural/urban), activity category, and establishment type. Filter by these columns to get specific GVA (Gross Value Added) values or trends.
+        Example queries:
+        Query: What was the estimated annual GVA (Gross Value Added) per worker for 'Cotton Ginning, Cleaning and Bailing' in rural India in 2023-24 for Hired Worker Establishments?
+        Query: Show the GVA (Gross Value Added) per worker for all establishment types in rural India for 'Cotton Ginning, Cleaning and Bailing' in 2023-24.
+        Query: List the estimated annual GVA (Gross Value Added) per worker for each activity category in rural India for 2023-24.
+
+        5. asuse_estimated_number_of_workers_by_type_of_workers: This table presents annual, all-India estimates of worker numbers by industry category (e.g., Water Transport, Manufacture of Textiles), worker type (e.g., Formal Hired Workers, Unpaid Family Member), gender, and establishment type (All, Hired Worker, Own Account). Data is disaggregated for urban, rural, and combined areas. Examples include 116 male informal water transport workers (urban, 2023-24) and 2,006 female unpaid family workers in manufacturing (rural, 2022-23).
+        Sample queries:
+        a. How many informal hired workers were there in urban food and accommodation service activities in 2023-24?
+        b. What is the estimated number of female working owners in rural trading activities for 2021-22?
+
+        6. asuse_statewise_est_num_of_worker_by_employment_and_gender: This table provides annual state/UT-wise estimates of the number of workers in India by industry (e.g., Manufacturing, Trade, Other Services), establishment type (Own Account, Hired Worker, All), gender, work status (Full/Part time), and location (Rural/Urban/Combined). Data covers multiple states such as Assam, Maharashtra, Kerala, and union territories like Chandigarh, for years like 2021-22 to 2023-24. Example: 182,703 male full-time manufacturing workers in urban Andhra Pradesh (2023-24).
+        Sample queries:
+        a. How many female hired workers were employed full-time in manufacturing establishments in Jammu and Kashmir for 2022-23?
+        b. What is the estimated number of part-time male workers in trade sector own account establishments in rural West Bengal for 2023-24?
+
+        7. asuse_statewise_estimated_annual_emoluments_per_hired_worker: This table presents annual, state/UT-wise data on estimated annual emoluments (in Rs.) and hired worker counts across India, sourced from the National Sample Survey Office (MoSPI). Data is available by sector (e.g., Manufacturing, Trade, Other Services), establishment type (Own Account, Hired Worker, All), formality (Formal/Informal/All), and area (Rural, Urban, Combined) for years 2021-22 to 2023-24. Sample entries include Uttar Pradesh, Maharashtra, Meghalaya, Telangana, and Delhi.
+        Sample queries:
+        a. What was the annual emolument per hired worker in the manufacturing sector for rural Karnataka in 2021-22?
+        b. How many hired workers were estimated in all establishments of urban Maharashtra in 2021-22?
+
+        8. asuse_statewise_estimated_annual_gva_per_worker_rupees: This table provides state and sector-wise estimated annual Gross Value Added GVA (Gross Value Added) per worker (in rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
+        Instructions: Use this table to retrieve GVA (Gross Value Added) per worker data by year, state/UT, sector (rural/urban), establishment type, and activity category. Filter using columns like 'year', 'stateut', 'sector', 'broad_activity_category', and 'establishment_type' as needed.
+        Example queries:
+        Query: Show the estimated annual GVA (Gross Value Added) per worker for all establishment types in Andhra Pradesh for 2023-24.
+        Query: List the GVA (Gross Value Added) per worker in rural manufacturing sector for each state in 2023-24.
+        Query: What is the GVA (Gross Value Added) per worker for Hired Worker Establishments in Andhra Pradesh's rural manufacturing sector in 2023-24?
+
+        9. asuse_statewise_estimated_number_of_workers_by_type_of_workers: This table contains state/UT-wise and all-India annual data on the estimated number of workers by type (e.g., formal/informal hired workers, working owners, unpaid family members) in different sectors (Trade, Manufacturing, Other Services). Data is further broken down by urban/rural/combined, establishment type (All Establishments, Hired Worker, Own Account), and gender. Examples include Rajasthan (rural, Other Services, Other Workers) and Gujarat (urban, Trade, Total workers). Source: National Sample Survey Office, MoSPI.
+        Sample queries:
+        a. What is the number of female informal hired workers in rural Gujarat in the Trade sector for 2022-23?
+        b. Show the annual estimated number of working owners in manufacturing establishments in Madhya Pradesh (urban) for the last three years.
+
+        10. asi_no_of_workers_and_person_engaged: This table provides annual data on the number of workers and total persons engaged in enterprises, along with release and update information and the data source.
+        Instructions: Use this table to retrieve historical statistics on workforce size and total engagement in enterprises for specific years or to analyze trends over time.
+        Example queries:
+        Query: Show the number of workers and total persons engaged for the year 1982-83.
+        Query: List all years with their corresponding number of workers.
+        Query: Find the year with the highest total persons engaged.
+
+        11. periodic_labour_force_survey: This table contains Periodic Labour Force Survey (PLFS) data - the primary source for employment and unemployment statistics. Contains Labour Force Participation Rate (LFPR), Worker Population Ratio (WPR), Unemployment Rate (UR) by year, state, gender, age group, sector, religion, social group, education levels.
         Use this table for queries about: employment rates, unemployment statistics, labour force participation, worker demographics, job market analysis, employment by education/gender/age.
 
         **Query Classification Guidelines:**
@@ -865,142 +956,468 @@ def file_selector_enterprise_establishment_surveys(query):
         Query13: "Employment statistics for different age groups"
         Query14: "Labour force survey data for metropolitan cities"
         Query15: "Job seekers and employment status analysis"
-        
-        38. asi_state_principal_characteristics: This table provides state-wise and sector-wise principal characteristics of industries in India, including employment and other key indicators, classified by NIC codes for the years 2021 to 2023.
-        Instructions: Use this table to analyze industrial statistics such as number of workers, employees, and other principal characteristics by state, sector, year, and NIC classification. Filter by 'state', 'year', 'indicator', 'sector', or 'nic_code' as needed.
+
+        12. lpfr_state_age: The 'lpfr_state_age' table provides Labour Force Participation Rate (LFPR) data by state, age group, gender, and area (rural/urban/total) for specified time periods.
+        Instructions: Use this table to analyze LFPR statistics across Indian states, broken down by age group, gender, rural/urban/total populations, and time period. Filter by 'state', 'age_group', 'year', or area/gender columns as needed.
         Example queries:
-        Query: Show the total number of workers in All India for the year 2022-23.
-        Query: List the number of directly employed female workers by state for 2022-23.
-        Query: Get the number of employees other than workers in Book Publishing for 2022-23.
-        
-        39. epfo_india_mth_payroll: This table contains monthly and yearly payroll data from EPFO India, showing the number of new subscribers by age group, total new subscribers, and the number of establishments remitting their first ECR.
+        Query: Show the total LFPR for males and females in Andhra Pradesh for April-June 2025.
+        Query: List rural and urban LFPR for persons aged 15-29 in Assam in 2025.
+        Query: Get LFPR for all states for females in rural areas for 2025.
+
+        13. cws_industry_distribution_state: This table provides the percentage distribution of workers by industry sector (agriculture, secondary including mining and quarrying, tertiary, and all sectors) across Indian states, segmented by age group, gender, area type, and time period.
+        Instructions: Use this table to analyze the sectoral distribution of workers in different states, filtered by age group, gender, area type, and specific time periods. Useful for comparing employment patterns across sectors and demographics.
+        Example queries:
+        Query: Show the percentage of male workers in the agriculture sector in rural Bihar for April to June 2025.
+        Query: List the sector-wise distribution for all sectors in Assam for rural males aged 15 years and above in Q2 2025.
+        Query: Get the tertiary sector percentage for Andhra Pradesh for rural males aged 15 years and above in the latest available data.
+
+        14. wpr_state_age: This table contains state-wise Worker Population Ratio (WPR) data by gender, area (rural/urban/total), and age group, along with time period, year, data source, and state information.
+        Instructions: Use this table to analyze or retrieve WPR statistics by state, gender, area, age group, and time period. Filter by columns like 'state', 'year', 'age_group', or area/gender-specific WPR values as needed.
+        Examples queries
+        Query: Show the total WPR for males and females in Assam for the age group 15-29 years in 2025.
+        Query: List all states with rural female WPR above 20 for April-June 2025.
+        Query: Get the urban person WPR for Bihar for the latest released data.
+
+        15. ur_state_age: This table provides state-wise unemployment rates segmented by age group, gender, and rural/urban areas, along with time period and data source details.
+        Instructions: Use this table to analyze or retrieve unemployment rates by state, age group, gender, area (rural/urban/total), and time period (month, year). Filter by columns such as state, year, age_group, or area-specific rates as needed.
+        Examples queries:
+        Query: Show the total unemployment rate for persons aged 15-29 years in Andhra Pradesh for April to June 2025.
+        Query: List rural female unemployment rates for all states in 2025.
+        Query: Get urban male and female unemployment rates in Bihar for 2025.
+        Query: Find the data source and release date for Assam's unemployment data for April to June 2025.
+
+        16. epfo_india_mth_payroll: This table contains monthly and yearly payroll data from EPFO India, showing the number of new subscribers by age group, total new subscribers, and the number of establishments remitting their first ECR.
         Instructions: Use this table to analyze trends in EPFO payroll enrollments by age group, month, or year, and to examine the number of new establishments joining the EPFO scheme.
         Example queries:
         Query: Show the total number of new EPFO subscribers for each year.
         Query: Get the number of new subscribers aged 18-21 for each month.
         Query: Find the month with the highest number of establishments remitting their first ECR.
         Query: Show the total new subscribers by age group for the year 2019-20.
-        
-        40. asi_imp_principal_characteristics_by_rural_urban_sector: This table provides annual data on principal industrial characteristics, such as the number of factories, split by rural and urban sectors in India.
-        Instructions: Use this table to analyze trends or compare rural and urban industrial characteristics (like number of factories) across different years.
-        Example queries:
-        Query: Show the number of factories in rural and urban areas for each year.
-        Query: List all principal characteristics available for 2012-13.
-        Query: Get the total number of factories in rural areas between 2010-11 and 2012-13.
-        
-        41. asi_imp_principal_characteristics_india_by_mjr_indus_grp: This table provides annual data on the number of factories in India, categorized by major industry groups, as reported by the Enterprise Survey Division of MoSPI.
-        Instructions: Use this table to analyze trends or compare the number of factories across different industries and years. Filter by 'year' for specific periods or by industry columns for sector-specific insights. The 'characteristics' column describes the metric (e.g., 'No. of Factories').
-        Example queries:
-        Query: Show the number of factories in the food products industry for each year.
-        Query: Which year had the highest number of factories in the textiles sector?
-        Query: List the number of factories for all industries in 2011-12.
-        Query: Show the trend of factories in the pharmaceuticals industry over the years.
-        
-        42. asi_industrywise_factories_2022_23: This table provides the number of factories in India for various types of industries for the year 2022-23, along with metadata such as release date, last update, and data source.
-        Instructions: Use this table to find the count of factories by industry type, or to analyze industry-wise distribution of factories for the year 2022-23.
-        Example queries:
-        Query: Show the number of factories for each industry type.
-        Query: Which industry has the highest number of factories?
-        Query: List all industries with more than 10,000 factories.
-        Query: What is the total number of factories across all industries?
-        Query: Show the data source and last updated date for the industry-wise factories data.
-        
-        43. asi_no_of_workers_and_person_engaged: This table provides annual data on the number of workers and total persons engaged in enterprises, along with release and update information and the data source.
-        Instructions: Use this table to retrieve historical statistics on workforce size and total engagement in enterprises for specific years or to analyze trends over time.
-        Example queries:
-        Query: Show the number of workers and total persons engaged for the year 1982-83.
-        Query: List all years with their corresponding number of workers.
-        Query: Find the year with the highest total persons engaged.
-        
-        44. asi_num_of_factories_nva: This table provides annual data on the number of factories and their net value added (in lakhs) as recorded by the Enterprise Survey Division, MoSPI.
-        Instructions: Use this table to analyze trends in the number of factories and their net value added over different years. You can filter by year, aggregate values, or compare data across years.
-        Example queries:
-        Query: Show the net value added and number of factories for each year.
-        Query: Find the year with the highest net value added.
-        Query: Get the total net value added across all years.
-        Query: List all years where the number of factories was below 100,000.
-        
-        45. asi_statewise_number_of_factories_for_2022_23: This table provides the number of factories in each Indian state for the year 2022-23, along with release and update dates and the data source.
-        Instructions: Use this table to retrieve or analyze the count of factories by state for 2022-23, or to filter by release/update dates or data source.
-        Example queries:
-        Query: Show the number of factories in each state.
-        Query: Which state had the highest number of factories in 2022-23?
-        Query: List all states where the number of factories is greater than 30,000.
-        Query: Give me the release date for the factory data.
-        
-        46. asi_top_ten_states_by_number_of_factories: This table shows the number of factories in the top ten Indian states for each year from 2010-11 to 2022-23, along with metadata about data release and source.
-        Instructions: Use this table to analyze trends, compare, or retrieve the number of factories in leading Indian states across different years.
-        Example queries:
-        Query: Which state had the highest number of factories in 2022-23?
-        Query: Show the number of factories in Maharashtra and Gujarat for the years 2010-11 and 2022-23.
-        Query: List the trend of factories in Tamil Nadu from 2010-11 to 2022-23.
-        Query: Which state saw the largest increase in the number of factories between 2010-11 and 2022-23?
-        
-        47. asi_trend_imp_characteristics_technical_coefficients: This table contains annual technical coefficients data, such as Fixed Capital to Output ratios, for different years, including metadata like release and update dates and data source.
-        Instructions: Use this table to retrieve technical coefficients by year, region, or data source, or to analyze trends in industrial technical characteristics over time.
-        Example queries:
-        Query: Show the technical coefficients for all years for Fixed Capital to Output.
-        Query: List all available regions in the table.
-        Query: Get the technical coefficient for the year 2012-13.
-        Query: Find the latest update date for the data.
-        
-        48. asi_trend_of_imp_characteristics_structural_ratios: This table provides annual data on key structural ratios, such as fixed capital per factory, across different regions and years, sourced from the Enterprise Survey Division MoSPI.
-        Instructions: Use this table to analyze trends in structural ratios (e.g., fixed capital per factory) over time or by region. Filter by year, region, or data source as needed.
-        Example queries:
-        Query: Show the fixed capital per factory for each year.
-        Query: List all available regions in the table.
-        Query: Get the structural ratios for the year 2011-12.
-        
-        49. asi_trend_of_imp_principal_characteristics_india: This table contains annual data on key industrial characteristics in India, such as the number of factories, with associated metadata including release and update dates, and data source.
-        Instructions: Use this table to retrieve historical trends and statistics related to principal industrial characteristics (e.g., number of factories) in India by year.
-        Example queries:
-        Query: Show the number of factories in India for each year.
-        Query: Get all available data for the year 1982-83.
-        Query: List the years and values for all records sourced from 'Enterprise Survey Division MoSPI'.
-        
-        50. lpfr_state_age: The 'lpfr_state_age' table provides Labour Force Participation Rate (LFPR) data by state, age group, gender, and area (rural/urban/total) for specified time periods.
-        Instructions: Use this table to analyze LFPR statistics across Indian states, broken down by age group, gender, rural/urban/total populations, and time period. Filter by 'state', 'age_group', 'year', or area/gender columns as needed.
-        Example queries:
-        Query: Show the total LFPR for males and females in Andhra Pradesh for April-June 2025.
-        Query: List rural and urban LFPR for persons aged 15-29 in Assam in 2025.
-        Query: Get LFPR for all states for females in rural areas for 2025.
-        
-        51. cws_industry_distribution_state: This table provides the percentage distribution of workers by industry sector (agriculture, secondary including mining and quarrying, tertiary, and all sectors) across Indian states, segmented by age group, gender, area type, and time period.
-        Instructions: Use this table to analyze the sectoral distribution of workers in different states, filtered by age group, gender, area type, and specific time periods. Useful for comparing employment patterns across sectors and demographics.
-        Example queries:
-        Query: Show the percentage of male workers in the agriculture sector in rural Bihar for April to June 2025.
-        Query: List the sector-wise distribution for all sectors in Assam for rural males aged 15 years and above in Q2 2025.
-        Query: Get the tertiary sector percentage for Andhra Pradesh for rural males aged 15 years and above in the latest available data.
-        
-        52. wpr_state_age: This table contains state-wise Worker Population Ratio (WPR) data by gender, area (rural/urban/total), and age group, along with time period, year, data source, and state information.
-        Instructions: Use this table to analyze or retrieve WPR statistics by state, gender, area, age group, and time period. Filter by columns like 'state', 'year', 'age_group', or area/gender-specific WPR values as needed.
-        Examples queries
-        Query: Show the total WPR for males and females in Assam for the age group 15-29 years in 2025.
-        Query: List all states with rural female WPR above 20 for April-June 2025.
-        Query: Get the urban person WPR for Bihar for the latest released data.
-        
-        53. ur_state_age: This table provides state-wise unemployment rates segmented by age group, gender, and rural/urban areas, along with time period and data source details.
-        Instructions: Use this table to analyze or retrieve unemployment rates by state, age group, gender, area (rural/urban/total), and time period (month, year). Filter by columns such as state, year, age_group, or area-specific rates as needed.
-        Examples queries:
-        Query: Show the total unemployment rate for persons aged 15-29 years in Andhra Pradesh for April to June 2025.
-        Query: List rural female unemployment rates for all states in 2025.
-        Query: Get urban male and female unemployment rates in Bihar for 2025.
-        Query: Find the data source and release date for Assam's unemployment data for April to June 2025.  
-        
-                
-        54. none_of_these: for any queries which are unrelated to above files.
+
+        17. none_of_these: for any queries which are unrelated to above files.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
-        [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
-        asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
-        asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
-        asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries , periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll, asi_imp_principal_characteristics_by_rural_urban_sector, asi_imp_principal_characteristics_india_by_mjr_indus_grp, asi_industrywise_factories_2022_23, asi_no_of_workers_and_person_engaged, asi_num_of_factories_nva, asi_statewise_number_of_factories_for_2022_23, 
-        asi_top_ten_states_by_number_of_factories, asi_trend_imp_characteristics_technical_coefficients, asi_trend_of_imp_characteristics_structural_ratios, asi_trend_of_imp_principal_characteristics_india, lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age, none_of_these]
+        [asuse_est_annual_emoluments_per_hired_worker,asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_statewise_est_num_of_worker_by_employment_and_gender, asuse_statewise_estimated_annual_emoluments_per_hired_worker, aasuse_statewise_estimated_annual_gva_per_worker_rupees,
+        asuse_statewise_estimated_number_of_workers_by_type_of_workers, asi_no_of_workers_and_person_engaged,periodic_labour_force_survey, lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age, epfo_india_mth_payroll,  none_of_these]
 
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
+
+# def file_selector_enterprise_establishment_surveys(query):
+#     system_instruction=dedent(f"""
+#         You are tasked with identifying the file that contains the required data based on the query: "{query}".
+#         You must pick one file name only from the following list:
+
+#         Choose a file only if the table description explicitly confirms that the data required by the query is covered.
+
+#         1. asuse_est_annual_emoluments_per_hired_worker: This table provides annual, all-India-level data on estimated annual emoluments and number of hired workers by industry (e.g., Manufacture of Rubber and Plastics Products, Land Transport, Education, Accommodation), sector (Rural/Urban/Combined), establishment type (Own Account, Hired Worker), and formality status (Formal/Informal). Example entries include annual emoluments in 'Education' (Urban, 2022-23: Rs 265,897) and hired workers in 'Wholesale on a Fee or Contract Basis' (Combined, Informal, 2023-24: 153,601).
+#         Sample queries:
+#         a. What were the estimated annual emoluments per hired worker for Land Transport in rural areas for 2022-23?
+#         b. How many hired workers were there in the Manufacture of Tobacco Products industry in All India combined for 2021-22?
+
+
+#         2. asuse_est_annual_gva_per_establishment: This table provides estimated annual Gross Value Added (GVA (Gross Value Added)) per establishment, categorized by year, state/UT, sector, activity category, and establishment type, sourced from the National Sample Survey Office.
+#         Instructions: Use this table to analyze or compare the estimated annual GVA (Gross Value Added) per establishment across different years, states/UTs, sectors (rural/urban), activity categories, and establishment types (such as Hired Worker Establishments or Own Account Establishments). Filter by relevant columns to get specific insights.
+#         Example queries:
+#         Query: What was the estimated annual GVA (Gross Value Added) per establishment for Cotton Ginning, Cleaning and Bailing in rural All India for 2023-24?
+#         Query: Show the GVA (Gross Value Added) per establishment for all establishment types in 2023-24 for rural sector.
+#         Query: List the years and GVA (Gross Value Added) per establishment for Hired Worker Establishments in Cotton Ginning, Cleaning and Bailing activity.
+
+#         3. asuse_est_num_establishments_pursuing_mixed_activity: This table presents annual, all-India estimates of establishments pursuing mixed activities, disaggregated by sector (urban, rural, combined), establishment type (Own Account, Hired Worker, All), and economic activity (e.g., Tobacco Products, Professional Services, Real Estate, Food Manufacturing). Data come from the National Sample Survey Office, MoSPI. Examples: 452,291 urban OAEs in tobacco manufacture (2022-23), 10,336,002 rural retail trade establishments (2023-24), and 24,643,235 all-India service providers (2022-23).
+#         Sample queries:
+#         a. How many rural own account establishments were engaged in real estate activities in 2022-23?
+#         b. What is the estimated number of establishments involved in 'Other Retail Trade' at all-India level for 2023-24?
+
+
+#         4. asuse_est_num_workers_by_employment_gender: This table provides annual, all-India estimates of the number of workers by economic activity (e.g., Manufacturing of Motor Vehicles, Real Estate, Land Transport), nature of establishment (Own Account, Hired Worker, or All), sector (Rural, Urban, Combined), and gender (Male, Female, All). Data is published by the National Sample Survey Office (MoSPI). Sample entries include 'Manufacture of Beverages' (2023-24) and 'Other Retail Trade' (2022-23).
+#         Sample queries:
+#         a. How many female workers were engaged in land transport in urban areas during 2021-22?
+#         b. What was the estimated number of workers in 'Manufacture of Beverages' at all-India level for 2023-24?
+
+
+#         5. asuse_est_value_key_characteristics_by_workers: This table provides estimated values of key characteristics (such as input per worker) by number of workers, sector, activity category, and region for different years, based on data from the National Sample Survey Office.
+#         Instructions: Use this table to analyze or retrieve estimated values of key economic characteristics (like input per worker) segmented by year, state/UT, sector (rural/urban), broad activity category (e.g., Manufacturing), and number of workers.
+#         Example queries:
+#         Query: Show the input per worker for manufacturing in rural India for 2023-24, broken down by number of workers.
+#         Query: Get all key characteristics for urban sector in 2023-24 for the state of Maharashtra.
+#         Query: What is the estimated value for input per worker in the rural sector for all activity categories in 2023-24?
+
+#         6. asuse_estimated_annual_gva_per_worker_rupees: This table provides the estimated annual Gross Value Added (GVA (Gross Value Added)) per worker (in rupees) for various activity categories, establishment types, and sectors across Indian states and union territories, based on data from the National Sample Survey Office.
+#         Instructions: Use this table to analyze or retrieve GVA (Gross Value Added) per worker statistics by year, state/UT, sector (rural/urban), activity category, and establishment type. Filter by these columns to get specific GVA (Gross Value Added) values or trends.
+#         Example queries:
+#         Query: What was the estimated annual GVA (Gross Value Added) per worker for 'Cotton Ginning, Cleaning and Bailing' in rural India in 2023-24 for Hired Worker Establishments?
+#         Query: Show the GVA (Gross Value Added) per worker for all establishment types in rural India for 'Cotton Ginning, Cleaning and Bailing' in 2023-24.
+#         Query: List the estimated annual GVA (Gross Value Added) per worker for each activity category in rural India for 2023-24.
+
+
+#         7. asuse_estimated_number_of_workers_by_type_of_workers: This table presents annual, all-India estimates of worker numbers by industry category (e.g., Water Transport, Manufacture of Textiles), worker type (e.g., Formal Hired Workers, Unpaid Family Member), gender, and establishment type (All, Hired Worker, Own Account). Data is disaggregated for urban, rural, and combined areas. Examples include 116 male informal water transport workers (urban, 2023-24) and 2,006 female unpaid family workers in manufacturing (rural, 2022-23).
+#         Sample queries:
+#         a. How many informal hired workers were there in urban food and accommodation service activities in 2023-24?
+#         b. What is the estimated number of female working owners in rural trading activities for 2021-22?
+
+
+#         8. asuse_per1000_estb_by_hours_worked_per_day: This table reports annual, All-India level data on the per-1000 distribution of establishments by hours worked per day, categorized by rural/urban/combined sectors and establishment types such as Own Account Establishments and Hired Worker Establishments. Industry categories include 'Manufacture of Beverages', 'Trading Activities', 'Financial Services', and 'Food and Accommodation Service Activities', with working hours grouped as '<4', '4-7', '8-11', '>11', and 'All'. Example: 705 establishments (urban, professional activities) work '8-11' hours.
+#         Sample queries:
+#         a. What percentage of rural establishments in the Manufacture of Beverages category worked more than 11 hours a day in 2023-24?
+#         b. How does the distribution of working hours differ between urban and rural establishments in the Financial Service Activities Except Insurance and Pension Funding sector in 2022-23?
+
+
+#         9. asuse_per1000_estb_by_months_operated_last_365days: This table presents annual all-India data on the distribution of establishments by months of operation, disaggregated by sector (e.g., Manufacture of Electrical Equipment, Real Estate Activities, Water Transport), type (Own Account, Hired Worker), and rural/urban/combined geographies. Key metrics include per-1000 distribution or average months operated for categories such as '<= 3 Months', '7 to 9 Months', and '> 9 Months'. Data is sourced from the National Sample Survey Office (MoSPI).
+#         Sample queries:
+#         a. What was the average number of months operated by rural establishments engaged in the manufacture of leather and related products in 2023-24?
+#         b. How many per 1000 urban hired worker establishments in wholesale on a fee or contract basis operated for less than or equal to 3 months in 2021-22?
+
+
+#         10. asuse_per1000_estb_registered_under_acts_authorities: This table provides annual, all-India data on the number per 1000 of establishments registered under various Acts or authorities (e.g., Societies Reg. Act, CGST Act, EPFO/ESIC, RTO). The data is category-wise (urban, rural, combined), sector-wise (e.g., Manufacture of Textiles, Information and Communication, Trading Activities), and by type of establishment (All/Own Account/Hired Worker). For example, in 2021-22, 277 per 1000 urban hired worker establishments in wood manufacturing were registered under Shops & Establishments Act.
+#         Sample queries:
+#         a. What was the number per 1000 of rural establishments registered under the CGST Act for 'Wholesale and Retail Trade of Motor Vehicles and Motor Cycles' in 2021-22?
+#         b. How did registration of hired worker establishments in 'Non-captive Electricity Generation and Transmission' change between 2022-23 and 2023-24 under 'Others' in urban areas?
+
+
+#         11. asuse_per1000_estb_using_computer_internet_last365_days: This table presents annual, all-India data from the National Sample Survey Office on the number per 1000 establishments using computers and internet during the last 365 days. The data is available by sector (Trade, Manufacturing, Other Services), location (Rural, Urban, Combined), and type (Own Account Establishments, Hired Worker Establishments, All). For example, in 2023-24, 129 per 1000 urban service establishments used computers, while 640 per 1000 hired worker trade establishments used internet.
+#         Sample queries:
+#         a. What was the number per 1000 manufacturing establishments using the internet in urban areas in 2023-24?
+#         b. How many per 1000 own account trade establishments in rural areas used computers in 2022-23?
+
+
+#         12. asuse_per1000_of_estb_using_internet_by_type_of_its_use: This table provides annual, all-India statistics on the number per 1,000 of establishments using the Internet, broken down by sector (e.g., Manufacturing, Trade, Other Services), area (Rural, Urban, Combined), and specific types of Internet use (such as Internet Banking, Delivering Products Online, Telephoning Over VoIP, Customer Services). Example entries include: Manufacturing establishments in rural India using the Internet for government information in 2022-23 (46), or Urban Trade sector using it for staff training in 2021-22 (323).
+#         Sample queries:
+#         a. How many establishments per 1,000 in the Trade sector used Internet banking in urban India in 2021-22?
+#         b. What was the number per 1,000 of rural manufacturing establishments using the Internet for accessing financial services in 2023-24?
+
+
+#         13. asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner: This dataset provides the annual (financial year) per 1000 distribution of proprietary and partnership establishments in India, categorized by the level of general education of the owner or major partner. Data is available at the all-India level, disaggregated by rural, urban, and combined sectors. Education categories include Not Literate, Literate Below Primary, Literate Graduate and Above, among others. Example: 199 urban establishments per 1000 had graduate owners in 2022-23.
+#         Sample queries:
+#         a. What percentage of rural proprietary establishments in 2022-23 were owned by people with primary to below secondary education?
+#         b. How did the distribution of urban establishments owned by graduates change between 2021-22 and 2023-24?
+
+
+#         14. asuse_per1000_proppartn_estb_by_other_econ_activities: This table provides annual, all-India level data on the distribution per 1,000 Proprietary and Partnership establishments by various economic activities (e.g., Manufacturing Activities, Food and Accommodation Service Activities, Real Estate, Education). Data is disaggregated by rural/urban/combined sectors, establishment size (e.g., Hired Worker Establishments, Own Account Establishments), and the number of other economic activities present. Data spans years like 2021-22 to 2023-24. Source: National Sample Survey Office, MoSPI.
+#         Sample queries:
+#         a. What was the per 1000 distribution of proprietary and partnership establishments for Manufacture of Pharmaceuticals in urban India in 2022-23?
+#         b. Show the annual trend from 2021-22 to 2023-24 for All Establishments in Food and Accommodation Service Activities at the all-India level.
+
+
+#         15. asuse_per1000_proppartn_estb_by_socialgroup_owner: This table presents all-India level, annual data on the per 1000 distribution of proprietary and partnership establishments by the social group of owner or major partner. Data is provided across urban, rural, and combined sectors, for various establishment types (Own Account, Hired Worker, All), and industries such as Manufacture of Rubber and Plastics Products, Accommodation, and Trading Activities. Social group categories include Scheduled Tribe, Scheduled Caste, OBC, Others, and Not Known.
+#         Sample queries:
+#         a. What is the distribution of hired worker establishments owned by Scheduled Tribe groups in the financial service sector for 2022-23?
+#         b. How do the per 1000 establishment distributions for the manufacture of paper and paper products differ between urban and rural areas for OAE in 2023-24?
+
+
+#         16. asuse_per_1000_distri_of_establishments_by_nature_of_operation: This table presents annual all-India estimates of the per 1000 distribution of establishments by nature of operation, disaggregated by sector (e.g., manufacture of food products, education, retail trade), type of establishment (Own Account, Hired Worker, All), and operational status (Perennial, Seasonal, Casual), for rural, urban, and combined regions. Data examples include 'Manufacture of Furniture' (urban, all), 'Other Wholesale Trade' (rural, HWE, seasonal), and 'Human Health and Social Work Activities'.
+#         Sample queries:
+#         a. What percentage of urban establishments in India engaged in manufacture of furniture are perennial according to the latest available year?
+#         b. How does the distribution of hired worker establishments in the education sector vary between rural and urban areas for 2022-23?
+
+
+#         17. asuse_per_1000_distri_of_establishments_by_type_of_location: This table presents annual all-India data on the per 1000 distribution of establishments by type of location, categorized by rural, urban, and combined regions. Industries covered range from 'Other Manufacturing', 'Land Transport', 'Education', 'Financial Service Activities' to 'Manufacture of Chemicals'. Data is further detailed for own account, hired worker, and all establishments across location types such as household premises, permanent and temporary structures, and mobile markets.
+#         Sample queries:
+#         a. What is the distribution of 'Land Transport' establishments located outside household premises with permanent structure in rural areas for 2021-22?
+#         b. How many 'Manufacture of Chemicals and Chemical Products' own account establishments operated within household premises in urban India in 2023-24 per 1000 units?
+
+
+#         18. asuse_per_1000_distri_of_establishments_by_type_of_ownership: This table presents all-India annual data on the per-1000 distribution of establishments by ownership type, for different activity categories (e.g., Manufacture of Textiles, Trading Activities, Accommodation) and sectors (urban, rural, combined). Ownership types include Proprietary-Male, SHG, Partnership, Co-operatives, among others. For example, in 2023-24, 908 per 1000 urban 'Other Financial Activities' establishments were 'Proprietary-Male', and 1000 per 1000 urban 'Accommodation' HWE were 'All'.
+#         Sample queries:
+#         a. What percentage of urban establishments under 'Manufacture of Tobacco Products' are owned by women in 2023-24?
+#         b. How does the distribution of ownership type in 'Accommodation' activities differ between rural and urban India for 2022-23?
+
+
+#         19. asuse_per_1000_of_establishments_which_are_npis_and_non_npis: This table presents annual state-wise data on the number per 1000 of establishments classified as NPIs (Non-Profit Institutions) and non-NPIs, disaggregated by urban, rural, and combined sectors across India. Categories include 'Trade', 'Manufacturing', and 'Other Services', with receipt sources such as 'Donation/Grants' and 'Other Sources'. Examples include 947 non-NPIs per 1000 establishments in urban Nagaland (2023-24) and all-India combined data for manufacturing in 2022-23.
+#         Sample queries:
+#         a. What percentage of trade establishments were NPIs with major receipts from donations in Rajasthan (urban) in 2021-22?
+#         b. Show state-wise data for non-NPI establishments in other services for the year 2022-23.
+
+
+#         20. asuse_statewise_est_num_of_estb_pursuing_mixed_activity: This table provides annual state/UT-wise data on the estimated number of establishments pursuing mixed activities in India, disaggregated by sector (e.g., Manufacturing, Trade, Other Services), area (Urban, Rural, Combined), and establishment type (Own Account Establishments, Hired Worker Establishments, All). Data examples include 763,860 rural manufacturing establishments in Maharashtra (2022-23), 9,483 urban HWE in Chandigarh (2022-23), and 2,197,497 combined OAE in Odisha (2021-22).
+#         Sample queries:
+#         a. How many urban hired worker establishments pursuing mixed activities were there in Uttarakhand in 2023-24?
+#         b. Provide the number of manufacturing establishments in Tamil Nadu (all establishment types) for 2022-23, broken down by area.
+
+
+#         21. asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet: This table contains annual state/UT-wise estimates of the number of establishments serving as franchisee outlets across India from 2021-22 to 2023-24, with data provided at both state (e.g., Bihar: 1129; Odisha: 5826; Telangana: 7308) and all-India levels (e.g., 132471 in 2023-24). Data covers all major states and union territories, including minor entries (e.g., Lakshadweep: 0), and is sourced from the National Sample Survey Office, MoSPI.
+#         Sample queries:
+#         a. How many franchisee outlets were estimated in Tamil Nadu in each of the last three years?
+#         b. Which Indian state had the highest number of franchisee establishments in 2022-23 according to the NSSO?
+
+
+#         22. asuse_statewise_est_num_of_worker_by_employment_and_gender: This table provides annual state/UT-wise estimates of the number of workers in India by industry (e.g., Manufacturing, Trade, Other Services), establishment type (Own Account, Hired Worker, All), gender, work status (Full/Part time), and location (Rural/Urban/Combined). Data covers multiple states such as Assam, Maharashtra, Kerala, and union territories like Chandigarh, for years like 2021-22 to 2023-24. Example: 182,703 male full-time manufacturing workers in urban Andhra Pradesh (2023-24).
+#         Sample queries:
+#         a. How many female hired workers were employed full-time in manufacturing establishments in Jammu and Kashmir for 2022-23?
+#         b. What is the estimated number of part-time male workers in trade sector own account establishments in rural West Bengal for 2023-24?
+
+
+#         23. asuse_statewise_estimated_annual_emoluments_per_hired_worker: This table presents annual, state/UT-wise data on estimated annual emoluments (in Rs.) and hired worker counts across India, sourced from the National Sample Survey Office (MoSPI). Data is available by sector (e.g., Manufacturing, Trade, Other Services), establishment type (Own Account, Hired Worker, All), formality (Formal/Informal/All), and area (Rural, Urban, Combined) for years 2021-22 to 2023-24. Sample entries include Uttar Pradesh, Maharashtra, Meghalaya, Telangana, and Delhi.
+#         Sample queries:
+#         a. What was the annual emolument per hired worker in the manufacturing sector for rural Karnataka in 2021-22?
+#         b. How many hired workers were estimated in all establishments of urban Maharashtra in 2021-22?
+
+
+#         24. asuse_statewise_estimated_annual_gva_per_establishment_rupees: This table provides state and sector-wise estimated annual Gross Value Added (GVA (Gross Value Added)) per establishment (in Rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
+#         Instructions: Use this table to analyze or retrieve estimated annual GVA (Gross Value Added) per establishment by state/UT, year, sector (rural/urban), establishment type (HWE/OAE/All), and broad activity category (e.g., Manufacturing). Filter by relevant columns to get specific GVA (Gross Value Added) values.
+#         Example queries:
+#         Query: Show the estimated annual GVA (Gross Value Added) per establishment for all establishment types in Andhra Pradesh (rural, manufacturing) for 2023-24.
+#         Query: List the GVA (Gross Value Added) per establishment for each state in the manufacturing sector for 2023-24 (all establishment types, rural only).
+#         Query: Get the GVA (Gross Value Added) per establishment for Own Account Establishments in Andhra Pradesh for 2023-24, manufacturing sector, rural area.
+
+
+#         25. asuse_statewise_estimated_annual_gva_per_worker_rupees: This table provides state and sector-wise estimated annual Gross Value Added (GVA (Gross Value Added)) per worker (in rupees) for different establishment types and broad activity categories, as reported by the National Sample Survey Office.
+#         Instructions: Use this table to retrieve GVA (Gross Value Added) per worker data by year, state/UT, sector (rural/urban), establishment type, and activity category. Filter using columns like 'year', 'stateut', 'sector', 'broad_activity_category', and 'establishment_type' as needed.
+#         Example queries:
+#         Query: Show the estimated annual GVA (Gross Value Added) per worker for all establishment types in Andhra Pradesh for 2023-24.
+#         Query: List the GVA (Gross Value Added) per worker in rural manufacturing sector for each state in 2023-24.
+#         Query: What is the GVA (Gross Value Added) per worker for Hired Worker Establishments in Andhra Pradesh's rural manufacturing sector in 2023-24?
+
+
+#         26. asuse_statewise_estimated_number_of_workers_by_type_of_workers: This table contains state/UT-wise and all-India annual data on the estimated number of workers by type (e.g., formal/informal hired workers, working owners, unpaid family members) in different sectors (Trade, Manufacturing, Other Services). Data is further broken down by urban/rural/combined, establishment type (All Establishments, Hired Worker, Own Account), and gender. Examples include Rajasthan (rural, Other Services, Other Workers) and Gujarat (urban, Trade, Total workers). Source: National Sample Survey Office, MoSPI.
+#         Sample queries:
+#         a. What is the number of female informal hired workers in rural Gujarat in the Trade sector for 2022-23?
+#         b. Show the annual estimated number of working owners in manufacturing establishments in Madhya Pradesh (urban) for the last three years.
+
+
+#         27. asuse_statewise_per1000_distri_of_estb_by_nature_of_operation: This table provides state/UT-wise, rural/urban/combined, and all-India level annual data on the per 1000 distribution of establishments by nature of operation (perennial, seasonal, casual). Categories covered include Manufacturing, Trade, Other Services, and All, with breakdowns for Own Account Establishments (OAE), Hired Worker Establishments (HWE), and all establishments. Example entries: Uttar Pradesh, Gujarat, Sikkim, Puduchery, Maharashtra (2021–2024, all modes and categories).
+#         Sample queries:
+#         a. What percentage of manufacturing establishments in rural Uttar Pradesh were perennial in 2021-22?
+#         b. Show the state-wise distribution of seasonal own account establishments in the trade sector for 2022-23.
+
+
+#         28. asuse_statewise_per1000_distri_of_estb_by_type_of_location: This table presents annual, state/UT-wise data on the per-1000 distribution of establishments in India, categorized by sector (Manufacturing, Trade, Other Services), establishment type (Own Account Establishments, Hired Worker Establishments, All), and location type (e.g., within household premises, street vendors, kiosks). Coverage includes states like Tamil Nadu, Gujarat, West Bengal, and all-India aggregates, with data available separately for rural, urban, and combined geographies from 2021-22 to 2023-24.
+#         Sample queries:
+#         a. What is the distribution of manufacturing establishments by location type in rural West Bengal for 2023-24?
+#         b. How does the per-1000 share of street vendor establishments in urban Gujarat compare between 2021-22 and 2023-24?
+
+
+#         29. asuse_statewise_per1000_distri_of_estb_by_type_of_ownership: This table provides annual, state/UT-wise and all-India data on the per-1000 distribution of establishments by type of ownership, segmented by rural, urban, and combined areas. Categories include Manufacturing, Trade, and Other Services, with detailed breakdowns such as Proprietary-Male, Partnerships, Societies, and SHGs. Examples include Assam (Rural, Trade), Punjab (Urban, Other Services), and all-India rural data for Trade. Source: National Sample Survey Office, MoSPI.
+#         Sample queries:
+#         a. What is the share of proprietary-female owned establishments in the 'Other Services' sector in urban Punjab for 2023-24?
+#         b. Show per 1000 distribution of SHG-owned establishments for all establishment types in rural Kerala for 2022-23.
+
+
+#         30. asuse_statewise_per1000_estb_by_hours_worked_per_day: This table provides annual, state/UT-wise data on the per-1000 distribution of establishments by the number of hours normally worked per day. It covers various states (e.g., Goa, Maharashtra, Gujarat), sectors (Trade, Manufacturing, Other Services), establishment types (Own Account, Hired Worker, All Establishments), and urban/rural status. Examples include 813 Own Account Trade establishments in Goa and 815 Hired Worker Trade establishments in Assam (2023-24).
+#         Sample queries:
+#         a. What is the distribution of manufacturing establishments by hours worked in a day for Telangana (urban) in 2023-24?
+#         b. Compare the proportion of Own Account versus Hired Worker establishments working 8-11 hours in Gujarat during 2022-23.
+
+
+#         31. asuse_statewise_per1000_estb_by_month_num_operated_last365_day: This table presents annual data on the distribution per 1000 of establishments by number of months operated in the last 365 days, covering different states (e.g., Odisha, Karnataka, Delhi), sectors (Trade, Manufacturing, Other Services), and establishment types (Own Account, Hired Worker, All). Data is available at all-India, state, and urban/rural/combined levels with examples like Odisha (Rural, Trade, <=3 Months) and Delhi (Combined, Manufacturing, <=3 Months).
+#         Sample queries:
+#         a. How many own account establishments in Haryana traded for <=3 months during 2023-24?
+#         b. Which state had the highest per 1000 distribution of trade establishments operating more than 9 months in rural areas in 2022-23?
+
+
+#         32. asuse_statewise_per1000_estb_maintain_post_bank_saving_acc: This table presents annual, state/UT-wise and location-wise (urban/rural/combined) data on the number per 1000 establishments maintaining bank or post office savings accounts in India, split by sectors such as Trade, Manufacturing, and Other Services. Data is categorized for Own Account and Hired Worker Establishments, and by account holder type. Examples include Maharashtra-rural (317, HWE), Assam-urban (914, OAE), and Chandigarh-rural (1000, HWE), from 2021-22 to 2023-24.
+#         Sample queries:
+#         a. What was the number per 1000 of urban establishments in Karnataka maintaining any bank account in 2021-22?
+#         b. How does the proportion of rural own account establishments with Post Office Savings Bank accounts in Punjab compare to Haryana in 2023-24?
+
+
+#         33. asuse_statewise_per1000_estb_registered_diff_acts_authorities: This table provides annual, state/UT-wise and all-India statistics on the number per 1000 of establishments registered under various Acts and authorities (e.g., Shops & Establishment Act, EPFO/ESIC, Co-operative Societies Act) by sector (Trade, Manufacturing, Other Services) and type (Own Account, Hired Worker, All). Examples include 0 per 1000 for 'EPFO/ESIC' in Goa Rural (2021-22) and 148 per 1000 for 'Others' in All India Rural (2022-23).
+#         Sample queries:
+#         a. What is the number per 1000 of establishments registered under the Shops & Establishment Act in urban Odisha for 2021-22?
+#         b. Provide state-wise data for 2023-24 on establishments registered under the Co-operative Societies Act, 1912 in the 'Other Services' sector.
+
+
+#         34. asuse_statewise_per1000_estb_use_computer_internet_last365_day: This table presents annual, state/UT-wise data on the number per 1000 establishments using computers and internet in India, across years like 2021-22 and 2023-24. Data is disaggregated by sector (e.g., Trade, Manufacturing, Other Services), type of establishment (Own Account, Hired Worker, All), and area (Urban, Rural, Combined). Examples include Kerala (rural, Hired Worker, computer: 278), Chandigarh (Combined, Hired Worker, internet: 958), and Uttar Pradesh (urban, all, internet: 158).
+#         Sample queries:
+#         a. What is the number per 1000 of trade establishments using computers in urban Sikkim for 2023-24?
+#         b. How many own account establishments in rural Madhya Pradesh used the internet per 1000 in 2022-23?
+
+
+#         35. asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner: This table provides annual state/UT-wise and national-level data on the per 1000 distribution of proprietary and partnership establishments in India by the social group of the owner-major partner. It covers rural, urban, and combined geographies, establishment types (Own Account, Hired Worker, All), sectors like Manufacturing, Trade, and Other Services, and social groups including Scheduled Castes, Scheduled Tribes, Other Backward Classes, and Others. Example entries: Rajasthan, 2021-22, Manufacturing, Scheduled Caste; All India, 2023-24, Manufacturing, OBC.
+#         Sample queries:
+#         a. What is the proportion of Scheduled Tribe-owned manufacturing establishments in Meghalaya (rural) in 2023-24?
+#         b. How did the distribution of Other Backward Classes in trade sector establishments change in Andhra Pradesh from 2021-22 to 2023-24?
+
+#         36. annual_survey_of_industries: This table contains Annual Survey of Industries (ASI) data with comprehensive industrial performance metrics for India.
+#         It includes:
+#         **Financial Metrics**: Addition in Stock (Materials, Finished Goods, Semi-Finished Goods), Depreciation, Gross/Net Capital Formation, Gross/Net Value Added, Interest Paid/Received, Invested Capital, Net Income, Net Profit, Outstanding Loan, Physical Working Capital, Rent Paid/Received, Total Inputs/Output, Working Capital
+#         **Employment & Labor**: Bonus to All Staff, Employers' Contribution, No. of Directly Employed Workers (Male/Female), No. of Employees Other Than Workers, No. of Workers Employed Through Contractors, Total Mandays Employed, Total Number of Persons Engaged, Wages and Salaries (with various breakdowns)
+#         **Production & Operations**: Factories in Operation, Number of Factories, Fuels Consumed (Coal, Electricity, Petroleum, Other), Materials Consumed, Value of Product and By-Product
+#         **Infrastructure**: Fixed Capital, Gross Value of Plant & Machinery, Quantity of Coal/Electricity Consumed
+#         Use this table for queries about: industrial establishments, factory data, manufacturing statistics, capital investment, employment in industries, wages, production output, industrial finance, depreciation, bonus payments, factory operations, industrial sectors, manufacturing performance.
+
+#         **Query Classification Guidelines:**
+#         - If query mentions "industries", "factories", "manufacturing", "industrial sectors", "production", "depreciation", "bonus", "wages in industries", "capital formation", "industrial employment", "manufacturing companies", "industrial finance" → annual_survey_of_industries
+#         Sample queries:
+#         Query1: "Number of factories manufacturing grain mill products in All India for fiscal year 2022-2023"
+#         Query2: "Depreciation to all industries in All India from April 2022 to March 2023"
+#         Query3: "Total bonus paid to all staff by industries in All India during FY 2022-23"
+#         Query4: "Wages and salaries in manufacturing sector in Maharashtra for 2021-22"
+#         Query5: "Gross value added by textile industry in Tamil Nadu"
+#         Query6: "Capital formation in steel industry across Indian states"
+#         Query7: "Employment in automotive manufacturing sector"
+#         Query8: "Working capital requirements for pharmaceutical industries"
+#         Query9: "Net profit of chemical industries in Gujarat"
+#         Query10: "Factory operations and production output in food processing"
+#         Query11: "Industrial establishments count by state and sector"
+#         Query12: "Materials consumed in cement manufacturing"
+#         Query13: "Fixed capital investment in power sector industries"
+#         Query14: "Electricity consumption by textile mills"
+#         Query15: "Total workers employed in mining industries"
+#         Query16: "Employers' contribution to provident fund in industries"
+#         Query17: "Interest paid by manufacturing companies"
+#         Query18: "Rent expenses for industrial facilities"
+#         Query19: "Stock of finished goods in automobile sector"
+#         Query20: "Total inputs cost for electronics manufacturing"
+
+#         37. periodic_labour_force_survey: This table contains Periodic Labour Force Survey (PLFS) data - the primary source for employment and unemployment statistics. Contains Labour Force Participation Rate (LFPR), Worker Population Ratio (WPR), Unemployment Rate (UR) by year, state, gender, age group, sector, religion, social group, education levels.
+#         Use this table for queries about: employment rates, unemployment statistics, labour force participation, worker demographics, job market analysis, employment by education/gender/age.
+
+#         **Query Classification Guidelines:**
+#         - If query mentions "labour force", "unemployment rate", "employment statistics", "job market", "worker participation", "employment demographics", "labour force participation", "workforce", "job seekers" → periodic_labour_force_survey
+#         Sample queries:
+#         Query1: "Labour force participation rate in India for 2022-23"
+#         Query2: "Unemployment rate by gender in urban areas"
+#         Query3: "Worker population ratio trends over last 5 years"
+#         Query4: "Employment statistics for graduates in rural areas"
+#         Query5: "Job market analysis for women in agriculture sector"
+#         Query6: "Labour force participation by education level"
+#         Query7: "Unemployment among youth aged 15-29 years"
+#         Query8: "Employment rates by social group and religion"
+#         Query9: "Worker demographics in services sector"
+#         Query10: "Labour market trends by state and region"
+#         Query11: "Employment opportunities for skilled workers"
+#         Query12: "Workforce participation in informal sector"
+#         Query13: "Employment statistics for different age groups"
+#         Query14: "Labour force survey data for metropolitan cities"
+#         Query15: "Job seekers and employment status analysis"
+
+#         38. asi_state_principal_characteristics: This table provides state-wise and sector-wise principal characteristics of industries in India, including employment and other key indicators, classified by NIC codes for the years 2021 to 2023.
+#         Instructions: Use this table to analyze industrial statistics such as number of workers, employees, and other principal characteristics by state, sector, year, and NIC classification. Filter by 'state', 'year', 'indicator', 'sector', or 'nic_code' as needed.
+#         Example queries:
+#         Query: Show the total number of workers in All India for the year 2022-23.
+#         Query: List the number of directly employed female workers by state for 2022-23.
+#         Query: Get the number of employees other than workers in Book Publishing for 2022-23.
+
+#         39. epfo_india_mth_payroll: This table contains monthly and yearly payroll data from EPFO India, showing the number of new subscribers by age group, total new subscribers, and the number of establishments remitting their first ECR.
+#         Instructions: Use this table to analyze trends in EPFO payroll enrollments by age group, month, or year, and to examine the number of new establishments joining the EPFO scheme.
+#         Example queries:
+#         Query: Show the total number of new EPFO subscribers for each year.
+#         Query: Get the number of new subscribers aged 18-21 for each month.
+#         Query: Find the month with the highest number of establishments remitting their first ECR.
+#         Query: Show the total new subscribers by age group for the year 2019-20.
+
+#         40. asi_imp_principal_characteristics_by_rural_urban_sector: This table provides annual data on principal industrial characteristics, such as the number of factories, split by rural and urban sectors in India.
+#         Instructions: Use this table to analyze trends or compare rural and urban industrial characteristics (like number of factories) across different years.
+#         Example queries:
+#         Query: Show the number of factories in rural and urban areas for each year.
+#         Query: List all principal characteristics available for 2012-13.
+#         Query: Get the total number of factories in rural areas between 2010-11 and 2012-13.
+
+#         41. asi_imp_principal_characteristics_india_by_mjr_indus_grp: This table provides annual data on the number of factories in India, categorized by major industry groups, as reported by the Enterprise Survey Division of MoSPI.
+#         Instructions: Use this table to analyze trends or compare the number of factories across different industries and years. Filter by 'year' for specific periods or by industry columns for sector-specific insights. The 'characteristics' column describes the metric (e.g., 'No. of Factories').
+#         Example queries:
+#         Query: Show the number of factories in the food products industry for each year.
+#         Query: Which year had the highest number of factories in the textiles sector?
+#         Query: List the number of factories for all industries in 2011-12.
+#         Query: Show the trend of factories in the pharmaceuticals industry over the years.
+
+#         42. asi_industrywise_factories_2022_23: This table provides the number of factories in India for various types of industries for the year 2022-23, along with metadata such as release date, last update, and data source.
+#         Instructions: Use this table to find the count of factories by industry type, or to analyze industry-wise distribution of factories for the year 2022-23.
+#         Example queries:
+#         Query: Show the number of factories for each industry type.
+#         Query: Which industry has the highest number of factories?
+#         Query: List all industries with more than 10,000 factories.
+#         Query: What is the total number of factories across all industries?
+#         Query: Show the data source and last updated date for the industry-wise factories data.
+
+#         43. asi_no_of_workers_and_person_engaged: This table provides annual data on the number of workers and total persons engaged in enterprises, along with release and update information and the data source.
+#         Instructions: Use this table to retrieve historical statistics on workforce size and total engagement in enterprises for specific years or to analyze trends over time.
+#         Example queries:
+#         Query: Show the number of workers and total persons engaged for the year 1982-83.
+#         Query: List all years with their corresponding number of workers.
+#         Query: Find the year with the highest total persons engaged.
+
+#         44. asi_num_of_factories_nva: This table provides annual data on the number of factories and their net value added (in lakhs) as recorded by the Enterprise Survey Division, MoSPI.
+#         Instructions: Use this table to analyze trends in the number of factories and their net value added over different years. You can filter by year, aggregate values, or compare data across years.
+#         Example queries:
+#         Query: Show the net value added and number of factories for each year.
+#         Query: Find the year with the highest net value added.
+#         Query: Get the total net value added across all years.
+#         Query: List all years where the number of factories was below 100,000.
+
+#         45. asi_statewise_number_of_factories_for_2022_23: This table provides the number of factories in each Indian state for the year 2022-23, along with release and update dates and the data source.
+#         Instructions: Use this table to retrieve or analyze the count of factories by state for 2022-23, or to filter by release/update dates or data source.
+#         Example queries:
+#         Query: Show the number of factories in each state.
+#         Query: Which state had the highest number of factories in 2022-23?
+#         Query: List all states where the number of factories is greater than 30,000.
+#         Query: Give me the release date for the factory data.
+
+#         46. asi_top_ten_states_by_number_of_factories: This table shows the number of factories in the top ten Indian states for each year from 2010-11 to 2022-23, along with metadata about data release and source.
+#         Instructions: Use this table to analyze trends, compare, or retrieve the number of factories in leading Indian states across different years.
+#         Example queries:
+#         Query: Which state had the highest number of factories in 2022-23?
+#         Query: Show the number of factories in Maharashtra and Gujarat for the years 2010-11 and 2022-23.
+#         Query: List the trend of factories in Tamil Nadu from 2010-11 to 2022-23.
+#         Query: Which state saw the largest increase in the number of factories between 2010-11 and 2022-23?
+
+#         47. asi_trend_imp_characteristics_technical_coefficients: This table contains annual technical coefficients data, such as Fixed Capital to Output ratios, for different years, including metadata like release and update dates and data source.
+#         Instructions: Use this table to retrieve technical coefficients by year, region, or data source, or to analyze trends in industrial technical characteristics over time.
+#         Example queries:
+#         Query: Show the technical coefficients for all years for Fixed Capital to Output.
+#         Query: List all available regions in the table.
+#         Query: Get the technical coefficient for the year 2012-13.
+#         Query: Find the latest update date for the data.
+
+#         48. asi_trend_of_imp_characteristics_structural_ratios: This table provides annual data on key structural ratios, such as fixed capital per factory, across different regions and years, sourced from the Enterprise Survey Division MoSPI.
+#         Instructions: Use this table to analyze trends in structural ratios (e.g., fixed capital per factory) over time or by region. Filter by year, region, or data source as needed.
+#         Example queries:
+#         Query: Show the fixed capital per factory for each year.
+#         Query: List all available regions in the table.
+#         Query: Get the structural ratios for the year 2011-12.
+
+#         49. asi_trend_of_imp_principal_characteristics_india: This table contains annual data on key industrial characteristics in India, such as the number of factories, with associated metadata including release and update dates, and data source.
+#         Instructions: Use this table to retrieve historical trends and statistics related to principal industrial characteristics (e.g., number of factories) in India by year.
+#         Example queries:
+#         Query: Show the number of factories in India for each year.
+#         Query: Get all available data for the year 1982-83.
+#         Query: List the years and values for all records sourced from 'Enterprise Survey Division MoSPI'.
+
+#         50. lpfr_state_age: The 'lpfr_state_age' table provides Labour Force Participation Rate (LFPR) data by state, age group, gender, and area (rural/urban/total) for specified time periods.
+#         Instructions: Use this table to analyze LFPR statistics across Indian states, broken down by age group, gender, rural/urban/total populations, and time period. Filter by 'state', 'age_group', 'year', or area/gender columns as needed.
+#         Example queries:
+#         Query: Show the total LFPR for males and females in Andhra Pradesh for April-June 2025.
+#         Query: List rural and urban LFPR for persons aged 15-29 in Assam in 2025.
+#         Query: Get LFPR for all states for females in rural areas for 2025.
+
+#         51. cws_industry_distribution_state: This table provides the percentage distribution of workers by industry sector (agriculture, secondary including mining and quarrying, tertiary, and all sectors) across Indian states, segmented by age group, gender, area type, and time period.
+#         Instructions: Use this table to analyze the sectoral distribution of workers in different states, filtered by age group, gender, area type, and specific time periods. Useful for comparing employment patterns across sectors and demographics.
+#         Example queries:
+#         Query: Show the percentage of male workers in the agriculture sector in rural Bihar for April to June 2025.
+#         Query: List the sector-wise distribution for all sectors in Assam for rural males aged 15 years and above in Q2 2025.
+#         Query: Get the tertiary sector percentage for Andhra Pradesh for rural males aged 15 years and above in the latest available data.
+
+#         52. wpr_state_age: This table contains state-wise Worker Population Ratio (WPR) data by gender, area (rural/urban/total), and age group, along with time period, year, data source, and state information.
+#         Instructions: Use this table to analyze or retrieve WPR statistics by state, gender, area, age group, and time period. Filter by columns like 'state', 'year', 'age_group', or area/gender-specific WPR values as needed.
+#         Examples queries
+#         Query: Show the total WPR for males and females in Assam for the age group 15-29 years in 2025.
+#         Query: List all states with rural female WPR above 20 for April-June 2025.
+#         Query: Get the urban person WPR for Bihar for the latest released data.
+
+#         53. ur_state_age: This table provides state-wise unemployment rates segmented by age group, gender, and rural/urban areas, along with time period and data source details.
+#         Instructions: Use this table to analyze or retrieve unemployment rates by state, age group, gender, area (rural/urban/total), and time period (month, year). Filter by columns such as state, year, age_group, or area-specific rates as needed.
+#         Examples queries:
+#         Query: Show the total unemployment rate for persons aged 15-29 years in Andhra Pradesh for April to June 2025.
+#         Query: List rural female unemployment rates for all states in 2025.
+#         Query: Get urban male and female unemployment rates in Bihar for 2025.
+#         Query: Find the data source and release date for Assam's unemployment data for April to June 2025.
+
+
+#         54. none_of_these: for any queries which are unrelated to above files.
+
+#         ## Consider the list above, and respond ONLY with one of the file names from the following list:
+#         [asuse_est_annual_emoluments_per_hired_worker, asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use,
+#         asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities, asuse_per1000_proppartn_estb_by_socialgroup_owner, asuse_per_1000_distri_of_establishments_by_nature_of_operation, asuse_per_1000_distri_of_establishments_by_type_of_location, asuse_per_1000_distri_of_establishments_by_type_of_ownership, asuse_per_1000_of_establishments_which_are_npis_and_non_npis, asuse_statewise_est_num_of_estb_pursuing_mixed_activity, asuse_statewise_est_num_of_estb_serving_as_franchisee_outlet, asuse_statewise_est_num_of_worker_by_employment_and_gender,
+#         asuse_statewise_estimated_annual_emoluments_per_hired_worker, asuse_statewise_estimated_annual_gva_per_establishment_rupees, asuse_statewise_estimated_annual_gva_per_worker_rupees, asuse_statewise_estimated_number_of_workers_by_type_of_workers, asuse_statewise_per1000_distri_of_estb_by_nature_of_operation, asuse_statewise_per1000_distri_of_estb_by_type_of_location, asuse_statewise_per1000_distri_of_estb_by_type_of_ownership, asuse_statewise_per1000_estb_by_hours_worked_per_day, asuse_statewise_per1000_estb_by_month_num_operated_last365_day, asuse_statewise_per1000_estb_maintain_post_bank_saving_acc,
+#         asuse_statewise_per1000_estb_registered_diff_acts_authorities, asuse_statewise_per1000_estb_use_computer_internet_last365_day, asuse_statewise_per1000_proppart_estb_by_social_grp_mjr_prtner, annual_survey_of_industries , periodic_labour_force_survey, asi_state_principal_characteristics, epfo_india_mth_payroll, asi_imp_principal_characteristics_by_rural_urban_sector, asi_imp_principal_characteristics_india_by_mjr_indus_grp, asi_industrywise_factories_2022_23, asi_no_of_workers_and_person_engaged, asi_num_of_factories_nva, asi_statewise_number_of_factories_for_2022_23,
+#         asi_top_ten_states_by_number_of_factories, asi_trend_imp_characteristics_technical_coefficients, asi_trend_of_imp_characteristics_structural_ratios, asi_trend_of_imp_principal_characteristics_india, lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age, none_of_these]
+
+#         Do not include any reasoning traces or other text apart from the file name selected from the above list.
+#             """)
+#     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+#     return selected_file.strip(), i_tokens, o_tokens
 
 def file_selector_social_migration_and_households(query):
     system_instruction=dedent(f"""
@@ -1114,21 +1531,21 @@ def file_selector_social_migration_and_households(query):
         Query: List all CGHS approved hospitals in Hyderabad.
         Query: Show the addresses of diagnostic centres in Mumbai.
         Query: Get the names and cities of all CGHS approved diagnostic centres.
-        
+
         18. labour_india_sector_industry_occupation_wages: This table contains wage data for various occupations across different industries and sectors in India, with details on base year, year, and reporting period.
         Instructions: Use this table to analyze or retrieve wage information by sector, industry, occupation, year, or reporting period.
         Example queries:
         Query: Show the absolute wages for all occupations in the Sugar industry for 2023.
         Query: Get the wages of Fitters in the Manufacturing Sector for the year 2023.
         Query: List all available occupations and their wages as of 1st January 2023.
-        
+
         19. labour_india_rural_wages: This table contains rural wage data in India, categorized by year, month, state, occupation, and item, with separate wage values for men and women.
         Instructions: Use this table to analyze rural wage trends in India by gender, state, occupation, or time period.
         Example queries:
         Query: Show the average wage for men and women in agricultural occupations in 2023.
         Query: List the states with the highest average rural wages for women in May 2022.
         Query: Get the monthly wage trend for men in Karnataka for the occupation 'Construction Worker' in 2021.
-        
+
         20. airport_sewa_services_data: This table contains information about various services available at airports, including service category, title, description, contact details, and the last update date.
         Instructions: Use this table to find details about airport services such as transportation, parking, and other amenities. Filter by airport name, service category, or specific service titles to get relevant contact information and descriptions.
         Example queries:
@@ -1136,21 +1553,21 @@ def file_selector_social_migration_and_households(query):
         Query: List all parking and transportation services at Mumbai airport.
         Query: Get the contact phone numbers for all services at Chennai airport.
         Query: Find all services updated after October 1, 2024.
-        
+
         21. traffic_india_mth_air_passengers: Monthly air passenger traffic data in India, including year, month, passenger numbers, and last update date.
         Instructions: Use this table to analyze trends in air passenger numbers in India by month and year. Filter or aggregate by year, month, or passenger counts as needed.
         Example Queries :
         Query: Show total air passengers for each month in 2024.
         Query: What is the total number of air passengers in India for 2024?
         Query: List the months with more than 50,000 passengers in 2024.
-        
+
         22. sp_india_daily_state → This table provides daily statistics for Indian states on Ayushman card creation, hospital admissions, and empanelled hospitals under the Ayushman Bharat scheme.
         Instructions: Use this table to analyze or retrieve state-wise daily data on Ayushman card creation, hospital admissions, and the number of empanelled hospitals. Filter by 'state_name' or 'updated_on' to get specific records.
         Example Queries:
         Query: Show the total Ayushman cards created in Uttar Pradesh as of 2025-10-01.
         Query: List all states with more than 5,000,000 hospital admissions as of 2025-10-01.
         Query: Get the number of empanelled hospitals in Bihar on 2025-10-01.
-        
+
         23. demography_india_yr_popsexgrowth: This table provides annual demographic statistics for India, including rural, urban, and total population counts by gender, sex ratios, and average annual growth rates from 1951 onwards.
         Instructions: Use this table to analyze population trends, gender distribution, sex ratios, and growth rates in rural, urban, or total populations of India by year.
         Example queries:
@@ -1158,15 +1575,15 @@ def file_selector_social_migration_and_households(query):
         Query: What was the rural female population and sex ratio in 1971?
         Query: List the average annual growth rate of the urban population for all available years.
         Query: Find the year with the highest total sex ratio.
-        
+
         24. demography_india_state_yr_literacy: This table contains literacy rates for different age groups across Indian states and union territories, broken down by gender and by rural/urban areas.
         Instructions: Use this table to analyze literacy rates by state/UT, age group, gender, and area type (rural/urban/all). Select relevant columns based on the demographic and geographic breakdown you need.
         Example queries:
         Query: Show the overall literacy rate for males and females aged 15-24 in Assam.
         Query: List the rural and urban literacy rates for persons aged 15-24 in Andhra Pradesh.
         Query: Get the literacy rates for all persons in Arunachal Pradesh for the 15-24 age group.
-        
-        25. none_of_these: for any queries which are unrelated to above tables.    
+
+        25. none_of_these: for any queries which are unrelated to above tables.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
@@ -1249,7 +1666,7 @@ def file_selector_CPI(query):
         Sample queries:
         a. What was the annual CPI-IW value for the 'Food' category in 2018?
         b. How did the 'Non Food' CPI-IW index change from 2011 to 2019 at the national level?
-        
+
         11. cpi_iw_point_to_point_inflation: This table contains monthly point-to-point inflation rates for the Consumer Price Index for Industrial Workers (CPI-IW), including base year, year, month, inflation value, and data source.
         Instructions: Use this table to retrieve CPI-IW inflation rates for specific months, years, or base years, or to analyze inflation trends over time.
         Example queries:
@@ -1257,22 +1674,22 @@ def file_selector_CPI(query):
         Query: Get the inflation rate for September 2020.
         Query: List all available base years in the CPI-IW inflation data.
         Query: Find the average CPI-IW inflation for 2020.
-        
+
         12. cpi_iw_centre_index: This table contains Consumer Price Index for Industrial Workers (CPI-IW) data by centre, state, year, and month, with index values based on a specified base year.
         Instructions: Use this table to retrieve CPI-IW index values for specific centres, states, years, and months, or to analyze inflation trends over time by location.
         Example queries:
         Query: Show the CPI-IW index for Guntur in January 2024.
         Query: List all CPI-IW index values for Andhra Pradesh in 2023.
         Query: Get the yearly CPI-IW index trend for Guntur from 2021 to 2024.
-        
+
         13. cpi_iw_retail_price_index: This table contains the Consumer Price Index (CPI) for Industrial Workers (IW) retail price index data, including item-wise indices by year, month, group, and sub-group, with data sourced from the Ministry of Labour & Employment.
         Instructions: Use this table to analyze or retrieve CPI-IW retail price index values for specific items, groups, sub-groups, years, or months. You can filter by item, group, sub_group, year, month, or base_year to get relevant index values.
         Example queries:
         Query: Show the CPI index for 'Scents and perfumes' in December 2021.
         Query: List all items under the 'Personal Care & Effects' sub-group for 2021.
-        Query: Get the CPI index values for all items in the 'Miscellaneous' group for December 2021.   
+        Query: Get the CPI index values for all items in the 'Miscellaneous' group for December 2021.
         Query: Find the average index for 'Personal Care & Effects' in 2021.
-        
+
         14. hces_india_yr_sector: This table provides average Monthly Per Capita Expenditure (MPCE) data for rural and urban areas across Indian states and union territories, including both original and imputed values.
         Instructions: Use this table to analyze or compare average MPCE values (both original and imputed) for rural and urban populations by state or union territory.
         Example queries:
@@ -1280,7 +1697,7 @@ def file_selector_CPI(query):
         Query: List states where the imputed urban MPCE is greater than 9000.
         Query: Find the difference between rural and urban average MPCE for each state.
         Query: Get the imputed rural MPCE for Assam.
-        
+
         15. none_of_these: for any queries which are unrelated to inflation. for example, queries regarding gdp, iip, msme would fall under the "none" category. queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
@@ -1662,7 +2079,7 @@ def file_selector_GDP(query):
         Query: Show the constant and current GDP values for 'Crops' in Andaman Nicobar for all available years.
         Query: List all sub-industries under 'Agriculture, forestry and fishing' for the year 2013-14 in Andaman Nicobar.
         Query: Get the GDP values for all primary sector sub-industries in Andaman Nicobar for 2011-12.
-        
+
         37. none_of_these: for any queries which are unrelated to GDP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         # Consider the list above, and respond ONLY with one of the file names from the following list:
@@ -1803,14 +2220,14 @@ def file_selector_IIP(query):
         “Compare Q1 Manufacturing Kerala values across fiscal years 2015–16 to 2017–18.”
         “Show the quarter-wise Manufacturing Kerala IIP trend for 2016–17.”
         “Which quarter had the highest Manufacturing Kerala index in 2015–16?”
-        
+
         16. annual_chemical_production_data: This table contains annual production data for various chemical products, including group name, product name, year, and production value.
         Instructions: Use this table to retrieve or analyze annual production figures for specific chemical products or groups, filter by year, or aggregate production values.
         Example queries:
         Query: Show the total production value of all Alkali Chemicals in 2014-2015.
         Query: List the production values for each product in 2014-2015.
         Query: Get the annual production of Caustic Soda for all available years.
-        
+
         17. vehicle_registrations_state: This table contains the number of vehicle registrations in each Indian state and union territory for the years 2021 to 2025, along with the total registrations over these years.
         Instructions: Use this table to analyze or compare vehicle registration counts by state and year, or to find total registrations for specific states or time periods.
         Example queries:
@@ -1818,7 +2235,7 @@ def file_selector_IIP(query):
         Query: Which state had the highest number of vehicle registrations in 2024?
         Query: List the vehicle registrations in Andhra Pradesh for each year from 2021 to 2025.
         Query: Show the total vehicle registrations in 2023 across all states.
-        
+
         18. none_of_these: for any queries which are unrelated to IIP. Queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
@@ -1942,21 +2359,21 @@ def file_selector_MSME(query):
         Query: Show the approved percentage for State Bank of India in August 2021.
         Query: List total transaction volumes and failure rates for all banks in August 2021.
         Query: Find the bank with the highest business declined percentage in August 2021.
-        
+
         17. msme_sambandh_procurement_data: This table contains procurement data by various ministries, including targets and achievements for total procurement, MSEs, SC/ST MSEs, and women MSEs, for each fiscal year.
         Instructions: Use this table to analyze ministry-wise procurement targets and achievements, especially for MSEs, SC/ST MSEs, and women MSEs, across different fiscal years.
         Example queries:
         Query: Show the total procurement achievement for each ministry in 2020-21.
         Query: List ministries where achievement for women MSEs exceeded the target in 2020-21.
         Query: What was the total target and achievement for SC/ST MSEs across all ministries in 2020-21?
-        
+
         18. rbi_india_mth_payment_system_indicators: Monthly indicators of payment systems in India, including settlement systems and their transaction volumes and values.
         Instructions: Use this table to analyze monthly trends, volumes, and values of different payment and settlement systems in India, filtered by section, item, sub_item, month, or year as needed.
         Example queries:
         Query: Show the total transaction value for CCIL Operated Systems in 2025.
         Query: List the monthly volume of Govt. Securities Clearing for July and August 2025.
         Query: Get all payment system indicators for August 2025.
-        
+
         19. rbi_india_mth_bank_rtgs: This table contains monthly RTGS (Real Time Gross Settlement) transaction statistics for Indian banks, including inward and outward transaction volumes and values, split by interbank and customer transactions.
         Instructions: Use this table to analyze RTGS transaction data for Indian banks by month and year, including breakdowns by bank, transaction type (inward/outward), and customer/interbank splits.
         Example queries:
@@ -1964,28 +2381,28 @@ def file_selector_MSME(query):
         Query: List the top 5 banks by inward RTGS transaction value in August 2025.
         Query: Get the RTGS outward customer transaction volume for 'AIRTEL PAYMENTS BANK LTD.' in August 2025.
         Query: Find the percentage share of inward RTGS volume for each bank in August 2025.
-        
+
         20. rbi_india_mth_bank_neft: This table contains monthly NEFT transaction statistics for Indian banks, including counts and amounts for received credits and outward debits.
         Instructions: Use this table to analyze NEFT transaction volumes and values by bank, month, and year. Filter by 'bank_name', 'month', or 'year' to get specific data.
         Example queries:
         Query: Show the total NEFT received amount for all banks in August 2025.
         Query: List the top 5 banks by outward NEFT debits amount in 2025.
         Query: Get NEFT inward credits count and amount for 'ABHYUDAYA CO-OP BANK LTD' for August 2025.
-        
+
         21. rbi_india_mth_bank_mobile_banking: This table contains monthly mobile banking statistics for Indian banks, including transaction volumes, values, and the number of active mobile banking customers.
         Instructions: Use this table to analyze mobile banking activity by bank, month, or year, such as total transactions, values, or customer counts.
         Example queries:
         Query: Show the total mobile banking transaction value for all banks in August 2025.
         Query: List the top 5 banks by number of active mobile banking customers in 2025.
         Query: Get the monthly mobile banking transaction volume for 'A. P.MAHESH CO-OPERATIVE URBAN BANK LTD.' in 2025.
-        
+
         22. rbi_india_mth_bank_internet_banking → This table contains monthly data on internet banking transactions for various banks in India, including transaction volumes, values, and the number of active internet banking customers.
         Instructions: Use this table to analyze internet banking trends, compare banks, or aggregate transaction data by month, year, or bank.
         Example queries:
         Query: Show the total internet banking transaction volume for each bank in August 2025.
         Query: List the top 5 banks by value of internet banking transactions in 2025.
-        Query: Find the total number of active internet banking customers across all banks for August 2025.  
-        
+        Query: Find the total number of active internet banking customers across all banks for August 2025.
+
         Note: If a query is about gdp of msme do not select any table return "none_of_these".
 
         Consider the list above, and respond ONLY with one of the file names from the following list:
@@ -1994,6 +2411,92 @@ def file_selector_MSME(query):
         upi_mth_stats, upi_mth_failures, msme_sambandh_procurement_data, rbi_india_mth_payment_system_indicators, rbi_india_mth_bank_rtgs, rbi_india_mth_bank_neft, rbi_india_mth_bank_mobile_banking, rbi_india_mth_bank_internet_banking, none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
             """)
+    selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
+    return selected_file.strip(), i_tokens, o_tokens
+
+def file_selector_district_level(query):
+    system_instruction = dedent(f"""
+        You are tasked with identifying the file that contains the required data based on the query: "{query}".
+        You must pick one file name only from the following list:
+
+        Choose a file only if the table description explicitly confirms that the data required by the query is covered.
+
+        1. youthpower_district_level_metrics : 
+           This table stores district-level quantitative indicators for youth empowerment across India, measuring education, employment, entrepreneurship, skills, and socio-economic opportunity. 
+           It provides composite scores (Youth Power, Opportunity, Workforce, Education, Readiness & Skills) and a wide range of supporting metrics covering demography, MSME presence, employment structure, CSR spending, education quality, and vocational training intensity.
+
+           Below is a structured summary of its contents and the type of analyses it supports:
+
+           **Category: Geography**
+           - Columns: state, district
+           - Description: Administrative identifiers for regional data aggregation and comparison.
+           - Example Query: "Show all districts in Madhya Pradesh with their youth power scores for 2024."
+
+           **Category: Time**
+           - Columns: year, date_stamp, released_on, updated_on
+           - Description: Temporal indicators to filter data by year or release cycle.
+           - Example Query: "Compare the youth power scores between 2023 and 2024 for all districts in Bihar."
+
+           **Category: Demographics**
+           - Columns: total_population_in_lacs, total_youth_population_in_lacs
+           - Description: Demographic indicators of total and youth population size.
+           - Example Query: "List the top 10 districts by total youth population in 2024."
+
+           **Category: Economic Activity**
+           - Columns: number_of_jobs_in_lacs, registered_unorganised_workers_in_lacs, labor_force_participation_percent, unemployment_rate, epfo_coverage_rate
+           - Description: Indicators for labor force structure, employment, and worker coverage.
+           - Example Query: "Find districts where the unemployment rate exceeds 12% and EPFO coverage is below 50% in 2024."
+
+           **Category: MSME Indicators**
+           - Columns: msmes_per_10k_population, msme_micro_percent, msme_small_percent, msme_medium_percent, manufacturing_enterprises_percent, services_enterprises_percent
+           - Description: Distribution and composition of MSMEs across districts.
+           - Example Query: "Show the top 5 districts with the highest MSMEs per 10k population in Maharashtra."
+
+           **Category: MSME Employment**
+           - Columns: msme_micro_employment_percent, msme_small_employment_percent, msme_medium_employment_percent
+           - Description: Employment share by MSME size category.
+           - Example Query: "List districts where micro enterprises contribute over 60% of MSME employment."
+
+           **Category: Financial Inclusion**
+           - Columns: savings_per_working_age_in_lacs, mudra_loan_to_labour_force_ratio_in_thousands, csr_spending_per_capita_in_rupees, csr_share_percent
+           - Description: Indicators of access to finance, credit, and CSR activities.
+           - Example Query: "Find districts where CSR spending per capita exceeds ₹200 in 2024."
+
+           **Category: Infrastructure**
+           - Columns: trains_per_week_per_1000_sqkm
+           - Description: Proxy for transport connectivity and accessibility.
+           - Example Query: "Show the top 10 districts with the highest train frequency per 1000 sq km."
+
+           **Category: Education & Skills**
+           - Columns: number_of_schools_in_thousands, private_schools_percent, vocational_schools_percent, enrollment_ratio, ger_class_6_to_8, ger_class_9_to_12, test_scores_percent, english_score_class_10, maths_score_class_10, number_of_colleges, accredited_colleges_percent, private_colleges_percent
+           - Description: Metrics on education infrastructure, enrollment, test performance, and higher education quality.
+           - Example Query: "Find districts with more than 25% private schools and average Class 10 math score above 70%."
+
+           **Category: Vocational Training**
+           - Columns: iti_seats_per_lac_youth, iti_vacant_seats_percent, iti_seats_top_3_trades_percent, trainer_vacancies_percent, certified_trainers_percent, pmkvy_enrollment_per_lac, pmkvy_assessment_percent, pmkvy_certification_percent
+           - Description: Skill readiness and technical training ecosystem quality indicators.
+           - Example Query: "List districts where ITI seat vacancy is above 30% and certified trainers are below 50%."
+
+           **Category: Skills & Occupations**
+           - Columns: top_skill_1, top_skill_2, top_skill_3, pmkvy_enrollments_top_3_jobs_percent
+           - Description: Emerging skill trends and popular PMKVY job enrollments.
+           - Example Query: "Show top 3 emerging skills for youth in Jharkhand districts based on 2024 data."
+
+           **Use this table** for analyses involving youth development, education, employment, skills, MSMEs, or related empowerment indicators at district level.
+
+        2. rainfall_data : This table contains daily average rainfall data (in mm) for various districts and states, along with the reporting agency and date information, can be used for monthly and yearly average data too..
+        Instructions: Use this table to analyze rainfall patterns by state, district, date, month, year, or agency. You can filter, aggregate, or compare rainfall data across different regions and time periods.
+        Example queries:
+        Query: Show the total rainfall in Kerala for February 2025.
+        Query: List the average rainfall per day in Kannur district for 2025.
+        Query: Get the maximum daily rainfall recorded by NRSC VIC MODEL in Kerala.
+        
+        Note: If a query is not about youth power or related youth development indicators, return "none_of_these".
+
+        Consider the list above, and respond ONLY with one of the file names from the following list:
+        [youthpower_district_level_metrics, rainfall_data, none_of_these]
+        DO NOT include any reasoning traces or any other text apart from the file name selected from the above list.
+    """)
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 

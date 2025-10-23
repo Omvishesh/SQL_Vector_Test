@@ -26,6 +26,7 @@ from   utils_sql import classify_query, file_selector_CPI, file_selector_GDP, fi
 from   sqlalchemy import create_engine, text
 import pandas as pd
 import ast
+from   logging_utils import setup_logging, get_logger
 
 DATABASE_URL_SYNC = "postgresql://postgres:admin@localhost:5432/final"
 sync_engine = create_engine(DATABASE_URL_SYNC)
@@ -45,17 +46,12 @@ async_engine = create_async_engine(
 
 async_session = sessionmaker(bind=async_engine, class_=AsyncSession, expire_on_commit=False)
 
-query_counter = {"value": 1}
-counter_lock  = Lock()
 current_date  = datetime.now().strftime('%Y-%m-%d')
 QUERY_TIMEOUT = 60  # seconds
  
-logging.basicConfig(
-    filename = "sql-"+current_date+".log",
-    level=logging.INFO,  # Change to DEBUG for more details
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-)
-logger = logging.getLogger(__name__)
+# Setup logging with query ID support
+setup_logging("sql", logging.INFO)
+logger = get_logger(__name__)
 
 #DATABASE_URI = "postgresql://postgres:admin@localhost:5432/final"
 #db = SQLDatabase.from_uri(

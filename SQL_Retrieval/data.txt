@@ -1,0 +1,27 @@
+table schema: 
+operation_metadata_log (
+   id SERIAL PRIMARY KEY,                        -- internal sequence id
+   query_id VARCHAR(100) NOT NULL,              
+   sub_query_id varchar(100),
+  Query_date date NOT NULL,
+   user_id VARCHAR(100) DEFAULT 'system',        -- initiator (user, agent, API)
+   query_text TEXT,                              -- actual user query or input text
+   generated_sql TEXT,                           -- generated SQL (if applicable)
+   tables_referred TEXT[],                       -- array of tables used in query
+   domain VARCHAR(100),                          -- classified domain (e.g. Macroeconomy, MSME)
+   start_time TIMESTAMP WITH TIME ZONE DEFAULT now(),  -- execution start time
+   end_time TIMESTAMP WITH TIME ZONE,            -- execution end time
+   total_runtime_sec NUMERIC(10,4),              -- end_time - start_time
+   confidence_score NUMERIC(5,2),                -- model confidence (0-100)
+   retrieval_latency_ms NUMERIC(10,2),           -- sub-component latency (e.g. retriever)
+   sql_generation_latency_ms NUMERIC(10,2),          -- model or agentic latency
+   result_rowcount INTEGER,                      -- number of rows returned by query
+   result_sample JSONB,                          -- small snippet or preview of output
+   status VARCHAR(50) DEFAULT 'SUCCESS',         -- SUCCESS | ERROR | TIMEOUT
+   error_message TEXT,                           -- error details if failed
+   engine_name VARCHAR(50) DEFAULT 'GPT-4o',     -- inference engine / model used
+   environment VARCHAR(50) DEFAULT 'prod',       -- environment (dev/stage/prod)
+   created_on TIMESTAMP WITH TIME ZONE DEFAULT now(),  -- record insertion time
+   metadata JSONB                                -- extensible field for dynamic key-values
+);
+

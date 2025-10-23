@@ -16,6 +16,7 @@ from   datetime import datetime
 from   langchain.prompts import ChatPromptTemplate
 from   langchain_openai import ChatOpenAI
 import ast
+from   logging_utils import setup_logging, get_logger
 load_dotenv("prod.env")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
@@ -32,12 +33,9 @@ db = SQLDatabase.from_uri(
 )
 
 current_date  = datetime.now().strftime('%Y-%m-%d')
-logging.basicConfig(
-    filename = "metadata-"+current_date+".log",
-    level=logging.INFO,  # Change to DEBUG for more details
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-)
-logger = logging.getLogger(__name__)
+# Setup logging with query ID support
+setup_logging("metadata", logging.INFO)
+logger = get_logger(__name__)
 
 def return_table_list():
     engine = create_engine(DATABASE_URI)
@@ -52,7 +50,7 @@ def return_table_list():
         table_list = table_list_return.fetchall()
         table_list_return = str([table[0] for table in table_list])
         return table_list_return
-    
+
 def generate_metadata():
     table_list = return_table_list()
     table_list = ast.literal_eval(table_list)
@@ -72,18 +70,18 @@ def generate_metadata():
                 for row in sample_result:
                     sample_cat += str(row) + "\n"
             prompt = ChatPromptTemplate.from_messages([
-                    ("system", """You are an expert metadata assistant. Given a set of sample rows from a table, generate a brief description of the information contained in the table. 
-                     # Important rules 
+                    ("system", """You are an expert metadata assistant. Given a set of sample rows from a table, generate a brief description of the information contained in the table.
+                     # Important rules
                      - You should focus on citing examples of different categories or products, states of India, or all-India level data.
                      - Specify at what resolution the data is available (national, state-wise, city-wise, category-wise, etc.)
                      - Specify the time frequency of data (annual, quarterly, monthly, etc.)
                      - Provide examples of entries
-                     
-                     # Most important 
+
+                     # Most important
                      - Restrict your output to between 60 and 80 words
                      - Do not include any thinking traces apart from the suggested metadata for the table
-		     - Separately, generate two sample queries in natural language which may be asked of this model
-		     - Provide your output in json format with the following fields: ["summary" (containing 60-80 word summary), "sample_query_1", "sample_query_2"]
+                     - Separately, generate two sample queries in natural language which may be asked of this model
+                     - Provide your output in json format with the following fields: ["summary" (containing 60-80 word summary), "sample_query_1", "sample_query_2"]
                      """),
                     ("human", "Sample: {sample_cat}"),
                 ])
@@ -93,5 +91,5 @@ def generate_metadata():
             logger.info(str(resp.content))
         except Exception as e:
             print("Failed for " + str(table) + ": " + str(e))
-        
+
 generate_metadata()

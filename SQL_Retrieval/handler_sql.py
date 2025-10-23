@@ -12,7 +12,7 @@ import time
 from   pydantic import BaseModel
 import asyncio
 from   fastapi import HTTPException
-from   utils_sql import classify_query, file_selector_CPI, file_selector_GDP, file_selector_IIP, file_selector_MSME, generate_sql_query, handle_pandas_response, table_citation,file_selector_agriculture_and_rural, file_selector_social_migration_and_households, file_selector_enterprise_establishment_surveys, file_selector_GST,file_selector_finance_and_industry, identify_generic_columns
+from   utils_sql import classify_query, file_selector_CPI, file_selector_GDP, file_selector_IIP, file_selector_MSME, generate_sql_query, handle_pandas_response, table_citation,file_selector_agriculture_and_rural, file_selector_social_migration_and_households, file_selector_enterprise_surveys, file_selector_worker_surveys,  file_selector_GST,file_selector_finance_and_industry, identify_generic_columns, file_selector_district_level
 from   sqlalchemy import create_engine, text
 import pandas as pd
 import ast
@@ -23,20 +23,16 @@ from   dotenv import load_dotenv
 import os
 import numpy as np
 from   forecast import run_forecast_core
+from   logging_utils import setup_logging, get_logger, get_query_id, query_id_manager, SubQueryIDContext
 load_dotenv("prod.env")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
-query_counter = {"value": 1}
-counter_lock  = Lock()
 current_date  = datetime.now().strftime('%Y-%m-%d')
 QUERY_TIMEOUT = 26  # seconds
- 
-logging.basicConfig(
-    filename = "sql-"+current_date+".log",
-    level=logging.INFO,  # Change to DEBUG for more details
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-)
-logger = logging.getLogger(__name__)
+
+# Setup logging with query ID support
+setup_logging("sql", logging.INFO)
+logger = get_logger(__name__)
 
 DATABASE_URI = "postgresql://postgres:admin@100.104.12.231:5432/final"
 #DATABASE_URI = os.getenv("DATABASE_URI")
@@ -124,10 +120,10 @@ def extract_conditions(where_clause):
 def clean_sql_query(raw_sql: str, table_name: str, engine, logger, error="N/A",  contains_year="", contains_month="") -> str:
     if ";" in raw_sql:
         raw_sql = raw_sql.replace(";","")
-    
+
     if "where" not in raw_sql.lower():
         return raw_sql
-    
+
     idx = raw_sql.upper().find('LIMIT')
     if idx != -1:
         raw_sql = raw_sql[:idx].rstrip()  # Remove LIMIT and anything after
@@ -140,7 +136,7 @@ def clean_sql_query(raw_sql: str, table_name: str, engine, logger, error="N/A", 
 
     # Now split conditions in where_clause
     conditions = extract_conditions(where_clause)
-    
+
     valid_conditions = []
     with engine.connect() as conn:
         for condition in conditions:
@@ -163,13 +159,13 @@ def clean_sql_query(raw_sql: str, table_name: str, engine, logger, error="N/A", 
             except Exception as e:
                 logger.warning(f"Error validating condition '{condition}': {e}")
                 #valid_conditions.append(condition)
-                
+
     # Reconstruct the query
     result_query = f"{pre_where.strip()} WHERE {' AND '.join(valid_conditions)}"
     if order_by_clause:
         result_query += f" ORDER BY {order_by_clause[0].strip()}"
         if (contains_year != "") and (contains_year not in order_by_clause):
-            result_query += f", {contains_year} DESC" 
+            result_query += f", {contains_year} DESC"
         if (contains_month != "") and (contains_month not in order_by_clause):
             result_query += f", {contains_month} DESC"
     return result_query
@@ -210,7 +206,7 @@ def handle_json_response(raw_data):
             return json.loads(json.dumps(raw_data,default=str))
         except:
             raise Exception(f"Error processing JSON: {str(e)}")
-        
+
 def return_table_list():
     try:
         #engine = create_engine(DATABASE_URI)
@@ -228,22 +224,21 @@ def return_table_list():
     except Exception as e:
         logger.info("Could not fetch tables: %s", e)
         return ""
-    
+
 async def process_single_query(unit_query: str, orig_query: str, nq: int, total_input_tokens, total_output_tokens):
 
     """Convert user query to SQL and execute it using an agent with table context."""
-    with counter_lock:
-        query_id = query_counter["value"]
-        query_counter["value"] += 1
+    # Get query ID from context (set by SubQueryIDContext)
+    query_id = get_query_id()
     curdate = strftime("%Y-%m", gmtime())
 
     table_info  = "N/A"
     start_time = time.time()
-    logger.info(f"START: Processing query:query_id:{query_id}: {unit_query}")    
+    logger.info(f"START: Processing query: {unit_query}")
     logger.info("Start processing: Current time: " + strftime("%Y-%m-%d %H-%M-%S", gmtime()))
     unit_query = unit_query.strip()
     logger.info(f"Received unitary query: {unit_query}")
-    
+
     query_class, i_tokens, o_tokens = classify_query(unit_query)
     logger.info(f"Query class: {query_class}")
 
@@ -251,49 +246,49 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
     # Note: classify_query uses llm_call (Gemini), so we use that model's name
     total_input_tokens['gemini-2.0-flash'] += i_tokens
     total_output_tokens['gemini-2.0-flash'] += o_tokens
-    
+
     if query_class == "finance_and_industry":
         selected_file, i_tokens, o_tokens = file_selector_finance_and_industry(unit_query)
         total_input_tokens['gemini-2.0-flash'] += i_tokens
         total_output_tokens['gemini-2.0-flash'] += o_tokens
         ref_url = "not defined yet"
         logger.info(f"Selected file: {selected_file}")
-    
+
     if query_class == "CPI":
         selected_file, i_tokens, o_tokens = file_selector_CPI(unit_query)
         total_input_tokens['gemini-2.0-flash'] += i_tokens
         total_output_tokens['gemini-2.0-flash'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators?product=cpi"
         logger.info(f"Selected file: {selected_file}")
-        
+
     if query_class == "GDP":
         selected_file, i_tokens, o_tokens = file_selector_GDP(unit_query)
         total_input_tokens['gpt-4.1'] += i_tokens
         total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators?product=nas"
         logger.info(f"Selected file: {selected_file}")
-        
+
     if query_class == "IIP":
         selected_file, i_tokens, o_tokens = file_selector_IIP(unit_query)
         total_input_tokens['gpt-4.1'] += i_tokens
         total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators?product=iip"
         logger.info(f"Selected file: {selected_file}")
-        
+
     if query_class == "MSME":
         selected_file, i_tokens, o_tokens = file_selector_MSME(unit_query)
         total_input_tokens['gemini-2.0-flash'] += i_tokens
         total_output_tokens['gemini-2.0-flash'] += o_tokens
         ref_url = "https://msme.gov.in/"
         logger.info(f"Selected file: {selected_file}")
-        
+
     if (query_class == "agriculture_and_rural"):
         selected_file, i_tokens, o_tokens = file_selector_agriculture_and_rural(unit_query)
         total_input_tokens['gpt-4.1'] += i_tokens
         total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main/macroindicators?product=nss77"
         logger.info(f"Selected file: {selected_file}")
-        
+
     if (query_class == "social_migration_and_households"):
         selected_file, i_tokens, o_tokens = file_selector_social_migration_and_households(unit_query)
         total_input_tokens['gpt-4.1'] += i_tokens
@@ -301,14 +296,21 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
 
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main/macroindicators?product=nss78"
         logger.info(f"Selected file: {selected_file}")
-        
-    if (query_class == "enterprise_establishment_surveys"):
-        selected_file, i_tokens, o_tokens = file_selector_enterprise_establishment_surveys(unit_query)
+
+    if (query_class == "enterprise_surveys"):
+        selected_file, i_tokens, o_tokens = file_selector_enterprise_surveys(unit_query)
         total_input_tokens['gpt-4.1'] += i_tokens
         total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main"
         logger.info(f"Selected file: {selected_file}")
-        
+
+    if (query_class == "worker_surveys"):
+        selected_file, i_tokens, o_tokens = file_selector_worker_surveys(unit_query)
+        total_input_tokens['gpt-4.1'] += i_tokens
+        total_output_tokens['gpt-4.1'] += o_tokens
+        ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main"
+        logger.info(f"Selected file: {selected_file}")
+
     if query_class == "GST":
         selected_file, i_tokens, o_tokens = file_selector_GST(unit_query)
         total_input_tokens['gemini-2.0-flash'] += i_tokens
@@ -316,7 +318,14 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
         ref_url = "https://www.gst.gov.in/download/gststatistics"
         logger.info(f"Selected file: {selected_file}")
 
-    if (query_class != "CPI") and (query_class != "GDP") and (query_class != "IIP") and (query_class != "MSME") and (query_class != "agriculture_and_rural") and (query_class != "social_migration_and_households") and (query_class != "enterprise_establishment_surveys") and (query_class != "GST") and (query_class != "finance_and_industry"):
+    if query_class == "district_level":
+        selected_file, i_tokens, o_tokens = file_selector_district_level(unit_query)
+        total_input_tokens['gemini-2.0-flash'] += i_tokens
+        total_output_tokens['gemini-2.0-flash'] += o_tokens
+        ref_url = "https://youthpower.in/scorecard"
+        logger.info(f"Selected file: {selected_file}")
+
+    if (query_class != "CPI") and (query_class != "GDP") and (query_class != "IIP") and (query_class != "MSME") and (query_class != "agriculture_and_rural") and (query_class != "social_migration_and_households") and (query_class != "enterprise_surveys") and (query_class != "worker_surveys") and (query_class != "GST") and (query_class != "finance_and_industry") and (query_class != "district_level"):
         selected_file = "none_of_these"
         ref_url = "N/A"
 
@@ -334,7 +343,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                 "url": "N/A",
                 "table_metadata": table_info,
             }
-    
+
     try:
         ref_name = table_citation(selected_file)
         #engine = create_engine(DATABASE_URI)
@@ -347,18 +356,18 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
         """
         logger.info("Generated schema query:")
         logger.info(schema_query)
-        
+
         max_retries = 3
         attempt     = 1
         success     = False
         error       = "N/A"
         max_rows    = int(125.0/nq)
-        
+
         while (not success) and (attempt <= max_retries):
             result=None
             error = "N/A"
             try:
-                logger.info(f"Attempt {attempt}:query_id:{query_id}: to process query")
+                logger.info(f"Attempt {attempt}: to process query")
                 # Connect to the database
                 with engine.connect() as connection:
                     context = ""
@@ -381,7 +390,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                     elif "'fiscal_year'" in schema:
                         contains_year = 'fiscal_year'
                     contains_month = ""
-                    
+
                     if "'month_numeric'" in schema:
                         contains_month = 'month_numeric'
                     try:
@@ -416,9 +425,9 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                 Consider the following sample rows for columns: {gen_col_string}.
                 Your task is to return a set of assignments for each columns which can help minimize the number of rows pulled by an SQL agent.
                 {sample_cat}
-                Return the set values based on the following user query. 
+                Return the set values based on the following user query.
                 ## Rule:
-                - Look for values such as General, Combined, * where the query below does not specify anything. 
+                - Look for values such as General, Combined, * where the query below does not specify anything.
                 - Do not include any other text in your response, apart from suggested assignments.
                 - REMOVE any conditions based on release_date or updated_date.
                 - Do not use any settings apart from the unique lists given below.
@@ -453,8 +462,8 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                     response, query_for_table, i_tokens, o_tokens = generate_sql_query(unit_query, schema, context, selected_file)
                     logger.info(f"query for table: {query_for_table}")
                     logger.info(f"response: {response}")
-                    
-                    
+
+
                     total_input_tokens['gpt-4.1'] += i_tokens
                     total_output_tokens['gpt-4.1'] += o_tokens
                 else:
@@ -479,41 +488,41 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                 try:
                     #REMEMBER THAT YOU SHOULD ONLY EDIT THE DATE/YEAR BASED CONDITIONS USING THE SCHEMA {schema}""", response)
                     response,i_tokens, o_tokens = openai_call(f"""Consider the following query: {orig_query}.
-                                        
-                    The following SQL query is intended to retrieve relevant data pertaining to it. 
-                                                
+
+                    The following SQL query is intended to retrieve relevant data pertaining to it.
+
                     REMEMBER THAT YOU SHOULD ONLY EDIT THE DATE/YEAR BASED CONDITIONS USING THE SCHEMA {schema}
 
-                    Here are some column setting conditions: {set_vals}. Remember that financial year involves previous and current year (e.g. FY25 = 2024 and 2025). 
+                    Here are some column setting conditions: {set_vals}. Remember that financial year involves previous and current year (e.g. FY25 = 2024 and 2025).
 
-                    Based ONLY on a consideration of the date range (keep in mind current date is {curdate}), provide a revised SQL query. 
+                    Based ONLY on a consideration of the date range (keep in mind current date is {curdate}), provide a revised SQL query.
 
-                    Make edits only if needed, and change only the date range. 
-                                                 
+                    Make edits only if needed, and change only the date range.
+
                     ** IMPORTANT RULE ** Make sure you REMOVE ANY MONTH BASED (month = or month_numeric =) conditions.
 
                     ** IMPORTANT RULE ** Return your response ONLY as a valid SQL query, with NO DECORATIVE TEXT.
-                    
+
                     ** IMPORTANT RULE ** Do not use any category settings longer than 5 entries.""", response)
-                    
+
                     total_input_tokens['gpt-4.1'] += i_tokens
                     total_output_tokens['gpt-4.1'] += o_tokens
                 except:
                     #REMEMBER THAT YOU SHOULD ONLY EDIT THE DATE/YEAR BASED CONDITIONS USING THE SCHEMA {schema}""", response)
                     response,i_tokens, o_tokens = openai_call(f"""Consider the following query: {orig_query}.
-                                        
-                    The following SQL query is intended to retrieve relevant data pertaining to it. 
-                                                
+
+                    The following SQL query is intended to retrieve relevant data pertaining to it.
+
                     REMEMBER THAT YOU SHOULD ONLY EDIT THE DATE/YEAR BASED CONDITIONS USING THE SCHEMA {schema}
 
-                    Based ONLY on a consideration of the date range (keep in mind current date is {curdate}), provide a revised SQL query. 
+                    Based ONLY on a consideration of the date range (keep in mind current date is {curdate}), provide a revised SQL query.
 
-                    Make edits only if needed, and change only the date range. 
-                                                 
+                    Make edits only if needed, and change only the date range.
+
                     ** IMPORTANT RULE ** Make sure you REMOVE ANY MONTH BASED (month = or month_numeric =) conditions.
 
                     ** IMPORTANT RULE ** Return your response ONLY as a valid SQL query, with NO DECORATIVE TEXT.""", response)
-                    
+
                     total_input_tokens['gpt-4.1'] += i_tokens
                     total_output_tokens['gpt-4.1'] += o_tokens
                 try:
@@ -547,12 +556,12 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                 if "`" in response:
                     response = response.replace("`", "'")
                 #partq = response.split("FROM")[0]
-                #if " AS " in partq: 
+                #if " AS " in partq:
                 #    error = "Trying to set AS in SELECT condition is not allowed"
                 #    raise Exception(error)
                 logger.info(response)
                 logger.info("SQL response:")
-                
+
                 try:
                     if "WHERE  ORDER BY" in str(response):
                         raise Exception("No filters in query")
@@ -564,13 +573,13 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                     logger.error("Exception while pulling SQL query: " + str(e))
                     df = {}
                     nrows = 0
-                            
+
                 if nrows == 0:
                     error = "SQL query resulted in no data. Try changing categories or broadening time scope, or REDUCING the number of filters: " + str(response)
                     logger.info(error)
                 else:
                     error = "N/A"
-                    df.fillna('', inplace=True) 
+                    df.fillna('', inplace=True)
                 if error == "N/A":
                     try:
                         reference_query = f"""
@@ -619,8 +628,8 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
         #logger.info(headers)
         total_time = time.time() - start_time
 
-        logger.info(f"Response:query_id:{query_id}: {parsed_data}")
-        logger.info(f"Total processing time:query_id:{query_id}: {total_time:.2f} seconds")
+        logger.info(f"Response: {parsed_data}")
+        logger.info(f"Total processing time: {total_time:.2f} seconds")
 
         if isinstance(parsed_data, list) and parsed_data and isinstance(parsed_data[0], dict):
             if any(key in parsed_data[0] for key in ["message", "status", "error"]):
@@ -636,7 +645,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                         "url": "N/A",
                         "table_metadata": table_info,
                     }
-            
+
         return {
                 "unit_query": unit_query,
                 "result": [parsed_data],
@@ -648,7 +657,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                 "url": ref_url,
                 "table_metadata": table_info,
             }
-        
+
     except HTTPException as e:
         raise e
     except Exception as e:
@@ -666,7 +675,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                 "url": "N/A",
                 "table_metadata": table_info,
             }
-    
+
     total_time = time.time() - start_time
     return {
             "unit_query": unit_query,
@@ -682,28 +691,33 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
 
 class BatchRequest(BaseModel):
     queries: list[str]
-    
+
 semaphore = asyncio.Semaphore(5)
 
-async def batch_sql_queries(batch: BatchRequest, orig_query: str, total_input_tokens, total_output_tokens):
+async def batch_sql_queries(batch: BatchRequest, orig_query: str, total_input_tokens, total_output_tokens, main_query_id: int):
     if len(batch.queries) > 5:
         raise HTTPException(status_code=400, detail="Maximum of 5 queries allowed per batch.")
     nq = len(batch.queries)
     # override per-batch semaphore
-    
-    async def limited(q, orig_query):
+
+    async def limited(q, orig_query, sub_query_index):
         async with semaphore:
             try:
-                return await asyncio.wait_for(process_single_query(q, orig_query, nq, total_input_tokens, total_output_tokens), timeout=QUERY_TIMEOUT)
+                # Generate sub-query ID for this specific sub-query
+                sub_query_id = query_id_manager.get_next_sub_id(main_query_id)
+
+                # Set sub-query context for processing
+                with SubQueryIDContext(sub_query_id, main_query_id):
+                    return await asyncio.wait_for(process_single_query(q, orig_query, nq, total_input_tokens, total_output_tokens), timeout=QUERY_TIMEOUT)
             except asyncio.TimeoutError:
                 logger.info("Query timed out: Current time: " + strftime("%Y-%m-%d %H-%M-%S", gmtime()))
                 return {
                     "error": "Query timed out.",
                     "unit_query": q,
                     "success": False,
-                }               
+                }
 
-    tasks = [limited(q, orig_query) for q in batch.queries]
+    tasks = [limited(q, orig_query, i) for i, q in enumerate(batch.queries)]
     results = await asyncio.gather(*tasks , return_exceptions=True)
 
     successes = sum(1 for r in results if isinstance(r, dict) and r.get('success'))
@@ -729,7 +743,7 @@ async def handle_forecast(query: str):
         df = pd.read_sql(text(data_query), connection)
         nrows = len(df)
         logger.info("Number of rows pulled: " + str(nrows))
-    
+
     cols = df.columns.tolist()
     sample = df.head(3).to_dict(orient="records")
     # Sort the DataFrame by the 'date' columnß

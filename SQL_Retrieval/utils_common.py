@@ -7,17 +7,19 @@ Created on Fri May 30 18:08:22 2025
 
 Common utils for SQL and VEC data
 """
-from   dotenv import load_dotenv
+from dotenv import load_dotenv
 import os
 import time
-from   time import strftime, gmtime
+from time import strftime, gmtime
 #from   google.genai import types
 #from   google.genai.types import Tool, GoogleSearch, GenerateContentConfig
 #from   google import genai
 import google.generativeai as gai
-from   textwrap import dedent
+from textwrap import dedent
 #from   groq import Groq
-from   openai import OpenAI
+from openai import OpenAI
+import logging
+from   logging_utils import get_logger
 
 load_dotenv("prod.env")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
@@ -31,6 +33,9 @@ model_id = "gemini-2.0-flash"
 #google_search_tool = Tool(google_search=GoogleSearch())
 open_ai_client = OpenAI()
 
+# Setup logger
+logger = get_logger(__name__)
+
 #def openai_call(system_instruct, user_content, model="gpt-4.1"):
 #    response = open_ai_client.chat.completions.create(
 #        #model="gpt-3.5-turbo",
@@ -41,7 +46,7 @@ open_ai_client = OpenAI()
 #        ],
 #    temperature=0
 #    )
-    
+
 #    return response.choices[0].message.content
 
 # def openai_call(system_instruct, user_content, model="gpt-4.1"):
@@ -67,18 +72,18 @@ def openai_call(system_instruct, user_content, model="gpt-4.1"):
         ],
         temperature=0
     )
-    
+
     # Extract content and token usage from the response object
     content = response.choices[0].message.content
     input_tokens = response.usage.prompt_tokens
     output_tokens = response.usage.completion_tokens
-    
+
     return content, input_tokens, output_tokens
 
 #def llm_call_rephrase(system_instruct, contents):
-#        
+#
 #    prompt = f"{system_instruct}\n\nProvided context: {contents}"
-#    
+#
 #    response = groq_client.chat.completions.create(
 #        model="llama3-70b-8192",  # Example model
 #        messages=[{"role": "user", "content": prompt}],
@@ -90,7 +95,7 @@ def openai_call(system_instruct, user_content, model="gpt-4.1"):
 #    return response.choices[0].message.content
 
 # def llm_call(system_instruct, contents, model_name="gemini-2.0-flash"):
-        
+
 #     prompt = f"{system_instruct}\n\nProvided context: {contents}"
 #     model = gai.GenerativeModel(
 #     model_name=model_name,
@@ -140,40 +145,40 @@ def query_certify_valid(user_query):
     if "\n" in user_query:
         user_query = user_query.split("\n")[0]
     system_instruction = dedent(f"""
-                                Given the attached query below, decide whether the query can be answered with the available data. To decide on validity, remember that you are an agent which can answer questions about the Indian economy. 
-                                
-                                ## Valid topics and questions include: 
+                                Given the attached query below, decide whether the query can be answered with the available data. To decide on validity, remember that you are an agent which can answer questions about the Indian economy.
+
+                                ## Valid topics and questions include:
                                     finance_and_industry
-                                    Inflation (CPI), 
-                                    wholesale prices (WPI), 
-                                    industrial output (IIP), 
-                                    manufacturing and other industrial sectors, 
+                                    Inflation (CPI),
+                                    wholesale prices (WPI),
+                                    industrial output (IIP),
+                                    manufacturing and other industrial sectors,
                                     cement and construction,
                                     banking, finance,
                                     aadhar,
                                     Hospital data (CGHS),
-                                    toll data, 
+                                    toll data,
                                     electric vehicles(ev),
                                     Airport Data,
                                     Air passenger traffic,
                                     renewable energy,
-                                    RBI, Payment Systems, Transactions
-                                    GDP (gross domestic product), 
-                                    state value added (GSVA), 
+                                    RBI, Payment Systems, Transactions,
+                                    GDP (gross domestic product),
+                                    state value added (GSVA),
                                     state gross domestic product (GSDP),
-                                    medium and small enterprises (MSME), 
+                                    medium and small enterprises (MSME),
                                     MSME queries around the world -- Asia, Europe, America,
                                     Credit related queries,
-                                    agriculture and rural labour, 
+                                    agriculture and rural labour,
                                     housing prices,
-                                    government schemes like ayushman, 
-                                    national income, 
-                                    private income, 
+                                    government schemes like ayushman,
+                                    national income,
+                                    private income,
                                     exports, imports, IMF data,
                                     international trade,
-                                    macro and micro economic questions, 
-                                    population or strength of labour force in various categories, and 
-                                    Indian government initiatives regarding the economy. 
+                                    macro and micro economic questions,
+                                    population or strength of labour force in various categories, and
+                                    Indian government initiatives regarding the economy.
                                     farmer advisory
                                     crop disposal channels
                                     seed quality and procurement
@@ -196,8 +201,8 @@ def query_certify_valid(user_query):
                                     MSP awareness and crop sale satisfaction
                                     agency of procurement (FPO, mandi, cooperatives, dealers)
                                     rural socio-economic indicators,
-                                    Statewise Net State Domestic Product (NSDP), 
-                                    Net State Value Added (NSVA), 
+                                    Statewise Net State Domestic Product (NSDP),
+                                    Net State Value Added (NSVA),
                                     per capita state economic indicators,
                                     sanitation and water access,
                                     living standards (pucca housing, transport),
@@ -210,16 +215,20 @@ def query_certify_valid(user_query):
                                     Anything on MSMEs (export ratios, Udyam registrations, MSME shares of GDP, etc.),
                                     Countries by share of GDP, Purchasing Power Parity (PPP),
                                     UPI payments and transactions.
+                                    youth power,
+                                    District level youth empowerment indicators (youth opportunity, education scores, skill development, employment metrics, etc.)
+                                    schools data,
+                                    rainfall data
 
 
-                                    Annual Survey of Industries (ASI) (which includes information relating to industries such as capital and investment,stock and inventory,financial metrics of industries,employment and labour,compensation and benefits,production and outputs), 
-                                
-                                    Periodic Labour Force Survey (PLFS) (which has information of participation rate, unemployment rate,population ratio distributed across state, gender,age, religion,social group,education, employment and unemployment statistics), 
-                                
-                                If the query is very short without details about context (for example, "top 5 states"), then let it pass with a YES. 
-                                
+                                    Annual Survey of Industries (ASI) (which includes information relating to industries such as capital and investment,stock and inventory,financial metrics of industries,employment and labour,compensation and benefits,production and outputs),
+
+                                    Periodic Labour Force Survey (PLFS) (which has information of participation rate, unemployment rate,population ratio distributed across state, gender,age, religion,social group,education, employment and unemployment statistics),
+
+                                If the query is very short without details about context (for example, "top 5 states"), then let it pass with a YES.
+
                                 Queries should be marked as invalid only if they are clearly not related to the Indian economy.
-                                
+
                                 You MUST answer with a single word: YES (query is valid) or NO (query is invalid or out of bounds). Do NOT include any other thinking traces or text apart from YES or NO.
                                 """)
     # MODIFIED: Capture token usage from llm_call
@@ -231,8 +240,8 @@ def query_certify_valid(user_query):
 
 def clarify_query(user_query):
     curdate = strftime("%Y-%m", gmtime())
-    system_instruction=dedent(f"""You are tasked with rephrasing the given query to make it easier for an SQL RAG agent to pull the right data. 
-                              
+    system_instruction=dedent(f"""You are tasked with rephrasing the given query to make it easier for an SQL RAG agent to pull the right data.
+
                     **** Rules to produce rephrased query ****
                         1. Do not edit the query as far as possible, only augment with a date range if none is present.
                             a. Remember that the current date is {curdate}.
@@ -250,7 +259,7 @@ def clarify_query(user_query):
                                     Rephrased query -> What is RBI (Reserve Bank of India) thought process in May 2025?
                         4. Do not attach extraneous information apart from this, or include your own thinking traces. Keep it as close to the original query as possible.
                         5. IMPORTANT: Analyze the provided query for the existence of multiple entities, comparisons between quantities. For example, if the query asks about "contribution of Maharashtra to total GDP", rewrite it as "GDP of Maharashtra and GDP of India". If the query is about "apparel and leather", ensure that both "apparel" and "leather" are retained in the rephrased query.
-                        6. If the word "India" is not mentioned in the query (and the query does not mention "which country" or specify a country), include India in the rephrased query. 
+                        6. If the word "India" is not mentioned in the query (and the query does not mention "which country" or specify a country), include India in the rephrased query.
                         7. If a statistic such as "top 5", "highest", "lowest", is mentioned in the query, this must be repeated in the rephrased query.
                         8. Some hints for rewrites:
                             - Queries related to "top states" should be mapped to GDP values, if no context is provided.
@@ -258,7 +267,7 @@ def clarify_query(user_query):
                             - Queries related to "top sectors" should be mapped to industrial output, if no context is provided.
                         11. You MUST restrict your output to at most 25 words.
                         12. VERY VERY IMPORTANT: Do not change the date range in {user_query} if it is already specified.
-                        
+
                     **** Output format ****
                     Output as a strict json-like format, with the following entries
                         a. "Entity" such as inflation, GDP, etc.
@@ -266,8 +275,8 @@ def clarify_query(user_query):
                         c. "Qualifiers" such as list of states, top 5, etc.
                         d. "Frequency" from one of annual, quarterly, monthly
                         e. "Date range" with a minimum and maximum value, formatted in Month Year format such as "April 2024"
-                        
-                        Make sure keywords such as "states", "groups", "food", "labour", "agriculture", etc. are retained in the rephrased query. 
+
+                        Make sure keywords such as "states", "groups", "food", "labour", "agriculture", etc. are retained in the rephrased query.
                         DO NOT miss out on any important words from the original query.
                         YOU MUST include specified categories and/or states, date range, in the rephrased query!!!!
                         DO NOT include any thinking traces or text apart from the json format above.
@@ -275,7 +284,7 @@ def clarify_query(user_query):
     # MODIFIED: Capture token usage from openai_call
     rephrased_query, i_tokens, o_tokens = openai_call(system_instruction, user_query)
     rephrased_query = rephrased_query.strip()
-    
+
     return rephrased_query, i_tokens, o_tokens
 
 def generate_sql_queries(query):
@@ -293,14 +302,14 @@ def generate_sql_queries(query):
                 10. If you are asked for comparisons of categorical variables (top 4 states, top 5 categories, lowest 3 sectors), then FIX time-related fields (year, month, quarter, or similar) in the rephrased query.
                 11. You MUST include time periods in your query. If no dates are obvious, mention "latest available before {curdate}".
                 12. If the query asks about a specific date (e.g. "April 2024"), then DO NOT rephrase this date.
-                
+
             EXAMPLE:
                 Growth of (quantity) between 2020 and 2024 --> ["Growth of (quantity) from January 2020 to December 2024"]
                 Growth of (quantity) [2019-06] to [2025-06] --> ["Growth of (quantity) from June 2019 to June 2025"]
                 Correlation between IIP and GDP --> ["IIP in India in the last 3 years", "GDP in India in the last 3 years"]
-                    
+
             **IMPORTANT:**
-            - FORMATTING INSTRUCTIONS: Your output format should be a LIST OF STRINGS such as ["Sub-Query 1","Sub-Query 2"], with each string containing one sub-query. DO NOT output more than 2 sub-queries and stick to the word limit of 15 words per sub-query. DO NOT user more sub-queries than necessary, if 1 sub-query is sufficient. 
+            - FORMATTING INSTRUCTIONS: Your output format should be a LIST OF STRINGS such as ["Sub-Query 1","Sub-Query 2"], with each string containing one sub-query. DO NOT output more than 2 sub-queries and stick to the word limit of 15 words per sub-query. DO NOT user more sub-queries than necessary, if 1 sub-query is sufficient.
             - Do not split a single time period into multiple time periods. Separate sub-queries should only be used for different quantities and not for time periods!
             """)
     # MODIFIED: Capture token usage from llm_call
@@ -308,5 +317,3 @@ def generate_sql_queries(query):
     unitary_queries_list = unitary_queries_str.split("\"")[1:-1:2]
 
     return unitary_queries_list, i_tokens, o_tokens
-
-
