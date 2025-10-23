@@ -20,7 +20,7 @@ from   utils_common import clarify_query, generate_sql_queries, query_certify_va
 import time
 import logging
 from   datetime import datetime
-from   handler_sql import batch_sql_queries, handle_forecast , get_engine #, return_table_list
+from   handler_sql import batch_sql_queries, handle_forecast #, return_table_list
 from   utils_common import llm_call
 import numpy as np
 import pandas as pd
@@ -175,14 +175,14 @@ class BatchRequest(BaseModel):
 def root():
     return {"message": "SQL Retrieval service is up"}
 
-@app.get("/test_db")
-def test_db():
-    conn = get_engine()
-    with conn.cursor() as cur:
-        cur.execute("SELECT NOW();")
-        result = cur.fetchone()
-    conn.close()
-    return {"db_time": result}
+# @app.get("/test_db")
+# def test_db():
+#     conn = get_engine()
+#     with conn.cursor() as cur:
+#         cur.execute("SELECT NOW();")
+#         result = cur.fetchone()
+#     conn.close()
+#     return {"db_time": result}
 
 @app.post("/integrated_query", dependencies=[Depends(verify_api_key)])
 async def orchestrate(question: Question):

@@ -773,3 +773,198 @@ LIMIT 125;
 
 2025-10-23 12:58:38,592 - api_main - INFO - [Query ID:3060.3] - Confidence: 0
 2025-10-23 12:58:38,593 - api_main - INFO - [Query ID:3060.3] - Total processing time: 37.90374207496643
+2025-10-23 23:34:52,473 - handler_sql - INFO - [Query ID:N/A] - Attempt 1: Connecting to database engine...
+2025-10-23 23:34:55,071 - handler_sql - ERROR - [Query ID:N/A] - Traceback (most recent call last):
+  File "C:\Users\omvis\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1415, in execute
+    meth = statement._execute_on_connection
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute '_execute_on_connection'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\TATA_Internship\SQL_Vector_retrieval\SQL_Retrieval\handler_sql.py", line 60, in get_engine
+    conn.execute("SELECT 1")
+  File "C:\Users\omvis\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1417, in execute
+    raise exc.ObjectNotExecutableError(statement) from err
+sqlalchemy.exc.ObjectNotExecutableError: Not an executable object: 'SELECT 1'
+
+2025-10-23 23:34:58,073 - handler_sql - INFO - [Query ID:N/A] - Attempt 2: Connecting to database engine...
+2025-10-23 23:34:59,051 - handler_sql - ERROR - [Query ID:N/A] - Traceback (most recent call last):
+  File "C:\Users\omvis\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1415, in execute
+    meth = statement._execute_on_connection
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute '_execute_on_connection'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\TATA_Internship\SQL_Vector_retrieval\SQL_Retrieval\handler_sql.py", line 60, in get_engine
+    conn.execute("SELECT 1")
+  File "C:\Users\omvis\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1417, in execute
+    raise exc.ObjectNotExecutableError(statement) from err
+sqlalchemy.exc.ObjectNotExecutableError: Not an executable object: 'SELECT 1'
+
+2025-10-23 23:35:02,053 - handler_sql - INFO - [Query ID:N/A] - Attempt 3: Connecting to database engine...
+2025-10-23 23:35:03,042 - handler_sql - ERROR - [Query ID:N/A] - Traceback (most recent call last):
+  File "C:\Users\omvis\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1415, in execute
+    meth = statement._execute_on_connection
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute '_execute_on_connection'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\TATA_Internship\SQL_Vector_retrieval\SQL_Retrieval\handler_sql.py", line 60, in get_engine
+    conn.execute("SELECT 1")
+  File "C:\Users\omvis\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1417, in execute
+    raise exc.ObjectNotExecutableError(statement) from err
+sqlalchemy.exc.ObjectNotExecutableError: Not an executable object: 'SELECT 1'
+
+2025-10-23 23:35:06,043 - handler_sql - INFO - [Query ID:N/A] - Attempt 4: Connecting to database engine...
+2025-10-23 23:35:07,013 - handler_sql - ERROR - [Query ID:N/A] - Traceback (most recent call last):
+  File "C:\Users\omvis\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1415, in execute
+    meth = statement._execute_on_connection
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute '_execute_on_connection'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\TATA_Internship\SQL_Vector_retrieval\SQL_Retrieval\handler_sql.py", line 60, in get_engine
+    conn.execute("SELECT 1")
+  File "C:\Users\omvis\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1417, in execute
+    raise exc.ObjectNotExecutableError(statement) from err
+sqlalchemy.exc.ObjectNotExecutableError: Not an executable object: 'SELECT 1'
+
+2025-10-23 23:35:10,014 - handler_sql - INFO - [Query ID:N/A] - Attempt 5: Connecting to database engine...
+2025-10-23 23:35:11,008 - handler_sql - ERROR - [Query ID:N/A] - Traceback (most recent call last):
+  File "C:\Users\omvis\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1415, in execute
+    meth = statement._execute_on_connection
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute '_execute_on_connection'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "E:\TATA_Internship\SQL_Vector_retrieval\SQL_Retrieval\handler_sql.py", line 60, in get_engine
+    conn.execute("SELECT 1")
+  File "C:\Users\omvis\AppData\Local\Programs\Python\Python311\Lib\site-packages\sqlalchemy\engine\base.py", line 1417, in execute
+    raise exc.ObjectNotExecutableError(statement) from err
+sqlalchemy.exc.ObjectNotExecutableError: Not an executable object: 'SELECT 1'
+
+2025-10-23 23:40:03,493 - api_main - INFO - [Query ID:35888.1] - Original received query: CPI of INDIA in 2024
+2025-10-23 23:40:08,790 - httpx - INFO - [Query ID:35888.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 23:40:08,827 - api_main - INFO - [Query ID:35888.1] - Rephrased query:
+{
+  "Entity": "CPI (Consumer Price Index)",
+  "Category": "all categories",
+  "Qualifiers": "India",
+  "Frequency": "monthly",
+  "Date range": "January 2024 to December 2024"
+}
+2025-10-23 23:40:10,514 - handler_sql - INFO - [Query ID:35888.1.1] - START: Processing query: Monthly CPI for all categories in India from January 2024 to December 2024
+2025-10-23 23:40:10,514 - handler_sql - INFO - [Query ID:35888.1.1] - Start processing: Current time: 2025-10-23 18-10-10
+2025-10-23 23:40:10,515 - handler_sql - INFO - [Query ID:35888.1.1] - Received unitary query: Monthly CPI for all categories in India from January 2024 to December 2024
+2025-10-23 23:40:12,263 - handler_sql - INFO - [Query ID:35888.1.1] - Query class: CPI
+2025-10-23 23:40:13,998 - handler_sql - INFO - [Query ID:35888.1.1] - Selected file: cpi_india_mth_grp_view
+2025-10-23 23:40:13,998 - handler_sql - INFO - [Query ID:35888.1.1] - Generated schema query:
+2025-10-23 23:40:13,998 - handler_sql - INFO - [Query ID:35888.1.1] - 
+        SELECT column_name, data_type, is_nullable, column_default
+        FROM information_schema.columns
+        WHERE table_name = 'cpi_india_mth_grp_view'
+        ORDER BY ordinal_position;
+        
+2025-10-23 23:40:13,998 - handler_sql - INFO - [Query ID:35888.1.1] - Attempt 1: to process query
+2025-10-23 23:40:15,201 - handler_sql - INFO - [Query ID:35888.1.1] - Trying to run: SELECT state, sector, group_name FROM cpi_india_mth_grp_view ORDER BY RANDOM() LIMIT 40;
+2025-10-23 23:40:16,967 - httpx - INFO - [Query ID:35888.1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 23:40:16,968 - handler_sql - INFO - [Query ID:35888.1.1] - Suggested value sets: ('state: All India\nsector: Combined\ngroup_name: *', 866, 13)
+2025-10-23 23:40:17,232 - handler_sql - INFO - [Query ID:35888.1.1] - Schema:
+('base_year', 'integer', 'YES', None)
+('year', 'integer', 'YES', None)
+('month', 'character varying', 'YES', None)
+('month_numeric', 'integer', 'YES', None)
+('state', 'character varying', 'YES', None)
+('sector', 'character varying', 'YES', None)
+('group_name', 'character varying', 'YES', None)
+('inflation_index', 'numeric', 'YES', None)
+('inflation_rate', 'numeric', 'YES', None)
+('released_on', 'character varying', 'YES', None)
+('updated_on', 'character varying', 'YES', None)
+('data_source', 'character varying', 'YES', None)
+('date_stamp', 'character varying', 'YES', None)
+('fiscal_year', 'text', 'YES', None)
+
+
+Suggested value settings:
+('state: All India\nsector: Combined\ngroup_name: *', 866, 13)
+
+Sample rows:
+(2012, 2017, 'October', 10, 'All India', 'Rural', 'Consumer Food Price', Decimal('139.50'), Decimal('1.75'), '13-Nov-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-10-01', '2017-18')
+(2012, 2021, 'November', 11, 'All India', 'Rural', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2021-11-01', '2021-22')
+(2012, 2022, 'May', 5, 'All India', 'Rural', 'Food and Beverages', Decimal('170.80'), Decimal('7.62'), '13-Jun-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-05-01', '2022-23')
+(2012, 2024, 'June', 6, 'All India', 'Urban', 'Miscellaneous', Decimal('177.90'), Decimal('3.31'), '12-Jul-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-06-01', '2024-25')
+(2012, 2018, 'February', 2, 'All India', 'Rural', 'General', Decimal('138.50'), Decimal('4.45'), '12-Mar-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-02-01', '2017-18')
+(2012, 2020, 'June', 6, 'All India', 'Rural', 'Pan, Tobacco and Intoxicants', Decimal('182.40'), Decimal('11.08'), '13-Jul-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-06-01', '2020-21')
+(2012, 2019, 'April', 4, 'All India', 'Combined', 'Housing', None, Decimal('4.76'), '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2019-04-01', '2019-20')
+(2012, 2020, 'August', 8, 'All India', 'Combined', 'General', Decimal('154.70'), Decimal('6.69'), '14-Sep-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-08-01', '2020-21')
+(2012, 2021, 'February', 2, 'All India', 'Combined', 'Food and Beverages', Decimal('156.90'), Decimal('4.25'), '12-Mar-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-02-01', '2020-21')
+(2012, 2023, 'October', 10, 'All India', 'Rural', 'Food and Beverages', Decimal('188.50'), Decimal('6.26'), '12-Nov-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-10-01', '2023-24')
+(2012, 2025, 'January', 1, 'All India', 'Rural', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2025-01-01', '2024-25')
+(2012, 2024, 'August', 8, 'All India', 'Combined', 'Food and Beverages', Decimal('202.70'), Decimal('5.30'), '12-Sep-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-08-01', '2024-25')
+(2012, 2025, 'September', 9, 'All India', 'Rural', 'Miscellaneous', Decimal('199.70'), Decimal('5.72'), '12-Oct-25', '15-Oct-25', 'Price Statistics Division, MoSPI', '2025-09-01', '2025-26')
+(2012, 2017, 'November', 11, 'All India', 'Combined', 'Food and Beverages', Decimal('142.10'), Decimal('4.41'), '12-Dec-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-11-01', '2017-18')
+(2012, 2017, 'July', 7, 'All India', 'Rural', 'Consumer Food Price', Decimal('137.70'), Decimal('0.07'), '14-Aug-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-07-01', '2017-18')
+(2012, 2024, 'May', 5, 'All India', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('207.10'), Decimal('3.03'), '12-Jun-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-05-01', '2024-25')
+(2012, 2018, 'September', 9, 'All India', 'Urban', 'Fuel and Light', Decimal('131.20'), Decimal('8.79'), 'NaN', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-09-01', '2018-19')
+(2012, 2023, 'March', 3, 'All India', 'Rural', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2023-03-01', '2022-23')
+(2012, 2022, 'January', 1, 'All India', 'Urban', 'Consumer Food Price', Decimal('169.20'), Decimal('5.88'), '14-Feb-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-01-01', '2021-22')
+(2012, 2017, 'October', 10, 'All India', 'Rural', 'Clothing and Footwear', Decimal('146.20'), Decimal('5.33'), '13-Nov-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-10-01', '2017-18')
+(2012, 2019, 'December', 12, 'All India', 'Combined', 'Food and Beverages', Decimal('155.00'), Decimal('12.16'), '13-Jan-20', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-12-01', '2019-20')
+(2012, 2025, 'August', 8, 'All India', 'Combined', 'General', Decimal('197.00'), Decimal('2.07'), '12-Sep-25', '12-Sep-25', 'Price Statistics Division, MoSPI', '2025-08-01', '2025-26')
+(2012, 2020, 'December', 12, 'All India', 'Urban', 'Fuel and Light', Decimal('142.90'), Decimal('6.96'), '12-Jan-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2020-12-01', '2020-21')
+(2012, 2018, 'November', 11, 'All India', 'Combined', 'General', Decimal('140.80'), Decimal('2.33'), '12-Dec-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-11-01', '2018-19')
+(2012, 2019, 'February', 2, 'All India', 'Urban', 'Housing', Decimal('148.50'), Decimal('5.10'), '12-Mar-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-02-01', '2018-19')
+(2012, 2021, 'May', 5, 'All India', 'Urban', 'Food and Beverages', Decimal('164.20'), Decimal('6.07'), '14-Jun-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-05-01', '2021-22')
+(2012, 2024, 'October', 10, 'All India', 'Urban', 'Clothing and Footwear', Decimal('187.10'), Decimal('2.75'), '12-Nov-24', '2-Apr-25', 'Price Statistics Division, MoSPI', '2024-10-01', '2024-25')
+(2012, 2017, 'February', 2, 'All India', 'Urban', 'Clothing and Footwear', Decimal('129.30'), Decimal('3.19'), '14-Mar-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-02-01', '2016-17')
+(2012, 2017, 'July', 7, 'All India', 'Rural', 'Fuel and Light', Decimal('135.30'), Decimal('5.54'), '14-Aug-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-07-01', '2017-18')
+(2012, 2021, 'November', 11, 'All India', 'Rural', 'Miscellaneous', Decimal('165.20'), Decimal('6.44'), '13-Dec-21', '2-Apr-25', 'Price Statistics Division, MoSPI', '2021-11-01', '2021-22')
+(2012, 2017, 'February', 2, 'All India', 'Combined', 'Consumer Food Price', Decimal('131.80'), Decimal('2.01'), '14-Mar-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-02-01', '2016-17')
+(2012, 2019, 'March', 3, 'All India', 'Urban', 'Pan, Tobacco and Intoxicants', Decimal('165.30'), Decimal('3.51'), '12-Apr-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-03-01', '2018-19')
+(2012, 2018, 'December', 12, 'All India', 'Combined', 'Pan, Tobacco and Intoxicants', Decimal('163.00'), Decimal('5.71'), '14-Jan-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-12-01', '2018-19')
+(2012, 2018, 'October', 10, 'All India', 'Rural', 'Consumer Food Price', Decimal('138.60'), Decimal('-0.65'), '12-Nov-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-10-01', '2018-19')
+(2012, 2018, 'July', 7, 'All India', 'Combined', 'General', Decimal('139.80'), Decimal('4.17'), '13-Aug-18', '2-Apr-25', 'Price Statistics Division, MoSPI', '2018-07-01', '2018-19')
+(2012, 2017, 'May', 5, 'All India', 'Urban', 'General', Decimal('129.30'), Decimal('2.13'), '12-Jun-17', '2-Apr-25', 'Price Statistics Division, MoSPI', '2017-05-01', '2017-18')
+(2012, 2019, 'June', 6, 'All India', 'Rural', 'Fuel and Light', Decimal('147.80'), Decimal('1.86'), '12-Jul-19', '2-Apr-25', 'Price Statistics Division, MoSPI', '2019-06-01', '2019-20')
+(2012, 2023, 'May', 5, 'All India', 'Rural', 'Pan, Tobacco and Intoxicants', Decimal('199.90'), Decimal('3.63'), '12-Jun-23', '2-Apr-25', 'Price Statistics Division, MoSPI', '2023-05-01', '2023-24')
+(2012, 2022, 'June', 6, 'All India', 'Urban', 'Consumer Food Price', Decimal('178.70'), Decimal('8.04'), '12-Jul-22', '2-Apr-25', 'Price Statistics Division, MoSPI', '2022-06-01', '2022-23')
+(2012, 2023, 'July', 7, 'All India', 'Rural', 'Housing', None, None, '15-Apr-25', '17-Apr-25', 'Price Statistics Division, MoSPI', '2023-07-01', '2023-24')
+
+2025-10-23 23:40:18,789 - httpx - INFO - [Query ID:35888.1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 23:40:18,791 - handler_sql - INFO - [Query ID:35888.1.1] - query for table: Monthly CPI for all categories in India from January 2024 to December 2024
+2025-10-23 23:40:18,791 - handler_sql - INFO - [Query ID:35888.1.1] - response: SELECT * FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND year >= 2024 AND year <= 2024 LIMIT 125;
+2025-10-23 23:40:18,791 - handler_sql - INFO - [Query ID:35888.1.1] - Used query for specific table: Monthly CPI for all categories in India from January 2024 to December 2024
+2025-10-23 23:40:18,791 - handler_sql - INFO - [Query ID:35888.1.1] - SQL query:
+2025-10-23 23:40:18,791 - handler_sql - WARNING - [Query ID:35888.1.1] - Could not remove decorator from original query
+2025-10-23 23:40:18,791 - handler_sql - INFO - [Query ID:35888.1.1] - Originally: SELECT * FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND year >= 2024 AND year <= 2024 LIMIT 125;
+2025-10-23 23:40:21,058 - httpx - INFO - [Query ID:35888.1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 23:40:21,060 - handler_sql - WARNING - [Query ID:35888.1.1] - Could not remove decorator from validated query
+2025-10-23 23:40:21,060 - handler_sql - INFO - [Query ID:35888.1.1] - After validation: SELECT * FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND year = 2024 LIMIT 125;
+2025-10-23 23:40:21,367 - handler_sql - INFO - [Query ID:35888.1.1] - Cleaned SQL: SELECT * FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND year = 2024
+2025-10-23 23:40:21,367 - handler_sql - INFO - [Query ID:35888.1.1] - SELECT * 
+FROM cpi_india_mth_grp_view WHERE state = 'All India' AND sector = 'Combined' AND year = 2024
+ORDER BY date_stamp DESC, month_numeric DESC
+LIMIT 125;
+2025-10-23 23:40:21,368 - handler_sql - INFO - [Query ID:35888.1.1] - SQL response:
+2025-10-23 23:40:21,664 - handler_sql - INFO - [Query ID:35888.1.1] - Number of rows pulled: 96
+2025-10-23 23:40:21,905 - handler_sql - WARNING - [Query ID:35888.1.1] - Could not fetch table metadata
+2025-10-23 23:40:21,906 - handler_sql - WARNING - [Query ID:35888.1.1] - list index out of range
+2025-10-23 23:40:21,908 - handler_sql - INFO - [Query ID:35888.1.1] - Found a data source column: Price Statistics Division, MoSPI
+2025-10-23 23:40:25,465 - httpx - INFO - [Query ID:35888.1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 23:40:29,043 - httpx - INFO - [Query ID:35888.1.1] - HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 200 OK"
+2025-10-23 23:40:29,044 - handler_sql - INFO - [Query ID:35888.1.1] - Got result: Current time: 2025-10-23 18-10-29
+2025-10-23 23:40:29,044 - handler_sql - INFO - [Query ID:35888.1.1] - Response: {'summarized_info': '|   year | month     |   month_numeric | group_name                   |   inflation_index |   inflation_rate | released_on   | date_stamp   | fiscal_year   |\n|-------:|:----------|----------------:|:-----------------------------|------------------:|-----------------:|:--------------|:-------------|:--------------|\n|   2024 | December  |              12 | General                      |             195.4 |             5.22 | 13-Jan-25     | 2024-12-01   | 2024-25       |\n|   2024 | December  |              12 | Pan, Tobacco and Intoxicants |             209.6 |             2.49 | 13-Jan-25     | 2024-12-01   | 2024-25       |\n|   2024 | December  |              12 | Clothing and Footwear        |             194.8 |             2.74 | 13-Jan-25     | 2024-12-01   | 2024-25       |\n|   2024 | December  |              12 | Housing                      |             181.7 |             2.71 | 13-Jan-25     | 2024-12-01   | 2024-25       |\n|   2024 | December  |              12 | Fuel and Light               |             177.8 |            -1.33 | 13-Jan-25     | 2024-12-01   | 2024-25       |\n|   2024 | December  |              12 | Miscellaneous                |             186.5 |             4.19 | 13-Jan-25     | 2024-12-01   | 2024-25       |\n|   2024 | December  |              12 | Consumer Food Price          |             206.7 |             8.39 | 13-Jan-25     | 2024-12-01   | 2024-25       |\n|   2024 | December  |              12 | Food and Beverages           |             205.9 |             7.69 | 13-Jan-25     | 2024-12-01   | 2024-25       |\n|   2024 | November  |              11 | Miscellaneous                |             186.2 |             4.26 | 12-Dec-24     | 2024-11-01   | 2024-25       |\n|   2024 | November  |              11 | Food and Beverages           |             208.4 |             8.2  | 12-Dec-24     | 2024-11-01   | 2024-25       |\n|   2024 | November  |              11 | General                      |             196.5 |             5.48 | 12-Dec-24     | 2024-11-01   | 2024-25       |\n|   2024 | November  |              11 | Consumer Food Price          |             209.8 |             9.04 | 12-Dec-24     | 2024-11-01   | 2024-25       |\n|   2024 | November  |              11 | Fuel and Light               |             176.6 |            -1.83 | 12-Dec-24     | 2024-11-01   | 2024-25       |\n|   2024 | November  |              11 | Housing                      |             183   |             2.87 | 12-Dec-24     | 2024-11-01   | 2024-25       |\n|   2024 | November  |              11 | Clothing and Footwear        |             194.4 |             2.75 | 12-Dec-24     | 2024-11-01   | 2024-25       |\n|   2024 | November  |              11 | Pan, Tobacco and Intoxicants |             209.2 |             2.35 | 12-Dec-24     | 2024-11-01   | 2024-25       |\n|   2024 | October   |              10 | Housing                      |             182.7 |             2.81 | 12-Nov-24     | 2024-10-01   | 2024-25       |\n|   2024 | October   |              10 | General                      |             196.8 |             6.21 | 12-Nov-24     | 2024-10-01   | 2024-25       |\n|   2024 | October   |              10 | Food and Beverages           |             209.4 |             9.69 | 12-Nov-24     | 2024-10-01   | 2024-25       |\n|   2024 | October   |              10 | Pan, Tobacco and Intoxicants |             209   |             2.5  | 12-Nov-24     | 2024-10-01   | 2024-25       |\n|   2024 | October   |              10 | Clothing and Footwear        |             193.9 |             2.7  | 12-Nov-24     | 2024-10-01   | 2024-25       |\n|   2024 | October   |              10 | Fuel and Light               |             176.8 |            -1.67 | 12-Nov-24     | 2024-10-01   | 2024-25       |\n|   2024 | October   |              10 | Miscellaneous                |             185.8 |             4.32 | 12-Nov-24     | 2024-10-01   | 2024-25       |\n|   2024 | October   |              10 | Consumer Food Price          |             211.1 |            10.87 | 12-Nov-24     | 2024-10-01   | 2024-25       |\n|   2024 | September |               9 | Fuel and Light               |             176.9 |            -1.34 | 14-Oct-24     | 2024-09-01   | 2024-25       |\n|   2024 | September |               9 | Housing                      |             181   |             2.72 | 14-Oct-24     | 2024-09-01   | 2024-25       |\n|   2024 | September |               9 | Consumer Food Price          |             205.8 |             9.24 | 14-Oct-24     | 2024-09-01   | 2024-25       |\n|   2024 | September |               9 | Miscellaneous                |             185   |             4.05 | 14-Oct-24     | 2024-09-01   | 2024-25       |\n|   2024 | September |               9 | Clothing and Footwear        |             193.2 |             2.71 | 14-Oct-24     | 2024-09-01   | 2024-25       |\n|   2024 | September |               9 | General                      |             194.2 |             5.49 | 14-Oct-24     | 2024-09-01   | 2024-25       |\n|   2024 | September |               9 | Pan, Tobacco and Intoxicants |             208.6 |             2.51 | 14-Oct-24     | 2024-09-01   | 2024-25       |\n|   2024 | September |               9 | Food and Beverages           |             204.8 |             8.36 | 14-Oct-24     | 2024-09-01   | 2024-25       |\n|   2024 | August    |               8 | General                      |             193   |             3.65 | 12-Sep-24     | 2024-08-01   | 2024-25       |\n|   2024 | August    |               8 | Food and Beverages           |             202.7 |             5.3  | 12-Sep-24     | 2024-08-01   | 2024-25       |\n|   2024 | August    |               8 | Pan, Tobacco and Intoxicants |             208.5 |             2.71 | 12-Sep-24     | 2024-08-01   | 2024-25       |\n|   2024 | August    |               8 | Clothing and Footwear        |             192.8 |             2.72 | 12-Sep-24     | 2024-08-01   | 2024-25       |\n|   2024 | August    |               8 | Housing                      |             181.1 |             2.66 | 12-Sep-24     | 2024-08-01   | 2024-25       |\n|   2024 | August    |               8 | Fuel and Light               |             176.7 |            -5.25 | 12-Sep-24     | 2024-08-01   | 2024-25       |\n|   2024 | August    |               8 | Miscellaneous                |             184.3 |             3.89 | 12-Sep-24     | 2024-08-01   | 2024-25       |\n|   2024 | August    |               8 | Consumer Food Price          |             203.4 |             5.66 | 12-Sep-24     | 2024-08-01   | 2024-25       |\n|   2024 | July      |               7 | Clothing and Footwear        |             192.3 |             2.67 | 12-Aug-24     | 2024-07-01   | 2024-25       |\n|   2024 | July      |               7 | Consumer Food Price          |             204.3 |             5.42 | 12-Aug-24     | 2024-07-01   | 2024-25       |\n|   2024 | July      |               7 | Miscellaneous                |             183.7 |             3.84 | 12-Aug-24     | 2024-07-01   | 2024-25       |\n|   2024 | July      |               7 | Fuel and Light               |             176   |            -5.48 | 12-Aug-24     | 2024-07-01   | 2024-25       |\n|   2024 | July      |               7 | Housing                      |             180   |             2.68 | 12-Aug-24     | 2024-07-01   | 2024-25       |\n|   2024 | July      |               7 | Pan, Tobacco and Intoxicants |             208.2 |             3.02 | 12-Aug-24     | 2024-07-01   | 2024-25       |\n|   2024 | July      |               7 | Food and Beverages           |             203.3 |             5.06 | 12-Aug-24     | 2024-07-01   | 2024-25       |\n|   2024 | July      |               7 | General                      |             193   |             3.6  | 12-Aug-24     | 2024-07-01   | 2024-25       |\n|   2024 | June      |               6 | Pan, Tobacco and Intoxicants |             207.7 |             3.08 | 12-Jul-24     | 2024-06-01   | 2024-25       |\n|   2024 | June      |               6 | Miscellaneous                |             182.2 |             3.41 | 12-Jul-24     | 2024-06-01   | 2024-25       |\n|   2024 | June      |               6 | Fuel and Light               |             176.3 |            -3.61 | 12-Jul-24     | 2024-06-01   | 2024-25       |\n|   2024 | June      |               6 | Clothing and Footwear        |             191.9 |             2.73 | 12-Jul-24     | 2024-06-01   | 2024-25       |\n|   2024 | June      |               6 | Housing                      |             179.1 |             2.69 | 12-Jul-24     | 2024-06-01   | 2024-25       |\n|   2024 | June      |               6 | Food and Beverages           |             198.4 |             8.36 | 12-Jul-24     | 2024-06-01   | 2024-25       |\n|   2024 | June      |               6 | Consumer Food Price          |             198.7 |             9.36 | 12-Jul-24     | 2024-06-01   | 2024-25       |\n|   2024 | June      |               6 | General                      |             190.2 |             5.08 | 12-Jul-24     | 2024-06-01   | 2024-25       |\n|   2024 | May       |               5 | Food and Beverages           |             193.2 |             7.87 | 12-Jun-24     | 2024-05-01   | 2024-25       |\n|   2024 | May       |               5 | Pan, Tobacco and Intoxicants |             207.1 |             3.03 | 12-Jun-24     | 2024-05-01   | 2024-25       |\n|   2024 | May       |               5 | Clothing and Footwear        |             191.3 |             2.74 | 12-Jun-24     | 2024-05-01   | 2024-25       |\n|   2024 | May       |               5 | Housing                      |             180.1 |             2.56 | 12-Jun-24     | 2024-05-01   | 2024-25       |\n|   2024 | May       |               5 | Miscellaneous                |             181.7 |             3.41 | 12-Jun-24     | 2024-05-01   | 2024-25       |\n|   2024 | May       |               5 | Consumer Food Price          |             192.6 |             8.69 | 12-Jun-24     | 2024-05-01   | 2024-25       |\n|   2024 | May       |               5 | Fuel and Light               |             176.1 |            -3.67 | 12-Jun-24     | 2024-05-01   | 2024-25       |\n|   2024 | May       |               5 | General                      |             187.7 |             4.8  | 12-Jun-24     | 2024-05-01   | 2024-25       |\n|   2024 | April     |               4 | Housing                      |             179.9 |             2.68 | 12-May-24     | 2024-04-01   | 2024-25       |\n|   2024 | April     |               4 | Consumer Food Price          |             191.2 |             8.7  | 12-May-24     | 2024-04-01   | 2024-25       |\n|   2024 | April     |               4 | Miscellaneous                |             181.2 |             3.54 | 12-May-24     | 2024-04-01   | 2024-25       |\n|   2024 | April     |               4 | Fuel and Light               |             174.4 |            -4.02 | 12-May-24     | 2024-04-01   | 2024-25       |\n|   2024 | April     |               4 | General                      |             186.7 |             4.83 | 12-May-24     | 2024-04-01   | 2024-25       |\n|   2024 | April     |               4 | Clothing and Footwear        |             191   |             2.85 | 12-May-24     | 2024-04-01   | 2024-25       |\n|   2024 | April     |               4 | Pan, Tobacco and Intoxicants |             206.6 |             2.99 | 12-May-24     | 2024-04-01   | 2024-25       |\n|   2024 | April     |               4 | Food and Beverages           |             191.9 |             7.87 | 12-May-24     | 2024-04-01   | 2024-25       |\n|   2024 | March     |               3 | Food and Beverages           |             190.7 |             7.74 | 12-Apr-24     | 2024-03-01   | 2023-24       |\n|   2024 | March     |               3 | General                      |             185.8 |             4.85 | 12-Apr-24     | 2024-03-01   | 2023-24       |\n|   2024 | March     |               3 | Consumer Food Price          |             189.8 |             8.52 | 12-Apr-24     | 2024-03-01   | 2023-24       |\n|   2024 | March     |               3 | Pan, Tobacco and Intoxicants |             205.7 |             3.11 | 12-Apr-24     | 2024-03-01   | 2023-24       |\n|   2024 | March     |               3 | Fuel and Light               |             175.8 |            -3.35 | 12-Apr-24     | 2024-03-01   | 2023-24       |\n|   2024 | March     |               3 | Miscellaneous                |             180.2 |             3.5  | 12-Apr-24     | 2024-03-01   | 2023-24       |\n|   2024 | March     |               3 | Clothing and Footwear        |             190.6 |             2.97 | 12-Apr-24     | 2024-03-01   | 2023-24       |\n|   2024 | March     |               3 | Housing                      |             178.2 |             2.71 | 12-Apr-24     | 2024-03-01   | 2023-24       |\n|   2024 | February  |               2 | Miscellaneous                |             179.8 |             3.63 | 12-Mar-24     | 2024-02-01   | 2023-24       |\n|   2024 | February  |               2 | General                      |             185.8 |             5.09 | 12-Mar-24     | 2024-02-01   | 2023-24       |\n|   2024 | February  |               2 | Consumer Food Price          |             189.5 |             8.66 | 12-Mar-24     | 2024-02-01   | 2023-24       |\n|   2024 | February  |               2 | Food and Beverages           |             190.3 |             7.76 | 12-Mar-24     | 2024-02-01   | 2023-24       |\n|   2024 | February  |               2 | Fuel and Light               |             180.7 |            -0.77 | 12-Mar-24     | 2024-02-01   | 2023-24       |\n|   2024 | February  |               2 | Housing                      |             178.5 |             2.88 | 12-Mar-24     | 2024-02-01   | 2023-24       |\n|   2024 | February  |               2 | Clothing and Footwear        |             190.3 |             3.14 | 12-Mar-24     | 2024-02-01   | 2023-24       |\n|   2024 | February  |               2 | Pan, Tobacco and Intoxicants |             205.2 |             3.12 | 12-Mar-24     | 2024-02-01   | 2023-24       |\n|   2024 | January   |               1 | Pan, Tobacco and Intoxicants |             204.7 |             3.28 | 12-Feb-24     | 2024-01-01   | 2023-24       |\n|   2024 | January   |               1 | Clothing and Footwear        |             190   |             3.37 | 12-Feb-24     | 2024-01-01   | 2023-24       |\n|   2024 | January   |               1 | General                      |             185.5 |             5.1  | 12-Feb-24     | 2024-01-01   | 2023-24       |\n|   2024 | January   |               1 | Food and Beverages           |             190.1 |             7.58 | 12-Feb-24     | 2024-01-01   | 2023-24       |\n|   2024 | January   |               1 | Housing                      |             177.6 |             3.2  | 12-Feb-24     | 2024-01-01   | 2023-24       |\n|   2024 | January   |               1 | Fuel and Light               |             180.9 |            -0.6  | 12-Feb-24     | 2024-01-01   | 2023-24       |\n|   2024 | January   |               1 | Miscellaneous                |             179.4 |             3.82 | 12-Feb-24     | 2024-01-01   | 2023-24       |\n|   2024 | January   |               1 | Consumer Food Price          |             189.3 |             8.3  | 12-Feb-24     | 2024-01-01   | 2023-24       |'}
+2025-10-23 23:40:29,044 - handler_sql - INFO - [Query ID:35888.1.1] - Total processing time: 18.53 seconds
+2025-10-23 23:40:29,045 - api_main - INFO - [Query ID:35888.1] - SQL responses obtained
+2025-10-23 23:40:29,046 - api_main - INFO - [Query ID:35888.1] - <part> 1 has data
