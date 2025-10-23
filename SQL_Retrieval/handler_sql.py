@@ -1,6 +1,7 @@
 #handler_sql.py
 
 import logging
+import traceback
 from   datetime import datetime
 from   time import strftime, gmtime
 from   threading import Lock
@@ -39,7 +40,7 @@ _engine = None
 _db = None
 
 def get_engine(retries=5, delay=3):
-    """Create SQLAlchemy engine with retry logic."""
+    """Create SQLAlchemy engine with retry logic and full error logging."""
     global _engine
     if _engine is None:
         for attempt in range(retries):
@@ -60,15 +61,17 @@ def get_engine(retries=5, delay=3):
                 logger.info("✅ Database engine connected successfully.")
                 break
             except Exception as e:
-                logger.warning(f"⚠️ Engine connection failed (attempt {attempt+1}): {e}")
+                logger.error(f"❌ Engine connection failed (attempt {attempt+1}): {e}")
+                logger.error(traceback.format_exc())
                 time.sleep(delay)
         else:
-            raise RuntimeError("❌ Could not connect to Postgres after retries.")
+            logger.critical("❌ Could not connect to Postgres after retries.")
+            raise RuntimeError("Database connection failed.")
     return _engine
 
 
 def get_db(retries=5, delay=3):
-    """Create LangChain SQLDatabase with retry logic."""
+    """Create LangChain SQLDatabase with retry logic and full error logging."""
     global _db
     if _db is None:
         for attempt in range(retries):
@@ -84,15 +87,17 @@ def get_db(retries=5, delay=3):
                         "pool_timeout": 30,
                     }
                 )
-                # Try a small query to validate
+                # Validate connection
                 _db.run("SELECT 1;")
                 logger.info("✅ SQLDatabase connected successfully.")
                 break
             except Exception as e:
-                logger.warning(f"⚠️ SQLDatabase init failed (attempt {attempt+1}): {e}")
+                logger.error(f"❌ SQLDatabase init failed (attempt {attempt+1}): {e}")
+                logger.error(traceback.format_exc())
                 time.sleep(delay)
         else:
-            raise RuntimeError("❌ Could not initialize SQLDatabase after retries.")
+            logger.critical("❌ Could not initialize SQLDatabase after retries.")
+            raise RuntimeError("Database initialization failed.")
     return _db
 
 def split_conditions(where_clause):

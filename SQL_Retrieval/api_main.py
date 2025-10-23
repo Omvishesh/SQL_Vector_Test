@@ -170,6 +170,10 @@ class Question(BaseModel):
 
 class BatchRequest(BaseModel):
     queries: list[str]
+    
+@app.get("/")
+def root():
+    return {"message": "SQL Retrieval service is up"}
 
 @app.get("/test_db")
 def test_db():
