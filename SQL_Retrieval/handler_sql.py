@@ -34,7 +34,7 @@ QUERY_TIMEOUT = 26  # seconds
 setup_logging("sql", logging.INFO)
 logger = get_logger(__name__)
 
-DATABASE_URI = "postgresql://postgres:admin@100.104.12.231:5432/final"
+DATABASE_URI = "postgresql://postgres:admin@0.tcp.in.ngrok.io:18046/final"
 #DATABASE_URI = os.getenv("DATABASE_URI")
 
 engine = create_engine(
