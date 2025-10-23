@@ -20,7 +20,7 @@ from   utils_common import clarify_query, generate_sql_queries, query_certify_va
 import time
 import logging
 from   datetime import datetime
-from   handler_sql import batch_sql_queries, handle_forecast #, return_table_list
+from   handler_sql import batch_sql_queries, handle_forecast , get_engine #, return_table_list
 from   utils_common import llm_call
 import numpy as np
 import pandas as pd
@@ -170,6 +170,17 @@ class Question(BaseModel):
 
 class BatchRequest(BaseModel):
     queries: list[str]
+
+@app.get("/test-db")
+def test_db():
+    try:
+        engine = get_engine()
+        conn = engine.connect()
+        conn.execute("SELECT 1")
+        conn.close()
+        return {"status": "connected"}
+    except Exception as e:
+        return {"status": "failed", "error": str(e)}
 
 @app.post("/integrated_query", dependencies=[Depends(verify_api_key)])
 async def orchestrate(question: Question):

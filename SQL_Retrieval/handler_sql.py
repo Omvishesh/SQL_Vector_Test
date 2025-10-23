@@ -24,6 +24,10 @@ import os
 import numpy as np
 from   forecast import run_forecast_core
 from   logging_utils import setup_logging, get_logger, get_query_id, query_id_manager, SubQueryIDContext
+from   sqlalchemy.pool import QueuePool
+from   langchain.sql_database import SQLDatabase
+
+
 load_dotenv("prod.env")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
@@ -34,28 +38,40 @@ QUERY_TIMEOUT = 26  # seconds
 setup_logging("sql", logging.INFO)
 logger = get_logger(__name__)
 
-DATABASE_URI = "postgresql://postgres:admin@0.tcp.in.ngrok.io:18046/final"
+DATABASE_URI = "postgresql://postgres:admin@0.tcp.in.ngrok.io:10289/final"
 #DATABASE_URI = os.getenv("DATABASE_URI")
 
-engine = create_engine(
-    DATABASE_URI,
-    poolclass=QueuePool,
-    pool_size=10,
-    max_overflow=5,
-    pool_recycle=3600,
-    pool_timeout=30,
-    future=True
-)
-db = SQLDatabase.from_uri(
-    DATABASE_URI,
-    engine_args={
-        "poolclass": QueuePool,
-        "pool_size": 10,
-        "max_overflow": 5,
-        "pool_recycle": 3600,
-        "pool_timeout": 30
-    }
-)
+_engine = None
+_db = None
+
+def get_engine():
+    global _engine
+    if _engine is None:
+        _engine = create_engine(
+            DATABASE_URI,
+            poolclass=QueuePool,
+            pool_size=10,
+            max_overflow=5,
+            pool_recycle=3600,
+            pool_timeout=30,
+            future=True
+        )
+    return _engine
+
+def get_db():
+    global _db
+    if _db is None:
+        _db = SQLDatabase.from_uri(
+            DATABASE_URI,
+            engine_args={
+                "poolclass": QueuePool,
+                "pool_size": 10,
+                "max_overflow": 5,
+                "pool_recycle": 3600,
+                "pool_timeout": 30
+            }
+        )
+    return _db
 
 def split_conditions(where_clause):
     # Split on 'AND' or 'OR' that is not within quotes
