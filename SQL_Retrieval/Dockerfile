@@ -15,4 +15,4 @@ COPY . .
 # Adjust 'main.py' as needed for your entrypoint
 #CMD ["uvicorn", "api_main:app", "--host", "0.0.0.0", "--port", "8001", "--workers", "3"]
 # CMD ["gunicorn", "--bind", "0.0.0.0:8001", "--workers", "4", "--worker-class", "uvicorn.workers.UvicornWorker", "api_main:app"] original had 5 workers
-CMD ["gunicorn", "--bind", "0.0.0.0:8001", "--workers", "5", "--worker-class", "uvicorn.workers.UvicornWorker", "--timeout", "120", "api_main:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "3", "--worker-class", "uvicorn.workers.UvicornWorker", "--timeout", "120", "api_main:app"]
