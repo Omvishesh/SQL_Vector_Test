@@ -25,52 +25,74 @@ import numpy as np
 from   forecast import run_forecast_core
 from   logging_utils import setup_logging, get_logger, get_query_id, query_id_manager, SubQueryIDContext
 from   sqlalchemy.pool import QueuePool
-from   langchain.sql_database import SQLDatabase
-
 
 load_dotenv("prod.env")
+
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+DATABASE_URI = os.getenv("POSTGRES_URI")
+QUERY_TIMEOUT = 26
 
-current_date  = datetime.now().strftime('%Y-%m-%d')
-QUERY_TIMEOUT = 26  # seconds
-
-# Setup logging with query ID support
 setup_logging("sql", logging.INFO)
 logger = get_logger(__name__)
-
-DATABASE_URI = "postgresql://postgres:admin@0.tcp.in.ngrok.io:10289/final"
-#DATABASE_URI = os.getenv("DATABASE_URI")
 
 _engine = None
 _db = None
 
-def get_engine():
+def get_engine(retries=5, delay=3):
+    """Create SQLAlchemy engine with retry logic."""
     global _engine
     if _engine is None:
-        _engine = create_engine(
-            DATABASE_URI,
-            poolclass=QueuePool,
-            pool_size=10,
-            max_overflow=5,
-            pool_recycle=3600,
-            pool_timeout=30,
-            future=True
-        )
+        for attempt in range(retries):
+            try:
+                logger.info(f"Attempt {attempt+1}: Connecting to database engine...")
+                _engine = create_engine(
+                    DATABASE_URI,
+                    poolclass=QueuePool,
+                    pool_size=10,
+                    max_overflow=5,
+                    pool_recycle=3600,
+                    pool_timeout=30,
+                    future=True
+                )
+                # Test connection
+                with _engine.connect() as conn:
+                    conn.execute("SELECT 1")
+                logger.info("✅ Database engine connected successfully.")
+                break
+            except Exception as e:
+                logger.warning(f"⚠️ Engine connection failed (attempt {attempt+1}): {e}")
+                time.sleep(delay)
+        else:
+            raise RuntimeError("❌ Could not connect to Postgres after retries.")
     return _engine
 
-def get_db():
+
+def get_db(retries=5, delay=3):
+    """Create LangChain SQLDatabase with retry logic."""
     global _db
     if _db is None:
-        _db = SQLDatabase.from_uri(
-            DATABASE_URI,
-            engine_args={
-                "poolclass": QueuePool,
-                "pool_size": 10,
-                "max_overflow": 5,
-                "pool_recycle": 3600,
-                "pool_timeout": 30
-            }
-        )
+        for attempt in range(retries):
+            try:
+                logger.info(f"Attempt {attempt+1}: Initializing SQLDatabase...")
+                _db = SQLDatabase.from_uri(
+                    DATABASE_URI,
+                    engine_args={
+                        "poolclass": QueuePool,
+                        "pool_size": 10,
+                        "max_overflow": 5,
+                        "pool_recycle": 3600,
+                        "pool_timeout": 30,
+                    }
+                )
+                # Try a small query to validate
+                _db.run("SELECT 1;")
+                logger.info("✅ SQLDatabase connected successfully.")
+                break
+            except Exception as e:
+                logger.warning(f"⚠️ SQLDatabase init failed (attempt {attempt+1}): {e}")
+                time.sleep(delay)
+        else:
+            raise RuntimeError("❌ Could not initialize SQLDatabase after retries.")
     return _db
 
 def split_conditions(where_clause):

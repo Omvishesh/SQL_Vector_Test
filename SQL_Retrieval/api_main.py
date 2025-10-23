@@ -171,16 +171,14 @@ class Question(BaseModel):
 class BatchRequest(BaseModel):
     queries: list[str]
 
-@app.get("/test-db")
+@app.get("/test_db")
 def test_db():
-    try:
-        engine = get_engine()
-        conn = engine.connect()
-        conn.execute("SELECT 1")
-        conn.close()
-        return {"status": "connected"}
-    except Exception as e:
-        return {"status": "failed", "error": str(e)}
+    conn = get_engine()
+    with conn.cursor() as cur:
+        cur.execute("SELECT NOW();")
+        result = cur.fetchone()
+    conn.close()
+    return {"db_time": result}
 
 @app.post("/integrated_query", dependencies=[Depends(verify_api_key)])
 async def orchestrate(question: Question):
