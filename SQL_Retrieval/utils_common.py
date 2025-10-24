@@ -218,7 +218,15 @@ def query_certify_valid(user_query):
                                     youth power,
                                     District level youth empowerment indicators (youth opportunity, education scores, skill development, employment metrics, etc.)
                                     schools data,
-                                    rainfall data
+                                    rainfall data,
+                                    fish production data,
+                                    watershed management, river basin catchment, coastline, temperature,
+                                    faunal diversity,
+                                    e-way bills,
+                                    water quality, BOD, ph,
+                                    insurance and insurers data,
+                                    companies data (opened, closed, compliance status, registered etc.)
+                                    
 
 
                                     Annual Survey of Industries (ASI) (which includes information relating to industries such as capital and investment,stock and inventory,financial metrics of industries,employment and labour,compensation and benefits,production and outputs),

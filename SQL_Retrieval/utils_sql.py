@@ -15,11 +15,12 @@ def classify_query(query):
 
                 ## finance_and_industry
 
-                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, electric vehicles(ev), oil and gas reserves, commodities export and import, international trade,port trade energy/commodities, renewable energy capacity, mutual funds, data of toll collection, financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social.
+                a. Classify queries related to insurance, irdai, insurers, non-life insurers, financial markets, Foreign Direct Investment (FDI), e-shram, investments, revenues, co2 emissions, electric vehicles(ev), oil and gas reserves, commodities export and import, international trade,port trade energy/commodities, renewable energy capacity, mutual funds, data of toll collection, NETC (National Electronic Toll Collection) transactions,  financial data for Assam, petroleum/renewables, or state/sector indicators not directly in CPI, GDP, IIP, MSME, agriculture, or social, indian companies data (opened, closed registered) and companies compliance.
 
                 b. The following files comprise the finance_and_industry datasets:[irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_india_qtr_state, revenue_maharashtra_fy_category, mf_monthly_schemes, statewise_petroleum_consumption,
                 co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg, insurance_india_mth_sctg, toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export,
-                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly mf_india_qtr_total, insurance_india_mth_life_insurer, trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month, trade_india_mth_country, trade_india_mth_region, cumulative_capacity_state_month].
+                trade_india_mth_stateut_country_export, trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves, crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly mf_india_qtr_total, insurance_india_mth_life_insurer, trade_india_annual_country,
+                trade_india_mth_region_commodity, port_dwell_time_month, trade_india_mth_country, trade_india_mth_region, cumulative_capacity_state_month, netc_india_mth_stats, ins_nat_yr_fin_highlights, company_india_annual_type_mca, energy_nat_ann_petroleum_products_consumption, energy_wld_nat_mth_crude_petroleum_trade, energy_nat_mth_crude_oil_prod, energy_nat_mth_petroleum_prod, mca_nat_mth_comp_closed, mca_nat_mth_companies_registered].
 
                 ## CPI
 
@@ -53,20 +54,21 @@ def classify_query(query):
 
                 ## agriculture_and_rural
 
-                a. Classify queries seeking descriptive statistics on agricultural households, including crop sales, farming inputs, irrigation, receipts, crop insurance (uptake, reasons for non-insurance), farmer advisory, MSP awareness, input procurement, land leasing/ownership, livestock, household classification, credit sources, asset investment, operational holdings, production/yield, and social/regional comparisons. This aligns with themes like agricultural extension, insurance design, rural finance, food security, market linkages, land reform, asset creation, productivity, equity, and development. Datasets include distributions on crop sales by agency, farming resource use, seed quality/procurement, expenditure/receipts on assets and production, crop insurance experiences, land leasing by social group, operational holdings, livestock ownership, and more.
+                a. Classify queries seeking descriptive statistics on agricultural households, including crop sales, farming inputs, irrigation, receipts, crop insurance (uptake, reasons for non-insurance), farmer advisory, MSP awareness, input procurement, land leasing/ownership, livestock, household classification, credit sources, asset investment, operational holdings, production/yield, annual temperature, fish production, watersheds, river basin catchment, coastline, annual rainfall data, faunal diversity, and social/regional comparisons. This aligns with themes like agricultural extension, insurance design, rural finance, food security, market linkages, land reform, asset creation, productivity, equity, and development. Datasets include distributions on crop sales by agency, farming resource use, seed quality/procurement, expenditure/receipts on assets and production, crop insurance experiences, land leasing by social group, operational holdings, livestock ownership, and more.
 
-                b. The following files comprise the "agriculture_and_rural" datasets:[sa_agri_hhs_crop_sale_quantity_by_agency_major_disposal, sa_agri_hhs_reporting_use_of_diff_farming_resources, sa_agri_hhs_use_purchased_seed_by_quality, sa_avg_expenditure_and_receipts_on_farm_and_nonfarm_assets, sa_avg_gross_cropped_area_value_quantity_crop_production, sa_avg_monthly_expenses_and_receipts_for_crop_production, sa_avg_monthly_total_expenses_crop_production, sa_avg_monthly_total_expenses_receipts_animal_farming_30_days, sa_dist_agri_hh_not_insuring_crop_by_reason_for_selected_crop, sa_dist_agri_hhs_seed_use_by_agency_of_procurement, sa_dist_hhs_leasing_out_land_and_avg_area_social_group, sa_dist_of_agri_hhs_reporting_use_of_purchased_seed, sa_dist_of_hhs_by_hh_classification_for_diff_classes_of_land, sa_distribution_hhs_leasing_in_land_avg_area_social_group, sa_distribution_loan_outstanding_by_source_of_loan_taken, sa_distribution_operational_holdings_by_possession_type, sa_est_num_of_hhs_for_each_size_class_of_land_possessed, sa_estimated_no_of_hhs_for_different_social_groups, sa_no_of_hhs_owning_of_livestock_of_different_types, sa_no_per_1000_distri_of_agri_hhs_reporting_sale_of_crops, sa_no_per_hh_operational_holding_by_size_hh_oper_holding, sa_per_1000_agri_hh_insured_experienced_crop_loss, sa_per_1000_crop_producing_hh_crop_disposal_agency_sale_satisf, sa_perc_dist_of_land_for_hhs_belonging_operational_holding, sa_percent_distribution_of_leased_out_land_by_terms_of_lease]
+                b. The following files comprise the "agriculture_and_rural" datasets:[sa_agri_hhs_crop_sale_quantity_by_agency_major_disposal, sa_agri_hhs_reporting_use_of_diff_farming_resources, sa_agri_hhs_use_purchased_seed_by_quality, sa_avg_expenditure_and_receipts_on_farm_and_nonfarm_assets, sa_avg_gross_cropped_area_value_quantity_crop_production, sa_avg_monthly_expenses_and_receipts_for_crop_production, sa_avg_monthly_total_expenses_crop_production, sa_avg_monthly_total_expenses_receipts_animal_farming_30_days, sa_dist_agri_hh_not_insuring_crop_by_reason_for_selected_crop, sa_dist_agri_hhs_seed_use_by_agency_of_procurement, sa_dist_hhs_leasing_out_land_and_avg_area_social_group, sa_dist_of_agri_hhs_reporting_use_of_purchased_seed, sa_dist_of_hhs_by_hh_classification_for_diff_classes_of_land, sa_distribution_hhs_leasing_in_land_avg_area_social_group,
+                sa_distribution_loan_outstanding_by_source_of_loan_taken, sa_distribution_operational_holdings_by_possession_type, sa_est_num_of_hhs_for_each_size_class_of_land_possessed, sa_estimated_no_of_hhs_for_different_social_groups, sa_no_of_hhs_owning_of_livestock_of_different_types, sa_no_per_1000_distri_of_agri_hhs_reporting_sale_of_crops, sa_no_per_hh_operational_holding_by_size_hh_oper_holding, sa_per_1000_agri_hh_insured_experienced_crop_loss, sa_per_1000_crop_producing_hh_crop_disposal_agency_sale_satisf, sa_perc_dist_of_land_for_hhs_belonging_operational_holding, sa_percent_distribution_of_leased_out_land_by_terms_of_lease, annual_mean_temperature, fish_production_yearly, watersheds_in_india, river_basin_catchment, coastline_population_and_length, rainfall_annualy_and_monthly, faunal_diversity]
                 Any query that can be answered with these data sets should be classified as "agriculture_and_rural".
 
                 ## social_migration_and_households
 
-                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, demographic statistics, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services,airport data, ayushman schemes, credit, aadhar data, hospital data, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, labour wages, mass media/broadband, transport (air, water, land), public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
+                a. Classify queries on household socio-economic patterns, migration (reasons, remittances, rural-urban shifts, income changes), finance sources, household ownership, asset ownership (housing, TV, cooler, AC), state-wise sanitation/water access, demographic statistics, river water quality statistics, digital connectivity (mobile, SIM, broadband, mass media), living standards (pucca housing, transport), public health/services,airport data, ayushman schemes, credit, aadhar data, hospital data, and equity (rural/urban, caste, gender). Datasets cover access to drinking water, labour wages, mass media/broadband, transport (air, water, land), public facilities, finance sources, latrine/handwashing, household assets, migration reasons/income changes, air conditioner/cooler possession, mobile usage, and residence changes.
 
                 b. The following files comprise the "social_migration_and_households" datasets: [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
                     mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
                     mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
                     mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place, aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data, labour_india_sector_industry_occupation_wages, labour_india_rural_wages,
-                    airport_sewa_services_data, traffic_india_mth_air_passengers, sp_india_daily_state], demography_india_yr_popsexgrowth, demography_india_state_yr_literacy
+                    airport_sewa_services_data, traffic_india_mth_air_passengers, sp_india_daily_state], demography_india_yr_popsexgrowth, demography_india_state_yr_literacy, hces_state_yr_assets, tlm_state_yr_transport_access, env_state_yr_river_water_quality]
                 Any query that can be answered with these data sets should be classified as "social_migration_and_households".
                 
                 ## enterprise_surveys
@@ -83,19 +85,19 @@ def classify_query(query):
 
                 ## worker_surveys
                 
-                a.Classify queries related to worker-level and employment characteristics — including worker distribution by gender, social group, education, employment level and employment  type (self-employed, regular wage, casual labor); working hours/days; wages, emoluments, and compensation; labor participation indicators such as LFPR (Labour Force Participation Rate), Gross Value Added (GVA) per worker, WPR (Worker Population Ratio), and UR (Unemployment Rate). This class includes insights from PLFS (Periodic Labour Force Survey), NSS workforce modules, and establishment-based labor surveys. Queries may involve the number or proportion of workers across industries, average emoluments per worker, gender-wise employment trends, occupational classifications, or worker distribution by enterprise size and activity. 
+                a.Classify queries related to worker-level and employment characteristics — including worker distribution by gender, social group, education, employment level and employment  type (self-employed, regular wage, casual labor); working hours/days; wages, emoluments, and compensation; labor participation indicators such as LFPR (Labour Force Participation Rate), Gross Value Added (GVA) per worker, WPR (Worker Population Ratio), EPFO, and UR (Unemployment Rate). This class includes insights from PLFS (Periodic Labour Force Survey), NSS workforce modules, and establishment-based labor surveys. Queries may involve the number or proportion of workers across industries, average emoluments per worker, gender-wise employment trends, occupational classifications, or worker distribution by enterprise size and activity. 
                 
                 b. The following files comprise the "worker_surveys" datasets: [asuse_est_annual_emoluments_per_hired_worker,asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_statewise_est_num_of_worker_by_employment_and_gender, asuse_statewise_estimated_annual_emoluments_per_hired_worker, aasuse_statewise_estimated_annual_gva_per_worker_rupees,
-                asuse_statewise_estimated_number_of_workers_by_type_of_workers, asi_no_of_workers_and_person_engaged,periodic_labour_force_survey, lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age, epfo_india_mth_payroll]
+                asuse_statewise_estimated_number_of_workers_by_type_of_workers, asi_no_of_workers_and_person_engaged,periodic_labour_force_survey, lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age, epfo_india_mth_payroll, epfo_nat_ind_exempted_establishments_list]
                 
                 Any query that can be answered with these data sets should be classified as "worker_surveys".
 
                 ## GST
 
-                a. Classify queries on GST (including taxpayers, returns, state contributions, gross/net tax collections, IGST settlements, registrations, subsidies), GSTR filings, tax collections and refunds, and GST registrations.
+                a. Classify queries on GST (including taxpayers, returns, state contributions, gross/net tax collections, IGST settlements,e-way bills, registrations, subsidies), GSTR filings, tax collections and refunds, and GST registrations.
 
                 b. The following files comprise the GST datasets: [gst_registrations, gst_statewise_tax_collection_refund_data, gst_statewise_tax_collection_data, gst_settlement_of_igst_to_states, gstr_three_b, gstr_one, gross_and_net_tax_collection, gst_statewise_fiscal_year_collection_view,
-                gst_statewise_fiscal_year_igst_settlement_view, gst_statewise_fiscal_year_refund_view].
+                gst_statewise_fiscal_year_igst_settlement_view, gst_statewise_fiscal_year_refund_view, ewb_state_mth_stats].
                 Any query that can be answered with these data sets should be classified as "GST".
                 
                 ## district_level
@@ -428,13 +430,84 @@ def file_selector_finance_and_industry(query):
         Query: Get the wind power and small hydro power for Rajasthan for July 2025.
         Query: Which state had the highest total renewable energy capacity in July 2025?
         Query: Show all columns for Tamil Nadu for July 2025.
-
+        
+        40. netc_india_mth_stats : This table contains monthly statistics for NETC (National Electronic Toll Collection) transactions in India, including transaction volumes and values, both total and average daily, for each month and year.
+        Instructions: Use this table to analyze monthly trends in NETC transaction volumes and values, compare different months or years, or calculate averages and growth rates over time.
+        Example queries:
+        User Query: Show the total NETC transaction volume and value for each month in 2025.
+        User Query: What was the average daily NETC transaction value in crores for August 2025?
+        User Query: List the months in 2025 where the transaction volume exceeded 350 million.
+        
+        41. ins_nat_yr_fin_highlights : This table provides annual financial and operational highlights for insurance companies, including employee count, agents, offices, policies, FDI, and capital reserves by financial year.
+        Instructions: Use this table to retrieve or analyze yearly statistics and financial data for insurance companies, such as number of employees, agents, offices, policies issued, FDI received, and capital reserves, filtered by company, category, or financial year.
+        Example queries:
+        User Query: Show the number of employees and policies for each insurance company in 2024-25.
+        User Query: List all private sector insurers with their capital and free reserves for the latest year.
+        User Query: Find companies with more than 10,000 agents or brokers in 2024-25.
+        User Query: Get FDI received by each company in 2024-25.
+        
+        42. company_india_annual_type_mca : This table provides annual data on Indian companies, categorized by company type, including their paid-up share capital, number of companies, and their percentage share of the total companies for each financial year.
+        Instructions: Use this table to analyze the distribution and capital structure of public and private limited companies in India across different financial years. Filter by 'financial_year' or 'company_type' to get specific insights.
+        Example queries:
+        User Query: Show the number of public limited companies for the year 2018-19.
+        User Query: List the paid-up share capital for all company types in 2017-18.
+        User Query: What percentage of total companies were private limited in 2019-20?
+        User Query: Get the total number of companies for each year.
+        
+        43. energy_nat_ann_petroleum_products_consumption : This table contains annual and monthly consumption data of various petroleum products in India, including product type, quantity consumed (in thousand metric tonnes), and the date of data update.
+        Instructions: Use this table to retrieve or analyze consumption quantities of specific petroleum products by month and year, or to compare trends across products and time periods.
+        Example queries:
+        User Query: Show the total consumption of ATF in 2023.
+        User Query: List the monthly consumption of all petroleum products for August 2023.
+        User Query: Get the latest updated date for the data.
+        
+        44. energy_wld_nat_mth_crude_petroleum_trade : Monthly trade statistics for crude petroleum and related products, including import/export quantities and values in INR and USD.
+        Instructions: Use this table to analyze monthly import/export data for crude oil and petroleum products, including quantities, values, and product types by month and year.
+        Example queries:
+        User Query: Show total crude oil imports in metric tonnes for April 2025.
+        User Query: List the USD value of LPG imports for each month in 2025.
+        User Query: Get all petroleum product imports for April 2025 with their quantities and values.
+        
+        45. energy_nat_mth_crude_oil_prod : Monthly crude oil production data by company, including quantities in thousand metric tonnes.
+        Instructions: Use this table to analyze or retrieve monthly crude oil production figures by company, year, and month.
+        Example queries:
+        User Query: Show total crude oil production for each company in 2023.
+        User Query: List crude oil production for May 2023 by company.
+        User Query: Get the monthly crude oil production trend for 'OIL' in 2023.
+        
+        46. energy_nat_mth_petroleum_prod : Monthly production data of various petroleum products, including product type, quantity produced (in thousand metric tonnes), and update date.
+        Instructions: Use this table to retrieve, filter, or aggregate monthly petroleum production quantities by product, month, or year.
+        Example queries:
+        User Query: Show the total quantity of petroleum products produced in April 2023.
+        User Query: List all products and their quantities for May 2023.
+        User Query: Get the latest update date for the petroleum production data.
+        
+        47. mca_nat_mth_comp_closed : This table contains information about companies whose compliance for a particular month and year has been closed, including company details and relevant dates.
+        Instructions: Use this table to find companies with closed compliance for specific months and years, or to track when compliance was released or updated.
+        Example queries:
+        User Query: Show all companies whose compliance was closed in September 2025.
+        User Query: List the CIN and company names for companies with compliance released on 2025-10-01.
+        User Query: Find all records updated after 2025-10-20.
+        User Query: Get the details of companies from Karnataka whose compliance was closed in September 2025. 
+        
+        48. mca_nat_mth_companies_registered : This table contains details of companies registered in a given month, including their CIN, class, name, registration date, type, activity code, and relevant update dates.
+        Instructions: Use this table to retrieve information about newly registered companies, filter by registration date, company class, type, or activity code, and analyze company registration trends.
+        Example queries:
+        User Query: Show all companies registered on 2025-04-01.
+        User Query: List the names and CINs of all Private companies registered in April 2025.
+        User Query: How many One Person Companies were registered in May 2025?
+        User Query: Get all companies with activity code 41.00.
+        
+        49. none_of_these: Use this option if none of the above files contain the data required to answer the query.
+        
         Consider the list above and respond only with one of the following file names:
         [irdai_nonlife_india_mth_insurer, fpi_india_yr_invtype, wages_sector_industry_index, eshram_state_dly_registrations, stock_india_mth_boaccounts, stock_india_mth_dps, fdi_state_qtr_view, revenue_maharashtra_fy_category, mf_monthly_schemes,
         statewise_petroleum_consumption, co2_emissions_by_fuel_yearly, quick_estimates_major_commodities_july_export, quick_estimates_major_commodities_july_import, statewise_cumulative_renewable_power, marketcap_nse_india_mth, ki_assam_mth_sctg,
         insurance_india_mth_sctg,toll_state_monthly_etc_transactions, ev_state_yr_catg, trade_india_mth_commodity_import, trade_india_mth_commodity_export, trade_india_mth_stateut_country_export, trade_india_mth_stateut_country_export,
         trade_india_mth_commoditygrp_country_export, fdi_india_fy_state, fdi_india_fy_sector, fdi_india_fy_country, energy_india_statewise_crude_oil_ngas_reserves, energy_india_statewise_coal_reserves,
-        crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly,mf_india_qtr_total, insurance_india_mth_life_insurer,trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month, trade_india_mth_country, trade_india_mth_region, cumulative_capacity_state_month, none_of_these]
+        crude_oil_mth_data, ppac_mth_petroleum_consumption, ores_minerals_exports_yearly,mf_india_qtr_total, insurance_india_mth_life_insurer,trade_india_annual_country, trade_india_mth_region_commodity, port_dwell_time_month, trade_india_mth_country,
+        trade_india_mth_region, cumulative_capacity_state_month, netc_india_mth_stats, ins_nat_yr_fin_highlights, company_india_annual_type_mca, energy_nat_ann_petroleum_products_consumption, energy_wld_nat_mth_crude_petroleum_trade, energy_nat_mth_crude_oil_prod,
+        energy_nat_mth_petroleum_prod, mca_nat_mth_comp_closed, mca_nat_mth_companies_registered, none_of_these]
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
 
 """)
@@ -596,11 +669,65 @@ def file_selector_agriculture_and_rural(query):
         Sample queries:
         a. What percentage of leased-out land in Bihar was under fixed produce terms for all household sizes in July-December 2018?
         b. How many households per 1000 reported leasing out land of size 1.0-2.0 ha in Rajasthan during January-June 2019?
-
-        26. none_of_these: This should be used when the query is unrelated to agricultural household crop sales, crop-selling agencies, or seasonal crop marketing patterns. For example, queries about GDP, inflation, government policies, crop production volume, weather, or support prices (MSP) fall under this category.
+        
+        26. annual_mean_temperature : This table contains annual and seasonal mean temperature data by year, including temperature values for different periods within each year.
+        Instructions: Use this table to retrieve mean temperature values for specific years, periods (such as annual or seasonal), or to analyze temperature trends over time.
+        Example queries:
+        User Query: What was the annual mean temperature in 2024?
+        User Query: Show the mean temperature for each period in 2024.
+        User Query: List all available years in the dataset.
+        User Query: Get the mean temperature for Mar-May across all years.
+        
+        27. fish_production_yearly : This table contains yearly fish production data for Indian states and union territories, including the year, indicator, unit, state, and production value.
+        Instructions: Use this table to retrieve or analyze fish production figures by year, state, or other attributes such as unit or indicator.
+        Example queries:
+        User Query: Show total fish production for Andhra Pradesh in 2023-24.
+        User Query: List all states with their fish production values for the year 2023-24.
+        User Query: What was the fish production in Arunachal Pradesh in 2023-24?
+        
+        28. watersheds_in_india : This table contains data on watersheds in India, including year, indicator, sub-indicator, river length, sub-basin, and corresponding values such as area in square kilometers.
+        Instructions: Use this table to retrieve information about watershed areas, river lengths, sub-basins, and related indicators for different years in India.
+        Example queries:
+        User Query: Show the area in square kilometers for each sub-basin of the Indus river in 2019.
+        User Query: List all available sub-indicators for the year 2019.
+        User Query: Get the total area covered by all sub-basins of the Indus river in 2019.
+        
+        29. river_basin_catchment : This table contains data on the catchment areas of major river basins, including details such as year, indicator, unit, sub-indicator, river name, and the corresponding value.
+        Instructions: Use this table to retrieve information about the catchment area sizes of various river basins by year, river name, or other related attributes.
+        Example queries:
+        User Query: Show the catchment area for all rivers in 2024.
+        User Query: List the catchment area of the Indus (Eastern) river.
+        User Query: What is the total catchment area covered by all rivers in the latest year?
+        
+        30. coastline_population_and_length : This table provides data on the length of coastline and the coastal population for different states of India by year, including specific sub-indicators for population and coastline length.
+        Instructions: Use this table to retrieve information about the coastal population or coastline length for Indian states for specific years or to compare these metrics across states.
+        Example queries:
+        User Query: What was the coastal population of Andhra Pradesh in 2025?
+        User Query: List the coastline length for all states in 2025.
+        User Query: Show the coastal population and coastline length for Andaman and Nicobar Islands in 2025.
+        
+        31. rainfall_annualy_and_monthly : This table contains annual and monthly rainfall data, including the year, month, rainfall value, and measurement unit.
+        Instructions: Use this table to retrieve rainfall statistics by year and month, filter by specific periods, or aggregate rainfall values.
+        Example queries:
+        User Query: Show the total rainfall for each month in 2024.
+        User Query: Get the rainfall value for March 2024.
+        User Query: List all available years in the rainfall data.
+        
+        32. faunal_diversity : This table provides data on the diversity of marine faunal species in India and the world, categorized by indicator, unit, sub-indicator, phylum, and numeric value.
+        Instructions: Use this table to retrieve information about the number and types of marine faunal species, grouped by various taxonomic phyla and indicators. Filter by indicator, sub-indicator, or phylum as needed.
+        Example queries:
+        User Query: Show the total number of marine faunal species of world for each phylum.
+        User Query: List all available sub-indicators in the faunal diversity data.
+        User Query: Get the value for PROTOZOA under the indicator 'Faunal diversity in India and the world'.  annual_mean_temperature, fish_production_yearly, watersheds_in_india, river_basin_catchment, coastline_population_and_length, rainfall_annualy_and_monthly, faunal_diversity
+        
+        
+        23. none_of_these: This should be used when the query is unrelated to agricultural household crop sales, crop-selling agencies, or seasonal crop marketing patterns. For example, queries about GDP, inflation, government policies, crop production volume, weather, or support prices (MSP) fall under this category.
 
         Consider the list above and respond only with one of the following file names:
-        [sa_agri_hhs_crop_sale_quantity_by_agency_major_disposal, sa_agri_hhs_reporting_use_of_diff_farming_resources, sa_agri_hhs_use_purchased_seed_by_quality, sa_avg_expenditure_and_receipts_on_farm_and_nonfarm_assets, sa_avg_gross_cropped_area_value_quantity_crop_production, sa_avg_monthly_expenses_and_receipts_for_crop_production, sa_avg_monthly_total_expenses_crop_production, sa_avg_monthly_total_expenses_receipts_animal_farming_30_days, sa_dist_agri_hh_not_insuring_crop_by_reason_for_selected_crop, sa_dist_agri_hhs_seed_use_by_agency_of_procurement, sa_dist_hhs_leasing_out_land_and_avg_area_social_group, sa_dist_of_agri_hhs_reporting_use_of_purchased_seed, sa_dist_of_hhs_by_hh_classification_for_diff_classes_of_land, sa_distribution_hhs_leasing_in_land_avg_area_social_group, sa_distribution_loan_outstanding_by_source_of_loan_taken, sa_distribution_operational_holdings_by_possession_type, sa_est_num_of_hhs_for_each_size_class_of_land_possessed, sa_estimated_no_of_hhs_for_different_social_groups, sa_no_of_hhs_owning_of_livestock_of_different_types, sa_no_per_1000_distri_of_agri_hhs_reporting_sale_of_crops, sa_no_per_hh_operational_holding_by_size_hh_oper_holding, sa_per_1000_agri_hh_insured_experienced_crop_loss, sa_per_1000_crop_producing_hh_crop_disposal_agency_sale_satisf, sa_perc_dist_of_land_for_hhs_belonging_operational_holding, sa_percent_distribution_of_leased_out_land_by_terms_of_lease, none_of_these]
+        [sa_agri_hhs_crop_sale_quantity_by_agency_major_disposal, sa_agri_hhs_reporting_use_of_diff_farming_resources, sa_agri_hhs_use_purchased_seed_by_quality, sa_avg_expenditure_and_receipts_on_farm_and_nonfarm_assets, sa_avg_gross_cropped_area_value_quantity_crop_production, sa_avg_monthly_expenses_and_receipts_for_crop_production, sa_avg_monthly_total_expenses_crop_production, sa_avg_monthly_total_expenses_receipts_animal_farming_30_days,
+        sa_dist_agri_hh_not_insuring_crop_by_reason_for_selected_crop, sa_dist_agri_hhs_seed_use_by_agency_of_procurement, sa_dist_hhs_leasing_out_land_and_avg_area_social_group, sa_dist_of_agri_hhs_reporting_use_of_purchased_seed, sa_dist_of_hhs_by_hh_classification_for_diff_classes_of_land, sa_distribution_hhs_leasing_in_land_avg_area_social_group, sa_distribution_loan_outstanding_by_source_of_loan_taken, sa_distribution_operational_holdings_by_possession_type,
+        sa_est_num_of_hhs_for_each_size_class_of_land_possessed, sa_estimated_no_of_hhs_for_different_social_groups, sa_no_of_hhs_owning_of_livestock_of_different_types, sa_no_per_1000_distri_of_agri_hhs_reporting_sale_of_crops, sa_no_per_hh_operational_holding_by_size_hh_oper_holding, sa_per_1000_agri_hh_insured_experienced_crop_loss, sa_per_1000_crop_producing_hh_crop_disposal_agency_sale_satisf, sa_perc_dist_of_land_for_hhs_belonging_operational_holding,
+        sa_percent_distribution_of_leased_out_land_by_terms_of_lease,annual_mean_temperature, fish_production_yearly, watersheds_in_india, river_basin_catchment, coastline_population_and_length, rainfall_annualy_and_monthly, faunal_diversity, none_of_these]
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
     """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
@@ -855,8 +982,9 @@ def file_selector_enterprise_surveys(query):
         Query: Show the number of factories in India for each year.
         Query: Get all available data for the year 1982-83.
         Query: List the years and values for all records sourced from 'Enterprise Survey Division MoSPI'.
-
-        54. none_of_these: for any queries which are unrelated to above files.
+        
+        
+        38. none_of_these: for any queries which are unrelated to above files.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [asuse_est_annual_gva_per_establishment, asuse_est_num_establishments_pursuing_mixed_activity, asuse_per1000_estb_by_hours_worked_per_day, asuse_per1000_estb_by_months_operated_last_365days, asuse_per1000_estb_registered_under_acts_authorities, asuse_per1000_estb_using_computer_internet_last365_days, asuse_per1000_of_estb_using_internet_by_type_of_its_use, asuse_per1000_proppartn_estb_by_edu_owner_mjr_partner, asuse_per1000_proppartn_estb_by_other_econ_activities,
@@ -993,12 +1121,19 @@ def file_selector_worker_surveys(query):
         Query: Get the number of new subscribers aged 18-21 for each month.
         Query: Find the month with the highest number of establishments remitting their first ECR.
         Query: Show the total new subscribers by age group for the year 2019-20.
+        
+        17. epfo_nat_ind_exempted_establishments_list : This table contains a list of exempted establishments under EPFO, including their IDs, names, the relevant month, and release/update dates.
+        Instructions: Use this table to find information about exempted establishments, such as their names, IDs, and the months for which they are listed. You can filter by establishment name, ID, month, or date fields.
+        Example queries:
+        User Query: Show all exempted establishments for August 2024.
+        User Query: List the names and IDs of establishments updated after October 2025.
+        User Query: Find the release date for 'ROURKELA STEEL PLANT'.
 
-        17. none_of_these: for any queries which are unrelated to above files.
+        18. none_of_these: for any queries which are unrelated to above files.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [asuse_est_annual_emoluments_per_hired_worker,asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_statewise_est_num_of_worker_by_employment_and_gender, asuse_statewise_estimated_annual_emoluments_per_hired_worker, aasuse_statewise_estimated_annual_gva_per_worker_rupees,
-        asuse_statewise_estimated_number_of_workers_by_type_of_workers, asi_no_of_workers_and_person_engaged,periodic_labour_force_survey, lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age, epfo_india_mth_payroll,  none_of_these]
+        asuse_statewise_estimated_number_of_workers_by_type_of_workers, asi_no_of_workers_and_person_engaged,periodic_labour_force_survey, lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age, epfo_india_mth_payroll,epfo_nat_ind_exempted_establishments_list,  none_of_these]
 
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
@@ -1583,14 +1718,39 @@ def file_selector_social_migration_and_households(query):
         Query: List the rural and urban literacy rates for persons aged 15-24 in Andhra Pradesh.
         Query: Get the literacy rates for all persons in Arunachal Pradesh for the 15-24 age group.
 
-        25. none_of_these: for any queries which are unrelated to above tables.
+        25. hces_state_yr_assets : This table provides state-wise and year-wise data on household ownership of telephones/mobiles and computers in rural and urban areas across India.
+        Instructions: Use this table to analyze the penetration of telephones/mobiles and computers in rural, urban, and overall households by state and year. Filter by 'state_ut' and 'year' for specific regions and periods.
+        Example queries:
+        User Query: Show the percentage of rural households with computers in Assam for 2022-23.
+        User Query: List all states with more than 90% mobile/telephone ownership in rural areas for 2022-23.
+        User Query: Get the urban computer ownership percentage for Arunachal Pradesh in 2022-23.
+        User Query: Show all columns for Andhra Pradesh for the year 2022-23.
+        
+        26. tlm_state_yr_transport_access : This table provides annual data on transport access percentages for each Indian state/UT, including urban low and high capacity transport access and rural all-weather road access.
+        Instructions: Use this table to retrieve or analyze state-wise or year-wise statistics on urban and rural transport access percentages.
+        Example queries:
+        User Query: Show the urban low capacity transport access percentage for all states in 2022-23.
+        User Query: Which states had rural all-weather road access above 90% in 2022-23?
+        User Query: List the urban high capacity transport access percentage for Assam.
+        
+        27. env_state_yr_river_water_quality : This table contains annual river water quality statistics for Indian states and union territories, including temperature, dissolved oxygen, pH, conductivity, BOD, nitrate, and coliform levels.
+        Instructions: Use this table to analyze or retrieve yearly river water quality parameters by state/UT, such as temperature ranges, dissolved oxygen, pH, conductivity, BOD, nitrate, and coliform counts. Filter by 'state_ut' and 'year' as needed.
+        Example queries:
+        User Query: Show the minimum and maximum dissolved oxygen levels for Assam in 2022.
+        User Query: List all states with their maximum BOD values for the year 2022.
+        User Query: Get the pH range for Andhra Pradesh for the latest available year.
+        User Query: Find states where the maximum nitrate level exceeded 5 mg/l in 2022. 
+        
+        
+        28. none_of_these: for any queries which are unrelated to above tables.
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
         [mis_access_to_improved_source_of_drinking_water, mis_access_to_mass_media_and_broadband, mis_availability_of_basic_transport_and_public_facility, mis_different_source_of_finance,
         mis_exclusive_access_to_improved_latrine, mis_household_assets, mis_improved_latrine_and_hand_wash_facility_in_households, mis_improved_source_of_drinking_water_within_household,
         mis_income_change_due_to_migration, mis_main_reason_for_leaving_last_usual_place_of_residence, mis_main_reason_for_migration, mis_possession_of_air_conditioner_and_air_cooler,
         mis_usage_of_mobile_phone, mis_usual_place_of_residence_different_from_current_place,aadhaar_demographic_monthly_data, aadhaar_biometric_monthly_data, cghs_approved_hospital_data,
-        labour_india_sector_industry_occupation_wages, labour_india_rural_wages, airport_sewa_services_data, traffic_india_mth_air_passengers, sp_india_daily_state, demography_india_yr_popsexgrowth, demography_india_state_yr_literacy, none_of_these]
+        labour_india_sector_industry_occupation_wages, labour_india_rural_wages, airport_sewa_services_data, traffic_india_mth_air_passengers, sp_india_daily_state, demography_india_yr_popsexgrowth, demography_india_state_yr_literacy,
+        hces_state_yr_assets, tlm_state_yr_transport_access, env_state_yr_river_water_quality, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
@@ -1793,13 +1953,22 @@ def file_selector_GST(query):
         “Which state received the highest GST refunds in FY 2020-21?”
         “Show me the refund split (CGST, SGST, IGST, Cess) for Maharashtra in FY 2019-20.”
         “List the bottom 5 states by refund amounts in FY 2022-23.”
+        
+        11. ewb_state_mth_stats : Monthly statistics of e-way bills for each state, including counts and assessable values for within-state, outgoing, and incoming transactions.
+        Instructions: Use this table to analyze e-way bill activity by state, year, and month, including supplier counts and assessable values for within-state, outgoing, and incoming movements.
+        Example queries:
+        User Query: Show the total number of e-way bills generated within Punjab in August 2025.
+        User Query: List the assessable value of incoming e-way bills for all states for August 2025.
+        User Query: Get the number of outgoing suppliers for Himachal Pradesh in August 2025.
+        User Query: Show all columns for Jammu and Kashmir for August 2025.
+        
 
 
-        11. none_of_these: for any queries which are unrelated to GST or taxes. for example, queries regarding gdp, iip, msme would fall under the "none" category. queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
+        12. none_of_these: for any queries which are unrelated to GST or taxes. for example, queries regarding gdp, iip, msme would fall under the "none" category. queries regarding the general state of the economy, government policies, and upcoming challenges also fall under the none_of_these category.
 
 
         ## Consider the list above, and respond ONLY with one of the file names from the following list:
-        [gst_registrations, gst_statewise_tax_collection_refund_data, gst_statewise_tax_collection_data, gst_settlement_of_igst_to_states, gstr_three_b, gstr_one, gross_and_net_tax_collection, gst_statewise_fiscal_year_collection_view, gst_statewise_fiscal_year_igst_settlement_view, gst_statewise_fiscal_year_refund_view, none_of_these]
+        [gst_registrations, gst_statewise_tax_collection_refund_data, gst_statewise_tax_collection_data, gst_settlement_of_igst_to_states, gstr_three_b, gstr_one, gross_and_net_tax_collection, gst_statewise_fiscal_year_collection_view, gst_statewise_fiscal_year_igst_settlement_view, gst_statewise_fiscal_year_refund_view, ewb_state_mth_stats, none_of_these]
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)

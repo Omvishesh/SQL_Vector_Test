@@ -97,9 +97,13 @@ def setup_logging(filename_prefix: str, level: int = logging.INFO) -> logging.Lo
     # Create formatter
     formatter = QueryIDFormatter()
 
-    # Setup file handler
+    # Setup file handler (for local file logging/debugging)
     file_handler = logging.FileHandler(filename)
     file_handler.setFormatter(formatter)
+    
+    # Setup stream handler (writes to stdout/stderr - REQUIRED for Cloud Run/GCP Logging)
+    stream_handler = logging.StreamHandler()
+    stream_handler.setFormatter(formatter)
 
     # Configure root logger
     root_logger = logging.getLogger()
@@ -108,8 +112,9 @@ def setup_logging(filename_prefix: str, level: int = logging.INFO) -> logging.Lo
     # Clear existing handlers
     root_logger.handlers.clear()
 
-    # Add only file handler (no console output)
+    # Add handlers
     root_logger.addHandler(file_handler)
+    root_logger.addHandler(stream_handler) # <-- This makes your logs visible in Cloud Run
 
     return root_logger
 
