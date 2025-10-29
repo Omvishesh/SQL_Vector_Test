@@ -60,15 +60,15 @@ logger = get_logger(__name__)
 #     )
 #     return response.choices[0].message.content
 
-def openai_call(system_instruct, user_content, model="gpt-4.1"):
+async def openai_call(system_instruct, user_content, model="gpt-4.1"):
     """
     Calls the OpenAI API and returns the content and token usage.
     """
-    response = open_ai_client.chat.completions.create(
+    response = await open_ai_client.chat.completions.create(
         model=model,
         messages=[
-            {"role": "system", "content": [{"type": "text", "text": str(system_instruct)}]},
-            {"role": "user", "content": [{"type": "text", "text": str(user_content)}]}
+            {"role": "system", "content": system_instruct},
+            {"role": "user", "content": user_content}
         ],
         temperature=0
     )
@@ -246,7 +246,7 @@ def query_certify_valid(user_query):
     return validity, i_tokens, o_tokens
 
 
-def clarify_query(user_query):
+async def clarify_query(user_query):
     curdate = strftime("%Y-%m", gmtime())
     system_instruction=dedent(f"""You are tasked with rephrasing the given query to make it easier for an SQL RAG agent to pull the right data.
 
@@ -288,9 +288,9 @@ def clarify_query(user_query):
                         DO NOT miss out on any important words from the original query.
                         YOU MUST include specified categories and/or states, date range, in the rephrased query!!!!
                         DO NOT include any thinking traces or text apart from the json format above.
-            """),
+            """)
     # MODIFIED: Capture token usage from openai_call
-    rephrased_query, i_tokens, o_tokens = openai_call(system_instruction, user_query)
+    rephrased_query, i_tokens, o_tokens = await openai_call(system_instruction, user_query)
     rephrased_query = rephrased_query.strip()
 
     return rephrased_query, i_tokens, o_tokens

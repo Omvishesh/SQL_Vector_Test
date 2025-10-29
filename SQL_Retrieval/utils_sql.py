@@ -120,7 +120,7 @@ def classify_query(query):
     query_class, i_tokens, o_tokens = llm_call(system_instruction, query)
     return query_class.strip(), i_tokens, o_tokens
 
-def file_selector_finance_and_industry(query):
+async def file_selector_finance_and_industry(query):
     system_instruction = dedent(f"""
         You are tasked with identifying the file that contains the required data based on the query: "{query}".
         You must pick one file name only from the following list:
@@ -512,10 +512,10 @@ def file_selector_finance_and_industry(query):
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
 
 """)
-    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    selected_file, i_tokens, o_tokens = await openai_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 
-def file_selector_agriculture_and_rural(query):
+async def file_selector_agriculture_and_rural(query):
     system_instruction = dedent(f"""
         You are tasked with identifying the file that contains the required data based on the query: "{query}".
         You must pick one file name only from the following list:
@@ -731,10 +731,10 @@ def file_selector_agriculture_and_rural(query):
         sa_percent_distribution_of_leased_out_land_by_terms_of_lease,annual_mean_temperature, fish_production_yearly, watersheds_in_india, river_basin_catchment, coastline_population_and_length, rainfall_annualy_and_monthly, faunal_diversity, none_of_these]
         Do not include any reasoning, explanation, or other text—only respond with the selected file name from the list above.
     """)
-    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    selected_file, i_tokens, o_tokens = await openai_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 
-def file_selector_enterprise_surveys(query):
+async def file_selector_enterprise_surveys(query):
     system_instruction=dedent(f"""
         You are tasked with identifying the file that contains the required data based on the query: "{query}".
         You must pick one file name only from the following list:
@@ -996,10 +996,10 @@ def file_selector_enterprise_surveys(query):
 
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
-    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    selected_file, i_tokens, o_tokens = await openai_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 
-def file_selector_worker_surveys(query):
+async def file_selector_worker_surveys(query):
     system_instruction=dedent(f"""
         You are tasked with identifying the file that contains the required data based on the query: "{query}".
         You must pick one file name only from the following list:
@@ -1068,7 +1068,7 @@ def file_selector_worker_surveys(query):
         Use this table for queries about: employment rates, unemployment statistics, labour force participation, worker demographics, job market analysis, employment by education/gender/age.
 
         **Query Classification Guidelines:**
-        - If query mentions "labour force", "unemployment rate", "employment statistics", "job market", "job creation", "worker participation", "employment demographics", "labour force participation", "workforce", "job seekers" → periodic_labour_force_survey
+        - If query mentions "labour force", "unemployment rate", "employment statistics", "job market", "job creation","worker participation", "employment demographics", "labour force participation", "workforce", "job seekers" → periodic_labour_force_survey
         Sample queries:
         Query1: "Labour force participation rate in India for 2022-23"
         Query2: "Unemployment rate by gender in urban areas"
@@ -1138,7 +1138,7 @@ def file_selector_worker_surveys(query):
 
         Do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
-    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    selected_file, i_tokens, o_tokens = await openai_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 
 # def file_selector_enterprise_establishment_surveys(query):
@@ -1555,7 +1555,7 @@ def file_selector_worker_surveys(query):
 #     selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
 #     return selected_file.strip(), i_tokens, o_tokens
 
-def file_selector_social_migration_and_households(query):
+async def file_selector_social_migration_and_households(query):
     system_instruction=dedent(f"""
         You are tasked with identifying the file that contains the required data based on the query: "{query}".
         You must pick one file name only from the following list:
@@ -1754,7 +1754,7 @@ def file_selector_social_migration_and_households(query):
         hces_state_yr_assets, tlm_state_yr_transport_access, env_state_yr_river_water_quality, none_of_these]
         do not include any reasoning traces or other text apart from the file name selected from the above list.
             """)
-    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    selected_file, i_tokens, o_tokens = await openai_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 
 def file_selector_CPI(query):
@@ -1975,7 +1975,7 @@ def file_selector_GST(query):
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 
-def file_selector_GDP(query):
+async def file_selector_GDP(query):
     system_instruction=dedent(f"""
         You are tasked with identifying the file that contains the required data based on the query: "{query}".
         You must pick one file name only from the following list:
@@ -2264,10 +2264,10 @@ def file_selector_GDP(query):
         gdp_india_qtr_secsector_estimates_dtls_view, gdp_india_qtr_tersector_estimates_dtls_view, gdp_india_qtr_expenditure_estimates_dtls_view,gdp_state_fy_subindustry_actuals_view, none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
 """)
-    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    selected_file, i_tokens, o_tokens = await openai_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 
-def file_selector_IIP(query):
+async def file_selector_IIP(query):
     system_instruction=dedent(f"""
         You are tasked with identifying the file that contains the required data based on the query: "{query}".
         You must pick one file name only from the following list:
@@ -2413,7 +2413,7 @@ def file_selector_IIP(query):
         iip_in_rajasthan_monthly,iip_in_rajasthan_fy_index,iip_in_rajasthan_two_digit_index,iip_in_kerala_fy_index,iip_in_kerala_monthly,iip_in_kerala_quarterly, annual_chemical_production_data, vehicle_registrations_state, none_of_these]
         DO NOT include any reasoning traces or other text apart from the file name selected from the above list.
     """)
-    selected_file, i_tokens, o_tokens = openai_call(system_instruction, query)
+    selected_file, i_tokens, o_tokens = await openai_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 
 def file_selector_MSME(query):
@@ -2670,7 +2670,7 @@ def file_selector_district_level(query):
     selected_file, i_tokens, o_tokens = llm_call(system_instruction, query)
     return selected_file.strip(), i_tokens, o_tokens
 
-def rephrase_for_table(query, schema, context, table_name):
+async def rephrase_for_table(query, schema, context, table_name):
     instructions = f"""
     Given the following table schema: {schema} and the context: {context} for the table {table_name}, rephrase the provided query to make it easier for an SQL agent to pull the right data.
 
@@ -2705,7 +2705,7 @@ def rephrase_for_table(query, schema, context, table_name):
         query --> Growth in electricity production from June 2020 to June 2022
         SQL query --> SELECT * FROM {table_name} WHERE year >= '2020-21' AND year <= '2022-23' AND sector_type = 'Sectoral' AND category = 'Electricity' AND sub_category = '*' LIMIT 125;
     """
-    rephrased, i_tokens, o_tokens = openai_call(instructions, query)
+    rephrased, i_tokens, o_tokens = await openai_call(instructions, query)
     return rephrased.strip(), i_tokens, o_tokens
 
 def identify_generic_columns(schema):
@@ -2739,12 +2739,12 @@ def identify_generic_columns(schema):
         col_list = []
     return col_list
 
-def generate_sql_query(query, schema, context, table_name, last_error="N/A"):
+async def generate_sql_query(query, schema, context, table_name, last_error="N/A"):
     #if "resulted in no data" not in last_error:
         #columns = str(identify_generic_columns(query, schema))
         #query = str(query) + '''\nEnsure you set the following columns to generic values: ''' + columns)
     if last_error == "N/A":
-        sql_query, i_tokens, o_tokens = rephrase_for_table(query, schema, context, table_name)
+        sql_query, i_tokens, o_tokens = await rephrase_for_table(query, schema, context, table_name)
         return sql_query, query, i_tokens, o_tokens
 
     instructions = dedent(f"""Given the following table context for {table_name}: {context}\nCan you generate a valid SQL query to get the contents for the natural language query attached below? Be very specific and make sure you output ONLY the SQL query as a string without any other text. Remember to pull all the informative columns in the table, and not just the requested values.
@@ -2770,7 +2770,7 @@ def generate_sql_query(query, schema, context, table_name, last_error="N/A"):
     if last_error != "N/A":
         instructions += dedent(f"""EXTREMELY IMPORTANT: Keep in mind that your last attempt returned the error: {last_error}
         """)
-    sql_query, i_tokens, o_tokens = openai_call(instructions, query)
+    sql_query, i_tokens, o_tokens = await openai_call(instructions, query)
     return sql_query.strip(), query, i_tokens, o_tokens
 
 def table_citation(selected_file):
@@ -2908,13 +2908,13 @@ def table_citation(selected_file):
         citation = "Unknown"
     return citation
 
-def data_description(headers):
+async def data_description(headers):
     system_instruction=dedent("""You are given the following condensed description of the data pulled from internal insights. Can you create a short description of the data in a paragraph between 20 and 50 words? If any json format data is present, also include a couple of insights from the data.
             """)
-    description, i_tokens, o_tokens = openai_call(system_instruction, headers, model="gpt-4o-mini")
+    description, i_tokens, o_tokens = await openai_call(system_instruction, headers, model="gpt-4o-mini")
     return description, i_tokens, o_tokens
 
-def rationalize_information(result, headers, query):
+async def rationalize_information(result, headers, query):
     if query == "":
         query = "Summarize the provided information, and state that this summary is being provided because the data size was too large to answer the query precisely."
     system_instruction=dedent(f"""
@@ -2929,10 +2929,10 @@ def rationalize_information(result, headers, query):
                                   5. If tabular representation is not possible, provide the information as nicely formatted text (paragraph of around 200 words) or bullet points (approximately 10).
                                   6. Be very brief and focus on answering the provided query. Do not provide decorative information. However, include all data relevant to the time range in {query}.
                               """)
-    rationalized_info, i_tokens, o_tokens = openai_call(system_instruction, query, model="gpt-4o-mini")
+    rationalized_info, i_tokens, o_tokens = await openai_call(system_instruction, query, model="gpt-4o-mini")
     return rationalized_info.strip(), i_tokens, o_tokens
 
-def handle_pandas_response(df, query, orig_query, max_rows, nq):
+async def handle_pandas_response(df, query, orig_query, max_rows, nq):
     df.to_csv("debug_dataframe.csv")
     total_i_tokens, total_o_tokens = 0, 0
 
@@ -2944,7 +2944,7 @@ def handle_pandas_response(df, query, orig_query, max_rows, nq):
             #headers_text, i, o = data_description("Data context: " + headers)
             #total_i_tokens += i; total_o_tokens += o
             #result = df.to_dict(orient='records')
-            headers_text, i, o = data_description(headers + "\nData: " + str(rationalized_info))
+            headers_text, i, o = await data_description(headers + "\nData: " + str(rationalized_info))
             total_i_tokens += i; total_o_tokens += o
             #return result, headers_text.strip(), total_i_tokens, total_o_tokens
             return {"summarized_info": rationalized_info}, headers_text.strip(), total_i_tokens, total_o_tokens
@@ -3006,7 +3006,7 @@ def handle_pandas_response(df, query, orig_query, max_rows, nq):
         # Sort the DataFrame by the 'date' columnß
         df = df.sort_values(by='date',ascending=False).reset_index(drop=True)
         try:
-            check_top_k, i, o = openai_call("""Consider the query given below. Your task is to identify if this is a query that compares or ranks certain quantities, categories, states, etc. according to some value.
+            check_top_k, i, o = await openai_call("""Consider the query given below. Your task is to identify if this is a query that compares or ranks certain quantities, categories, states, etc. according to some value.
                 For example:
                 - "Top 5 states GDP"
                 - "Top 3 categories by inflation"
@@ -3030,29 +3030,29 @@ def handle_pandas_response(df, query, orig_query, max_rows, nq):
 
         if True:
             rationalized_info = df.to_markdown(index=False)
-            headers_text, i, o = data_description("Data context: " + headers)
+            headers_text, i, o = await data_description("Data context: " + headers)
             total_i_tokens += i; total_o_tokens += o
         else:
             if (nrows <= 12) or (nq == 1):
                 result = df.to_dict(orient='records')
-                headers_text, i, o = data_description(headers + "\nData: " + str(result))
+                headers_text, i, o = await data_description(headers + "\nData: " + str(result))
                 total_i_tokens += i; total_o_tokens += o
                 return result, headers_text.strip(), total_i_tokens, total_o_tokens
 
             if 12 < nrows < max_rows:
                 result = df.to_dict(orient='records')
-                rationalized_info, i_rat, o_rat = rationalize_information(result, headers, orig_query + query)
+                rationalized_info, i_rat, o_rat = await rationalize_information(result, headers, orig_query + query)
                 total_i_tokens += i_rat; total_o_tokens += o_rat
 
-                headers_text, i_desc, o_desc = data_description(headers)
+                headers_text, i_desc, o_desc = await data_description(headers)
                 total_i_tokens += i_desc; total_o_tokens += o_desc
                 return {"summarized_info": rationalized_info.strip()}, headers_text.strip(), total_i_tokens, total_o_tokens
 
             result = df.to_dict(orient='records')
-            rationalized_info, i_rat, o_rat = rationalize_information(result, headers, "Too many rows...")
+            rationalized_info, i_rat, o_rat = await rationalize_information(result, headers, "Too many rows...")
             total_i_tokens += i_rat; total_o_tokens += o_rat
 
-            headers_text, i_desc, o_desc = data_description(headers)
+            headers_text, i_desc, o_desc = await data_description(headers)
             total_i_tokens += i_desc; total_o_tokens += o_desc
         return {"summarized_info": rationalized_info.strip()}, headers_text.strip(), total_i_tokens, total_o_tokens
         #return str(rationalized_info).strip(), headers_text.strip(), total_i_tokens, total_o_tokens
@@ -3061,7 +3061,7 @@ def handle_pandas_response(df, query, orig_query, max_rows, nq):
         if "date" in list(df):
             df = df.drop(columns=["date"])
 
-        headers_text, i, o = data_description(headers)
+        headers_text, i, o = await data_description(headers)
         total_i_tokens += i; total_o_tokens += o
 
         if len(df) > 100:

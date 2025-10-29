@@ -249,7 +249,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
     total_output_tokens['gemini-2.0-flash'] += o_tokens
 
     if query_class == "finance_and_industry":
-        selected_file, i_tokens, o_tokens = file_selector_finance_and_industry(unit_query)
+        selected_file, i_tokens, o_tokens = await file_selector_finance_and_industry(unit_query)
         total_input_tokens['gemini-2.0-flash'] += i_tokens
         total_output_tokens['gemini-2.0-flash'] += o_tokens
         ref_url = "not defined yet"
@@ -263,14 +263,14 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
         logger.info(f"Selected file: {selected_file}")
 
     if query_class == "GDP":
-        selected_file, i_tokens, o_tokens = file_selector_GDP(unit_query)
+        selected_file, i_tokens, o_tokens = await file_selector_GDP(unit_query)
         total_input_tokens['gpt-4.1'] += i_tokens
         total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators?product=nas"
         logger.info(f"Selected file: {selected_file}")
 
     if query_class == "IIP":
-        selected_file, i_tokens, o_tokens = file_selector_IIP(unit_query)
+        selected_file, i_tokens, o_tokens = await file_selector_IIP(unit_query)
         total_input_tokens['gpt-4.1'] += i_tokens
         total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators?product=iip"
@@ -284,14 +284,14 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
         logger.info(f"Selected file: {selected_file}")
 
     if (query_class == "agriculture_and_rural"):
-        selected_file, i_tokens, o_tokens = file_selector_agriculture_and_rural(unit_query)
+        selected_file, i_tokens, o_tokens = await file_selector_agriculture_and_rural(unit_query)
         total_input_tokens['gpt-4.1'] += i_tokens
         total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main/macroindicators?product=nss77"
         logger.info(f"Selected file: {selected_file}")
 
     if (query_class == "social_migration_and_households"):
-        selected_file, i_tokens, o_tokens = file_selector_social_migration_and_households(unit_query)
+        selected_file, i_tokens, o_tokens = await file_selector_social_migration_and_households(unit_query)
         total_input_tokens['gpt-4.1'] += i_tokens
         total_output_tokens['gpt-4.1'] += o_tokens
 
@@ -299,14 +299,14 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
         logger.info(f"Selected file: {selected_file}")
 
     if (query_class == "enterprise_surveys"):
-        selected_file, i_tokens, o_tokens = file_selector_enterprise_surveys(unit_query)
+        selected_file, i_tokens, o_tokens = await file_selector_enterprise_surveys(unit_query)
         total_input_tokens['gpt-4.1'] += i_tokens
         total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main"
         logger.info(f"Selected file: {selected_file}")
 
     if (query_class == "worker_surveys"):
-        selected_file, i_tokens, o_tokens = file_selector_worker_surveys(unit_query)
+        selected_file, i_tokens, o_tokens = await file_selector_worker_surveys(unit_query)
         total_input_tokens['gpt-4.1'] += i_tokens
         total_output_tokens['gpt-4.1'] += o_tokens
         ref_url = "https://esankhyiki.mospi.gov.in/macroindicators-main"
@@ -422,7 +422,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                                 distinct_vals = [ast.literal_eval(t)[0] for t in distinct_vals]
                                 value_list += f"\nValues for {col}: {distinct_vals}"
 
-                            set_vals = openai_call(f""""
+                            set_vals = await openai_call(f""""
                 Consider the following sample rows for columns: {gen_col_string}.
                 Your task is to return a set of assignments for each columns which can help minimize the number of rows pulled by an SQL agent.
                 {sample_cat}
@@ -460,7 +460,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                         context += str(row) + "\n" #print(row)
                 logger.info(context)
                 if error == "N/A":
-                    response, query_for_table, i_tokens, o_tokens = generate_sql_query(unit_query, schema, context, selected_file)
+                    response, query_for_table, i_tokens, o_tokens = await generate_sql_query(unit_query, schema, context, selected_file)
                     logger.info(f"query for table: {query_for_table}")
                     logger.info(f"response: {response}")
 
@@ -470,7 +470,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                 else:
                     #unit_query = retry_query(unit_query, error)
                     #logger.info(f"Changed user query to: {unit_query}")
-                    response, query_for_table, i_tokens, o_tokens = generate_sql_query(unit_query, schema, context, selected_file, error)
+                    response, query_for_table, i_tokens, o_tokens = await generate_sql_query(unit_query, schema, context, selected_file, error)
                     logger.info(f"query for table: {query_for_table}")
                     logger.info(f"response: {response}")
                     total_input_tokens['gpt-4.1'] += i_tokens
@@ -488,7 +488,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                 logger.info("Originally: " + response)
                 try:
                     #REMEMBER THAT YOU SHOULD ONLY EDIT THE DATE/YEAR BASED CONDITIONS USING THE SCHEMA {schema}""", response)
-                    response,i_tokens, o_tokens = openai_call(f"""Consider the following query: {orig_query}.
+                    response,i_tokens, o_tokens = await openai_call(f"""Consider the following query: {orig_query}.
 
                     The following SQL query is intended to retrieve relevant data pertaining to it.
 
@@ -510,7 +510,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                     total_output_tokens['gpt-4.1'] += o_tokens
                 except:
                     #REMEMBER THAT YOU SHOULD ONLY EDIT THE DATE/YEAR BASED CONDITIONS USING THE SCHEMA {schema}""", response)
-                    response,i_tokens, o_tokens = openai_call(f"""Consider the following query: {orig_query}.
+                    response,i_tokens, o_tokens = await openai_call(f"""Consider the following query: {orig_query}.
 
                     The following SQL query is intended to retrieve relevant data pertaining to it.
 
@@ -599,7 +599,7 @@ async def process_single_query(unit_query: str, orig_query: str, nq: int, total_
                         ref_name = df.loc[0, 'data_source']
                         logger.info("Found a data source column: " + ref_name)
                         df = df.drop(columns=['data_source'])
-                    result, headers, i_tokens, o_tokens = handle_pandas_response(df, unit_query, orig_query, max_rows, nq)
+                    result, headers, i_tokens, o_tokens = await handle_pandas_response(df, unit_query, orig_query, max_rows, nq)
                     total_input_tokens['gpt-4o-mini'] += i_tokens
                     total_output_tokens['gpt-4o-mini'] += o_tokens
                     success = True

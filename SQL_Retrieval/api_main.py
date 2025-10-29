@@ -231,7 +231,7 @@ async def orchestrate(question: Question):
                 rephrased_query = user_query
             else:
                 # MODIFIED: Capture tokens from clarify_query (uses gpt-4.1)
-                rephrased_query, i_tokens, o_tokens = clarify_query(user_query)
+                rephrased_query, i_tokens, o_tokens = await clarify_query(user_query)
                 total_input_tokens["gpt-4.1"] += i_tokens
                 total_output_tokens["gpt-4.1"] += o_tokens
                 logger.info("Rephrased query:\n" + rephrased_query)
@@ -278,8 +278,14 @@ async def orchestrate(question: Question):
             logger.info(commentary)
 
             confidence = confidence_checker(user_query, suggest_answer, total_input_tokens, total_output_tokens)
+            
+            try:
+                if "insufficient_data" in suggest_answer:
+                    confidence = 0
+            except:
+                logger.warning("Unable to check for insufficient data tag")
+                
             logger.info("Confidence: " + str(confidence))
-
             urls, refs, meta = [], [], []
             try:
                 urls = [resp.get("url") for resp in sql_responses["responses"] if resp.get("success") is True and "url" in resp]
