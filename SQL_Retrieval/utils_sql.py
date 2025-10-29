@@ -85,7 +85,8 @@ def classify_query(query):
 
                 ## worker_surveys
                 
-                a.Classify queries related to worker-level and employment characteristics — including worker distribution by gender, social group, education, employment level and employment  type (self-employed, regular wage, casual labor); working hours/days; wages, emoluments, and compensation; labor participation indicators such as LFPR (Labour Force Participation Rate), Gross Value Added (GVA) per worker, WPR (Worker Population Ratio), EPFO, and UR (Unemployment Rate). This class includes insights from PLFS (Periodic Labour Force Survey), NSS workforce modules, and establishment-based labor surveys. Queries may involve the number or proportion of workers across industries, average emoluments per worker, gender-wise employment trends, occupational classifications, or worker distribution by enterprise size and activity. 
+                a.Classify queries related to worker-level and employment/job characteristics — including worker distribution by gender, social group, education, employment level and employment type (self-employed, regular wage, casual labor); working hours/days; wages, emoluments, and compensation; labor participation indicators such as LFPR (Labour Force Participation Rate), job related data Gross Value Added (GVA) per worker, WPR (Worker Population Ratio), EPFO, and UR (Unemployment Rate).
+                This class includes insights from PLFS (Periodic Labour Force Survey), NSS workforce modules, and establishment-based labor surveys. Queries may involve the number or proportion of workers across industries, average emoluments per worker, gender-wise employment trends, occupational classifications, or worker distribution by enterprise size and activity (job and emploment in this context will hold the same meaning.). 
                 
                 b. The following files comprise the "worker_surveys" datasets: [asuse_est_annual_emoluments_per_hired_worker,asuse_est_num_workers_by_employment_gender, asuse_est_value_key_characteristics_by_workers, asuse_estimated_annual_gva_per_worker_rupees, asuse_estimated_number_of_workers_by_type_of_workers, asuse_statewise_est_num_of_worker_by_employment_and_gender, asuse_statewise_estimated_annual_emoluments_per_hired_worker, aasuse_statewise_estimated_annual_gva_per_worker_rupees,
                 asuse_statewise_estimated_number_of_workers_by_type_of_workers, asi_no_of_workers_and_person_engaged,periodic_labour_force_survey, lpfr_state_age, cws_industry_distribution_state, wpr_state_age, ur_state_age, epfo_india_mth_payroll, epfo_nat_ind_exempted_establishments_list]
@@ -1063,11 +1064,11 @@ def file_selector_worker_surveys(query):
         Query: List all years with their corresponding number of workers.
         Query: Find the year with the highest total persons engaged.
 
-        11. periodic_labour_force_survey: This table contains Periodic Labour Force Survey (PLFS) data - the primary source for employment and unemployment statistics. Contains Labour Force Participation Rate (LFPR), Worker Population Ratio (WPR), Unemployment Rate (UR) by year, state, gender, age group, sector, religion, social group, education levels.
+        11. periodic_labour_force_survey: This table contains Periodic Labour Force Survey (PLFS) data - the primary source for employment (job data) and unemployment statistics. Contains Labour Force Participation Rate (LFPR), Worker Population Ratio (WPR), Unemployment Rate (UR) by year, state, gender, age group, sector, religion, social group, education levels.
         Use this table for queries about: employment rates, unemployment statistics, labour force participation, worker demographics, job market analysis, employment by education/gender/age.
 
         **Query Classification Guidelines:**
-        - If query mentions "labour force", "unemployment rate", "employment statistics", "job market", "worker participation", "employment demographics", "labour force participation", "workforce", "job seekers" → periodic_labour_force_survey
+        - If query mentions "labour force", "unemployment rate", "employment statistics", "job market", "job creation", "worker participation", "employment demographics", "labour force participation", "workforce", "job seekers" → periodic_labour_force_survey
         Sample queries:
         Query1: "Labour force participation rate in India for 2022-23"
         Query2: "Unemployment rate by gender in urban areas"
