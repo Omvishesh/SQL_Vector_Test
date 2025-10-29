@@ -14,8 +14,7 @@ from time import strftime, gmtime
 #from   google.genai import types
 #from   google.genai.types import Tool, GoogleSearch, GenerateContentConfig
 #from   google import genai
-from google import genai as gai
-from google.genai.types import GenerateContentConfig, HttpOptions
+import google.generativeai as gai
 from textwrap import dedent
 #from   groq import Groq
 from openai import AsyncOpenAI
@@ -26,10 +25,10 @@ load_dotenv("prod.env")
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 #GROQ_API_KEY = os.getenv("GROQ_API_KEY")
 #print("Loaded groq key " + GROQ_API_KEY)
-# gai.configure(api_key=GOOGLE_API_KEY)
+gai.configure(api_key=GOOGLE_API_KEY)
 #client = genai.Client(api_key=GOOGLE_API_KEY)
 #groq_client = Groq(api_key=GROQ_API_KEY)
-# model_id = "gemini-2.0-flash"
+model_id = "gemini-2.0-flash"
 # Enable Google Search tool
 #google_search_tool = Tool(google_search=GoogleSearch())
 open_ai_client = AsyncOpenAI()
@@ -112,69 +111,35 @@ def openai_call(system_instruct, user_content, model="gpt-4.1"):
 #     time.sleep(0.1)
 #     return response.text
 
-# def llm_call(system_instruct, contents, model_name="gemini-2.0-flash"):
-#     """
-#     Calls the Gemini API and returns the content and token usage.
-#     """
-#     prompt = f"{system_instruct}\n\nProvided context: {contents}"
-#     model = gai.GenerativeModel(
-#         model_name=model_name,
-#         generation_config=gai.GenerationConfig(
-#             temperature=0.0,
-#             top_p=1.0,
-#             top_k=1,
-#             candidate_count=1,
-#             max_output_tokens=4096,
-#         )
-#     )
-
-#     # For Gemini, we calculate input tokens before the generation call
-#     input_tokens = model.count_tokens(prompt).total_tokens
-
-#     # Generate the content
-#     response = model.generate_content(prompt)
-#     time.sleep(0.1)
-
-#     # Extract the text and output tokens from the response
-#     text_content = response.text
-#     output_tokens = response.usage_metadata.candidates_token_count
-
-#     return text_content, input_tokens, output_tokens
-
-## ASYNC VERSION
-
-client = gai.Client(
-    api_key=GOOGLE_API_KEY,  # replace with your API key or environment variable
-    http_options=HttpOptions(api_version="v1")
-)
-
-async def llm_call(system_instruct, contents, model_name="gemini-2.0-flash"):
+def llm_call(system_instruct, contents, model_name="gemini-2.0-flash"):
     """
-    Asynchronous LLM call using the google-genai SDK (imported as gai).
-    Returns: generated text, input token estimate, and output tokens (if available).
+    Calls the Gemini API and returns the content and token usage.
     """
     prompt = f"{system_instruct}\n\nProvided context: {contents}"
-
-    config = GenerateContentConfig(
-        temperature=0.0,
-        top_p=1.0,
-        top_k=1,
-        max_output_tokens=4096,
-        response_modalities=["TEXT"],
+    model = gai.GenerativeModel(
+        model_name=model_name,
+        generation_config=gai.GenerationConfig(
+            temperature=0.0,
+            top_p=1.0,
+            top_k=1,
+            candidate_count=1,
+            max_output_tokens=4096,
+        )
     )
 
-    input_tokens = len(prompt.split())  # approximate token count
+    # For Gemini, we calculate input tokens before the generation call
+    input_tokens = model.count_tokens(prompt).total_tokens
 
-    response = await client.aio.models.generate_content(
-        model=model_name,
-        contents=prompt,
-        config=config,
-    )
+    # Generate the content
+    response = model.generate_content(prompt)
+    time.sleep(0.1)
 
+    # Extract the text and output tokens from the response
     text_content = response.text
-    output_tokens = getattr(response.usage_metadata, "output_tokens", None)
+    output_tokens = response.usage_metadata.candidates_token_count
 
     return text_content, input_tokens, output_tokens
+
 
 def query_certify_valid(user_query):
     if "\n" in user_query:
